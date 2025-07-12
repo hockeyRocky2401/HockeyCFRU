@@ -1,0 +1,113 @@
+#org @gText_DebugMenu_SetFlag
+Set Flag
+
+#org @gText_DebugMenu_GiveItem
+Give Item
+
+#org @gText_DebugMenu_Level100Team
+Level 100 Team
+
+#org @gText_DebugMenu_MaxCoinage
+Max Coinage
+
+#org @gText_DebugMenu_ShinyTeam
+Shiny Team
+
+#org @gText_DebugMenu_AllBadges
+All Badges
+
+#org @gText_DebugMenu_GameClear
+Game Clear
+
+#org @gText_DebugMenu_CustomFlag
+Custom Flag
+
+#org @gText_DebugMenu_Pokedexes
+Pokedexes
+
+#org @gText_DebugMenu_FlySpots
+Fly Spots
+
+#org @gText_DebugMenu_UsefulKeyItems
+Useful Key Items
+
+#org @gText_DebugMenu_GeneralUsefulItems
+General Useful Items
+
+#org @gText_DebugMenu_PokeBalls
+Pok\e Balls
+
+#org @gText_DebugMenu_Berries
+Berries
+
+#org @gText_DebugMenu_TMs
+TMs and HMs
+
+#org @gText_DebugMenu_AllItems
+All Items
+
+#org @gText_DebugMenu_Give
+Give custom
+
+#org @gText_DebugMenu_GivePokemonById
+Pokémon
+
+#org @gText_DebugMenu_EnterSpecies
+Enter the Pokémon's National \nDex Number.
+
+#org @gText_Failed
+Invalid species or party full.
+
+#org @gText_ReceivedPokemon
+Received [BUFFER1]!
+
+#org @Text_EnterItem
+Enter the Item ID to receive.
+
+#org @gText_DebugMenu_GiveItemById
+Item
+
+#org @gText_DebugMenu_Debug
+Debug more...
+
+#org @gText_DebugMenu_SuccessfulDex
+Enabled all pokemon to \nseen/caught in Pokedex.
+
+#org @gText_DebugMenu_Dex
+Debug Pokedex
+
+#org @gText_DebugMenu_StartWildBattle
+Custom Wild battle
+
+#org @gText_DebugMenu_CustomSetFlag
+Set Custom Flag
+
+#org @Text_CustomSetFlag
+Enter the Flag id (in Decimal).
+
+#org @Text_InvalidNumber
+Invalid Flag.
+
+#org @Text_FlagSet
+Flag Set.
+
+#org @gText_DebugMenu_SetVar
+Set Custom Var
+
+#org @Text_CustomSetVar
+Enter a Var no. (In Decimal)
+
+#org @gText_VarValue
+Enter value to set.
+
+#org @Text_VarSet
+Var set!
+
+#org @gText_DebugMenu_Trainerbattle
+Custom Trainer battle
+
+#org @gText_TrainerCustomBattle
+Enter trainer id (in Decimal).
+
+#org @DebugMenu_LossMessage
+Caterpie can't hack it.
