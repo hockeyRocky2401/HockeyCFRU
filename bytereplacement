@@ -5,6 +5,8 @@
 #include "include/new/catching.h"
 
 ##Optional Byte Changes##
+## Configure Start Money
+08054B60 10 27
 ##Don't Count Eggs Healing PKMN Centre
 08083B8E 08 F0 D5 FA
 ##Extend Direct Sound Tracks
