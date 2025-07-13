@@ -204,7 +204,7 @@ void DebugMenu_GiveItemFromVar(void)
     if (item == 0 || item >= ITEMS_COUNT)
         return;
 
-    AddBagItem(item, 1);
+    AddBagItem(item, 500);
 }
 #define LINKER_FUNC_ADDR ((void *) (0x08088E74 + 1))
 typedef void (*LinkerFunc)(u16 species, u16 param);
