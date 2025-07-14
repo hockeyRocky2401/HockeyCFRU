@@ -311,7 +311,7 @@ enum //These vars need to be one after the other (hence the enum)
 //#define OLD_EXP_SPLIT //Uncomment this line to split the Exp amongst all participating pokemon (Pre Gen 6)
 //#define FLAT_EXP_FORMULA //Uncomment this line to use a Flat Exp calculation formula (Gens 2 - 4, 6)
 #define GEN_7_BASE_EXP_YIELD //Base Exp Yield is read from gBaseExpBySpecies to use larger values that match Gen 7
-#define CAPTURE_EXPERIENCE //Experience is awared upon capturing Pokemon.
+#define CAPTURE_EXPERIENCE //Experience is awarded upon capturing Pokemon.
 #define EXP_AFFECTION_BOOST //Pokemon with friendship >= 220 gain boosted experience
 
 /*===== Other Battle Options =====*/
@@ -377,7 +377,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define VAR_GAME_DIFFICULTY 0x5157 //Var to store the game difficulty level. If 0 difficulty is normal(vanilla), if 1 its easy, if 2 its Hard, if 3 its Expert. ShouldGiveTrainerMonMaxFriendship and ShouldGiveTrainerMonMaxEVs need to be set at your choice in build_pokemon.c
 #define CRY_SPECIES SPECIES_CHARIZARD //The species that will be used for the cry in the titlescreen. Currently its 0x6 (Charizard).
 #define OAK_INTRO_SPECIES SPECIES_NIDORAN_F //The species that appears in Oak's intro(New Game).
-//#define OPEN_WORLD_TRAINERS // Custom Trainers and teams based on party levels (Not area based, making game open world). CAUTION: NOT TO USE WQITH EXPAND_TRAINERS
+//#define OPEN_WORLD_TRAINERS // Custom Trainers and teams based on party levels (Not area based, making game open world). CAUTION: NOT TO USE WITH EXPAND_TRAINERS
 //Also, using OPEN_WORLD_TRAINERS, you would need to edit gGeneralTrainerSpreads in build_pokemon.c
 #define SHOW_MEGAS_IN_HOF // Uncomment if you want mega and primal to be shown in hall of fame.
 #define FLAG_STAT_EDITOR_UNLOCKED 0xA0C
