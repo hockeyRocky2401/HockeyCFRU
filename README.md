@@ -41,7 +41,7 @@ This fork is made by Shiny Miner, and I'm currently learning how to work with it
 - Zake, (Battle backgrounds help and Following mon code)
 - grilokapu (item expansion, gen 9 moves+abilities, nuzlocke fainting, Terastallization, more)
 - 1RWT16KU1D (Terastallization)
-- 
+
 ##### For queries and support :
 Visit Tha Code Mining Hub on discord: https://discord.com/invite/axNX3rhR9K
  
