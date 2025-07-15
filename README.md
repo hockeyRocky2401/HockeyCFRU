@@ -7,7 +7,6 @@ This fork is made by Shiny Miner, and I'm currently learning how to work with it
 - Last used Pokeball by L button
 - Shows enemy team by L button
 - Auto trigger wild battles
-- Continue screen icons
 - Ev-Iv screen (BW) , can be called by callasm
 - Switch Pokémon in Party Menu Screen pressing Select
 - Repeat item usage
@@ -21,7 +20,6 @@ This fork is made by Shiny Miner, and I'm currently learning how to work with it
 - Following Pokemon
 - Radical Red Style LR menu(Pokevial, Infinite Repel).
 - EV-IV machine
-- Hisui Rock
 - Portable PC
 - Terastallization
 - Stellar type
@@ -29,7 +27,10 @@ This fork is made by Shiny Miner, and I'm currently learning how to work with it
 - BW SUMMARY SCREEN
 - Mid battle evolutions
 - New music
-- New difficulty mode support: Normal(Vanilla), Easy, Hard, Expert
+- Exp.All
+- Level Caps
+- Enhanced Trainer A.I.
+- Difficulty mode support: Normal(Vanilla), Easy, Hard, Expert
 
 ##### Introduction to the Maintainers
 - Tha Code Mining Hub.
