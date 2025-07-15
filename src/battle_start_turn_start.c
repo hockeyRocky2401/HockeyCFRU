@@ -228,7 +228,7 @@ static void TryClearLevelCapKeptOn(void)
 	{
 		u32 i, levelCap;
 		
-		extern u8 GetCurrentLevelCap(void); //Must be implemented yourself
+		// extern u8 GetCurrentLevelCap(void); //Must be implemented yourself
 		for (i = 0, levelCap = GetCurrentLevelCap(); i < PARTY_SIZE; ++i)
 		{
 			u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);

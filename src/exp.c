@@ -622,7 +622,7 @@ static bool8 MonGetsAffectionBoost(struct Pokemon* mon)
 static bool8 IsAffectedByHardLevelCap(unusedArg struct Pokemon* mon)
 {
 	#ifdef FLAG_HARD_LEVEL_CAP
-	extern u8 GetCurrentLevelCap(void); //Must be implemented yourself
+	// extern u8 GetCurrentLevelCap(void); //Must be implemented yourself
 	if (FlagGet(FLAG_HARD_LEVEL_CAP))
 	{
 		if (GetMonData(mon, MON_DATA_LEVEL, NULL) >= GetCurrentLevelCap())
