@@ -28,7 +28,7 @@
 
 /*
 ability_battle_effects.c
-	-functions that introduce or moodify battle effects via abilities or otherwise.
+	-functions that introduce or modify battle effects via abilities or otherwise.
 	-includes terrain effects and ability pop-up
 
 tables to edit:

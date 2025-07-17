@@ -588,7 +588,7 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 				&& !BATTLER_MAX_HP(gActiveBattler)
 				&& !IsHealBlocked(gActiveBattler))
 				{
-					gBattleMoveDamage = GetBaseMaxHP(gActiveBattler) / 16;
+					gBattleMoveDamage = GetBaseMaxHP(gActiveBattler) / 6;
 					if (ITEM_EFFECT(gActiveBattler) == ITEM_EFFECT_BIG_ROOT)
 						gBattleMoveDamage = (gBattleMoveDamage * 130) / 100;
 					if (gBattleMoveDamage == 0)
@@ -606,7 +606,7 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 				&& !BATTLER_MAX_HP(gActiveBattler)
 				&& !IsHealBlocked(gActiveBattler))
 				{
-					gBattleMoveDamage = GetBaseMaxHP(gActiveBattler) / 16;
+					gBattleMoveDamage = GetBaseMaxHP(gActiveBattler) / 6;
 					if (ITEM_EFFECT(gActiveBattler) == ITEM_EFFECT_BIG_ROOT)
 						gBattleMoveDamage = (gBattleMoveDamage * 13) / 10;
 					if (gBattleMoveDamage == 0)

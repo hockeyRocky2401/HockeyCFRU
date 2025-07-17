@@ -3622,6 +3622,12 @@ static u16 GetBasePower(struct DamageCalc* data)
 				power *= 2;
 			break;
 
+		case MOVE_SPARKLINGARIA:
+            if (!(data->specialFlags & FLAG_IGNORE_TARGET)
+            && data->defStatus1 & STATUS_BURN)
+                power *= 2;
+            break;
+
 		case MOVE_STOMPINGTANTRUM:
 			if (!useMonAtk && gNewBS->StompingTantrumTimers[bankAtk])
 				power *= 2;

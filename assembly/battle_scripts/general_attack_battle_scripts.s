@@ -3267,6 +3267,16 @@ BS_145_SkullBash:
 	call BattleScript_FirstChargingTurn
 	jumpifmove MOVE_METEORBEAM BS_MeteorBeam
 	jumpifmove MOVE_ELECTROSHOT BS_ElectroShot
+	// ====== ATTACK BUFF ======(New)
+	setstatchanger STAT_ATK | INCREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN SkipSkullBashAtkBuff
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 SkipSkullBashAtkBuff
+	setgraphicalstatchangevalues
+	playanimation BANK_ATTACKER ANIM_STAT_BUFF ANIM_ARG_1
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+SkipSkullBashAtkBuff:
+    // ====== DEFENSE BUFF (original) ======
 	setstatchanger STAT_DEF | INCREASE_1
 	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN SkipSkullBashStatBuff
 	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 SkipSkullBashStatBuff
