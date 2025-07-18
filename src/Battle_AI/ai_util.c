@@ -1821,7 +1821,21 @@ static bool8 MoveAlwaysHitsTarget(u16 move, u8 bankDef)
 
 bool8 MoveWillHit(u16 move, u8 bankAtk, u8 bankDef)
 {
-	if (ABILITY(bankAtk) == ABILITY_NOGUARD || ABILITY(bankDef) == ABILITY_NOGUARD
+ if (
+    // Attacker has HydroDisplacer and is using Hydro Pump or Hydro Cannon
+    ((ABILITY(bankAtk) == ABILITY_NOGUARD)
+     && (move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+     && (gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
+      || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+
+    // True No Guard users (attacker or defender)
+    || ((ABILITY(bankAtk) == ABILITY_NOGUARD)
+     && !(gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
+       || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+    || ((ABILITY(bankDef) == ABILITY_NOGUARD)
+     && !(gBaseStats[gBattleMons[bankDef].species].ability1 == ABILITY_HYDRODISPLACER
+       || gBaseStats[gBattleMons[bankDef].species].ability2 == ABILITY_HYDRODISPLACER))	
+	   
 	|| (gStatuses3[bankDef] & STATUS3_ALWAYS_HITS && gDisableStructs[bankDef].bankWithSureHit == bankAtk))
 		return TRUE;
 
@@ -1834,7 +1848,22 @@ bool8 MoveWillHit(u16 move, u8 bankAtk, u8 bankDef)
 
 bool8 MonMoveWillHit(u16 move, struct Pokemon* monAtk, u8 bankDef)
 {
-	if (GetMonAbility(monAtk) == ABILITY_NOGUARD || ABILITY(bankDef) == ABILITY_NOGUARD)
+	u16 species = GetMonData(monAtk, MON_DATA_SPECIES, NULL);
+
+	 // If attacker has HydroDisplacer and is using Hydro Pump or Hydro Cannon
+     if (((GetMonAbility(monAtk) == ABILITY_NOGUARD
+          && (move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+          && (gBaseStats[species].ability1 == ABILITY_HYDRODISPLACER
+           || gBaseStats[species].ability2 == ABILITY_HYDRODISPLACER))
+
+      || (GetMonAbility(monAtk) == ABILITY_NOGUARD
+          && !(gBaseStats[species].ability1 == ABILITY_HYDRODISPLACER
+            || gBaseStats[species].ability2 == ABILITY_HYDRODISPLACER))
+
+      || (ABILITY(bankDef) == ABILITY_NOGUARD
+          && !(gBaseStats[gBattleMons[bankDef].species].ability1 == ABILITY_HYDRODISPLACER
+            || gBaseStats[gBattleMons[bankDef].species].ability2 == ABILITY_HYDRODISPLACER))))
+	 
 		return TRUE;
 
 	if (MoveCantHitTarget(move, bankDef))

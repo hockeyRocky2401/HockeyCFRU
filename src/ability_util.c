@@ -84,6 +84,8 @@ extern const u8 gText_AbilityName_GuardDog[];
 extern const u8 gText_AbilityDescription_GuardDog[];
 extern const u8 gText_AbilityName_HadronEngine[];
 extern const u8 gText_AbilityDescription_HadronEngine[];
+extern const u8 gText_AbilityName_HydroDisplacer[];
+extern const u8 gText_AbilityDescription_HydroDisplacer[];
 extern const u8 gText_AbilityName_MindsEye[];
 extern const u8 gText_AbilityDescription_MindsEye[];
 extern const u8 gText_AbilityName_MyceliumMight[];
@@ -543,6 +545,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 			if (SpeciesHasZerotoHero(species))
 				return gText_AbilityName_ZerotoHero;
 			break;
+		case ABILITY_NOGUARD:
+            if (SpeciesHasHydroDisplacer(species))
+               return gText_AbilityName_HydroDisplacer;
+		    break;
 	}
 
 	return NULL;
@@ -704,6 +710,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_TORRENT:
 			if (SpeciesHasZerotoHero(species))
 				return gText_AbilityDescription_ZerotoHero;
+			break;
+		case ABILITY_NOGUARD:
+			if (SpeciesHasHydroDisplacer(species))
+				return gText_AbilityDescription_HydroDisplacer;
 			break;
 	}
 
@@ -1539,4 +1549,10 @@ bool8 SpeciesHasZerotoHero(unusedArg u16 species) //Custom Unbound Ability
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasHydroDisplacer(u16 species)
+{
+	return gBaseStats[species].ability1 == ABILITY_HYDRODISPLACER
+        || gBaseStats[species].ability2 == ABILITY_HYDRODISPLACER;
 }
