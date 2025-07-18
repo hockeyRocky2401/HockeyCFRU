@@ -385,7 +385,20 @@ static bool8 AccuracyCalcHelper(u16 move, u8 bankDef)
 	//then always hitting telekinesis except 0HKO moves,
 	//then 0 acc moves
 	if (((gStatuses3[bankDef] & STATUS3_ALWAYS_HITS) && gDisableStructs[bankDef].bankWithSureHit == gBankAttacker)
-	||   (ABILITY(gBankAttacker) == ABILITY_NOGUARD) || (ABILITY(bankDef) == ABILITY_NOGUARD)
+	// HydroDisplacer effect for attacker only
+    || ((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+      && ABILITY(gBankAttacker) == ABILITY_NOGUARD
+      && (gBaseStats[gBattleMons[gBankAttacker].species].ability1 == ABILITY_HYDRODISPLACER
+       || gBaseStats[gBattleMons[gBankAttacker].species].ability2 == ABILITY_HYDRODISPLACER))
+
+  // Standard No Guard effect (attacker or defender), but exclude HydroDisplacer as defender
+    || (ABILITY(gBankAttacker) == ABILITY_NOGUARD
+      && !(gBaseStats[gBattleMons[gBankAttacker].species].ability1 == ABILITY_HYDRODISPLACER
+        || gBaseStats[gBattleMons[gBankAttacker].species].ability2 == ABILITY_HYDRODISPLACER))
+    || (ABILITY(bankDef) == ABILITY_NOGUARD
+      && !(gBaseStats[gBattleMons[bankDef].species].ability1 == ABILITY_HYDRODISPLACER
+        || gBaseStats[gBattleMons[bankDef].species].ability2 == ABILITY_HYDRODISPLACER))
+
 	||   (move == MOVE_TOXIC && IsOfType(gBankAttacker, TYPE_POISON))
 	||   (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
 	||  ((gStatuses3[bankDef] & STATUS3_TELEKINESIS) && gBattleMoves[move].effect != EFFECT_0HKO)
@@ -560,7 +573,21 @@ u32 VisualAccuracyCalc(u16 move, u8 bankAtk, u8 bankDef)
 	u8 defAbility = GetRecordedAbility(bankDef);
 	u32 acc = AccuracyCalcPassDefAbilityItemEffect(move, bankAtk, bankDef, defAbility, defEffect);
 
-	if (ABILITY(bankAtk) == ABILITY_NOGUARD || defAbility == ABILITY_NOGUARD
+	if (
+		 // HydroDisplacer attacker case
+    ((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+    && ABILITY(bankAtk) == ABILITY_NOGUARD
+    && (gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
+     || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+
+	   // Standard No Guard (excluding HydroDisplacer)
+    || (ABILITY(bankAtk) == ABILITY_NOGUARD
+    && !(gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
+     || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+    || (defAbility == ABILITY_NOGUARD
+    && !(gBaseStats[gBattleMons[bankDef].species].ability1 == ABILITY_HYDRODISPLACER
+      || gBaseStats[gBattleMons[bankDef].species].ability2 == ABILITY_HYDRODISPLACER))
+
 	|| (gStatuses3[bankDef] & STATUS3_ALWAYS_HITS && gDisableStructs[bankDef].bankWithSureHit == bankAtk)
 	|| (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON))
 	|| (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
@@ -645,7 +672,18 @@ u32 VisualAccuracyCalc_NoTarget(u16 move, u8 bankAtk)
 			calc = (calc * 12) / 10; // 1.2 Micle Berry Boost
 	}
 
-	if (atkAbility == ABILITY_NOGUARD
+	if ( 
+	// HydroDisplacer attacker case
+    ((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+    && atkAbility == ABILITY_NOGUARD
+    && (gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
+     || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+
+    // Real No Guard (excluding HydroDisplacer)
+    || (atkAbility == ABILITY_NOGUARD
+    && !(gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
+      || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+
 	|| (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON)))
 		calc = 0xFFFF; //No Miss
 	else if (WEATHER_HAS_EFFECT)
