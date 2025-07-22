@@ -2571,9 +2571,9 @@ bool8 SetRainyWeather(void)
 	gBattleCommunication[MULTISTRING_CHOOSER] = 0;
 
 	if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_DAMP_ROCK)
-		gWishFutureKnock.weatherDuration = 8;
+		gWishFutureKnock.weatherDuration = 9;
 	else
-		gWishFutureKnock.weatherDuration = 5;
+		gWishFutureKnock.weatherDuration = 7;
 
 	gBattleScripting.animArg1 = B_ANIM_RAIN_CONTINUES;
 	return TRUE;
@@ -3192,9 +3192,9 @@ bool8 SetSandstormWeather(void)
 	gBattleCommunication[MULTISTRING_CHOOSER] = 3;
 
 	if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_SMOOTH_ROCK)
-		gWishFutureKnock.weatherDuration = 8;
+		gWishFutureKnock.weatherDuration = 9;
 	else
-		gWishFutureKnock.weatherDuration = 5;
+		gWishFutureKnock.weatherDuration = 7;
 
 	gBattleScripting.animArg1 = B_ANIM_SANDSTORM_CONTINUES;
 	return TRUE;
@@ -4332,7 +4332,7 @@ void atkB8_setsafeguard(void)
 		{
 			u8 side = SIDE(gBankAttacker);
 			gSideStatuses[side] |= SIDE_STATUS_SAFEGUARD;
-			gSideTimers[side].safeguardTimer = 5;
+			gSideTimers[side].safeguardTimer = 7;
 			gSideTimers[side].safeguardBank = gBankAttacker;
 			gBattleCommunication[MULTISTRING_CHOOSER] = 1;
 		}
@@ -4462,9 +4462,9 @@ bool8 SetSunnyWeather(void)
 	gBattleCommunication[MULTISTRING_CHOOSER] = 4;
 
 	if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_HEAT_ROCK)
-		gWishFutureKnock.weatherDuration = 8;
+		gWishFutureKnock.weatherDuration = 9;
 	else
-		gWishFutureKnock.weatherDuration = 5;
+		gWishFutureKnock.weatherDuration = 7;
 
 	gBattleScripting.animArg1 = B_ANIM_SUN_CONTINUES;
 	return TRUE;
@@ -4816,9 +4816,9 @@ bool8 SetHailWeather(void)
 	gBattleCommunication[MULTISTRING_CHOOSER] = 5;
 
 	if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_ICY_ROCK)
-		gWishFutureKnock.weatherDuration = 8;
+		gWishFutureKnock.weatherDuration = 9;
 	else
-		gWishFutureKnock.weatherDuration = 5;
+		gWishFutureKnock.weatherDuration = 7;
 
 	gBattleScripting.animArg1 = B_ANIM_HAIL_CONTINUES;
 	return TRUE;

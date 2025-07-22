@@ -3606,7 +3606,9 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 		case MOVE_RAGEFIST:
 			if (gNewBS->rageFistCounter[SIDE(bankAtk)])
-				power = 50 * (gNewBS->rageFistCounter[SIDE(bankAtk)]);
+				// power = 50 * (gNewBS->rageFistCounter[SIDE(bankAtk)]);
+				   power = 50 + (25 *gNewBS->rageFistCounter[SIDE(bankAtk)]);
+
 			break;
 
 		case MOVE_ROUND:
@@ -4119,9 +4121,9 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			break;
 
 		case ABILITY_IRONFIST:
-		//1.2x Boost
+		//1.2x Boost usually
 			if (gSpecialMoveFlags[move].gPunchingMoves)
-				power = (power * 12) / 10;
+				power = (power * 13) / 10; //now 1.3x boost
 			break;
 
 		case ABILITY_TOXICBOOST:
@@ -4137,10 +4139,10 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			break;
 
 		case ABILITY_SANDFORCE:
-		//1.3x Boost
+		//1.3x Boost usually
 			if (gBattleWeather & WEATHER_SANDSTORM_ANY
 			&& (data->moveType == TYPE_ROCK || data->moveType == TYPE_GROUND || data->moveType == TYPE_STEEL))
-				power = (power * 13) / 10;
+				power = (power * 15) / 10; //now 1.5x boost
 			break;
 
 		case ABILITY_SHEERFORCE:

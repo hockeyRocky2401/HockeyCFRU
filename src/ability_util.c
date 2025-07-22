@@ -129,6 +129,8 @@ extern const u8 gText_AbilityName_WindRider[];
 extern const u8 gText_AbilityDescription_WindRider[];
 extern const u8 gText_AbilityName_ZerotoHero[];
 extern const u8 gText_AbilityDescription_ZerotoHero[];
+extern const u8 gText_AbilityName_BrutalRepetition[];
+extern const u8 gText_AbilityDescription_BrutalRepetition[];
 
 const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses the 255 Ability limitation and implements clone Abilities
 {
@@ -403,6 +405,9 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_GORILLATACTICS:
 			switch (dexNum)
 			{
+				case NATIONAL_DEX_KRABBY:
+				case NATIONAL_DEX_KINGLER:
+			        return gText_AbilityName_BrutalRepetition;
 				#ifdef NATIONAL_DEX_CRABOMINABLE
 				case NATIONAL_DEX_CRABOMINABLE:
 					return gText_AbilityName_CrabbyTactics;

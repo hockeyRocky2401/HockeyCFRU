@@ -688,3 +688,6 @@ Change Hero form when switch out.
 
 #org @gText_AbilityDescription_HydroDisplacer
 Hydro moves can't miss.
+
+#org @gText_AbilityDescription_BrutalRepetition
+Ups Attack, but allows one move.

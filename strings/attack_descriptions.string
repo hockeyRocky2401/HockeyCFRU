@@ -869,16 +869,16 @@ The user lands a\ntropical kick on the\nfoe. It also lowers\nthe foe's Attack.
 A strong electric\nblast crashes down\non the target. This\nmay make the target\nflinch.
 
 #org @DESC_ELECTRICTERRAIN
-The user electrifies\nthe ground for five\nturns, powering up\nElectric moves and\neluding sleep.
+The user electrifies\nthe ground for seven\nturns, powering up\nElectric moves and\neluding sleep.
 
 #org @DESC_GRASSYTERRAIN
-The user turns the\nground to grass for\nfive turns, powering\nup Grass moves and\nrestoring HP.
+The user turns the\nground to grass for\nseven turns, powering\nup Grass moves and\nrestoring HP.
 
 #org @DESC_MISTYTERRAIN
-The user covers the\nground in mist for\nfive turns, halving\nDragon moves and\npreventing status.
+The user covers the\nground in mist for\nseven turns, halving\nDragon moves and\npreventing status.
 
 #org @DESC_PSYCHICTERRAIN
-The user makes the\nground weird for\nfive turns, boosting\nPsychic moves and\nblocking priority.
+The user makes the\nground weird for\nseven turns, boosting\nPsychic moves and\nblocking priority.
 
 #org @DESC_GRASSPLEDGE
 When combined with\nWater Pledge, its\npower increases and\na vast swamp appears.

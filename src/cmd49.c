@@ -178,7 +178,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			{
 				switch (ABILITY(gBankAttacker)) {
 					case ABILITY_STENCH: //Check for Stench is taken care of in King's Rock check
-						if (umodsi(Random(), 100) < 10
+						if (umodsi(Random(), 100) < 20 //up from 10 
 						&& gCurrentTurnActionNumber < GetBattlerTurnOrderNum(gBankTarget)) //Attacker moved before target
 						{
 							gBattleMons[gBankTarget].status2 |= STATUS2_FLINCHED;
@@ -189,6 +189,15 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						u8 chance = 30;
 						if (BankHasRainbow(gBankAttacker))
 							chance *= 2;
+
+						 // ✅ Boost chance by 30 if move already has poison chance
+                        if ((gBattleMoves[gCurrentMove].effect == EFFECT_POISON_HIT || gBattleMoves[gCurrentMove].effect == EFFECT_BAD_POISON_HIT)
+                        && gBattleMoves[gCurrentMove].secondaryEffectChance > 0) // prevent Toxic/guaranteed poison from triggering boost
+                        {
+                           chance += 30;
+                         if (chance > 100)
+                             chance = 100;
+                        }
 
 						if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK

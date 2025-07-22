@@ -223,31 +223,31 @@ void PrintInfoPage(void)
     {
         AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], FONT_NORMAL, 47 + sMonSkillsPrinterXpos->unk00, 5, sLevelNickTextColors[0], TEXT_SKIP_DRAW, sMonSummaryScreen->summary.dexNumStrBuf);
         AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], FONT_NORMAL, 47, 49, sLevelNickTextColors[0], TEXT_SKIP_DRAW, sMonSummaryScreen->summary.otNameStrBuf);
-        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], FONT_SMALL, 47, 63, sLevelNickTextColors[0], TEXT_SKIP_DRAW, sMonSummaryScreen->summary.unk306C);
-        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], FONT_SMALL, 47, 75, sLevelNickTextColors[0], TEXT_SKIP_DRAW, sMonSummaryScreen->summary.itemNameStrBuf);
+        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], FONT_SMALL, 47, 64, sLevelNickTextColors[0], TEXT_SKIP_DRAW, sMonSummaryScreen->summary.unk306C);
+        AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], FONT_SMALL, 47, 79, sLevelNickTextColors[0], TEXT_SKIP_DRAW, sMonSummaryScreen->summary.itemNameStrBuf);
 				// === Print Tera Type ===
-		{
-			u8 teraType = sMonSummaryScreen->currentMon.teraType;
+		// {
+		// 	u8 teraType = sMonSummaryScreen->currentMon.teraType;
 
-			if (teraType < NUMBER_OF_MON_TYPES)
-			{
-				AddTextPrinterParameterized3(
-					sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE],
-					FONT_SMALL,
-					40, 84,  // Adjust X, Y as needed to fit below Item
-					sLevelNickTextColors[0],
-					TEXT_SKIP_DRAW,
-					gText_TeraType);
+		// 	if (teraType < NUMBER_OF_MON_TYPES)
+		// 	{
+		// 		AddTextPrinterParameterized3(
+		// 			sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE],
+		// 			FONT_SMALL,
+		// 			40, 84,  // Adjust X, Y as needed to fit below Item
+		// 			sLevelNickTextColors[0],
+		// 			TEXT_SKIP_DRAW,
+		// 			gText_TeraType);
 
-				AddTextPrinterParameterized3(
-					sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE],
-					FONT_SMALL,
-					90, 84, // right of label
-					sLevelNickTextColors[0],
-					TEXT_SKIP_DRAW,
-					gTypeNames[teraType]);
-			}
-		}
+		// 		AddTextPrinterParameterized3(
+		// 			sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE],
+		// 			FONT_SMALL,
+		// 			90, 84, // right of label
+		// 			sLevelNickTextColors[0],
+		// 			TEXT_SKIP_DRAW,
+		// 			gTypeNames[teraType]);
+		// 	}
+		// }
 
     }
     else
