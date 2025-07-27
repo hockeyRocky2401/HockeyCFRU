@@ -354,8 +354,8 @@ bool8 TerastalEnabled(u8 bank)
     }
 
     // The rest of the code assumes B_SIDE_PLAYER
-    if (!FlagGet(FLAG_TERA_BATTLE))
-        return FALSE;
+    // if (!FlagGet(FLAG_TERA_BATTLE))
+    //     return FALSE;   Tera flag clear logic
 
     // Only one gimmick allowed - Mega and Z take precedence
     if (CanMegaEvolve(bank, FALSE) || CanMegaEvolve(bank, TRUE) || HasMegaSymbol(bank))

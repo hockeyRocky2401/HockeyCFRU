@@ -6361,7 +6361,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_PSYCHOCUT] =
 	{
 		.effect = EFFECT_HIGH_CRITICAL,
-		.power = 70,
+		.power = 80,
 		.type = TYPE_PSYCHIC,
 		.accuracy = 100,
 		.pp = 20,
@@ -7672,7 +7672,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 0,
 		.type = TYPE_FLYING,
 		.accuracy = 0,
-		.pp = 15,
+		.pp = 5,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_USER,
 		.priority = 0,
@@ -10908,7 +10908,8 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_HAPPYHOUR] =
 	{
-		.effect = EFFECT_FAIRY_LOCK_HAPPY_HOUR,
+		// .effect = EFFECT_FAIRY_LOCK_HAPPY_HOUR,
+		.effect = EFFECT_SPLASH,
 		.power = 0,
 		.type = TYPE_NORMAL,
 		.accuracy = 0,
@@ -10941,6 +10942,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_LASTRESORT] =
 	{
 		.effect = EFFECT_LAST_RESORT,
+		// .effect = 0,
 		.power = 140,
 		.type = TYPE_NORMAL,
 		.accuracy = 100,
@@ -10957,6 +10959,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_SKYDROP] =
 	{
 		.effect = EFFECT_SKY_DROP,
+		// .effect = 0,
 		.power = 60,
 		.type = TYPE_FLYING,
 		.accuracy = 100,
@@ -10972,7 +10975,8 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_CELEBRATE] =
 	{
-		.effect = EFFECT_FAIRY_LOCK_HAPPY_HOUR,
+		// .effect = EFFECT_FAIRY_LOCK_HAPPY_HOUR,
+		.effect = EFFECT_SPLASH,
 		.power = 0,
 		.type = TYPE_NORMAL,
 		.accuracy = 0,
@@ -10988,7 +10992,8 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_HOLDHANDS] =
 	{
-		.effect = EFFECT_FAIRY_LOCK_HAPPY_HOUR,
+		// .effect = EFFECT_FAIRY_LOCK_HAPPY_HOUR,
+		.effect = EFFECT_SPLASH,
 		.power = 0,
 		.type = TYPE_NORMAL,
 		.accuracy = 0,
@@ -11021,6 +11026,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_SNIPESHOT] =
 	{
 		.effect = EFFECT_IGNORE_REDIRECTION,
+		// .effect = 0,
 		.power = 90,
 		.type = TYPE_WATER,
 		.accuracy = 100,
@@ -11132,7 +11138,8 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_TEATIME] =
 	{	//ANIM TODO
-		.effect = EFFECT_TEATIME, //EFFECT TODO
+		// .effect = EFFECT_TEATIME, //EFFECT TODO
+		.effect = EFFECT_SPLASH, //EFFECT TODO
 		.power = 0,
 		.type = TYPE_NORMAL,
 		.accuracy = 0,
@@ -11244,7 +11251,8 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_DECORATE] =
 	{
-		.effect = EFFECT_HELPING_HAND,
+		// .effect = EFFECT_HELPING_HAND,
+		.effect = 0,
 		.power = 0,
 		.type = TYPE_FAIRY,
 		.accuracy = 0,
@@ -11277,6 +11285,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_SNAPTRAP] =
 	{
 		.effect = EFFECT_TRAP,
+		// .effect = 0,
 		.power = 35,
 		.type = TYPE_GRASS,
 		.accuracy = 100,
@@ -11724,7 +11733,8 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_BURNINGJEALOUSY] =
 	{
-		.effect = EFFECT_BURN_HIT,
+		// .effect = EFFECT_BURN_HIT,
+		.effect = EFFECT_SPLASH,
 		.power = 70,
 		.type = TYPE_FIRE,
 		.accuracy = 100,
@@ -11789,6 +11799,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_COACHING] =
 	{
 		.effect = EFFECT_HELPING_HAND,
+		// .effect = 0,
 		.power = 0,
 		.type = TYPE_FIGHTING,
 		.accuracy = 0,
@@ -11805,7 +11816,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_FLIPTURN] =
 	{
 		.effect = EFFECT_BATON_PASS,
-		.power = 70,
+		.power = 60,
 		.type = TYPE_WATER,
 		.accuracy = 100,
 		.pp = 20,
@@ -11839,8 +11850,8 @@ const struct BattleMove gBattleMoves[] =
 		.effect = EFFECT_DOUBLE_HIT,
 		.power = 40,
 		.type = TYPE_FLYING,
-		.accuracy = 90,
-		.pp = 10,
+		.accuracy = 95,
+		.pp = 15,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -12046,9 +12057,12 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
+	//Legends Arceus.
+
 	[MOVE_DIRECLAW] =
 	{
-		.effect = EFFECT_TRI_ATTACK,
+		// .effect = EFFECT_TRI_ATTACK,
+		.effect = 0,
 		.power = 60,
 		.type = TYPE_POISON,
 		.accuracy = 100,
@@ -12135,14 +12149,14 @@ const struct BattleMove gBattleMoves[] =
 	{
 		.effect = EFFECT_RAMPAGE,
 		#ifdef ACTUAL_PLA_MOVE_POWERS
-		.power = 90,
+		.power = 120,
 		.z_move_power = 175,
 		#else
-		.power = 110, //Other rampage moves also had power reduced to 90 in PLA
+		.power = 120, //Other rampage moves also had power reduced to 90 in PLA
 		.z_move_power = 190,
 		#endif
 		.type = TYPE_FIRE,
-		.accuracy = 85,
+		.accuracy = 100,
 		.pp = 10,
 		.secondaryEffectChance = 100,
 		.target = MOVE_TARGET_RANDOM,
@@ -15016,6 +15030,9 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 0,
 		.z_move_effect = MAX_EFFECT_BYPASS_PROTECT,
 	},
+
+	#endif
+	
 	//Gen 9 Moves
 	[MOVE_AQUACUTTER] =
     {	
@@ -15339,7 +15356,8 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_ICESPINNER] =
     {	
-		.effect = EFFECT_DAMAGE_SET_TERRAIN,
+		// .effect = EFFECT_DAMAGE_SET_TERRAIN,
+		.effect = 0,
 		.power = 80,
 		.type = TYPE_ICE,
 		.accuracy = 100,
@@ -15996,6 +16014,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_DRAGONCHEER] =
 	{
 		.effect = EFFECT_HELPING_HAND,
+		// .effect = 0,
 		.power = 0,
 		.type = TYPE_DRAGON,
 		.accuracy = 0,
@@ -16065,7 +16084,8 @@ const struct BattleMove gBattleMoves[] =
 		.accuracy = 100,
 		.pp = 10,
 		.secondaryEffectChance = 0,
-		.target = MOVE_TARGET_FOES_AND_ALLY,
+		// .target = MOVE_TARGET_FOES_AND_ALLY,
+		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
 		.z_move_power = 175,
@@ -16120,7 +16140,7 @@ const struct BattleMove gBattleMoves[] =
 		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
 	}
-#endif
+// #endif
 };
 
 #ifdef DYNAMAX_FEATURE

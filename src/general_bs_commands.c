@@ -4090,7 +4090,7 @@ void atkAF_cursetarget(void)
 	else
 	{
 		gBattleMons[gBankTarget].status2 |= STATUS2_CURSED;
-		gBattleMoveDamage = MathMax(1, gBattleMons[gBankAttacker].maxHP / 2);
+		gBattleMoveDamage = MathMax(1, gBattleMons[gBankAttacker].maxHP / 4); //was 2
 		gBattlescriptCurrInstr += 5;
 	}
 }

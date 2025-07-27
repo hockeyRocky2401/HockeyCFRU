@@ -121,9 +121,9 @@ enum //These vars need to be one after the other (hence the enum)
 #define EXPANDED_MOVE_TUTORS //Comment this out if you want to keep 16 move tutors and the ultimate elemental moves being exclusive to Kantonian starters
 #define NUM_TMS 120	//keep this defined even if EXPANDED_TMSHMS is not!!
 #define NUM_HMS 8	//keep this defined even if EXPANDED_TMSHMS is not!!
-#define NUM_MOVE_TUTORS 128 //keep this defined even if EXPANDED_MOVE_TUTORS is not!! If using DPE, set to 128.
-#define LAST_TOTAL_TUTOR_NUM 137 //Should be equal to (NUM_MOVE_TUTORS - 1) + 9. Must be set to an actual integer or the compilation will not work.
-#define TMS_BEFORE_HMS  //Uncomment this if you want the HMs to appear after the TMs in your bag
+#define NUM_MOVE_TUTORS 152 //keep this defined even if EXPANDED_MOVE_TUTORS is not!! If using DPE, set to 128.
+#define LAST_TOTAL_TUTOR_NUM 161 //Should be equal to (NUM_MOVE_TUTORS - 1) + 9. Must be set to an actual integer or the compilation will not work.
+// #define TMS_BEFORE_HMS  //Uncomment this if you want the HMs to appear after the TMs in your bag
 #define DELETABLE_HMS //Uncomment this if you want HMs to be deletable without the Move Deleter
 #define REUSABLE_TMS	//if defined, don't forget to give all TMs a Mystery byte of 1!
 
@@ -149,7 +149,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define WILD_DOUBLE_RANDOM_CHANCE 50 //Change this to the percentage that a wild double battle will be initiated if the player is in special grass.
 #define CREATE_WITH_X_PERFECT_IVS 3 //Change this to the number of set 31 IVs you'd like Pokemon defined in gSetPerfectXIvList to have.
 #define CREATE_ROAMER_WITH_X_PERFECT_IVS 3 //Change this to the number of set 31 IVs you'd like roaming pokemon to have.
-#define EGG_HATCH_LEVEL 128 //The level eggs hatch at
+#define EGG_HATCH_LEVEL 25 //The level eggs hatch at
 #define AI_TRY_TO_KILL_RATE 100 //In battles against a trainer with AI flags of 1, the AI will try to use a move to knock out the opponents XX percent of the time
 #define BIKE_ENCOUNTER_PERCENT 60 //Biking through grass or in caves only has this percentage of the encounter rate (vanilla FR is 80)
 
@@ -237,11 +237,11 @@ enum //These vars need to be one after the other (hence the enum)
 #define GIVEPOKEMON_BALL_HACK //Allows Pokemon to be given with a custom ball by setting the last byte of the givepokemon scripting command
 #define FRLG_ROAMING //When a roaming Pokemon is created, it will either be a Entei, Raikou, or Suicune, depending on the player's starter choice
 #define CAN_RUN_IN_BUILDINGS //Comment this line out to prevent the player from running indoors.
-#define NO_POISON_IN_OW //Uncommenting this line will stop Pokemon from taking Poison damage in the overworld.
+// #define NO_POISON_IN_OW //Uncommenting this line will stop Pokemon from taking Poison damage in the overworld.
 // #define POISON_1_HP_SURVIVAL //Comment this line to allow Pokemon to faint from Poison in the overworld.
 #define BW_REPEL_SYSTEM  //Keep this uncommented if you want the game to ask the user to re-use another repel when it runs out
 #define AUTO_NAMING_SCREEN_SWAP  //Comment out if you don't want naming screens to auto-swap to lower-case after first upper-case letter
-#define NON_TRAINER_SPOTTING //Comment out if you don't want regular NPCs to be able to spot the player in the oveworld (vanilla only trainers can or the game will crash)
+// #define NON_TRAINER_SPOTTING //Comment out if you don't want regular NPCs to be able to spot the player in the oveworld (vanilla only trainers can or the game will crash)
 #define BIKE_ON_ANY_NON_INSIDE_MAP //Uncomment if you still want to be able to bike on any non-inside map
 // #define GEN_4_PLAYER_RUNNING_FIX //Uncomment to increase the lag between frames as the player OW runs, to simulate a more accurate Gen 4 running effect
 #define SHRINK_PLAYER_THROUGH_DOOR //The player sprite will shrink slightly when going through a doorway
