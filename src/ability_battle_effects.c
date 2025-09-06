@@ -2301,7 +2301,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
 					effect++;
 				}
-				else if (MOVE_HAD_EFFECT
+				else if (!SpeciesHasWindRider(SPECIES(bank))  // 🛡️ block Wind Rider mons
+				&& MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& gCritMultiplier > BASE_CRIT_MULTIPLIER
 				&& BATTLER_ALIVE(bank)

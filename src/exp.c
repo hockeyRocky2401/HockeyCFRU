@@ -99,15 +99,15 @@ u8 GetCurrentLevelCap(void)
 	switch (badgeCount)
 	{
 		case 0:  return 14; // Before 1st badge
-		case 1:  return 18;
-		case 2:  return 23;
-		case 3:  return 32;
-		case 4:  return 39;
-		case 5:  return 42;
-		case 6:  return 46;
-		case 7:  return 50;
-		case 8:  return 56; // After all badges
-		case 9:  return 58; // After beating Lorelei
+		case 1:  return 21;
+		case 2:  return 28;
+		case 3:  return 36;
+		case 4:  return 43;
+		case 5:  return 49;
+		case 6:  return 55;
+		case 7:  return 58;
+		case 8:  return 64; // After all badges
+		case 9:  return 67; // After beating Lorelei
 		case 10: return 100; // After beating Champion
 		default: return 100; // Just in case
 	}

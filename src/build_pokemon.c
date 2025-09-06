@@ -974,6 +974,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 			else
 			#endif
 			{
+			
 				switch (trainer->partyFlags) {
 					case 0:
 						MAKE_POKEMON(trainer->party.NoItemDefaultMoves);
