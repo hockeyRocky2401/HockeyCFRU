@@ -1845,9 +1845,18 @@ SKIP_CHECK_TARGET:
 					break;
 
 				default: //Lock on
+				//HydroDisplacer
 					if ((data->defStatus3 & STATUS3_LOCKON && gDisableStructs[bankDef].bankWithSureHit == bankAtk) //It's the target that has the status, not the attacker!
-					|| data->atkAbility == ABILITY_NOGUARD
-					|| data->defAbility == ABILITY_NOGUARD
+					|| (data->atkAbility == ABILITY_NOGUARD
+                       && !(gBaseStats[data->atkSpecies].ability1 == ABILITY_HYDRODISPLACER
+                         || gBaseStats[data->atkSpecies].ability2 == ABILITY_HYDRODISPLACER))
+                    || (data->defAbility == ABILITY_NOGUARD
+                       && !(gBaseStats[data->defSpecies].ability1 == ABILITY_HYDRODISPLACER
+                         || gBaseStats[data->defSpecies].ability2 == ABILITY_HYDRODISPLACER))
+                    || ((data->atkAbility == ABILITY_NOGUARD)
+                        && (gLastUsedMoves[bankAtk] == MOVE_HYDROPUMP || gLastUsedMoves[bankAtk] == MOVE_HYDROCANNON)
+                        && (gBaseStats[data->atkSpecies].ability1 == ABILITY_HYDRODISPLACER
+                         || gBaseStats[data->atkSpecies].ability2 == ABILITY_HYDRODISPLACER))
 					|| PARTNER_MOVE_EFFECT_IS_SAME)
 						DECREASE_VIABILITY(10);
 					else

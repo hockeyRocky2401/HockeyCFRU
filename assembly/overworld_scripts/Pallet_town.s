@@ -276,10 +276,10 @@ EventScript_ChangeTeraTypeNPC_SetStellar:
 EventScript_Pallet_AideGuy:
     lock
     faceplayer
-        setvar 0x8000 MOVE_GLACIALLANCE
-        setvar 0x8001 MOVE_TACKLE
-        setvar 0x8002 MOVE_THUNDERWAVE
-        setvar 0x8003 0x2E7
+        setvar 0x8000 MOVE_PSYCHIC
+        setvar 0x8001 MOVE_SNIPESHOT
+        setvar 0x8002 MOVE_CHILLYRECEPTION
+        setvar 0x8003 MOVE_LASTRESORT
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
         setvar 0x8006 16
@@ -288,11 +288,11 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_GARDEVOIR 3 ITEM_LEFTOVERS 0 1 10
-        setvar 0x8000 MOVE_WEATHERBALL
-        setvar 0x8001 MOVE_THUNDERSHOCK
-        setvar 0x8002 MOVE_THUNDERWAVE
-        setvar 0x8003 0x2E7
+        givepokemon SPECIES_GARDEVOIR 100 ITEM_LEFTOVERS 0 1 10
+        setvar 0x8000 MOVE_DOUBLEIRONBASH
+        setvar 0x8001 MOVE_PSYCHOCUT
+        setvar 0x8002 MOVE_ALLURINGVOICE
+        setvar 0x8003 0x2E6
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
         setvar 0x8006 16
@@ -301,7 +301,59 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_GALLADE 2 ITEM_LEFTOVERS 0 1 10
+        givepokemon SPECIES_GALLADE 10 ITEM_LEFTOVERS 0 1 10
+        setvar 0x8000 MOVE_STEELROLLER
+        setvar 0x8001 MOVE_ICESPINNER
+        setvar 0x8002 MOVE_MOUNTAINGALE
+        setvar 0x8003 MOVE_DECORATE
+        setvar 0x8004 NATURE_MODEST
+        setvar 0x8005 0
+        setvar 0x8006 16
+        setvar 0x8007 16
+        setvar 0x8008 16
+        setvar 0x8009 16
+        setvar 0x800A 16
+        setvar 0x800B 16
+        givepokemon SPECIES_GALLADE 15 ITEM_LEFTOVERS 0 1 10
+        setvar 0x8000 MOVE_HEADLONGRUSH
+        setvar 0x8001 MOVE_ESPERWING
+        setvar 0x8002 MOVE_SHELTER
+        setvar 0x8003 MOVE_SNAPTRAP
+        setvar 0x8004 NATURE_MODEST
+        setvar 0x8005 0
+        setvar 0x8006 16
+        setvar 0x8007 16
+        setvar 0x8008 16
+        setvar 0x8009 16
+        setvar 0x800A 16
+        setvar 0x800B 16
+        givepokemon SPECIES_GALLADE 20 ITEM_LEFTOVERS 0 1 10
+        setvar 0x8000 MOVE_BLEAKWINDSTORM
+        setvar 0x8001 MOVE_LUNARBLESSING
+        setvar 0x8002 MOVE_AQUASTEP
+        setvar 0x8003 MOVE_BURNINGJEALOUSY
+        setvar 0x8004 NATURE_MODEST
+        setvar 0x8005 0
+        setvar 0x8006 16
+        setvar 0x8007 16
+        setvar 0x8008 16
+        setvar 0x8009 16
+        setvar 0x800A 16
+        setvar 0x800B 16
+        givepokemon SPECIES_GALLADE 25 ITEM_LEFTOVERS 0 1 10
+        setvar 0x8000 MOVE_ICESPINNER
+        setvar 0x8001 MOVE_OUTRAGE
+        setvar 0x8002 MOVE_DRAGONDANCE
+        setvar 0x8003 MOVE_EXTREMESPEED
+        setvar 0x8004 NATURE_ADAMANT
+        setvar 0x8005 0
+        setvar 0x8006 16
+        setvar 0x8007 16
+        setvar 0x8008 16
+        setvar 0x8009 16
+        setvar 0x800A 16
+        setvar 0x800B 16
+        givepokemon SPECIES_DRAGONITE 70 ITEM_LEFTOVERS 0 1 10
         setflag 0xA08
         setflag 0x828
         additem 0x306 0x1

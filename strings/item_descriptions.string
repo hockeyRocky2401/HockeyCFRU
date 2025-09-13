@@ -59,10 +59,10 @@ A medicine that fully restores the\nHP and heals any status problems\nof one POK
 A spray-type wound medicine.\nIt fully restores the HP of one\nPOK\eMON.
 
 #org @DESC_HYPER_POTION
-A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 200 points.
+A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 120 points.
 
 #org @DESC_SUPER_POTION
-A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 50 points.
+A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 60 points.
 
 #org @DESC_FULL_HEAL
 A spray-type medicine.\nIt heals all the status problems of\none POK\eMON.

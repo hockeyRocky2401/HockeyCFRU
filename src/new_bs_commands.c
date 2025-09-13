@@ -183,9 +183,9 @@ void atkFF03_jumpifpartnerattack(void)
 void atkFF06_setterrain(void)
 {
 	u8 type = 0xFF;
-	u8 duration = 5;
+	u8 duration = 7;
 	if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_TERRAIN_EXTENDER)
-		duration = 8;
+		duration = 9;
 
 	if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_TERRAIN)
 		type = 0xFF; //Can't be changed

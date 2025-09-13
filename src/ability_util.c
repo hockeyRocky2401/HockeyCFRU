@@ -84,6 +84,8 @@ extern const u8 gText_AbilityName_GuardDog[];
 extern const u8 gText_AbilityDescription_GuardDog[];
 extern const u8 gText_AbilityName_HadronEngine[];
 extern const u8 gText_AbilityDescription_HadronEngine[];
+extern const u8 gText_AbilityName_HydroDisplacer[];
+extern const u8 gText_AbilityDescription_HydroDisplacer[];
 extern const u8 gText_AbilityName_MindsEye[];
 extern const u8 gText_AbilityDescription_MindsEye[];
 extern const u8 gText_AbilityName_MyceliumMight[];
@@ -127,6 +129,8 @@ extern const u8 gText_AbilityName_WindRider[];
 extern const u8 gText_AbilityDescription_WindRider[];
 extern const u8 gText_AbilityName_ZerotoHero[];
 extern const u8 gText_AbilityDescription_ZerotoHero[];
+extern const u8 gText_AbilityName_BrutalRepetition[];
+extern const u8 gText_AbilityDescription_BrutalRepetition[];
 
 const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses the 255 Ability limitation and implements clone Abilities
 {
@@ -401,6 +405,9 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_GORILLATACTICS:
 			switch (dexNum)
 			{
+				case NATIONAL_DEX_KRABBY:
+				case NATIONAL_DEX_KINGLER:
+			        return gText_AbilityName_BrutalRepetition;
 				#ifdef NATIONAL_DEX_CRABOMINABLE
 				case NATIONAL_DEX_CRABOMINABLE:
 					return gText_AbilityName_CrabbyTactics;
@@ -543,6 +550,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 			if (SpeciesHasZerotoHero(species))
 				return gText_AbilityName_ZerotoHero;
 			break;
+		case ABILITY_NOGUARD:
+            if (SpeciesHasHydroDisplacer(species))
+               return gText_AbilityName_HydroDisplacer;
+		    break;
 	}
 
 	return NULL;
@@ -704,6 +715,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_TORRENT:
 			if (SpeciesHasZerotoHero(species))
 				return gText_AbilityDescription_ZerotoHero;
+			break;
+		case ABILITY_NOGUARD:
+			if (SpeciesHasHydroDisplacer(species))
+				return gText_AbilityDescription_HydroDisplacer;
 			break;
 	}
 
@@ -1525,8 +1540,15 @@ bool8 SpeciesHasWindPower(unusedArg u16 species)
 
 bool8 SpeciesHasWindRider(unusedArg u16 species)
 {
-	#if (defined SPECIES_BRAMBLIN && SPECIES_BRAMBLEGHAST && SPECIES_SHIFTRY)
-	return species == SPECIES_BRAMBLIN || species == SPECIES_BRAMBLEGHAST || species == SPECIES_SHIFTRY;
+	//Added Pidgey line.
+	 #if (defined SPECIES_BRAMBLIN && defined SPECIES_BRAMBLEGHAST && defined SPECIES_SHIFTRY \
+      && defined SPECIES_PIDGEY && defined SPECIES_PIDGEOTTO && defined SPECIES_PIDGEOT)
+    return species == SPECIES_BRAMBLIN
+        || species == SPECIES_BRAMBLEGHAST
+        || species == SPECIES_SHIFTRY
+        || species == SPECIES_PIDGEY
+        || species == SPECIES_PIDGEOTTO
+        || species == SPECIES_PIDGEOT;
 	#else
 	return FALSE;
 	#endif
@@ -1539,4 +1561,10 @@ bool8 SpeciesHasZerotoHero(unusedArg u16 species) //Custom Unbound Ability
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasHydroDisplacer(u16 species)
+{
+	return gBaseStats[species].ability1 == ABILITY_HYDRODISPLACER
+        || gBaseStats[species].ability2 == ABILITY_HYDRODISPLACER;
 }

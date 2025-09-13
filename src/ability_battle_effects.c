@@ -28,7 +28,7 @@
 
 /*
 ability_battle_effects.c
-	-functions that introduce or moodify battle effects via abilities or otherwise.
+	-functions that introduce or modify battle effects via abilities or otherwise.
 	-includes terrain effects and ability pop-up
 
 tables to edit:
@@ -1469,7 +1469,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					&& !BATTLER_MAX_HP(bank))
 					{
 						BattleScriptPushCursorAndCallback(BattleScript_RainDishActivates);
-						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 16);
+						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 8);
 						gBattleMoveDamage *= -1;
 						effect++;
 					}
@@ -1480,14 +1480,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					{
 						if (gBattleWeather & WEATHER_RAIN_ANY && !BATTLER_MAX_HP(bank) && AffectedByRain(bank))
 						{
-							gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 8);
+							gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 6);
 							gBattleMoveDamage *= -1;
 							BattleScriptPushCursorAndCallback(BattleScript_RainDishActivates);
 							effect++;
 						}
 						else if (gBattleWeather & WEATHER_SUN_ANY && AffectedBySun(bank))
 						{
-							gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 8);
+							gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 6);
 							BattleScriptPushCursorAndCallback(BattleScript_DrySkinDamage);
 							effect++;
 						}
@@ -1497,7 +1497,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				case ABILITY_ICEBODY:
 					if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_HAIL_ANY) && !BATTLER_MAX_HP(bank))
 					{
-						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 16);
+						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 8);
 						gBattleMoveDamage *= -1;
 						BattleScriptExecute(BattleScript_RainDishActivates);
 						effect++;
@@ -1537,8 +1537,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				case ABILITY_HEALER:
 					if (IS_DOUBLE_BATTLE
 					&& BATTLER_ALIVE(PARTNER(bank))
-					&& gBattleMons[PARTNER(bank)].status1
-					&& Random() % 100 < 30)
+					&& gBattleMons[PARTNER(bank)].status1)
+					// && Random() % 100 < 30)
 					{
 						gEffectBank = PARTNER(bank);
 						ClearBankStatus(gEffectBank);
@@ -2301,7 +2301,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
 					effect++;
 				}
-				else if (MOVE_HAD_EFFECT
+				else if (!SpeciesHasWindRider(SPECIES(bank))  // 🛡️ block Wind Rider mons
+				&& MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& gCritMultiplier > BASE_CRIT_MULTIPLIER
 				&& BATTLER_ALIVE(bank)

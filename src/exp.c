@@ -83,7 +83,12 @@ u8 GetBadgeCount() {
 	if (FlagGet(FLAG_BADGE08_GET)) {
 		badgeCount++;
 	}
-
+	if (FlagGet(FLAG_WORLD_MAP_POKEMON_LEAGUE_LORELEIS_ROOM)) {
+		badgeCount++;
+	}
+    if (FlagGet(FLAG_SYS_GAME_CLEAR)) {
+		badgeCount++;
+	}
 	return badgeCount;
 }
 
@@ -93,15 +98,17 @@ u8 GetCurrentLevelCap(void)
 
 	switch (badgeCount)
 	{
-		case 0:  return 15; // Before 1st badge
-		case 1:  return 20;
-		case 2:  return 25;
-		case 3:  return 30;
-		case 4:  return 35;
-		case 5:  return 40;
-		case 6:  return 45;
-		case 7:  return 50;
-		case 8:  return 100; // After all badges
+		case 0:  return 14; // Before 1st badge
+		case 1:  return 21;
+		case 2:  return 28;
+		case 3:  return 36;
+		case 4:  return 43;
+		case 5:  return 49;
+		case 6:  return 55;
+		case 7:  return 60;
+		case 8:  return 66; // After all badges // should be 64
+		case 9:  return 69; // After beating Lorelei
+		case 10: return 100; // After beating Champion
 		default: return 100; // Just in case
 	}
 }

@@ -49,20 +49,20 @@ u16 GetEvolutionTargetSpecies(struct Pokemon* mon, u8 type, u16 evolutionItem)
 			switch (gEvolutionTable[species][i].method)
 			{
 				case EVO_FRIENDSHIP:
-					if (friendship >= 220)
+					if (friendship >= 165)
 						targetSpecies = gEvolutionTable[species][i].targetSpecies;
 					break;
 
 				case EVO_FRIENDSHIP_DAY:
 				#ifdef TIME_ENABLED
-					if (IsDayTime() && friendship >= 220)
+					if (IsDayTime() && friendship >= 165)
 						targetSpecies = gEvolutionTable[species][i].targetSpecies;
 				#endif
 					break;
 
 				case EVO_FRIENDSHIP_NIGHT:
 				#ifdef TIME_ENABLED
-					if (IsNightTime() && friendship >= 220)
+					if (IsNightTime() && friendship >= 165)
 						targetSpecies = gEvolutionTable[species][i].targetSpecies;
 				#endif
 					break;

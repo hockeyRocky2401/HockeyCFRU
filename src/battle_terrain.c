@@ -181,7 +181,13 @@ u8 GetBattleTerrainOverride(void)
 			}
 			else if (trainerClass == CLASS_CHAMPION || trainerClassB == CLASS_CHAMPION)
 			{
-				terrain = BATTLE_TERRAIN_CHAMPION;
+				// terrain = BATTLE_TERRAIN_CHAMPION; //wasnt working
+				terrain = BATTLE_TERRAIN_INSIDE_4;
+			}
+			else if (trainerClass == CLASS_ELITE_FOUR || trainerClassB == CLASS_ELITE_FOUR)
+			{
+				// terrain = BATTLE_TERRAIN_CHAMPION; //wasnt working
+				terrain = BATTLE_TERRAIN_INSIDE_4;
 			}
 			else
 		#elif (defined UNBOUND)

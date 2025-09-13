@@ -279,9 +279,16 @@ static item_t FindTrainerTeraOrb(u16 trainerId)
 // Check if player has Tera Orb in bag
 static item_t FindPlayerTeraOrb(void)
 {
+
+    // const struct Trainer* trainer = &gTrainers[trainerid]; chatgpt
+
     // Don't require Tera Orb for these battles
 	if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK))
 		return ITEM_TERA_ORB;
+
+    //     // 🚫 Prevent Tera if trainer uses NoItemDefaultMoves
+    // if (trainer->partyFlags == 0)
+    //     return ITEM_NONE;
 
     // Normal battles
 	for (u8 i = 0; i < ARRAY_COUNT(sTeraOrbTable); ++i)
@@ -354,8 +361,8 @@ bool8 TerastalEnabled(u8 bank)
     }
 
     // The rest of the code assumes B_SIDE_PLAYER
-    if (!FlagGet(FLAG_TERA_BATTLE))
-        return FALSE;
+    // if (!FlagGet(FLAG_TERA_BATTLE))
+    //     return FALSE;   Tera flag clear logic
 
     // Only one gimmick allowed - Mega and Z take precedence
     if (CanMegaEvolve(bank, FALSE) || CanMegaEvolve(bank, TRUE) || HasMegaSymbol(bank))
