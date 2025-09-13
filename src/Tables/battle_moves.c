@@ -1093,10 +1093,10 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_SUBMISSION] =
 	{
 		.effect = EFFECT_RECOIL,
-		.power = 90,
+		.power = 100,
 		.type = TYPE_FIGHTING,
 		.accuracy = 95,
-		.pp = 15,
+		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,

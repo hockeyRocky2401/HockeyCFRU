@@ -1540,8 +1540,15 @@ bool8 SpeciesHasWindPower(unusedArg u16 species)
 
 bool8 SpeciesHasWindRider(unusedArg u16 species)
 {
-	#if (defined SPECIES_BRAMBLIN && SPECIES_BRAMBLEGHAST && SPECIES_SHIFTRY)
-	return species == SPECIES_BRAMBLIN || species == SPECIES_BRAMBLEGHAST || species == SPECIES_SHIFTRY;
+	//Added Pidgey line.
+	 #if (defined SPECIES_BRAMBLIN && defined SPECIES_BRAMBLEGHAST && defined SPECIES_SHIFTRY \
+      && defined SPECIES_PIDGEY && defined SPECIES_PIDGEOTTO && defined SPECIES_PIDGEOT)
+    return species == SPECIES_BRAMBLIN
+        || species == SPECIES_BRAMBLEGHAST
+        || species == SPECIES_SHIFTRY
+        || species == SPECIES_PIDGEY
+        || species == SPECIES_PIDGEOTTO
+        || species == SPECIES_PIDGEOT;
 	#else
 	return FALSE;
 	#endif

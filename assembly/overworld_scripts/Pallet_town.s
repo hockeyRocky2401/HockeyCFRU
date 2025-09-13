@@ -341,11 +341,11 @@ EventScript_Pallet_AideGuy:
         setvar 0x800A 16
         setvar 0x800B 16
         givepokemon SPECIES_GALLADE 25 ITEM_LEFTOVERS 0 1 10
-        setvar 0x8000 MOVE_ARMORCANNON
-        setvar 0x8001 MOVE_AXEKICK
-        setvar 0x8002 MOVE_STONEAXE
-        setvar 0x8003 MOVE_BLAZINGTORQUE
-        setvar 0x8004 NATURE_MODEST
+        setvar 0x8000 MOVE_ICESPINNER
+        setvar 0x8001 MOVE_OUTRAGE
+        setvar 0x8002 MOVE_DRAGONDANCE
+        setvar 0x8003 MOVE_EXTREMESPEED
+        setvar 0x8004 NATURE_ADAMANT
         setvar 0x8005 0
         setvar 0x8006 16
         setvar 0x8007 16
@@ -353,7 +353,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_GALLADE 30 ITEM_LEFTOVERS 0 1 10
+        givepokemon SPECIES_DRAGONITE 70 ITEM_LEFTOVERS 0 1 10
         setflag 0xA08
         setflag 0x828
         additem 0x306 0x1

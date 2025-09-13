@@ -145,11 +145,11 @@ enum //These vars need to be one after the other (hence the enum)
 
 #define DUSK_BALL_MULTIPLIER 30 //Change this line to 35 to make the catch rate for the Dusk Ball 3.5x like before Gen 7
 #define STANDARD_IV 10 //Change this to be the number of IVs Pokemon owned by random trainers should have (all stats will have this number)
-#define SWARM_CHANCE 50 //Change this to the percentage that swarming Pokemon will appear if they can be found on the current route.
-#define WILD_DOUBLE_RANDOM_CHANCE 50 //Change this to the percentage that a wild double battle will be initiated if the player is in special grass.
+#define SWARM_CHANCE 0 //was 50 //Change this to the percentage that swarming Pokemon will appear if they can be found on the current route.
+#define WILD_DOUBLE_RANDOM_CHANCE 0 //was 50 //Change this to the percentage that a wild double battle will be initiated if the player is in special grass.
 #define CREATE_WITH_X_PERFECT_IVS 3 //Change this to the number of set 31 IVs you'd like Pokemon defined in gSetPerfectXIvList to have.
 #define CREATE_ROAMER_WITH_X_PERFECT_IVS 3 //Change this to the number of set 31 IVs you'd like roaming pokemon to have.
-#define EGG_HATCH_LEVEL 25 //The level eggs hatch at
+#define EGG_HATCH_LEVEL 80 //The level eggs hatch at
 #define AI_TRY_TO_KILL_RATE 100 //In battles against a trainer with AI flags of 1, the AI will try to use a move to knock out the opponents XX percent of the time
 #define BIKE_ENCOUNTER_PERCENT 60 //Biking through grass or in caves only has this percentage of the encounter rate (vanilla FR is 80)
 
@@ -205,8 +205,8 @@ enum //These vars need to be one after the other (hence the enum)
 //#define EXISTING_OW_TABLE_ADDRESS 0x81a2000 //Uncomment if you don't want new overworld NPC tables to be generated. DON'T TOUCH IF YOU DON'T KNOW EXACTLY WHAT THIS IS FOR!
 
 /*===== Other General Options =====*/
-// #define TIME_ENABLED //Comment this line to disable time based features. All time dependent features will default in Daytime.
-// #define DNS_IN_BATTLE //Comment this line to disable the Day/Night system from working in battle
+#define TIME_ENABLED //Comment this line to disable time based features. All time dependent features will default in Daytime.
+#define DNS_IN_BATTLE //Comment this line to disable the Day/Night system from working in battle
 #define OVERWRITE_RIVAL //Comment this line to disable to loading of your rival's name into trainer classes 0x51, 0x59, and 0x5A
 #define TRAINER_CLASS_POKE_BALLS //Comment this line to disable creating Trainer's pokemon with Poke Balls specific to their trainer class
 #define TRAINERS_WITH_EVS //Uncomment this line to enable the Trainers with EVs hack, (only avaible with custom moveset and held item)

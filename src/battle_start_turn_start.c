@@ -25,6 +25,7 @@
 #include "../include/new/dexnav.h"
 #include "../include/new/dns.h"
 #include "../include/new/dynamax.h"
+#include "../include/new/exp.h"
 #include "../include/new/form_change.h"
 #include "../include/new/frontier.h"
 #include "../include/new/general_bs_commands.h"
