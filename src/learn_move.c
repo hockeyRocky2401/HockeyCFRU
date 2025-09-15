@@ -2,9 +2,16 @@
 #include "defines_battle.h"
 #include "../include/daycare.h"
 #include "../include/list_menu.h"
+#include "../include/main.h"
 #include "../include/menu.h"
 #include "../include/move_reminder.h"
+#include "../include/overworld.h"
+#include "../include/palette.h"
+#include "../include/party_menu.h"
+#include "../include/pokemon.h"
+#include "../include/script.h"
 #include "../include/string_util.h"
+#include "../include/task.h"
 #include "../include/constants/moves.h"
 
 #include "../include/new/daycare.h"
@@ -19,8 +26,83 @@ learn_move.c
 	handles functions for pokemon trying to learn moves
 */
 
+#ifndef FADE_TO_BLACK
+#define FADE_TO_BLACK 1
+#endif
+
+void __attribute__((long_call)) Task_HandleChooseMonInput(u8 taskId);
+
 extern const u8 gMoveNames[][MOVE_NAME_LENGTH + 1];
 extern const u8 PSSIconsTiles[];
+extern void CB2_InitLearnMove(void); //New move relearner
+static struct Pokemon* sRelearnerTarget = NULL; //new move relearner
+static u8 sPendingRelearnerSlot = 0xFF;
+void SetMoveRelearnerTarget(struct Pokemon* mon) { 
+	sRelearnerTarget = mon; 
+	// if it's a party mon, remember its slot
+    if (mon >= &gPlayerParty[0] && mon < &gPlayerParty[PARTY_SIZE])
+        gSelectedMonPartyId = (u8)(mon - &gPlayerParty[0]);
+} //new move relearner
+
+extern u8 gSelectedMonPartyId;
+static inline struct Pokemon* RelearnerMon(void) {
+    // if (sRelearnerTarget) return sRelearnerTarget;
+    // return &gPlayerParty[gSelectedMonPartyId];
+    if (sRelearnerTarget)
+        return sRelearnerTarget;
+
+    // Fallback order: global -> script var -> slot 0 (safe default)
+    if (gSelectedMonPartyId < PARTY_SIZE 
+		&& gPlayerParty[gSelectedMonPartyId].species != SPECIES_NONE)
+        return &gPlayerParty[gSelectedMonPartyId];
+
+    {
+        u8 slot = VarGet(VAR_0x8004);
+        if (slot < PARTY_SIZE && gPlayerParty[slot].species != SPECIES_NONE)
+            return &gPlayerParty[slot];
+    }
+
+    return &gPlayerParty[0];
+}
+// struct Pokemon* mon = RelearnerMon();
+
+static void CB2_AfterRelearnerFade_ReturnParty(void)
+{
+    if (gPaletteFade->active)
+        // UpdatePaletteFade();
+		return;
+    // else
+        InitPartyMenu(PARTY_MENU_TYPE_FIELD, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON,
+                      TRUE, PARTY_MSG_NONE, Task_HandleChooseMonInput, gPostMenuFieldCallback);
+		ScriptContext2_Disable();
+}
+
+// Call this when relearner is closing (on cancel/finished)
+void Special_ReturnFromRelearner(void)  // or whatever your relearner uses
+{
+    FadeScreen(FADE_TO_BLACK, 0);
+    SetMainCallback2(CB2_AfterRelearnerFade_ReturnParty);
+}
+
+static void RelearnerBootstrapFromVar(void)
+{
+    u8 slot = VarGet(VAR_0x8004);              // script passed this in
+    if (slot >= PARTY_SIZE || gPlayerParty[slot].species == SPECIES_NONE)
+        slot = 0;
+
+    gSelectedMonPartyId = slot;
+    sRelearnerTarget    = &gPlayerParty[slot];
+}
+
+static void CB2_OpenRelearnerTrampoline(void)
+{
+    if (sPendingRelearnerSlot != 0xFF) {
+        gSelectedMonPartyId = sPendingRelearnerSlot;
+        SetMoveRelearnerTarget(&gPlayerParty[sPendingRelearnerSlot]);
+        sPendingRelearnerSlot = 0xFF;
+    }
+    CB2_InitLearnMove();  // hand off to the real relearner
+}
 
 #ifdef EXPAND_MOVESETS
 	extern const struct LevelUpMove* const gLevelUpLearnsets[];
@@ -31,6 +113,16 @@ extern const u8 PSSIconsTiles[];
 //#define gMoveToLearn (*((u16*) 0x2024022))
 #define sLearningMoveTableID (*((u8*) 0x2024028))
 #define sMoveRelearnerStruct ((struct MoveRelearner*) 0x203AAB4)
+
+//New move relearner func
+void OpenMoveRelearnerFromParty(u8 partySlot)
+{
+    // SetMoveRelearnerTarget(&gPlayerParty[partySlot]);
+	SetMoveRelearnerTarget(&gPlayerParty[VarGet(VAR_0x8004)]);
+	gSelectedMonPartyId = partySlot;
+	// sPendingRelearnerSlot = partySlot;
+    SetMainCallback2(CB2_InitLearnMove); // or whatever your module’s entry CB2 is called
+}
 
 void GiveBoxMonInitialMoveset(struct BoxPokemon* boxMon)
 {
@@ -488,8 +580,16 @@ struct MoveRelearner
 void InitLearnMoveFix(void)
 {
 	gMoveRelearnerStruct = Calloc(sizeof(struct MoveRelearner));
-}
 
+	 // Make sure our target is the mon the party menu passed via VAR_0x8004.
+    RelearnerBootstrapFromVar();
+
+	   if (gMoveRelearnerStruct)
+        gMoveRelearnerStruct->selectedPartyMember = gSelectedMonPartyId;
+
+    // If your UI builds the list immediately, this ensures it uses the right mon:
+    (void)GetRelearnableMoves(RelearnerMon());
+}
 
 bool8 CheckMoveRelearnerMoveLimit(u8 counter)
 {
@@ -514,7 +614,26 @@ void InitMoveRelearnerMoveIDs(void)
 
 u8 GetRelearnableMoves(struct Pokemon* mon)
 {
+	// gMoveRelearnerStruct->selectedPartyMember = gSelectedMonPartyId; //new
+
+	// Be defensive: if a caller ever passes NULL, use the current target.
+	if (mon == NULL) {
+        mon = RelearnerMon();
+	}
+
+	   // ensure legacy slot is correct for any code that uses it later
+    // if (mon >= &gPlayerParty[0] && mon < &gPlayerParty[PARTY_SIZE]) {
+    //     u8 slot = (u8)(mon - &gPlayerParty[0]);
+    //     gMoveRelearnerStruct->selectedPartyMember = slot;
+    //     gSelectedMonPartyId = slot; // keep both in lockstep so any older code won’t drift
+    // }
+
 	int i = 0;
+
+	//  if (gMoveRelearnerStruct) {
+    //     gMoveRelearnerStruct->selectedPartyMember = gSelectedMonPartyId;
+    // } //new
+
 	u8 numMoves = GetMoveRelearnerMoves(mon, &gMoveRelearnerStruct->moves[0]);
 	gMoveRelearnerStruct->numLearnableMoves = numMoves;
 

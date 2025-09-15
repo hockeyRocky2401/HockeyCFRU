@@ -102,7 +102,8 @@ enum
 #define MENU_SHIFT 10
 #define MENU_SEND_OUT 11
 #define MENU_ENTER 12
-#define MENU_NO_ENTRY 13
+// #define MENU_NO_ENTRY 13
+#define MENU_REMEMBER 13 
 #define MENU_STORE 14
 #define MENU_REGISTER 15
 #define MENU_TRADE1 16

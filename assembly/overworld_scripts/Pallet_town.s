@@ -357,6 +357,9 @@ EventScript_Pallet_AideGuy:
         setflag 0xA08
         setflag 0x828
         additem 0x306 0x1
+        additem ITEM_PORTABLE_PC 0x1
+        additem ITEM_POKEVIAL 0x1
+        additem ITEM_EVIV_DISPLAYER 0x1
         msgbox gText_TestScript2 MSG_NORMAL
         release
         end

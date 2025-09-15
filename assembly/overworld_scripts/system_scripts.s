@@ -446,6 +446,17 @@ EventScript_RockClimb:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+.global EventScript_OpenMoveRelearnerFromParty
+    .extern Special_ReturnFromRelearner
+
+EventScript_OpenMoveRelearnerFromParty:
+    special 0XE0    // <- name may be Special_MoveRelearner / MoveRelearnerOpen in your fork
+	@ callasm Special_ReturnFromRelearner+1   @ <— reopen party menu here
+    @ release
+    end
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 .global EventScript_UseADMRockClimb
 EventScript_UseADMRockClimb:
 	checkflag FLAG_AUTO_HMS
