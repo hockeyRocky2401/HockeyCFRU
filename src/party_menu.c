@@ -58,6 +58,7 @@ party_menu.c
 #define MENU_LEFT -2
 #define MENU_RIGHT 2
 #define MENU_NICKNAME 6
+// #define MENU_REMEMBER (MENU_FIELD_MOVES + FIELD_MOVE_COUNT + 1)
 
 struct PartyMenuBoxInfoRects
 {
@@ -145,6 +146,19 @@ static s8 *GetCurrentPartySlotPtr(void);
 u16 PartyMenuButtonHandler(s8 *ptr); 
 void Task_HandleChooseMonInput(u8 taskId);
 static u8 uniTaskid; //added
+
+//Move Reminder Test
+static void CB2_AfterPartyFade_OpenRelearner(void);
+static void CursorCb_Remember(u8 taskId);
+// static const u8 gMenuText_Remember[] = _("Remember");
+extern const u8 gMenuText_Remember[];
+extern const u8 EventScript_OpenMoveRelearnerFromParty[];
+
+extern void CB2_InitLearnMove(void);                 // Entry CB2 your relearner already uses
+u8 gSelectedMonPartyId = 0;
+extern void SetMoveRelearnerTarget(struct Pokemon*); // The glue we just added
+extern const u8 EventScript_OpenMoveRelearnerFromParty[];
+
 
 static void ItemUseCB_NatureMint(u8 taskId, TaskFunc func);
 static void Task_OfferNatureChange(u8 taskId);
@@ -871,6 +885,8 @@ struct
         [MENU_TRADE2] =        {(void*) 0x84169bc, (void*) 0x81245a1},
         [MENU_MOVE_ITEM] = {gMenuText_Move, CursorCb_MoveItem},
         [MENU_NICKNAME] = {gMenuText_NickName, CursorCb_Nickname},
+        [MENU_REMEMBER] = {gMenuText_Remember, CursorCb_Remember},  // <-- NEW Reminder test
+
 
         //Field Moves
         [MENU_FIELD_MOVES + FIELD_MOVE_FLASH] =              {gMoveNames[MOVE_FLASH], CursorCb_FieldMove},
@@ -984,6 +1000,15 @@ const u8 gFieldMoveBadgeRequirements[FIELD_MOVE_COUNT] =
 };
 
 #endif
+
+// --- Move Reminder gating (uses learn_move.h) ---
+static bool8 CanMonRelearnMoves(u8 slot)
+{
+    // learn_move.h is already included at the top, so we can call it directly.
+    // Option 1: direct counter
+    return GetNumberOfRelearnableMoves(&gPlayerParty[slot]) > 0;
+}
+
 
 void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 {
@@ -1115,6 +1140,9 @@ SKIP_FIELD_MOVES:
                         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
         }
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME); //added
+        // NEW: only show Remember when there are relearnable moves
+        if (CanMonRelearnMoves(slotId))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_REMEMBER);
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
 
@@ -1577,6 +1605,90 @@ static void CursorCb_Nickname(u8 taskId)
         gTasks[taskId].func = CursorCb_NicknameCallback;
 
 }
+
+//Move Relearner
+//     extern void OpenMoveRelearnerFromParty(u8 partySlot);
+    //   SetMainCallback2(ReturnFromRelearner);
+
+static void ReturnFromRelearner(void)
+{
+//     ScriptContext2_Enable();
+    // Reopen the party menu after exiting the relearner
+    InitPartyMenu(PARTY_MENU_TYPE_FIELD, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON,
+                  TRUE, PARTY_MSG_NONE, Task_HandleChooseMonInput, 
+                   gPostMenuFieldCallback);
+}
+
+static void FieldCallback_OpenRelearnerFromVar(void)
+{
+    VarSet(VAR_0x8004, gPartyMenu.slotId);
+    ScriptContext1_SetupScript(EventScript_OpenMoveRelearnerFromParty);
+}
+
+static void CursorCb_Remember(u8 taskId)
+{
+    PlaySE(SE_SELECT);
+
+    // Clean up the two option windows like other callbacks do
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+
+    gSelectedMonPartyId = gPartyMenu.slotId;
+    SetMoveRelearnerTarget(&gPlayerParty[gPartyMenu.slotId]); // sets sRelearnerTarget + sRelearnerPartySlot
+
+    VarSet(VAR_0x8004, gPartyMenu.slotId);
+    ScriptContext1_SetupScript(EventScript_OpenMoveRelearnerFromParty);
+
+//     gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;   // safe fade out of party menu
+//     gPostMenuFieldCallback = FieldCallback_OpenRelearnerFromVar;
+
+//     SetMoveRelearnerTarget(&gPlayerParty[gPartyMenu.slotId]);
+//     gSelectedMonPartyId = gPartyMenu.slotId;
+
+    DestroyTask(taskId);
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+  
+//     OpenMoveRelearnerFromParty(gPartyMenu.slotId, ReturnFromRelearner);
+//     SetMoveRelearnerTarget(&gPlayerParty[gPartyMenu.slotId]);
+//     gSelectedMonPartyId = gPartyMenu.slotId;   // <-- tell relearner which mon
+//     SetMainCallback2(CB2_InitLearnMove);
+//     OpenMoveRelearnerFromParty(gPartyMenu.slotId);
+
+//     FadeScreen(FADE_TO_BLACK, 0);
+//     SetMainCallback2(CB2_AfterPartyFade_OpenRelearner);
+
+    //
+    // If you’re not ready yet, keep the menu responsive:
+//     DisplayPartyMenuStdMessage(PARTY_MSG_RESTORE_WHICH_MOVE);
+//     gTasks[taskId].func = Task_HandleChooseMonInput;
+}
+
+static void CB2_AfterPartyFade_OpenRelearner(void)
+{
+    // keep pumping the fade until done
+    if (gPaletteFade->active)
+        // UpdatePaletteFade();
+        return;
+//     else
+        SetMainCallback2(CB2_InitLearnMove);  // your relearner entry CB2
+}
+
+// static void CB2_AfterRelearnerFade_ReturnParty(void)
+// {
+//     if (gPaletteFade->active)
+//         UpdatePaletteFade();
+//     else
+//         InitPartyMenu(PARTY_MENU_TYPE_FIELD, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON,
+//                       TRUE, PARTY_MSG_NONE, Task_HandleChooseMonInput, gPostMenuFieldCallback);
+// }
+
+// // Call this when relearner is closing (on cancel/finished)
+// void Special_ReturnFromRelearner(void)  // or whatever your relearner uses
+// {
+//     FadeScreen(FADE_TO_BLACK, 0);
+//     SetMainCallback2(CB2_AfterRelearnerFade_ReturnParty);
+// }
+
 
 static void CursorCb_MoveItem(u8 taskId)
 {

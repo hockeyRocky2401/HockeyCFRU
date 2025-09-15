@@ -3669,7 +3669,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_DRAGONBREATH] =
 	{
 		.effect = EFFECT_PARALYZE_HIT,
-		.power = 60,
+		.power = 70,
 		.type = TYPE_DRAGON,
 		.accuracy = 100,
 		.pp = 20,
@@ -3893,7 +3893,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_TWISTER] =
 	{
 		.effect = EFFECT_TWISTER,
-		.power = 40,
+		.power = 55,
 		.type = TYPE_DRAGON,
 		.accuracy = 100,
 		.pp = 20,
@@ -6021,11 +6021,11 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_DRAGONPULSE] =
 	{
 		.effect = EFFECT_HIT,
-		#ifdef GEN_6_POWER_NERFS
-		.power = 85,
-		#else
+		// #ifdef GEN_6_POWER_NERFS
+		// .power = 85,
+		// #else
 		.power = 90,
-		#endif
+		// #endif
 		.type = TYPE_DRAGON,
 		.accuracy = 100,
 		.pp = 10,
