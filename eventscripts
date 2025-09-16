@@ -10,3 +10,44 @@ npc 3 1 3 EventScript_ChangeTeraTypeNPC
 <!-- npc 3 1 4 EventScript_Pallet_FatGuy -->
 npc 3 1 5 EventScriptP_ViridianCity_Youngster
 npc 3 1 6 EventScriptP_ViridianCity_YoungMan
+npc 5 3 0 EventScript_ViridianClerk
+
+## Pewter City
+npc 3 2 6 SystemScript_DebugMenu
+npc 6 3 2 SystemScript_GlobalMart
+
+## Cerulean City
+npc 7 7 0 SystemScript_GlobalMart
+
+## Vermilion City
+npc 9 5 0 SystemScript_GlobalMart
+
+## Lavender Town
+npc 8 5 0 SystemScript_GlobalMart
+
+## Celadon City
+npc 10 1 1 SystemScript_GlobalMart
+npc 10 1 2 SystemScript_TMMart
+npc 10 3 2 SystemScript_EvoMart
+
+## Saffron City
+npc 14 5 0 SystemScript_GlobalMart
+
+## Fuchsia City
+npc 11 1 0 SystemScript_GlobalMart
+
+## Cinnabar Island
+npc 12 7 0 SystemScript_GlobalMart
+
+## Two Island
+npc 3 13 0 SystemScript_GlobalMart
+
+## Three Island
+npc 34 3 0 SystemScript_GlobalMart
+
+## Pokemon League
+npc 13 0 0 SystemScript_GlobalMart
+
+
+
+

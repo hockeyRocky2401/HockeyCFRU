@@ -329,3 +329,18 @@ You can't access the Portable PC\nright now.
 
 #org @gText_WelcomeToHOF
 Welcome to the HALL OF FAME!\n Game Mode:
+
+#org @gText_GlobalMart_Hi
+Hi, there!\nMay I help you?
+
+#org @gText_GlobalMart_Again
+Please come again!
+	
+#org @gText_Viridian_ParcelThanks
+Okay, thanks! Please say hi to\nProf. Oak for me, too.
+
+#org @gText_Viridian_HiThere
+Hi, there!\nMay I help you?
+
+#org @gText_Viridian_PleaseAgain
+Please come again!

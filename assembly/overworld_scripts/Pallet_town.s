@@ -302,9 +302,9 @@ EventScript_Pallet_AideGuy:
         setvar 0x800A 16
         setvar 0x800B 16
         givepokemon SPECIES_GALLADE 10 ITEM_LEFTOVERS 0 1 10
-        setvar 0x8000 MOVE_STEELROLLER
-        setvar 0x8001 MOVE_ICESPINNER
-        setvar 0x8002 MOVE_MOUNTAINGALE
+        setvar 0x8000 MOVE_INFESTATION
+        setvar 0x8001 MOVE_SALTCURE
+        setvar 0x8002 MOVE_SNAPTRAP
         setvar 0x8003 MOVE_DECORATE
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
@@ -342,8 +342,8 @@ EventScript_Pallet_AideGuy:
         setvar 0x800B 16
         givepokemon SPECIES_GALLADE 25 ITEM_LEFTOVERS 0 1 10
         setvar 0x8000 MOVE_ICESPINNER
-        setvar 0x8001 MOVE_OUTRAGE
-        setvar 0x8002 MOVE_DRAGONDANCE
+        setvar 0x8001 MOVE_TRAILBLAZE
+        setvar 0x8002 MOVE_FLY
         setvar 0x8003 MOVE_EXTREMESPEED
         setvar 0x8004 NATURE_ADAMANT
         setvar 0x8005 0

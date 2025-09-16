@@ -3161,7 +3161,7 @@ const struct Trainer gTrainers[] = {
         .party =  { .ItemCustomMoves = sParty_HikerWayne },
     },
         [TRAINER_HIKER_ALAN] = {
-        .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+        .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
         .trainerClass = CLASS_HIKER,
         .encounterMusic = TRAINER_ENCOUNTER_MUSIC_HIKER,
         .gender = GENDER_MALE,
@@ -3175,7 +3175,7 @@ const struct Trainer gTrainers[] = {
         .doubleBattle = FALSE,
         .partySize = 1,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
-        .party = { .NoItemCustomMoves = sParty_HikerAlan },
+        .party = { .ItemCustomMoves = sParty_HikerAlan },
     },
         [TRAINER_HIKER_BRICE] = {
         .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
@@ -3246,7 +3246,7 @@ const struct Trainer gTrainers[] = {
         .party = { .ItemCustomMoves = sParty_HikerDudley },
     },
         [TRAINER_HIKER_ALLEN] = {
-        .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+        .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
         .trainerClass = CLASS_HIKER,
         .encounterMusic = TRAINER_ENCOUNTER_MUSIC_HIKER,
         .gender = GENDER_MALE,
@@ -3260,7 +3260,7 @@ const struct Trainer gTrainers[] = {
         .doubleBattle = FALSE,
         .partySize = 1,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
-        .party = { .NoItemCustomMoves = sParty_HikerAllen },
+        .party = { .ItemCustomMoves = sParty_HikerAllen },
     },
         [TRAINER_HIKER_ERIC] = {
         .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
@@ -3314,7 +3314,7 @@ const struct Trainer gTrainers[] = {
         .party =  { .ItemCustomMoves = sParty_HikerOliver },
     },
         [TRAINER_HIKER_LUCAS] = {
-        .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+        .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
         .trainerClass = CLASS_HIKER,
         .encounterMusic = TRAINER_ENCOUNTER_MUSIC_HIKER,
         .gender = GENDER_MALE,
@@ -3328,7 +3328,7 @@ const struct Trainer gTrainers[] = {
         .doubleBattle = FALSE,
         .partySize = 1,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
-        .party = { .NoItemCustomMoves = sParty_HikerLucas },
+        .party = { .ItemCustomMoves = sParty_HikerLucas },
     },
         [TRAINER_BIKER_JARED] = {
         .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,

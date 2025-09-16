@@ -36,7 +36,7 @@ extern const u8 gMoveNames[][MOVE_NAME_LENGTH + 1];
 extern const u8 PSSIconsTiles[];
 extern void CB2_InitLearnMove(void); //New move relearner
 static struct Pokemon* sRelearnerTarget = NULL; //new move relearner
-static u8 sPendingRelearnerSlot = 0xFF;
+// static u8 sPendingRelearnerSlot = 0xFF;
 void SetMoveRelearnerTarget(struct Pokemon* mon) { 
 	sRelearnerTarget = mon; 
 	// if it's a party mon, remember its slot
@@ -66,23 +66,23 @@ static inline struct Pokemon* RelearnerMon(void) {
 }
 // struct Pokemon* mon = RelearnerMon();
 
-static void CB2_AfterRelearnerFade_ReturnParty(void)
-{
-    if (gPaletteFade->active)
-        // UpdatePaletteFade();
-		return;
-    // else
-        InitPartyMenu(PARTY_MENU_TYPE_FIELD, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON,
-                      TRUE, PARTY_MSG_NONE, Task_HandleChooseMonInput, gPostMenuFieldCallback);
-		ScriptContext2_Disable();
-}
+// static void CB2_AfterRelearnerFade_ReturnParty(void)
+// {
+//     if (gPaletteFade->active)
+//         // UpdatePaletteFade();
+// 		return;
+//     // else
+//         InitPartyMenu(PARTY_MENU_TYPE_FIELD, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON,
+//                       TRUE, PARTY_MSG_NONE, Task_HandleChooseMonInput, gPostMenuFieldCallback);
+// 		ScriptContext2_Disable();
+// }
 
-// Call this when relearner is closing (on cancel/finished)
-void Special_ReturnFromRelearner(void)  // or whatever your relearner uses
-{
-    FadeScreen(FADE_TO_BLACK, 0);
-    SetMainCallback2(CB2_AfterRelearnerFade_ReturnParty);
-}
+// // Call this when relearner is closing (on cancel/finished)
+// void Special_ReturnFromRelearner(void)  // or whatever your relearner uses
+// {
+//     FadeScreen(FADE_TO_BLACK, 0);
+//     SetMainCallback2(CB2_AfterRelearnerFade_ReturnParty);
+// }
 
 static void RelearnerBootstrapFromVar(void)
 {
@@ -94,15 +94,15 @@ static void RelearnerBootstrapFromVar(void)
     sRelearnerTarget    = &gPlayerParty[slot];
 }
 
-static void CB2_OpenRelearnerTrampoline(void)
-{
-    if (sPendingRelearnerSlot != 0xFF) {
-        gSelectedMonPartyId = sPendingRelearnerSlot;
-        SetMoveRelearnerTarget(&gPlayerParty[sPendingRelearnerSlot]);
-        sPendingRelearnerSlot = 0xFF;
-    }
-    CB2_InitLearnMove();  // hand off to the real relearner
-}
+// static void CB2_OpenRelearnerTrampoline(void)
+// {
+//     if (sPendingRelearnerSlot != 0xFF) {
+//         gSelectedMonPartyId = sPendingRelearnerSlot;
+//         SetMoveRelearnerTarget(&gPlayerParty[sPendingRelearnerSlot]);
+//         sPendingRelearnerSlot = 0xFF;
+//     }
+//     CB2_InitLearnMove();  // hand off to the real relearner
+// }
 
 #ifdef EXPAND_MOVESETS
 	extern const struct LevelUpMove* const gLevelUpLearnsets[];
