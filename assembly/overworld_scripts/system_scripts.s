@@ -1404,3 +1404,60 @@ SystemScript_Portable_PC_Off:
 	msgbox gText_PCUnavailable MSG_NORMAL
 	release
 	end
+
+.align 2
+.thumb
+
+@ Mart Script
+.equ   VAR_RESULT, 0x800D
+.extern sAllGameMart
+.extern GetQuestLogState
+SystemScript_GlobalMart:
+lock
+faceplayer
+preparemsg gText_GlobalMart_Hi
+waitmsg
+.byte  0x86              @ pokemart opcode
+.4byte sAllGameMart
+preparemsg gText_GlobalMart_Again
+waitmsg
+waitbuttonpress
+closemessage
+release
+end
+
+@ TM Mart Script
+.equ   VAR_RESULT, 0x800D
+.extern sTMMart
+SystemScript_TMMart:
+lock
+faceplayer
+preparemsg gText_GlobalMart_Hi
+waitmsg
+.byte  0x86              @ pokemart opcode
+.4byte sTMMart
+preparemsg gText_GlobalMart_Again
+waitmsg
+waitbuttonpress
+closemessage
+release
+end
+
+@ Evo Mart Script
+.equ   VAR_RESULT, 0x800D
+.extern sEvoMart
+SystemScript_EvoMart:
+lock
+faceplayer
+preparemsg gText_GlobalMart_Hi
+waitmsg
+.byte  0x86              @ pokemart opcode
+.4byte sEvoMart
+preparemsg gText_GlobalMart_Again
+waitmsg
+waitbuttonpress
+closemessage
+release
+end
+
+

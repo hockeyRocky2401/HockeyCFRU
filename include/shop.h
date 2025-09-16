@@ -55,4 +55,12 @@ void __attribute__((long_call)) BuyMenuPrint(u8 windowId, u8 font, const u8 *tex
 void __attribute__((long_call)) RedrawListMenu(u8 taskId);
 void __attribute__((long_call)) BuyMenuDecompressBgGraphics(void);
 
+extern const u16 sAllGameMart[]; //New from here on
+extern const u16 sMartRegular[];
+extern const u16 sMartTMHM[];
+extern const u16 sMartDecor[];
+extern const u16 sMartDecor2[];
+
+
+
 #endif // GUARD_SHOP_H

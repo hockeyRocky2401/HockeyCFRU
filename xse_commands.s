@@ -1298,10 +1298,16 @@ map \map
 .4byte \offset
 .endm
 
+@ .extern sAllGameMart @ New
+
 @ Opens the Pokemart system, offering the specified products for sale.
+.extern Special_OpenGlobalMart @ New
 .macro pokemart products:req
-.byte 0x86
-.4byte \products
+@ byte 0x86
+@ .4byte \products
+@ .4byte sAllGameMart    @ force global stock everywhere
+.error "USING THIS XSE POKEMART MACRO FILE"
+special Special_OpenGlobalMart
 .endm
 
 @ Opens the Pokemart system and treats the list of items as decorations.

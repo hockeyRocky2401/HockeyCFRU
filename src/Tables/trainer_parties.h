@@ -224,7 +224,7 @@ struct TrainerMonItemCustomMoves sParty_YoungsterTyler[] = {
 
 struct TrainerMonItemCustomMoves sParty_YoungsterEddie[] = {
     {
-        .iv = 255,
+        .iv = 225,
         .lvl = 23,
         .species = SPECIES_EKANS,
         .moves = {MOVE_WRAP, MOVE_PURSUIT, MOVE_COIL, MOVE_NONE},
@@ -644,7 +644,7 @@ struct TrainerMonItemCustomMoves sParty_LassAli[] = {
     //     .species = SPECIES_PIDGEY,
     // },
     {
-        .iv = 0,
+        .iv = 225,
         .lvl = 18,
         .species = SPECIES_ODDISH,
         .moves = {MOVE_MEGADRAIN, MOVE_ACID, MOVE_LEECHSEED, MOVE_NONE},
@@ -1367,7 +1367,7 @@ struct TrainerMonItemCustomMoves sParty_PokemaniacSteve[] = {
         .iv = 225,
         .lvl = 28,
         .species = SPECIES_CUBONE,
-        .moves = {MOVE_BONEMERANG, MOVE_KNOCKOFF, MOVE_RETALIATE, MOVE_ROCKTOMB},
+        .moves = {MOVE_PSYBEAM, MOVE_BUGBUZZ, MOVE_NONE, MOVE_NONE},
     },
 };
 
@@ -1758,7 +1758,7 @@ struct TrainerMonItemCustomMoves sParty_HikerWayne[] = {
     },
 };
 
-struct TrainerMonNoItemCustomMoves sParty_HikerAlan[] = {
+struct TrainerMonItemCustomMoves sParty_HikerAlan[] = {
     {
         .iv = 225,
         .lvl = 25,
@@ -1843,7 +1843,7 @@ struct TrainerMonItemCustomMoves sParty_HikerDudley[] = {
     },
 };
 
-struct TrainerMonNoItemCustomMoves sParty_HikerAllen[] = {
+struct TrainerMonItemCustomMoves sParty_HikerAllen[] = {
     {
         .iv = 225,
         .lvl = 28,
@@ -1909,7 +1909,7 @@ struct TrainerMonItemCustomMoves sParty_HikerOliver[] = {
     },
 };
 
-struct TrainerMonNoItemCustomMoves sParty_HikerLucas[] = {
+struct TrainerMonItemCustomMoves sParty_HikerLucas[] = {
     // {
     //     .iv = 0,
     //     .lvl = 21,
@@ -6453,7 +6453,7 @@ struct TrainerMonItemCustomMoves sParty_LeaderLtSurge[] = {
         .lvl = 27,
         .species = SPECIES_ELECTABUZZ,
         .heldItem = ITEM_NONE,
-        .moves = {MOVE_VOLTSWITCH, MOVE_THUNDERPUNCH, MOVE_LOWKICK, MOVE_THUNDERWAVE},
+        .moves = {MOVE_VOLTSWITCH, MOVE_THUNDERPUNCH, MOVE_BRICKBREAK, MOVE_FIREPUNCH},
     },
     {
         .iv = 202,
@@ -6655,7 +6655,7 @@ struct TrainerMonItemCustomMoves sParty_GentlemanThomas[] = {
         .iv = 236,
         .lvl = 24,
         .species = SPECIES_VENONAT,
-        .moves = {MOVE_PSYBEAM, MOVE_SIGNALBEAM, MOVE_RECOVER, MOVE_NONE},
+        .moves = {MOVE_PSYBEAM, MOVE_SIGNALBEAM, MOVE_STUNSPORE, MOVE_NONE},
     },
     {
         .iv = 235,

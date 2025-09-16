@@ -84,3 +84,41 @@ EventScriptP_ViridianCity_Youngster:
     release
     end
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@  Viridian Mart Script
+.equ VAR_RESULT,  0x800D
+.equ ITEM_OAKS_PARCEL, 349
+.extern sAllGameMart
+EventScript_ViridianClerk:
+lock
+faceplayer
+
+checkitem ITEM_OAKS_PARCEL, 1
+compare VAR_RESULT, 0
+goto_if 1, EventScript_Viridian_ParcelMessage
+@ goto_if 0, EventScript_ViridianMart
+
+EventScript_ViridianMart:
+preparemsg gText_Viridian_HiThere
+waitmsg
+
+@ pokemart <auto>  → override to our global list
+.byte  0x86                 @ pokemart opcode
+.4byte sAllGameMart         @ pointer to your C array
+
+@ "Please come again!"
+preparemsg gText_Viridian_PleaseAgain
+waitmsg
+waitbuttonpress
+closemessage
+release
+end 
+
+@ Viridian Mart Parcel
+EventScript_Viridian_ParcelMessage:
+preparemsg gText_Viridian_ParcelThanks
+waitmsg
+waitbuttonpress
+closemessage
+release
+end

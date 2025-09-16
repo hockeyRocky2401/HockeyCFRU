@@ -1443,7 +1443,7 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_TMTiles, gBag_TMRockPal},      // ITEM_TM111_SMACK_DOWN - Pedra
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM112_ROUND - Normal
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM113_ECHOED_VOICE - Normal
-	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM114_NATURAL_GIFT - Normal
+	{gBag_TMTiles, gBag_TMGrassPal},    // ITEM_TM114_NATURAL_GIFT - Normal //Want Trailblaze
 	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM115_QUASH - Sombrio
 	{gBag_TMTiles, gBag_TMPsychicPal},   // ITEM_TM116_TRICK_ROOM - Psíquico
 	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM117_FLING - Sombrio
@@ -1854,7 +1854,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_P, _o, _k, _eACUTE, _SPACE, _B, _a, _l, _l, _END},
 		.itemId = ITEM_POKE_BALL,
-		.price = 200,
+		.price = 50,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_POKE_BALL,
@@ -1998,7 +1998,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_POTION,
-		.price = 200,
+		.price = 100,
 		.holdEffect = 0,
         .holdEffectParam = 20,
 		.description = DESC_POTION,
@@ -2014,7 +2014,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _n, _t, _i, _d, _o, _t, _e, _END},
 		.itemId = ITEM_ANTIDOTE,
-		.price = 200,
+		.price = 100,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_ANTIDOTE,
@@ -2030,7 +2030,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_B, _u, _r, _n, _SPACE, _H, _e, _a, _l, _END},
 		.itemId = ITEM_BURN_HEAL,
-		.price = 200,
+		.price = 100,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_BURN_HEAL,
@@ -2046,7 +2046,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_I, _c, _e, _SPACE, _H, _e, _a, _l, _END},
 		.itemId = ITEM_ICE_HEAL,
-		.price = 200,
+		.price = 100,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_ICE_HEAL,
@@ -2062,7 +2062,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _w, _a, _k, _e, _n, _i, _n, _g, _END},
 		.itemId = ITEM_AWAKENING,
-		.price = 200,
+		.price = 100,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_AWAKENING,
@@ -2078,7 +2078,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_P, _a, _r, _a, _l, _y, _z, _SPACE, _H, _e, _a, _l, _END, _END},
 		.itemId = ITEM_PARALYZE_HEAL,
-		.price = 200,
+		.price = 100,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_PARALYZE_HEAL,
@@ -2094,7 +2094,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_F, _u, _l, _l, _SPACE, _R, _e, _s, _t, _o, _r, _e, _END},
 		.itemId = ITEM_FULL_RESTORE,
-		.price = 3000,
+		.price = 2000,
 		.holdEffect = 0,
         .holdEffectParam = 255,
 		.description = DESC_FULL_RESTORE,
@@ -2110,7 +2110,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _a, _x, _SPACE, _P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_MAX_POTION,
-		.price = 2500,
+		.price = 1200,
 		.holdEffect = 0,
         .holdEffectParam = 255,
 		.description = DESC_MAX_POTION,
@@ -2126,9 +2126,9 @@ const struct Item gItemData[] =
 	{
 		.name = {_H, _y, _p, _e, _r, _SPACE, _P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_HYPER_POTION,
-		.price = 1500,
+		.price = 700,
 		.holdEffect = 0,
-        .holdEffectParam = 200,
+        .holdEffectParam = 120,
 		.description = DESC_HYPER_POTION,
 		.importance = 0,
         .unk19 = 0,
@@ -2142,9 +2142,9 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _u, _p, _e, _r, _SPACE, _P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_SUPER_POTION,
-		.price = 700,
+		.price = 300,
 		.holdEffect = 0,
-        .holdEffectParam = 50,
+        .holdEffectParam = 60,
 		.description = DESC_SUPER_POTION,
 		.importance = 0,
         .unk19 = 0,
@@ -2174,7 +2174,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_R, _e, _v, _i, _v, _e, _END},
 		.itemId = ITEM_REVIVE,
-		.price = 2000,
+		.price = 1000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_REVIVE,
@@ -2334,7 +2334,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_E, _t, _h, _e, _r, _END},
 		.itemId = ITEM_ETHER,
-		.price = 1200,
+		.price = 800,
 		.holdEffect = 0,
         .holdEffectParam = 10,
 		.description = DESC_ETHER,
@@ -3118,7 +3118,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _u, _p, _e, _r, _SPACE, _R, _e, _p, _e, _l, _END},
 		.itemId = ITEM_SUPER_REPEL,
-		.price = 700,
+		.price = 200,
 		.holdEffect = 0,
         .holdEffectParam = 200,
 		.description = DESC_SUPER_REPEL,
@@ -3134,7 +3134,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _a, _x, _SPACE, _R, _e, _p, _e, _l, _END},
 		.itemId = ITEM_MAX_REPEL,
-		.price = 900,
+		.price = 300,
 		.holdEffect = 0,
         .holdEffectParam = 250,
 		.description = DESC_MAX_REPEL,
@@ -3150,7 +3150,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_E, _s, _c, _a, _p, _e, _SPACE, _R, _o, _p, _e, _END},
 		.itemId = ITEM_ESCAPE_ROPE,
-		.price = 1000,
+		.price = 300,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_ESCAPE_ROPE,
@@ -3166,7 +3166,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_R, _e, _p, _e, _l, _END},
 		.itemId = ITEM_REPEL,
-		.price = 400,
+		.price = 100,
 		.holdEffect = 0,
         .holdEffectParam = 100,
 		.description = DESC_REPEL,
@@ -3182,7 +3182,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _i, _n, _k, _SPACE, _C, _a, _b, _l, _e, _END},
 		.itemId = ITEM_LINK_CABLE,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_LINK_CABLE,
@@ -3278,7 +3278,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _u, _n, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_SUN_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_SUN_STONE,
@@ -3294,7 +3294,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _o, _o, _n, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_MOON_STONE,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_MOON_STONE,
@@ -3310,7 +3310,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_F, _i, _r, _e, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_FIRE_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_FIRE_STONE,
@@ -3326,7 +3326,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _h, _u, _n, _d, _e, _r, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_THUNDER_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_THUNDER_STONE,
@@ -3342,7 +3342,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_W, _a, _t, _e, _r, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_WATER_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_WATER_STONE,
@@ -3358,7 +3358,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _e, _a, _f, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_LEAF_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_LEAF_STONE,
@@ -3374,7 +3374,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _h, _i, _n, _y, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_SHINY_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_SHINY_STONE,
@@ -3390,7 +3390,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_D, _u, _s, _k, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_DUSK_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_DUSK_STONE,
@@ -3406,7 +3406,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_D, _a, _w, _n, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_DAWN_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_DAWN_STONE,
@@ -3422,7 +3422,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_I, _c, _e, _SPACE, _S, _t, _o, _n, _e, _END},
 		.itemId = ITEM_ICE_STONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_ICE_STONE,
@@ -6478,7 +6478,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _0, _5, _END},
 		.itemId = ITEM_TM05,
-		.price = 3000,
+		.price = 7000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM05,
@@ -6622,7 +6622,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _4, _END},
 		.itemId = ITEM_TM14,
-		.price = 3000,
+		.price = 12000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM14,
@@ -6638,7 +6638,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _5, _END},
 		.itemId = ITEM_TM15,
-		.price = 3000,
+		.price = 12000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM15,
@@ -6750,7 +6750,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _2, _2, _END},
 		.itemId = ITEM_TM22,
-		.price = 3000,
+		.price = 12000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM22,
@@ -6798,7 +6798,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _2, _5, _END},
 		.itemId = ITEM_TM25,
-		.price = 3000,
+		.price = 12000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM25,
@@ -6846,7 +6846,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _2, _8, _END},
 		.itemId = ITEM_TM28,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM28,
@@ -6894,7 +6894,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _3, _1, _END},
 		.itemId = ITEM_TM31,
-		.price = 3000,
+		.price = 9000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM31,
@@ -7006,7 +7006,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _3, _8, _END},
 		.itemId = ITEM_TM38,
-		.price = 3000,
+		.price = 12000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM38,
@@ -7118,7 +7118,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _4, _5, _END},
 		.itemId = ITEM_TM45,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM45,
@@ -7822,7 +7822,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _5, _2, _END},
 		.itemId = ITEM_TM52,
-		.price = 3000,
+		.price = 12000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM52,
@@ -7854,7 +7854,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _5, _4, _END},
 		.itemId = ITEM_TM54,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM54,
@@ -8206,7 +8206,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _7, _6, _END},
 		.itemId = ITEM_TM76,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM76,
@@ -8222,7 +8222,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _7, _7, _END},
 		.itemId = ITEM_TM77,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM77,
@@ -8574,7 +8574,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _9, _9, _END},
 		.itemId = ITEM_TM99,
-		.price = 3000,
+		.price = 10000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM99,
@@ -8606,7 +8606,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _0, _1, _END},
 		.itemId = ITEM_TM101,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM101,
@@ -8686,7 +8686,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _0, _6, _END},
 		.itemId = ITEM_TM106,
-		.price = 3000,
+		.price = 9000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM106,
@@ -8702,7 +8702,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _0, _7, _END},
 		.itemId = ITEM_TM107,
-		.price = 3000,
+		.price = 9000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM107,
@@ -8718,7 +8718,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _0, _8, _END},
 		.itemId = ITEM_TM108,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM108,
@@ -8766,7 +8766,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _1, _1, _END},
 		.itemId = ITEM_TM111,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM111,
@@ -8814,7 +8814,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _1, _4, _END},
 		.itemId = ITEM_TM114,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM114,
@@ -8846,7 +8846,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _1, _6, _END},
 		.itemId = ITEM_TM116,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM116,
@@ -13436,9 +13436,10 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_A, _HYPHEN, _P, _o, _t, _i, _o, _n, _END},
+        // .name = {_A, _HYPHEN, _P, _o, _t, _i, _o, _n, _END},
+        .name = {_A, _HYPHEN, _C, _a, _p, _s, _u, _l, _e, _END},
         .itemId = ITEM_ABILITY_CAPSULE,
-        .price = 10000,
+        .price = 8000,
         .holdEffect = ITEM_EFFECT_ABILITY_CAPSULE,
         .holdEffectParam = 0,
         .description = DESC_ABILITY_CAPSULE,
@@ -13454,7 +13455,7 @@ const struct Item gItemData[] =
 	{
         .name = {_A, _HYPHEN, _P, _a, _t, _c, _h, _END},
         .itemId = ITEM_ABILITY_PATCH,
-        .price = 20000,
+        .price = 12000,
         .holdEffect = ITEM_EFFECT_ABILITY_CAPSULE,
         .holdEffectParam = 1,
         .description = DESC_ABILITY_CAPSULE,

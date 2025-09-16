@@ -148,7 +148,7 @@ void Task_HandleChooseMonInput(u8 taskId);
 static u8 uniTaskid; //added
 
 //Move Reminder Test
-static void CB2_AfterPartyFade_OpenRelearner(void);
+// static void CB2_AfterPartyFade_OpenRelearner(void);
 static void CursorCb_Remember(u8 taskId);
 // static const u8 gMenuText_Remember[] = _("Remember");
 extern const u8 gMenuText_Remember[];
@@ -1610,20 +1610,20 @@ static void CursorCb_Nickname(u8 taskId)
 //     extern void OpenMoveRelearnerFromParty(u8 partySlot);
     //   SetMainCallback2(ReturnFromRelearner);
 
-static void ReturnFromRelearner(void)
-{
-//     ScriptContext2_Enable();
-    // Reopen the party menu after exiting the relearner
-    InitPartyMenu(PARTY_MENU_TYPE_FIELD, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON,
-                  TRUE, PARTY_MSG_NONE, Task_HandleChooseMonInput, 
-                   gPostMenuFieldCallback);
-}
+// static void ReturnFromRelearner(void)
+// {
+// //     ScriptContext2_Enable();
+//     // Reopen the party menu after exiting the relearner
+//     InitPartyMenu(PARTY_MENU_TYPE_FIELD, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON,
+//                   TRUE, PARTY_MSG_NONE, Task_HandleChooseMonInput, 
+//                    gPostMenuFieldCallback);
+// }
 
-static void FieldCallback_OpenRelearnerFromVar(void)
-{
-    VarSet(VAR_0x8004, gPartyMenu.slotId);
-    ScriptContext1_SetupScript(EventScript_OpenMoveRelearnerFromParty);
-}
+// static void FieldCallback_OpenRelearnerFromVar(void)
+// {
+//     VarSet(VAR_0x8004, gPartyMenu.slotId);
+//     ScriptContext1_SetupScript(EventScript_OpenMoveRelearnerFromParty);
+// }
 
 static void CursorCb_Remember(u8 taskId)
 {
@@ -1663,15 +1663,15 @@ static void CursorCb_Remember(u8 taskId)
 //     gTasks[taskId].func = Task_HandleChooseMonInput;
 }
 
-static void CB2_AfterPartyFade_OpenRelearner(void)
-{
-    // keep pumping the fade until done
-    if (gPaletteFade->active)
-        // UpdatePaletteFade();
-        return;
-//     else
-        SetMainCallback2(CB2_InitLearnMove);  // your relearner entry CB2
-}
+// static void CB2_AfterPartyFade_OpenRelearner(void)
+// {
+//     // keep pumping the fade until done
+//     if (gPaletteFade->active)
+//         // UpdatePaletteFade();
+//         return;
+// //     else
+//         SetMainCallback2(CB2_InitLearnMove);  // your relearner entry CB2
+// }
 
 // static void CB2_AfterRelearnerFade_ReturnParty(void)
 // {
