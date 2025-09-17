@@ -1,6 +1,6 @@
-##
-npc 3 0 1 EventScript_Pallet_FatGuy
-npc 3 0 0 EventScript_Pallet_Girl
+## Pallet Town
+<!-- npc 3 0 1 EventScript_Pallet_FatGuy -->
+<!-- npc 3 0 0 EventScript_Pallet_Girl -->
 npc 4 3 1 SystemScript_DebugMenu
 npc 4 3 2 EventScript_ChangeTeraTypeNPC
 npc 4 3 0 EventScript_Pallet_AideGuy
@@ -14,10 +14,15 @@ npc 5 3 0 EventScript_ViridianClerk
 
 ## Pewter City
 npc 3 2 6 SystemScript_DebugMenu
+npc 3 2 2 EventScript_Pallet_AideGuy
 npc 6 3 2 SystemScript_GlobalMart
 
 ## Cerulean City
 npc 7 7 0 SystemScript_GlobalMart
+tile 3 3 0 EventScript_Rival_NoFameChecker1
+tile 3 3 1 EventScript_Rival_NoFameChecker2
+tile 3 3 2 EventScript_Rival_NoFameChecker3
+
 
 ## Vermilion City
 npc 9 5 0 SystemScript_GlobalMart

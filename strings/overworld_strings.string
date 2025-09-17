@@ -344,3 +344,14 @@ Hi, there!\nMay I help you?
 
 #org @gText_Viridian_PleaseAgain
 Please come again!
+
+#org @gText_Rival_Cerulean_Intro
+[RIVAL]: Yo! [PLAYER]! You're still\nstruggling along back here? I'm\pdoing great! I caught a bunch\nof strong and smart Pokémon! Here,\plet me see what you've caught,\n[PLAYER]!
+
+#org @gText_Rival_Cerulean_PostBattle
+Hey!\nTake it easy!\pYou won already!
+
+#org @gText_Rival_Cerulean_Outro
+[RIVAL]: Hey, guess what?\nI went to Bill's and got \phim to show me his rare\nPokémon. That added a lot of\ppages to my Pokédex! After\nall, Bill's world famous as\pa Pokémaniac. He invented the\nPokémon Storage System on PC too.\pSince you're using his system, you\nshould go thank him. Well, I\pbetter get rolling! Smell ya later!
+
+
