@@ -94,7 +94,7 @@ lock
 faceplayer
 
 checkitem ITEM_OAKS_PARCEL, 1
-compare VAR_RESULT, 0
+compare VAR_RESULT, 1
 goto_if 1, EventScript_Viridian_ParcelMessage
 @ goto_if 0, EventScript_ViridianMart
 

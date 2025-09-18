@@ -339,30 +339,106 @@ static item_t FindBankTeraOrb(u8 bank)
 	}
 }
 
+// // Map opponent battler -> its controlling trainer (A or B in doubles)
+// static u16 GetTrainerIdForOpponentBank(u8 bank)
+// {
+
+//     u16 trainerId = gTrainerBattleOpponent_A;
+
+//     #if defined(B_POSITION_OPPONENT_RIGHT) && defined(gTrainerBattleOpponent_B)
+//     if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+//      && GetBattlerPosition(bank) == B_POSITION_OPPONENT_RIGHT
+//      && gTrainerBattleOpponent_B != TRAINER_NONE)
+//     {
+//         trainerId = gTrainerBattleOpponent_B;
+//     }
+//     #endif
+
+//     return trainerId;
+// }
+
+// Map an *opponent* battler -> controlling trainer ID.
+// Returns 0xFFFF when there is no trainer context (wild, link, etc.).
+static u16 GetTrainerIdForOpponentBank(u8 bank)
+{
+    // Must be an opponent battler
+    if (GetBattlerSide(bank) != B_SIDE_OPPONENT)
+        return 0xFFFF;
+
+    // Not a trainer battle? No trainer context.
+    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        return 0xFFFF;
+
+    // Singles (or any non-double) => A
+    if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
+        return gTrainerBattleOpponent_A;
+
+    // Doubles: choose A or B by position; fall back to A if B is absent.
+    #if defined(B_POSITION_OPPONENT_RIGHT)
+        if (GetBattlerPosition(bank) == B_POSITION_OPPONENT_RIGHT)
+        {
+            #if defined(gTrainerBattleOpponent_B)
+                if (gTrainerBattleOpponent_B != TRAINER_NONE)
+                    return gTrainerBattleOpponent_B;
+            #endif
+            return gTrainerBattleOpponent_A;
+        }
+        else
+        {
+            return gTrainerBattleOpponent_A;
+        }
+    #else
+        // If your fork lacks the RIGHT/LEFT positions, default to A in doubles left/right ambiguity.
+        return gTrainerBattleOpponent_A;
+    #endif
+}
+
+
 // Check for both
 bool8 TerastalEnabled(u8 bank)
 {
-    // Terastallization disabled in Dynamax battles
+    // 1) Mutually exclusive with Dynamax (global check)
     if (gBattleTypeFlags & BATTLE_TYPE_DYNAMAX)
         return FALSE;
 
-    // Opponents don't rely on held Tera Orbs
+    // --- Opponent side: require trainer to actually have a Tera Orb ---
     if (GetBattlerSide(bank) == B_SIDE_OPPONENT)
     {
-        // Wild Battle check
-        if (!((gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_TOWER)) == BATTLE_TYPE_TRAINER)
-        ||   (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER))     
+        // Must be a trainer battle (not wild, not in-game partner)
+        bool8 isTrainer = ((gBattleTypeFlags & (BATTLE_TYPE_TRAINER
+                                              | BATTLE_TYPE_EREADER_TRAINER
+                                              | BATTLE_TYPE_TRAINER_TOWER)) == BATTLE_TYPE_TRAINER);
+        if (!isTrainer || (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER))
             return FALSE;
 
+        // Global Tera toggle still required
         if (!FlagGet(FLAG_TERA_BATTLE))
             return FALSE;
 
-        return TRUE; // Allow tera
+        // Trainer must have a Tera Orb in their items
+        u16 trainerId = GetTrainerIdForOpponentBank(bank);
+        if (FindTrainerTeraOrb(trainerId) == ITEM_NONE)
+            return FALSE;
+
+        // Shared “one gimmick” precedence and no-Dynamax-on-mon checks
+        if (CanMegaEvolve(bank, FALSE) || CanMegaEvolve(bank, TRUE) || HasMegaSymbol(bank))
+            return FALSE;
+
+        if (IsZCrystal(ITEM(bank)))
+            return FALSE;
+
+        if (IsDynamaxed(bank)
+         || gNewBS->dynamaxData.used[bank]
+         || gNewBS->dynamaxData.toBeUsed[bank])
+            return FALSE;
+
+        return TRUE;
     }
 
-    // The rest of the code assumes B_SIDE_PLAYER
+    // --- Player side ---
+    // If you still want the global flag for players too, uncomment:
     // if (!FlagGet(FLAG_TERA_BATTLE))
-    //     return FALSE;   Tera flag clear logic
+    //     return FALSE;
 
     // Only one gimmick allowed - Mega and Z take precedence
     if (CanMegaEvolve(bank, FALSE) || CanMegaEvolve(bank, TRUE) || HasMegaSymbol(bank))
@@ -371,12 +447,13 @@ bool8 TerastalEnabled(u8 bank)
     if (IsZCrystal(ITEM(bank)))
         return FALSE;
 
-    // Can't Terastallize if this mon is Dynamaxing
+    // Can't Terastallize if this mon is Dynamaxing / queued to Dynamax
     if (IsDynamaxed(bank)
-    || gNewBS->dynamaxData.used[bank]
-    || gNewBS->dynamaxData.toBeUsed[bank])
+     || gNewBS->dynamaxData.used[bank]
+     || gNewBS->dynamaxData.toBeUsed[bank])
         return FALSE;
 
+    // Your existing player-side orb/key-item rule
     if (FindBankTeraOrb(bank) != ITEM_NONE)
         return TRUE;
 
@@ -386,6 +463,7 @@ bool8 TerastalEnabled(u8 bank)
         return FALSE;
     #endif
 }
+
 
 // Get a random teraType
 u8 GetRandomTeraType(void)

@@ -1475,6 +1475,12 @@ void HandleAction_UseMove(void)
 
 	if (gBattleStruct->field_91 & gBitTable[gBankAttacker])
 	{
+		//error message in case of wrong turn on tera
+		AGBPrintf("SKIP bank=%d action=%d teraChosen=%d used=%d\n",
+        gBankAttacker,
+        gActionsByTurnOrder[gCurrentTurnActionNumber],
+        gNewBS->teraData.chosen[gBankAttacker],
+        IsTerastallized(gBankAttacker));
 		gCurrentActionFuncId = ACTION_FINISHED;
 		return;
 	}
@@ -1782,6 +1788,32 @@ void HandleAction_UseMove(void)
 	}
 	else
 		gBankTarget = selectedTarget;
+
+		// --- TERA: pre-move injection (does NOT consume the action) ---
+if (gNewBS->teraData.chosen[gBankAttacker] && !IsTerastallized(gBankAttacker))
+{
+    u8* scr = DoTerastallize(gBankAttacker);  // returns BattleScript_Terastallize or NULL
+    if (scr != NULL)
+    {
+        // one-shot the request for this battler
+        gNewBS->teraData.chosen[gBankAttacker] = FALSE;
+
+        // target sanity (in case the opponent just switched)
+        if (!BATTLER_ALIVE(gBankTarget)
+         || (gAbsentBattlerFlags & gBitTable[gBankTarget]))
+        {
+            gBankTarget = GetMoveTarget(gCurrentMove, 0);
+        }
+
+        // run Tera anim, then continue into the move (push/pop like Mega)
+        BattleScriptPush(gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect]);
+        gBattlescriptCurrInstr = scr;                 // BattleScript_Terastallize
+        gCurrentActionFuncId = ACTION_RUN_BATTLESCRIPT;
+        return;                                       // after Tera, it pops to the move script
+    }
+}
+// --- end TERA injection ---
+
 
 	// choose battlescript
 	if (gStatuses3[gBankAttacker] & STATUS3_SKY_DROP_ATTACKER

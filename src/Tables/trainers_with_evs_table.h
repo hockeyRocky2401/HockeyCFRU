@@ -2799,7 +2799,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 24,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = TYPE_POISON,
+		.teraType = TYPE_WATER,
 	},
 	[214] =
 	{ //Quiet +spatk -spe. Ability 2. Misty's Psyduck.
