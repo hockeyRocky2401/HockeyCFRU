@@ -1,15 +1,91 @@
 #include "defines.h"
+#include "../include/bg.h"
 #include "../include/coins.h"
-#include "../include/money.h"
 #include "../include/event_data.h"
+#include "../include/event_object_movement.h" // MoveCoords prototype (fixes your warning)
+#include "../include/field_camera.h"
+#include "../include/field_effect.h"
+#include "../include/field_message_box.h"
+#include "../include/field_screen.h"
+#include "../include/field_screen_effect.h"
+#include "../include/field_weather.h"
+#include "../include/fieldmap.h"
+#include "../include/global.h"
+#include "../include/heal_location.h"
 #include "../include/item.h"
+#include "../include/main.h"
+#include "../include/money.h"
+#include "../include/map_preview_screen.h"
+#include "../include/map_name_popup.h"
+#include "../include/overworld.h"
+#include "../include/palette.h"
+#include "../include/region_map.h"
+#include "../include/script_menu.h"
+#include "../include/sound.h"
+#include "../include/task.h"
+
+#include "../include/constants/field_effects.h"
 #include "../include/constants/items.h"
+#include "../include/constants/songs.h"
 
 #include "../include/new/build_pokemon.h"
 #include "../include/new/item.h"
 #include "../include/new/util.h"
 #include "../include/script.h"
 #include "../include/random.h"
+
+#define DEBUG_PC_SCRIPT_ADDR ((const u8*)0x081A6955) // same pointer used for MB_PC
+
+// #define CB2_REGIONMAP_ADDR 0x080F08F9  // FireRed US v1.0 thumb address
+
+// #define CB2_RegionMap ((void (*)(void)) (CB2_REGIONMAP_ADDR | 1))
+
+// In many forks, mode=1 is Fly; if your tree differs, try 0.
+// #define REGION_MAP_MODE_FLY  1
+
+static void DebugMenu_DoFlyToTown(u8 healIndex);
+
+// typical exit callback (return to field & resume music/script)
+extern void CB2_ReturnToFieldContinueScriptPlayMapMusic(void);
+
+extern void DrawWholeMapView(void);
+
+// Provided by your base; needed to find the list window task.
+extern void Task_MultichoiceMenu_HandleInput(u8 taskId);
+extern void Cb2_EnterPSS(u8 a0);
+
+// --- externs from elsewhere in your tree ---
+extern bool8 SetUpFieldMove_Fly(void);
+
+// extern bool8 (*gFieldCallback2)(void); 
+
+extern u8 FldEff_Use_Fly(void); // some trees require starting via ID, others via function
+
+extern const u8 SystemScript_Fly[]; // provided in your assembled system scripts
+// No need to touch FieldEffectStart or gFieldCallback2 here.
+
+// forward declarations
+extern const struct HealLocation gHealLocations[];
+extern const MapsecToHealLoc sMapsecToHealLoc[];
+u32 GetFlyLocationCount(void);
+
+
+static void Debug_OpenFly(void);
+
+static void DebugMenu_Action_Fly(void) { Debug_OpenFly(); }
+
+// Forward declaration (prevents order issues)
+static void Task_LaunchFlyMapAfterFade(u8 taskId);
+
+// static const struct DebugMenuItem sFieldUtilItems[] = {
+//     { "Fly…", DebugMenu_Action_Fly },
+//     // ...
+// };
+
+// snapshot of the tile in front of the player
+static s16 sPcTileX, sPcTileY;
+static u16 sPcTileMetatile;
+static bool8 sPcTileSaved;
 
 void DebugMenu_ProcessSetFlag(void)
 {
@@ -25,7 +101,7 @@ void DebugMenu_ProcessSetFlag(void)
 			break;
 		case 2: //Pokedexes
 			FlagSet(FLAG_SYS_POKEDEX_GET);
-			FlagSet(FLAG_SYS_DEXNAV);
+			// FlagSet(FLAG_SYS_DEXNAV);
 			break;
 		case 3: //Fly Spots
 			for (i = 0x890; i <= 0x8CA; ++i)
@@ -247,4 +323,213 @@ void DebugMenu_SetterVar(void)
 	u16 var = VarGet(VAR_DEBUG_MENU_SET_CUSTOM_VAR);
 	u16 value = VarGet(VAR_DEBUG_MENU_SET_CUSTOM_VAR_VALUE);
 	VarSet(var, value);
+}
+
+void DebugMenu_PreparePortablePC(void)
+{
+    // Cleanly close the debug multichoice window to avoid UI residue
+    u8 tid = FindTaskIdByFunc(Task_MultichoiceMenu_HandleInput);
+    if (tid != 0xFF) {
+        DestroyScriptMenuWindow(gTasks[tid].data[6]); // window id is data[6] in this base
+        DestroyTask(tid);
+    }
+    HideFieldMessageBox();
+    DismissMapNamePopup();
+    ChangeBgY(0, 0, 0);
+
+    // Snapshot the metatile in front of the player so we can restore it later
+    u8 objId = gPlayerAvatar->eventObjectId;
+    s16 x = gEventObjects[objId].currentCoords.x;
+    s16 y = gEventObjects[objId].currentCoords.y;
+    MoveCoords(gEventObjects[objId].facingDirection, &x, &y);
+
+    sPcTileX = x;
+    sPcTileY = y;
+    sPcTileMetatile = MapGridGetMetatileIdAt(x, y);
+    sPcTileSaved = TRUE;
+
+    // Pre-paint, so any leftover pixels are gone before the PC opens
+    DrawWholeMapView();
+}
+
+void DebugMenu_RestorePortablePCTile(void)
+{
+    if (sPcTileSaved) {
+        MapGridSetMetatileIdAt(sPcTileX, sPcTileY, sPcTileMetatile);
+        DrawWholeMapView();
+        sPcTileSaved = FALSE;
+    }
+}
+
+void DebugMenu_CloseActiveMultichoice(void)
+{
+    u8 tid = FindTaskIdByFunc(Task_MultichoiceMenu_HandleInput);
+    if (tid != 0xFF)
+    {
+        // In this base, the window id is stored in data[6]
+        DestroyScriptMenuWindow(gTasks[tid].data[6]);
+        DestroyTask(tid);
+    }
+
+    HideFieldMessageBox();
+    DismissMapNamePopup();
+    ChangeBgY(0, 0, 0);
+
+    // Wipe any leftover tiles from the list window
+    DrawWholeMapView();
+}
+
+// 2) Optional post-PC pass — makes sure the map is fully clean.
+void DebugMenu_ForceRedraw(void)
+{
+    DrawWholeMapView();
+}
+
+void DebugMenu_OpenPortablePC(void)
+{
+    // 1) Cleanly close the active multichoice window (prevents the “box” tile)
+    u8 multichoiceTaskId = FindTaskIdByFunc(Task_MultichoiceMenu_HandleInput);
+    if (multichoiceTaskId != 0xFF)
+    {
+        // window id is stored in data[6] in this base
+        DestroyScriptMenuWindow(gTasks[multichoiceTaskId].data[6]);
+        DestroyTask(multichoiceTaskId);
+    }
+
+    // 2) Hide any field message UI & tidy the BG
+    HideFieldMessageBox();
+    DismissMapNamePopup();
+    ChangeBgY(0, 0, 0);
+
+    // 3) Launch the normal PC script (let it handle lockall/Context2 itself)
+    PlaySE(SE_SELECT);
+    ScriptContext2_Enable();
+    ScriptContext1_SetupScript(DEBUG_PC_SCRIPT_ADDR);
+}
+
+// ----- helper that mirrors SetUpFieldMove_Fly -----
+static bool8 CanDebugFlyHere(void)
+{
+    // Minimal gate; mirror your SetUpFieldMove_Fly rules if you want followers/Unbound checks too.
+    return Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType);
+}
+
+static void Debug_OpenFly(void)
+{
+      ScriptContext1_SetupScript(SystemScript_Fly);
+}
+
+// callable from scripts via `callasm`
+// IMPORTANT: not static, no args, no return
+// void Debug_OpenFlyFromScript(void)
+// {
+//     Debug_OpenFly();
+// }
+
+static void Task_LaunchFlyMapAfterFade(u8 taskId)
+{
+    // gPaletteFade is a pointer in your tree
+   if (!gPaletteFade->active)
+    {
+		 FieldClearVBlankHBlankCallbacks();
+        InitRegionMapWithExitCB(0, CB2_ReturnToFieldContinueScriptPlayMapMusic);
+        SetRegionMapVBlankCB();
+
+        // OpenFlyRegionMap();
+		// CB2_OpenFlyMap();   // << was OpenFlyRegionMap()
+		// SetMainCallback2(CB2_RegionMap);   // << was OpenFlyRegionMap()
+        FieldSpecial_Flymap();   // use the stock party menu path
+        DestroyTask(taskId);
+    }
+}
+
+void Debug_OpenFlyFromScript(void) // called via callasm ...+1
+{
+    // 1) Kill any active script/mode so Region Map owns the screen
+    ScriptContext1_Stop();
+    ScriptContext2_Disable();
+
+    // 2) Tear down *all* windows (pret does this before big UIs)
+    FreeAllWindowBuffers();
+
+    // 3) Fade to black and wait via a task
+    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+    CreateTask(Task_LaunchFlyMapAfterFade, 0);
+
+	// FieldClearVBlankHBlankCallbacks();
+	// InitRegionMapWithExitCB(0, CB2_ReturnToField);
+	// SetRegionMapVBlankCB();
+	// SetMainCallback2(CB2_RegionMap);
+	// SetMainCallback2(OpenFlyRegionMap);
+}
+
+//Warp to Town
+
+extern const u8 SystemScript_WarpFly2[];
+extern const u8 SystemScript_WarpFly3[];
+extern const u8 SystemScript_WarpFly4[];
+
+// extern u16 gSpecialVar_0;
+
+// Page 1
+void DebugMenu_DoWarpToTown_Page1(void)
+{
+    switch (Var8000)   // instead of gSpecialVar_0
+    {
+    case 0: DebugMenu_DoFlyToTown(sMapsecToHealLoc[0].healIndex); break; // Pallet
+    case 1: DebugMenu_DoFlyToTown(sMapsecToHealLoc[1].healIndex); break; // Viridian
+    case 2: DebugMenu_DoFlyToTown(sMapsecToHealLoc[2].healIndex); break; // Pewter
+    case 3: DebugMenu_DoFlyToTown(sMapsecToHealLoc[3].healIndex); break; // Cerulean
+    case 4: DebugMenu_DoFlyToTown(sMapsecToHealLoc[4].healIndex); break; // Vermilion
+    case 5: DebugMenu_DoFlyToTown(sMapsecToHealLoc[5].healIndex); break; // Lavender
+    case 6: ScriptContext1_SetupScript(SystemScript_WarpFly2); break;
+    }
+}
+
+// Page 2
+void DebugMenu_DoWarpToTown_Page2(void)
+{
+    switch (Var8000)   // instead of gSpecialVar_0
+    {
+    case 0: DebugMenu_DoFlyToTown(sMapsecToHealLoc[6].healIndex); break; // Celadon
+    case 1: DebugMenu_DoFlyToTown(sMapsecToHealLoc[7].healIndex); break; // Fuchsia
+    case 2: DebugMenu_DoFlyToTown(sMapsecToHealLoc[8].healIndex); break; // Cinnabar
+    case 3: DebugMenu_DoFlyToTown(sMapsecToHealLoc[9].healIndex); break; // Saffron
+    case 4: ScriptContext1_SetupScript(SystemScript_WarpFly3); break;
+    }
+}
+
+// Page 3
+void DebugMenu_DoWarpToTown_Page3(void)
+{
+    switch (Var8000)   // instead of gSpecialVar_0
+    {
+    case 0: DebugMenu_DoFlyToTown(sMapsecToHealLoc[10].healIndex); break; // Indigo Plateau
+    case 1: DebugMenu_DoFlyToTown(sMapsecToHealLoc[11].healIndex); break; // One Island
+    case 2: DebugMenu_DoFlyToTown(sMapsecToHealLoc[12].healIndex); break; // Two Island
+    case 3: DebugMenu_DoFlyToTown(sMapsecToHealLoc[13].healIndex); break; // Three Island
+    case 4: ScriptContext1_SetupScript(SystemScript_WarpFly4); break;
+    }
+}
+
+// Page 4
+void DebugMenu_DoWarpToTown_Page4(void)
+{
+    switch (Var8000)   // instead of gSpecialVar_0
+    {
+    case 0: DebugMenu_DoFlyToTown(sMapsecToHealLoc[14].healIndex); break; // Four Island
+    case 1: DebugMenu_DoFlyToTown(sMapsecToHealLoc[15].healIndex); break; // Five Island
+    case 2: DebugMenu_DoFlyToTown(sMapsecToHealLoc[16].healIndex); break; // Six Island
+    case 3: DebugMenu_DoFlyToTown(sMapsecToHealLoc[17].healIndex); break; // Seven Island
+    }
+}
+
+void DebugMenu_DoFlyToTown(u8 healIndex)
+{
+    const struct HealLocation *loc = &gHealLocations[healIndex];
+
+    SetWarpDestination(loc->group, loc->map, -1, loc->x, loc->y);
+    WarpFadeScreen();
+    DoWarp();
+    ResetInitialPlayerAvatarState();
 }

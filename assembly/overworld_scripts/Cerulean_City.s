@@ -33,7 +33,7 @@ Rival_NoFameChecker:
     @ setvar VAR_TEMP_1, 0
 
     @ Entrance + approach
-    playsong 0x191, 1
+    @ playsong 0x191, 1
     showsprite 8
 
     @ after playsong, showsprite 8 …
@@ -66,17 +66,8 @@ Approach_Done:
     preparemsg gText_Rival_Cerulean_Intro
     waitmsg
     waitbuttonpress
-    closemessage
+    @ closemessage
     setvar 0x800F, 8
-
-    @ --- Starter-based branch (equal = 1) ---
-    @ compare 0x4031, 2
-    @ goto_if 1 Do_Rival_Section2
-    @ compare 0x4031, 1
-    @ goto_if 1 Do_Rival_Section3
-    @ compare 0x4031, 0
-    @ goto_if 1 Do_Rival_Section4
-    @ goto After_Rival_Sections
 
     @ --- Starter-based branch (equal = 1) ---
     compare 0x4031, 2
@@ -154,15 +145,15 @@ After_Rival_Exits:
 @ --------------------------------
 
 Cerulean_Rival_Section2:
-    trainerbattle1 0, 332, 0, 0, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro 
+    trainerbattle1 0, 332, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro 
     return
 
 Cerulean_Rival_Section3:
-    trainerbattle1 0, 333, 0, 0, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro
+    trainerbattle1 0, 333, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro
     return
 
 Cerulean_Rival_Section4:
-    trainerbattle1 0, 334, 0, 0, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro
+    trainerbattle1 0, 334, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro
     return
 
 @ Post-battle continuation (falls back to your main script flow)
@@ -201,10 +192,6 @@ Cerulean_Rival_ExitB:
     pause DELAY_HALFSECOND
     return
 
-    /*applymovement 8, Movement_Rival_ExitB_Part2     @ right, then up x5
-    waitmovement 0
-    return*/
-
 @ --------------------------------
 @ Movements
 @ --------------------------------
@@ -225,14 +212,13 @@ Movement_Rival_Approach_Right2:     @ shift two tiles right, then down
 @ --- Player pose blocks from section5/section6 ---
 
 Movement_Player_ExitA_Pose:
-    .byte DELAY_HALFSECOND, DELAY_1SECOND           @ if your repo doesn't allow these in tables,
-                                                    @ remove them and keep only the walk_in_place lines
+    .byte pause_vshort, pause_short         
     .byte look_right
     .byte look_down
     .byte end_m
 
 Movement_Player_ExitB_Pose:
-    .byte DELAY_HALFSECOND, DELAY_1SECOND
+    .byte pause_vshort, pause_short         
     .byte look_left
     .byte look_down
     .byte end_m
@@ -243,20 +229,11 @@ Movement_Rival_ExitA:
     .byte walk_down, walk_down, walk_down, walk_down, walk_down, walk_down, walk_down
     .byte end_m
 
-/*Movement_Rival_ExitA_Part2:
-    .byte walk_left
-    .byte walk_up, walk_up, walk_up, walk_up, walk_up
-    .byte end_m*/
-
 @ ---- Exit B path split ----
 Movement_Rival_ExitB:
     .byte walk_left
     .byte walk_down, walk_down, walk_down, walk_down, walk_down, walk_down, walk_down
     .byte end_m
 
-/*Movement_Rival_ExitB_Part2:
-    .byte walk_right
-    .byte walk_up, walk_up, walk_up, walk_up, walk_up
-    .byte end_m*/
 
 

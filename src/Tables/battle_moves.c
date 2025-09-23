@@ -2310,14 +2310,14 @@ const struct BattleMove gBattleMoves[] =
 	{
 		.effect = EFFECT_ABSORB,
 		#ifdef BUFFED_LEECH_LIFE
-		.power = 80,
+		.power = 60,
 		#else
 		.power = 20,
 		#endif
 		.type = TYPE_BUG,
 		.accuracy = 100,
 		#ifdef BUFFED_LEECH_LIFE
-		.pp = 10,
+		.pp = 15,
 		#else
 		.pp = 15,
 		#endif
@@ -5600,7 +5600,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 120,
 		.type = TYPE_ELECTRIC,
 		.accuracy = 100,
-		.pp = 15,
+		.pp = 5,
 		.secondaryEffectChance = 10,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -7124,7 +7124,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 45,
 		.type = TYPE_NORMAL,
 		.accuracy = 95,
-		.pp = 10,
+		.pp = 15,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,

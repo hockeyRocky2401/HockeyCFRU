@@ -65,7 +65,7 @@ enum
     MENUITEM_BATTLESCENE,
     MENUITEM_BATTLESTYLE,
     MENUITEM_SOUND,
-    MENUITEM_BUTTONMODE,
+    // MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
@@ -73,11 +73,12 @@ enum
 
 enum
 {
-    MENUITEM_RBUTTONMODE = 0,
+    // MENUITEM_RBUTTONMODE = 0,
     MENUITEM_BATTLEMUSIC,
-    MENUITEM_WILDLEVELSCALING,
+    // MENUITEM_WILDLEVELSCALING,
     MENUITEM_AUTOSORTBAG,
-	MENUITEM_GAME_DIFFICULTY,
+    MENUITEM_LEVELCAP,
+	// MENUITEM_GAME_DIFFICULTY,
     MENUITEM_CANCEL_PAGE_2,
     MENUITEM_PAGE2_COUNT,
 };
@@ -105,14 +106,15 @@ extern const u8 gText_TextSpeed[];
 extern const u8 gText_BattleScene[];
 extern const u8 gText_BattleStyle[];
 extern const u8 gText_Sound[];
-extern const u8 gText_ButtonMode[];
+// extern const u8 gText_ButtonMode[];
 extern const u8 gText_Frame[];
 extern const u8 gText_OptionMenuCancel[];
-extern const u8 gText_RButtonMode[];
+// extern const u8 gText_RButtonMode[];
 extern const u8 gText_BattleMusic[];
-extern const u8 gText_WildLevelScaling[];
+// extern const u8 gText_WildLevelScaling[];
 extern const u8 gText_AutoSortBag[];
-extern const u8 gText_GameDifficulty[];
+// extern const u8 gText_GameDifficulty[];
+extern const u8 gText_LevelCap[];
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -120,17 +122,18 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BATTLESCENE] = gText_BattleScene,
     [MENUITEM_BATTLESTYLE] = gText_BattleStyle,
     [MENUITEM_SOUND]       = gText_Sound,
-    [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
+    // [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]   = gText_Frame,
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
-static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_COUNT] =
+static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_PAGE2_COUNT] =
 {
-    [MENUITEM_RBUTTONMODE] = gText_RButtonMode,
+    // [MENUITEM_RBUTTONMODE] = gText_RButtonMode,
     [MENUITEM_BATTLEMUSIC] = gText_BattleMusic,
-    [MENUITEM_WILDLEVELSCALING] = gText_WildLevelScaling,
+    // [MENUITEM_WILDLEVELSCALING] = gText_WildLevelScaling,
     [MENUITEM_AUTOSORTBAG] = gText_AutoSortBag,
-	[MENUITEM_GAME_DIFFICULTY] = gText_GameDifficulty,
+	// [MENUITEM_GAME_DIFFICULTY] = gText_GameDifficulty,
+    [MENUITEM_LEVELCAP] = gText_LevelCap,
     [MENUITEM_CANCEL_PAGE_2] = gText_OptionMenuCancel,
 };
 
@@ -143,14 +146,14 @@ extern const u8 gText_BattleStyleShift[];
 extern const u8 gText_BattleStyleSet[];
 extern const u8 gText_SoundMono[];
 extern const u8 gText_SoundStereo[];
-extern const u8 gText_ButtonTypeHelp[];
-extern const u8 gText_ButtonTypeLR[];
-extern const u8 gText_ButtonTypeLEqualsA[];
+// extern const u8 gText_ButtonTypeHelp[];
+// extern const u8 gText_ButtonTypeLR[];
+// extern const u8 gText_ButtonTypeLEqualsA[];
 extern const u8 gText_MenuOption[];
 extern const u8 gText_FrameType[];
-extern const u8 gText_RButtonDexNav[];
-extern const u8 gText_RButtonPokemon[];
-extern const u8 gText_RButtonItems[];
+// extern const u8 gText_RButtonDexNav[];
+// extern const u8 gText_RButtonPokemon[];
+// extern const u8 gText_RButtonItems[];
 extern const u8 gText_FRLG[];
 extern const u8 gText_RSE[];
 extern const u8 gText_OnOption[];
@@ -158,10 +161,28 @@ extern const u8 gText_OffOption[];
 extern const u8 gText_ByName[];
 extern const u8 gText_ByType[];
 extern const u8 gText_ByAmount[];
-extern const u8 gText_Normal[];
-extern const u8 gText_Easy[];
-extern const u8 gText_Hard[];
-extern const u8 gText_Expert[];
+// extern const u8 gText_Normal[];
+// extern const u8 gText_Easy[];
+// extern const u8 gText_Hard[];
+// extern const u8 gText_Expert[];
+
+//New
+static inline u8 GetLevelCapOpt(void) {
+    return FlagGet(FLAG_HARD_LEVEL_CAP) ? 1 : 0; // 0=Off, 1=On
+}
+static inline void SetLevelCapOpt(u8 on) {
+    if (on) {
+        FlagSet(FLAG_HARD_LEVEL_CAP);
+        #ifdef FLAG_KEPT_LEVEL_CAP_ON
+        FlagSet(FLAG_KEPT_LEVEL_CAP_ON);
+        #endif
+    } else {
+        FlagClear(FLAG_HARD_LEVEL_CAP);
+        #ifdef FLAG_KEPT_LEVEL_CAP_ON
+        FlagClear(FLAG_KEPT_LEVEL_CAP_ON);
+        #endif
+    }
+}
 
 static const u8 *const sTextSpeedOptions[] =
 {
@@ -184,30 +205,30 @@ static const u8 *const sSoundOptions[] =
     gText_SoundMono, 
     gText_SoundStereo
 };
-static const u8 *const sButtonTypeOptions[] =
-{
-    gText_ButtonTypeHelp,
-	gText_ButtonTypeLR,
-	gText_ButtonTypeLEqualsA
-};
+// static const u8 *const sButtonTypeOptions[] =
+// {
+//     gText_ButtonTypeHelp,
+// 	gText_ButtonTypeLR,
+// 	gText_ButtonTypeLEqualsA
+// };
 
-static const u8 *const sRButtonModeOptions[] =
-{
-    gText_RButtonDexNav,
-	gText_RButtonPokemon,
-	gText_RButtonItems
-};
+// static const u8 *const sRButtonModeOptions[] =
+// {
+//     // gText_RButtonDexNav,
+// 	gText_RButtonPokemon,
+// 	gText_RButtonItems
+// };
 
 static const u8 *const sBattleMusicOptions[] =
 {
     gText_FRLG,
 	gText_RSE
 };
-static const u8 *const sWildScalingOptions[] =
-{
-	gText_OffOption,
-    gText_OnOption
-};
+// static const u8 *const sWildScalingOptions[] =
+// {
+// 	gText_OffOption,
+//     gText_OnOption
+// };
 
 static const u8 *const sAutoSortBagOptions[] =
 {
@@ -216,16 +237,23 @@ static const u8 *const sAutoSortBagOptions[] =
     gText_ByType,
     gText_ByAmount,
 };
-static const u8 *const sGameDifficultyOptions[] =
+// static const u8 *const sGameDifficultyOptions[] =
+// {
+// 	gText_Normal,
+// 	gText_Easy,
+// 	gText_Hard,
+// 	gText_Expert,
+// };
+
+static const u8 *const sLevelCapOptions[] =
 {
-	gText_Normal,
-	gText_Easy,
-	gText_Hard,
-	gText_Expert,
+    gText_OffOption,
+    gText_OnOption,
 };
 
-static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
-static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 0};
+static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 10, 0};
+// static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 0};
+static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {2, 4, 2, 0};
 
 void CB2_OptionsMenuFromStartMenu(void)
 {
@@ -242,13 +270,14 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option[MENUITEM_BATTLESCENE] = gSaveBlock2->optionsBattleSceneOff;
     sOptionMenuPtr->option[MENUITEM_BATTLESTYLE] = gSaveBlock2->optionsBattleStyle;
     sOptionMenuPtr->option[MENUITEM_SOUND] = gSaveBlock2->optionsSound;
-    sOptionMenuPtr->option[MENUITEM_BUTTONMODE] = gSaveBlock2->optionsButtonMode;
+    // sOptionMenuPtr->option[MENUITEM_BUTTONMODE] = gSaveBlock2->optionsButtonMode;
     sOptionMenuPtr->option[MENUITEM_FRAMETYPE] = gSaveBlock2->optionsWindowFrameType;
-    sOptionMenuPtr->option_secondPage[MENUITEM_RBUTTONMODE] = VarGet(VAR_R_BUTTON_MODE);
+    // sOptionMenuPtr->option_secondPage[MENUITEM_RBUTTONMODE] = VarGet(VAR_R_BUTTON_MODE);
     sOptionMenuPtr->option_secondPage[MENUITEM_BATTLEMUSIC] = VarGet(VAR_BATTLE_MUSIC);
-    sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING] = VarGet(VAR_WILD_LEVEL_SCALING);
+    // sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING] = VarGet(VAR_WILD_LEVEL_SCALING);
     sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG] = VarGet(VAR_AUTO_SORT_BAG);
-    sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY] = VarGet(VAR_GAME_DIFFICULTY);
+    // sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY] = VarGet(VAR_GAME_DIFFICULTY);
+    sOptionMenuPtr->option_secondPage[MENUITEM_LEVELCAP] = FlagGet(FLAG_HARD_LEVEL_CAP);
 
     
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
@@ -338,14 +367,30 @@ void CloseAndSaveOptionMenu(u8 taskId)
     gSaveBlock2->optionsBattleSceneOff = sOptionMenuPtr->option[MENUITEM_BATTLESCENE];
     gSaveBlock2->optionsBattleStyle = sOptionMenuPtr->option[MENUITEM_BATTLESTYLE];
     gSaveBlock2->optionsSound = sOptionMenuPtr->option[MENUITEM_SOUND];
-    gSaveBlock2->optionsButtonMode = sOptionMenuPtr->option[MENUITEM_BUTTONMODE];
+    // gSaveBlock2->optionsButtonMode = sOptionMenuPtr->option[MENUITEM_BUTTONMODE];
     gSaveBlock2->optionsWindowFrameType = sOptionMenuPtr->option[MENUITEM_FRAMETYPE];
-    VarSet(VAR_R_BUTTON_MODE, sOptionMenuPtr->option_secondPage[MENUITEM_RBUTTONMODE]);
+    // VarSet(VAR_R_BUTTON_MODE, sOptionMenuPtr->option_secondPage[MENUITEM_RBUTTONMODE]);
     VarSet(VAR_BATTLE_MUSIC, sOptionMenuPtr->option_secondPage[MENUITEM_BATTLEMUSIC]);
-    VarSet(VAR_WILD_LEVEL_SCALING, sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING]);
+    // VarSet(VAR_WILD_LEVEL_SCALING, sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING]);
     VarSet(VAR_AUTO_SORT_BAG, sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG]);
-    VarSet(VAR_GAME_DIFFICULTY, sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY]);
-    SetPokemonCryStereo(gSaveBlock2->optionsSound);
+    // VarSet(VAR_GAME_DIFFICULTY, sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY]);
+// ✅ correct: set/clear based on the On/Off selection (0 = Off, 1 = On)
+
+//New
+if (sOptionMenuPtr->option_secondPage[MENUITEM_LEVELCAP])
+{
+    FlagSet(FLAG_HARD_LEVEL_CAP);
+    #ifdef FLAG_KEPT_LEVEL_CAP_ON
+    FlagSet(FLAG_KEPT_LEVEL_CAP_ON);   // optional: remember preference
+    #endif
+}
+else
+{
+    FlagClear(FLAG_HARD_LEVEL_CAP);
+    #ifdef FLAG_KEPT_LEVEL_CAP_ON
+    FlagClear(FLAG_KEPT_LEVEL_CAP_ON);
+    #endif
+}    SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
 }
@@ -425,9 +470,9 @@ void BufferOptionMenuString(u8 selection)
         case MENUITEM_SOUND:
             AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sSoundOptions[sOptionMenuPtr->option[selection]]);
             break;
-        case MENUITEM_BUTTONMODE:
-            AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sButtonTypeOptions[sOptionMenuPtr->option[selection]]);
-            break;
+        // case MENUITEM_BUTTONMODE:
+        //     AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sButtonTypeOptions[sOptionMenuPtr->option[selection]]);
+        //     break;
         case MENUITEM_FRAMETYPE:
             StringCopy(str, gText_FrameType);
             ConvertIntToDecimalStringN(buf, sOptionMenuPtr->option[selection] + 1, 1, 2);
@@ -443,20 +488,23 @@ void BufferOptionMenuString(u8 selection)
     {
         switch (selection)
         {
-            case MENUITEM_RBUTTONMODE:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sRButtonModeOptions[sOptionMenuPtr->option_secondPage[selection]]);
-                break;
+            // case MENUITEM_RBUTTONMODE:
+            //     AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sRButtonModeOptions[sOptionMenuPtr->option_secondPage[selection]]);
+            //     break;
             case MENUITEM_BATTLEMUSIC:
                 AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sBattleMusicOptions[sOptionMenuPtr->option_secondPage[selection]]);
                 break;
-            case MENUITEM_WILDLEVELSCALING:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sWildScalingOptions[sOptionMenuPtr->option_secondPage[selection]]);
-                break;
+            // case MENUITEM_WILDLEVELSCALING:
+            //     AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sWildScalingOptions[sOptionMenuPtr->option_secondPage[selection]]);
+            //     break;
             case MENUITEM_AUTOSORTBAG:
                 AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sAutoSortBagOptions[sOptionMenuPtr->option_secondPage[selection]]);
                 break;
-            case MENUITEM_GAME_DIFFICULTY:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sGameDifficultyOptions[sOptionMenuPtr->option_secondPage[selection]]);
+            // case MENUITEM_GAME_DIFFICULTY:
+            //     AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sGameDifficultyOptions[sOptionMenuPtr->option_secondPage[selection]]);
+            //     break;
+            case MENUITEM_LEVELCAP:
+                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sLevelCapOptions[sOptionMenuPtr->option_secondPage[selection]]);
                 break;
             default:
                 break;
@@ -471,55 +519,75 @@ u8 OptionMenu_ProcessInput(void)
     u16 current;
     u16* curr;
     if (JOY_REPT(DPAD_RIGHT))
+{
+    if (sOptionMenuPtr->page == 0)
     {
-        if(sOptionMenuPtr->page == 0)
-        {
-            current = sOptionMenuPtr->option[(sOptionMenuPtr->cursorPos)];
-            if (current == (sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1))
-                sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = 0;
-            else
-                sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = current + 1;
-            if (sOptionMenuPtr->cursorPos == MENUITEM_FRAMETYPE)
-                return 2;
-            else
-                return 4;
-        }
-        else
-        {
-            current = sOptionMenuPtr->option_secondPage[(sOptionMenuPtr->cursorPos)];
-            if (current == (sOptionMenuItemCounts_SecondPage[sOptionMenuPtr->cursorPos] - 1))
-                sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos] = 0;
-            else
-                sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos] = current + 1;
-            return 4;
-        }
-    }
-    else if (JOY_REPT(DPAD_LEFT))
-    {
-        if(sOptionMenuPtr->page == 0)
-        {
-            curr = &sOptionMenuPtr->option[sOptionMenuPtr->cursorPos];
-            if (*curr == 0)
-                *curr = sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1;
-            else
-                --*curr;
-            
-            if (sOptionMenuPtr->cursorPos == MENUITEM_FRAMETYPE)
-                return 2;
-            else
-                return 4;
-        }
-        else
-        {
-            curr = &sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos];
-            if (*curr == 0)
-                *curr = sOptionMenuItemCounts_SecondPage[sOptionMenuPtr->cursorPos] - 1;
-            else
-                --*curr;
+        if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL)
+            return 0; // do nothing on CANCEL
 
+        current = sOptionMenuPtr->option[sOptionMenuPtr->cursorPos];
+        if (current == (sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1))
+            sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = 0;
+        else
+            sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = current + 1;
+
+        if (sOptionMenuPtr->cursorPos == MENUITEM_FRAMETYPE)
+            return 2;
+        else
             return 4;
-        }
     }
+    else
+    {
+        u16 idx = sOptionMenuPtr->cursorPos;
+        u16 max = sOptionMenuItemCounts_SecondPage[idx];
+
+        if (idx == MENUITEM_CANCEL_PAGE_2 || max == 0)
+            return 0; // do nothing on CANCEL
+
+        current = sOptionMenuPtr->option_secondPage[idx];
+        if (current >= max - 1)
+            sOptionMenuPtr->option_secondPage[idx] = 0;
+        else
+            sOptionMenuPtr->option_secondPage[idx] = current + 1;
+
+        return 4;
+    }
+}
+    else if (JOY_REPT(DPAD_LEFT))
+{
+    if (sOptionMenuPtr->page == 0)
+    {
+        if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL)
+            return 0; // do nothing on CANCEL
+
+        curr = &sOptionMenuPtr->option[sOptionMenuPtr->cursorPos];
+        if (*curr == 0)
+            *curr = sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1;
+        else
+            --*curr;
+
+        if (sOptionMenuPtr->cursorPos == MENUITEM_FRAMETYPE)
+            return 2;
+        else
+            return 4;
+    }
+    else
+    {
+        u16 idx = sOptionMenuPtr->cursorPos;
+        u16 max = sOptionMenuItemCounts_SecondPage[idx];
+
+        if (idx == MENUITEM_CANCEL_PAGE_2 || max == 0)
+            return 0; // do nothing on CANCEL
+
+        curr = &sOptionMenuPtr->option_secondPage[idx];
+        if (*curr == 0)
+            *curr = max - 1;
+        else
+            --*curr;
+
+        return 4;
+    }
+}
     else if (JOY_REPT(DPAD_UP))
     {
         if(sOptionMenuPtr->page == 0)
@@ -531,7 +599,7 @@ u8 OptionMenu_ProcessInput(void)
         }
         else
         {
-            if (sOptionMenuPtr->cursorPos == MENUITEM_RBUTTONMODE)
+            if (sOptionMenuPtr->cursorPos == MENUITEM_BATTLEMUSIC)
                 sOptionMenuPtr->cursorPos = MENUITEM_CANCEL_PAGE_2;
             else
                 sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
@@ -550,7 +618,7 @@ u8 OptionMenu_ProcessInput(void)
         else
         {
             if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL_PAGE_2)
-                sOptionMenuPtr->cursorPos = MENUITEM_RBUTTONMODE;
+                sOptionMenuPtr->cursorPos = MENUITEM_BATTLEMUSIC;
             else
                 sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
         }

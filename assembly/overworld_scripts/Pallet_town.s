@@ -276,7 +276,7 @@ EventScript_ChangeTeraTypeNPC_SetStellar:
 EventScript_Pallet_AideGuy:
     lock
     faceplayer
-        setvar 0x8000 MOVE_PSYCHIC
+        /*setvar 0x8000 MOVE_PSYCHIC
         setvar 0x8001 MOVE_SNIPESHOT
         setvar 0x8002 MOVE_CHILLYRECEPTION
         setvar 0x8003 MOVE_LASTRESORT
@@ -288,8 +288,9 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_GARDEVOIR 100 ITEM_LEFTOVERS 0 1 10
-        setvar 0x8000 MOVE_DOUBLEIRONBASH
+        givepokemon SPECIES_GARDEVOIR 100 ITEM_LEFTOVERS 0 1 10 */
+
+      /*  setvar 0x8000 MOVE_DOUBLEIRONBASH
         setvar 0x8001 MOVE_PSYCHOCUT
         setvar 0x8002 MOVE_ALLURINGVOICE
         setvar 0x8003 0x2E6
@@ -301,11 +302,12 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_GALLADE 10 ITEM_LEFTOVERS 0 1 10
-        setvar 0x8000 MOVE_INFESTATION
-        setvar 0x8001 MOVE_SALTCURE
-        setvar 0x8002 MOVE_SNAPTRAP
-        setvar 0x8003 MOVE_DECORATE
+        givepokemon SPECIES_GALLADE 10 ITEM_LEFTOVERS 0 1 10 */
+
+        setvar 0x8000 MOVE_VOLTTACKLE
+        setvar 0x8001 MOVE_VOLTSWITCH
+        setvar 0x8002 MOVE_THUNDERBOLT
+        setvar 0x8003 MOVE_IRONTAIL
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
         setvar 0x8006 16
@@ -314,11 +316,12 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_GALLADE 15 ITEM_LEFTOVERS 0 1 10
-        setvar 0x8000 MOVE_HEADLONGRUSH
-        setvar 0x8001 MOVE_ESPERWING
-        setvar 0x8002 MOVE_SHELTER
-        setvar 0x8003 MOVE_SNAPTRAP
+        givepokemon SPECIES_PIKACHU 100 ITEM_LIGHT_BALL 0 1 10
+
+        setvar 0x8000 MOVE_QUICKATTACK
+        setvar 0x8001 MOVE_BITE
+        setvar 0x8002 MOVE_TAKEDOWN
+        setvar 0x8003 MOVE_GROWL
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
         setvar 0x8006 16
@@ -327,11 +330,12 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_GALLADE 20 ITEM_LEFTOVERS 0 1 10
-        setvar 0x8000 MOVE_BLEAKWINDSTORM
-        setvar 0x8001 MOVE_LUNARBLESSING
-        setvar 0x8002 MOVE_AQUASTEP
-        setvar 0x8003 MOVE_BURNINGJEALOUSY
+        givepokemon SPECIES_EEVEE 20 ITEM_NONE 0 1 10
+
+        setvar 0x8000 MOVE_PECK
+        setvar 0x8001 MOVE_GROWL
+        @ setvar 0x8002 MOVE_AQUASTEP
+        @ setvar 0x8003 MOVE_BURNINGJEALOUSY
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
         setvar 0x8006 16
@@ -340,9 +344,10 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_GALLADE 25 ITEM_LEFTOVERS 0 1 10
+        givepokemon SPECIES_DODUO 5 ITEM_NONE 0 1 10
+
         setvar 0x8000 MOVE_ICESPINNER
-        setvar 0x8001 MOVE_TRAILBLAZE
+        setvar 0x8001 MOVE_DRAGONCLAW
         setvar 0x8002 MOVE_FLY
         setvar 0x8003 MOVE_EXTREMESPEED
         setvar 0x8004 NATURE_ADAMANT
@@ -353,13 +358,11 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_DRAGONITE 70 ITEM_LEFTOVERS 0 1 10
-        setflag 0xA08
+        givepokemon SPECIES_DRAGONITE 70 ITEM_HEAVY_DUTY_BOOTS 0 1 10
+        @ setflag 0xA08 Tera Battle Flag
         setflag 0x828
-        additem 0x306 0x1
-        additem ITEM_PORTABLE_PC 0x1
+        @ additem 0x306 0x1 Tera Orb
         additem ITEM_POKEVIAL 0x1
-        additem ITEM_EVIV_DISPLAYER 0x1
         msgbox gText_TestScript2 MSG_NORMAL
         release
         end

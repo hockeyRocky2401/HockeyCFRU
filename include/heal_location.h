@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+struct Sprite;
+
 // Exported type declarations
 
 struct UnkStruct_0859F534 {

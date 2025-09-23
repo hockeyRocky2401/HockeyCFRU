@@ -1,6 +1,17 @@
 {
     "files.associations": {
-        "defines.h": "c"
+        "defines.h": "c",
+        "money.h": "c",
+        "field_message_box.h": "c",
+        "overworld.h": "c",
+        "map_preview_screen.h": "c",
+        "task.h": "c",
+        "window.h": "c",
+        "gpu_regs.h": "c",
+        "menu.h": "c",
+        "event_data.h": "c",
+        "region_map.h": "c",
+        "heal_location.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }
