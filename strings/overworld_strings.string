@@ -345,8 +345,29 @@ Hi, there!\nMay I help you?
 #org @gText_Viridian_PleaseAgain
 Please come again!
 
+// ROUTE 2
+
+#org @gText_HereIsTera
+Hello [PLAYER]!\pI work with Prof. Oak, based\nin Pewter City. He called me\pand told me to give you\nthis. 
+
+#org @gGot_Tera_Orb
+You recieved a Tera Orb!
+
+#org @gThats_Tera
+That Tera Orb will allow you\nto Terastallize one of your Pokémon\pin battle. It should help you\nwith your Gym challenge.\pPress the R Button when selecting\na move to Terastallize.\pGood luck and see you soon,\n[PLAYER]!  
+
+// PEWTER
+
+#org @gPewter_Aide
+Hello again [PLAYER]!\pHow are you finding that Tera\nOrb?\pI've heard a rumor that there\nis someone in the region with\pknowledge of how to change A\nPokémon's Tera-Type. It would be\pa great help to you if\nyou can find that person.
+
+// CERULEAN
+
 #org @gText_Rival_Cerulean_Intro
-[RIVAL]: Yo! [PLAYER]! You're still\nstruggling along back here? I'm\pdoing great! I caught a bunch\nof strong and smart Pokémon! Here,\plet me see what you've caught,\n[PLAYER]!
+[RIVAL]: Yo! [PLAYER]! You're still\nstruggling along back here? I'm\pdoing great! I caught a bunch\nof strong and smart Pokémon!
+
+#org @gRival_Cerulean_Battle
+Here, let me see what you've\ncaught, [PLAYER]!
 
 #org @gText_Rival_Cerulean_PostBattle
 Hey!\nTake it easy!\pYou won already!

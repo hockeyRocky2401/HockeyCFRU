@@ -836,3 +836,4 @@ SummaryScreenExpDisplay2:
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .org 0x45fd52, 0xff		@pal slot of scroll arrow in Fame Checker
 	.byte 0x9
+

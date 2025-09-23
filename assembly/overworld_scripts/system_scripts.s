@@ -10,6 +10,15 @@
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+@ Custom End Script
+
+.global SystemScript_End
+SystemScript_End:
+releaseall
+end
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 .global EventScript_SecondBagItemCanBeRegisteredToL
 EventScript_SecondBagItemCanBeRegisteredToL:
 	lockall
@@ -82,7 +91,7 @@ SystemScript_DisableSurfTurboBoost:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.global SystemScript_PartyMenuFromField
+.global SystemScript_PartyMenuFrom
 SystemScript_PartyMenuFromField:
 	lockall
 	special SPECIAL_STOP_SOUNDS
@@ -1122,20 +1131,38 @@ SystemScript_DebugMenu:
 	lockall
 	multichoiceoption gText_DebugMenu_SetFlag 0
 	multichoiceoption gText_DebugMenu_GiveItem 1
-	multichoiceoption gText_DebugMenu_Level100Team 2
+	multichoiceoption gText_OpenPCBox 2   @ new
 	multichoiceoption gText_DebugMenu_MaxCoinage 3
-	multichoiceoption gText_DebugMenu_ShinyTeam 4
+	@ multichoiceoption gText_DebugMenu_ShinyTeam 4
+	multichoiceoption NAME_FLY 4
 	multichoiceoption gText_DebugMenu_Give 5
 	multichoiceoption gText_DebugMenu_Debug 6
+	@ multichoiceoption gText_DebugMenu_Level100Team 2
 	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
+	@setvar SCROLL_MULTICHOICE_NUM, 8        @ total number of items
+    @setvar SCROLL_MULTICHOICE_HEIGHT, 8     @ visible rows (use 7 for a scrollbar)
+	@multichoice 0x0 0x0 SCROLL_MULTICHOICE_NUM SCROLL_MULTICHOICE_HEIGHT
+
+	@ Reset 0x8004 and 0x800D (Required for Scrolling Multichoice)
+    @ resetvar 0x8004
+    @ resetvar 0x800D
+
+    @ Scrolling Multichoice
+    @ setvar 0x8000 0 @ Multichoice Index
+    @ setvar 0x8001 6 @ Number of options to display at once
+    @ special 0x158   @ Scrolling Multichoice
+    @ waitstate
 	switch LASTRESULT
 	case 0, SystemScript_DebugMenu_SetFlag
 	case 1, SystemScript_DebugMenu_GiveItem
-	case 2, SystemScript_DebugMenu_Level100Team
+	case 2, OpenPCBox
+	@ case 2, SystemScript_DebugMenu_PortablePC
 	case 3, SystemScript_DebugMenu_MaxCoinage
-	case 4, SystemScript_DebugMenu_ShinyTeam
+	@ case 4, SystemScript_DebugMenu_ShinyTeam
+	case 4, SystemScript_WarpFly
 	case 5, SystemScript_DebugMenu_Custom
 	case 6, SystemScript_DebugMenu_Debug
+	@ case 2, SystemScript_DebugMenu_Level100Team
 SystemScript_DebugMenu_End:
 	releaseall
 	end
@@ -1296,6 +1323,83 @@ SystemScript_DebugMenu_StartWildBattleNow:
 	setwildbattle 0x8000 0x20 0x0
 	dowildbattle
 	end
+
+@ Supposed to be Fly
+.global SystemScript_Fly
+    SystemScript_Fly:
+    lockall
+    callasm Debug_OpenFlyFromScript+1
+    end
+
+@ Warp Fly Scripts
+.global SystemScript_WarpFly
+    SystemScript_WarpFly:
+	multichoiceoption gText_Pallet 0
+	multichoiceoption gText_Viridian 1
+	multichoiceoption gText_Pewter 2
+	multichoiceoption gText_Cerulean 3
+	multichoiceoption gText_Vermilion 4
+	multichoiceoption gText_Lavender 5
+	multichoiceoption gText_More 6
+	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
+
+	copyvar 0x8000, LASTRESULT
+    callasm DebugMenu_DoWarpToTown_Page1
+    releaseall
+    end
+
+	.global SystemScript_WarpFly2
+SystemScript_WarpFly2:
+    lockall
+    multichoiceoption gText_Celadon 0
+    multichoiceoption gText_Fuchsia 1
+    multichoiceoption gText_Cinnabar 2
+    multichoiceoption gText_Saffron 3
+    multichoiceoption gText_More 4
+    multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+
+	copyvar 0x8000, LASTRESULT
+    callasm DebugMenu_DoWarpToTown_Page2
+    releaseall
+    end
+
+.global SystemScript_WarpFly3
+SystemScript_WarpFly3:
+    lockall
+    multichoiceoption gText_IndigoPlateau 0
+    multichoiceoption gText_OneIsland 1
+    multichoiceoption gText_TwoIsland 2
+    multichoiceoption gText_ThreeIsland 3
+    multichoiceoption gText_More 4
+    multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+
+	copyvar 0x8000, LASTRESULT
+    callasm DebugMenu_DoWarpToTown_Page3
+    releaseall
+    end
+
+	.global SystemScript_WarpFly4
+SystemScript_WarpFly4:
+    lockall
+    multichoiceoption gText_FourIsland 0
+    multichoiceoption gText_FiveIsland 1
+    multichoiceoption gText_SixIsland 2
+    multichoiceoption gText_SevenIsland 3
+    multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
+
+	copyvar 0x8000, LASTRESULT
+    callasm DebugMenu_DoWarpToTown_Page4
+    releaseall
+    end
+
+/* @ New Portable PC Option
+.global SystemScript_DebugMenu_PortablePC
+SystemScript_DebugMenu_PortablePC:
+    @ callasm DebugMenu_PreparePortablePC     @ close menu, snapshot tile, pre-clean
+	@ call 0x081A6955                            @ <- the normal PC script your MB_PC uses
+    @ callasm DebugMenu_RestorePortablePCTile @ put the tile back and repaint
+	@ releaseall
+    end */
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

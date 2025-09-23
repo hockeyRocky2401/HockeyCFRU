@@ -257,87 +257,105 @@ bool8 StartLButtonFunc(void)
 	return FALSE;
 }
 
+// bool8 StartRButtonFunc(void)
+// {
+// 	if (IsDexNavHudActive() || InUnionRoom())
+// 		return FALSE;
+
+// 	u16 dexNavSpecies = VarGet(VAR_DEXNAV);
+
+// 	/* #ifndef VAR_R_BUTTON_MODE
+// 	if (dexNavSpecies != SPECIES_NONE)
+// 	{
+// 		DismissMapNamePopup();
+// 		ChangeBgY(0, 0, 0);
+// 		if (!InitDexNavHUD(dexNavSpecies & 0x7FFF, dexNavSpecies >> 15, FALSE))
+// 			return TRUE; //HUD wasn't enabled and a script was started instead
+// 		return FALSE; //Don't enable the script context
+// 	}
+// 	#else*/
+// 	switch (VarGet(VAR_R_BUTTON_MODE)) {
+// 		case OPTIONS_R_BUTTON_MODE_DEXNAV:
+// 			if (dexNavSpecies != SPECIES_NONE && FlagGet(FLAG_SYS_DEXNAV))
+// 			{
+// 				DismissMapNamePopup();
+// 				ChangeBgY(0, 0, 0);
+// 				if (!InitDexNavHUD(dexNavSpecies & 0x7FFF, dexNavSpecies >> 15, FALSE))
+// 					return TRUE; //HUD wasn't enabled and a script was started instead
+// 				return FALSE; //Don't enable the script context
+// 			}
+// 			break;
+// 		case OPTIONS_R_BUTTON_MODE_POKEMON_MENU:
+// 			if (!gPaletteFade->active && FlagGet(FLAG_SYS_POKEMON_GET))
+// 			{
+// 				ScriptContext2_Enable();
+// 				ScriptContext1_SetupScript(SystemScript_PartyMenuFromField);
+// 				return TRUE;
+// 			}
+// 			break;
+// 		case OPTIONS_R_BUTTON_MODE_BAG:
+// 			if (!gPaletteFade->active && !FlagGet(FLAG_SYS_BAG_HIDE))
+// 			{
+// 				ScriptContext2_Enable();
+// 				ScriptContext1_SetupScript(SystemScript_ItemMenuFromField);
+// 				return TRUE;
+// 			}
+// 			break;
+// 		case OPTIONS_R_BUTTON_MODE_MISSION_LOG:
+// 			#ifdef FLAG_SYS_QUEST_LOG
+// 			if (!gPaletteFade->active && FlagGet(FLAG_SYS_QUEST_LOG))
+// 			{
+// 				PlaySE(SE_SELECT);
+// 				typedef void (*OpenQuestLogFromOverworld_T) (void);
+// 				#define OpenQuestLogFromOverworld ((OpenQuestLogFromOverworld_T) (0x801D770 |1))
+// 				OpenQuestLogFromOverworld();
+// 				return TRUE;
+// 			}
+// 			#endif
+// 			break;
+// 		case OPTIONS_R_BUTTON_MODE_MINING:
+// 			#ifdef MB_UNDERGROUND_MINING
+// 			if (GetCurrentRegionMapSectionId() == MAPSEC_KBT_EXPRESSWAY
+// 			|| MAP_IS(CRYSTAL_PEAK_1F_LEFT_ROOM)
+// 			|| (gMapHeader.mapType == MAP_TYPE_UNDERWATER
+// 			 && !MAP_IS(MIRSKLE_LAB_UNDERWATER_1)
+// 			 && !MAP_IS(MIRSKLE_LAB_UNDERWATER_2)
+// 			 && !MAP_IS(VIVILL_WAREHOUSE_UNDERWATER)))
+// 			{
+// 				TryLoadMiningSpots();
+// 				ChooseMiningSpotToShow();
+// 				ScriptContext2_Enable();
+// 				ScriptContext1_SetupScript(SystemScript_MiningScan);
+// 				return TRUE;
+// 			}
+// 			#endif
+// 			break;
+// 		case OPTIONS_R_BUTTON_MODE_DEBUG:
+// 			ScriptContext2_Enable();
+// 			ScriptContext1_SetupScript(SystemScript_DebugMenu);
+// 			return TRUE;
+// 	}
+
+// 	return FALSE;
+// }
+
 bool8 StartRButtonFunc(void)
 {
-	if (IsDexNavHudActive() || InUnionRoom())
-		return FALSE;
+    // Don't open during overlays/links/fades
+    if (IsDexNavHudActive() || InUnionRoom() || gPaletteFade->active)
+        return FALSE;
+    if (ScriptContext2_IsEnabled())
+        return FALSE;
 
-	u16 dexNavSpecies = VarGet(VAR_DEXNAV);
-
-	/* #ifndef VAR_R_BUTTON_MODE
-	if (dexNavSpecies != SPECIES_NONE)
-	{
-		DismissMapNamePopup();
-		ChangeBgY(0, 0, 0);
-		if (!InitDexNavHUD(dexNavSpecies & 0x7FFF, dexNavSpecies >> 15, FALSE))
-			return TRUE; //HUD wasn't enabled and a script was started instead
-		return FALSE; //Don't enable the script context
-	}
-	#else*/
-	switch (VarGet(VAR_R_BUTTON_MODE)) {
-		case OPTIONS_R_BUTTON_MODE_DEXNAV:
-			if (dexNavSpecies != SPECIES_NONE && FlagGet(FLAG_SYS_DEXNAV))
-			{
-				DismissMapNamePopup();
-				ChangeBgY(0, 0, 0);
-				if (!InitDexNavHUD(dexNavSpecies & 0x7FFF, dexNavSpecies >> 15, FALSE))
-					return TRUE; //HUD wasn't enabled and a script was started instead
-				return FALSE; //Don't enable the script context
-			}
-			break;
-		case OPTIONS_R_BUTTON_MODE_POKEMON_MENU:
-			if (!gPaletteFade->active && FlagGet(FLAG_SYS_POKEMON_GET))
-			{
-				ScriptContext2_Enable();
-				ScriptContext1_SetupScript(SystemScript_PartyMenuFromField);
-				return TRUE;
-			}
-			break;
-		case OPTIONS_R_BUTTON_MODE_BAG:
-			if (!gPaletteFade->active && !FlagGet(FLAG_SYS_BAG_HIDE))
-			{
-				ScriptContext2_Enable();
-				ScriptContext1_SetupScript(SystemScript_ItemMenuFromField);
-				return TRUE;
-			}
-			break;
-		case OPTIONS_R_BUTTON_MODE_MISSION_LOG:
-			#ifdef FLAG_SYS_QUEST_LOG
-			if (!gPaletteFade->active && FlagGet(FLAG_SYS_QUEST_LOG))
-			{
-				PlaySE(SE_SELECT);
-				typedef void (*OpenQuestLogFromOverworld_T) (void);
-				#define OpenQuestLogFromOverworld ((OpenQuestLogFromOverworld_T) (0x801D770 |1))
-				OpenQuestLogFromOverworld();
-				return TRUE;
-			}
-			#endif
-			break;
-		case OPTIONS_R_BUTTON_MODE_MINING:
-			#ifdef MB_UNDERGROUND_MINING
-			if (GetCurrentRegionMapSectionId() == MAPSEC_KBT_EXPRESSWAY
-			|| MAP_IS(CRYSTAL_PEAK_1F_LEFT_ROOM)
-			|| (gMapHeader.mapType == MAP_TYPE_UNDERWATER
-			 && !MAP_IS(MIRSKLE_LAB_UNDERWATER_1)
-			 && !MAP_IS(MIRSKLE_LAB_UNDERWATER_2)
-			 && !MAP_IS(VIVILL_WAREHOUSE_UNDERWATER)))
-			{
-				TryLoadMiningSpots();
-				ChooseMiningSpotToShow();
-				ScriptContext2_Enable();
-				ScriptContext1_SetupScript(SystemScript_MiningScan);
-				return TRUE;
-			}
-			#endif
-			break;
-		case OPTIONS_R_BUTTON_MODE_DEBUG:
-			ScriptContext2_Enable();
-			ScriptContext1_SetupScript(SystemScript_DebugMenu);
-			return TRUE;
-	}
-
-	return FALSE;
+    // Open Debug Menu (script-based in your repo)
+    ScriptContext2_Enable();
+    DismissMapNamePopup();
+    ChangeBgY(0, 0, 0);
+    PlaySE(SE_SELECT);
+    ScriptContext1_SetupScript(SystemScript_DebugMenu);
+    return TRUE;
 }
+
 
 void InitPartyMenuFromField(void)
 {

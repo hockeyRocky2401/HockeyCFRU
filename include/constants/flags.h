@@ -786,7 +786,7 @@
 */
 #define FLAG_OAKS_RATING_IS_VIA_PC                       0x2FF
 
-// Unused?
+// Unused? 
 /*
 #define FLAG_0x300               0x300
 #define FLAG_0x301               0x301
@@ -1021,6 +1021,10 @@
 #define FLAG_0x3E6               0x3E6
 #define FLAG_0x3E7               0x3E7
 */
+
+#define FLAG_HIDE_ROUTE2_AIDE               0x300
+#define FLAG_HIDE_ROUTE2_AIDE_SCRIPT        0x301
+
 
 #define FLAG_HIDDEN_ITEMS_START 1000 // 0x3E8
 #define FLAG_HIDDEN_ITEM(map, item) (FLAG_HIDDEN_ITEMS_START + HIDDEN_ITEM_##map##_##item)
@@ -1384,7 +1388,7 @@
 // #define FLAG_SYS_BEAT_CHAMPION (SYS_FLAGS + 0x4D) //new
 
 // World Map Flags
-/*
+
 #define FLAG_WORLD_MAP_PALLET_TOWN                                  (SYS_FLAGS + 0x90)
 #define FLAG_WORLD_MAP_VIRIDIAN_CITY                                (SYS_FLAGS + 0x91)
 #define FLAG_WORLD_MAP_PEWTER_CITY                                  (SYS_FLAGS + 0x92)
@@ -1436,7 +1440,6 @@
 #define FLAG_WORLD_MAP_THREE_ISLAND_DUNSPARCE_TUNNEL                (SYS_FLAGS + 0xC0)
 #define FLAG_WORLD_MAP_SEVEN_ISLAND_SEVAULT_CANYON_TANOBY_KEY       (SYS_FLAGS + 0xC1)
 #define FLAG_WORLD_MAP_BIRTH_ISLAND_EXTERIOR                        (SYS_FLAGS + 0xC2)
-*/
 
 #define FLAG_0x8D5 (SYS_FLAGS + 0xD5)
 #define FLAG_0x8D6 (SYS_FLAGS + 0xD6)

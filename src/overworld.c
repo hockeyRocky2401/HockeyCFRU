@@ -1513,36 +1513,36 @@ bool8 TryStartStepCountScript(u16 metatileBehavior)
 			return TRUE;
 		}
 
-		#ifdef DEXNAV_DETECTOR_MODE
-		extern bool8 GetGen8SpeciesForDexNavDetectorMode(u8 blockProperties);
-		if (FlagGet(FLAG_SYS_DEXNAV)
-		&& FlagGet(FLAG_GEN_8_PLACED_IN_GAME)
-		&& VarGet(VAR_R_BUTTON_MODE) == OPTIONS_R_BUTTON_MODE_DEXNAV //Only when player is trying to use the DexNav to find Pokemon
-		&& (Random() % 10) == 0 //Adjust rate so it doesn't happen as often
-		&& Overworld_GetFlashLevel() == 0 //DexNav can't be used here in general
-		&& (VarGet(VAR_REPEL_STEP_COUNT) == 0 || VarGet(VAR_REPEL_STEP_COUNT) >= 50) //Only when the repel isn't on or repel will take time to wear off
-		&& !IsDexNavHudActive())
-		{
-			s16 x, y;
-			PlayerGetDestCoords(&x, &y);
-			u32 currMetatileField = MapGridGetMetatileField(x, y, 0xFF);
-			u8 blockProperties = GetMetatileAttributeFromRawMetatileBehavior(currMetatileField, METATILE_ATTRIBUTE_ENCOUNTER_TYPE);
+		// #ifdef DEXNAV_DETECTOR_MODE
+		// extern bool8 GetGen8SpeciesForDexNavDetectorMode(u8 blockProperties);
+		// if (FlagGet(FLAG_SYS_DEXNAV)
+		// && FlagGet(FLAG_GEN_8_PLACED_IN_GAME)
+		// && VarGet(VAR_R_BUTTON_MODE) == OPTIONS_R_BUTTON_MODE_DEXNAV //Only when player is trying to use the DexNav to find Pokemon
+		// && (Random() % 10) == 0 //Adjust rate so it doesn't happen as often
+		// && Overworld_GetFlashLevel() == 0 //DexNav can't be used here in general
+		// && (VarGet(VAR_REPEL_STEP_COUNT) == 0 || VarGet(VAR_REPEL_STEP_COUNT) >= 50) //Only when the repel isn't on or repel will take time to wear off
+		// && !IsDexNavHudActive())
+		// {
+		// 	s16 x, y;
+		// 	PlayerGetDestCoords(&x, &y);
+		// 	u32 currMetatileField = MapGridGetMetatileField(x, y, 0xFF);
+		// 	u8 blockProperties = GetMetatileAttributeFromRawMetatileBehavior(currMetatileField, METATILE_ATTRIBUTE_ENCOUNTER_TYPE);
 
-			if (((blockProperties == TILE_FLAG_ENCOUNTER_TILE && LoadProperMonsData(LAND_MONS_HEADER) != NULL)
-			|| (blockProperties == TILE_FLAG_SURFABLE && LoadProperMonsData(WATER_MONS_HEADER) != NULL)) //Only when standing in grass/on water and wild Pokemon can be found there
-			&& GetGen8SpeciesForDexNavDetectorMode(blockProperties))
-			{
-				u8 taskId = CreateTask(Task_StartDexNavHUDAfterScript, 0xFF);
-				if (taskId != 0xFF)
-				{
-					gTasks[taskId].data[0] = Var8000;
-					gTasks[taskId].data[1] = Var8001;
-					ScriptContext1_SetupScript(SystemScript_DexNavDetector);
-					return TRUE;
-				}
-			}
-		}
-		#endif
+		// 	if (((blockProperties == TILE_FLAG_ENCOUNTER_TILE && LoadProperMonsData(LAND_MONS_HEADER) != NULL)
+		// 	|| (blockProperties == TILE_FLAG_SURFABLE && LoadProperMonsData(WATER_MONS_HEADER) != NULL)) //Only when standing in grass/on water and wild Pokemon can be found there
+		// 	&& GetGen8SpeciesForDexNavDetectorMode(blockProperties))
+		// 	{
+		// 		u8 taskId = CreateTask(Task_StartDexNavHUDAfterScript, 0xFF);
+		// 		if (taskId != 0xFF)
+		// 		{
+		// 			gTasks[taskId].data[0] = Var8000;
+		// 			gTasks[taskId].data[1] = Var8001;
+		// 			ScriptContext1_SetupScript(SystemScript_DexNavDetector);
+		// 			return TRUE;
+		// 		}
+		// 	}
+		// }
+		// #endif
 
 		const u8* customWalkingScript = GetCustomWalkingScript();
 		if (customWalkingScript != NULL)
@@ -1575,17 +1575,17 @@ static void UpdateJPANStepCounters(void)
 		++gPedometers->smallTwo;
 }
 
-#ifdef DEXNAV_DETECTOR_MODE
-static void Task_StartDexNavHUDAfterScript(u8 taskId)
-{
-	if (!ScriptContext2_IsEnabled())
-	{
-		gLastDexNavSpecies = SPECIES_NONE; //Because it's special
-		InitDexNavHUD(gTasks[taskId].data[0], gTasks[taskId].data[1], TRUE);
-		DestroyTask(taskId);
-	}
-}
-#endif
+// #ifdef DEXNAV_DETECTOR_MODE
+// static void Task_StartDexNavHUDAfterScript(u8 taskId)
+// {
+// 	if (!ScriptContext2_IsEnabled())
+// 	{
+// 		gLastDexNavSpecies = SPECIES_NONE; //Because it's special
+// 		InitDexNavHUD(gTasks[taskId].data[0], gTasks[taskId].data[1], TRUE);
+// 		DestroyTask(taskId);
+// 	}
+// }
+// #endif
 
 static const u8* GetCustomWalkingScript(void)
 {
@@ -1741,8 +1741,8 @@ bool8 ShouldPlayerRun(u16 heldKeys)
 	if (IsRunningDisallowed(gEventObjects[gPlayerAvatar->eventObjectId].currentMetatileBehavior))
 		return FALSE;
 
-	if (IsDexNavHudActive())
-		return FALSE; //Prevent running while DexNav is open. People are just too stupid to realize they can't run
+	// if (IsDexNavHudActive())
+	// 	return FALSE; //Prevent running while DexNav is open. People are just too stupid to realize they can't run
 
 	#ifdef FLAG_AUTO_RUN
 	if (FlagGet(FLAG_AUTO_RUN))
@@ -2856,31 +2856,58 @@ void FieldCheckIfPlayerPressedLButton(struct FieldInput* input, u16 newKeys)
 		input->pressedLButton = TRUE;
 }
 
+// bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
+// {
+// 	if (IsDexNavHudActive())
+// 		return FALSE; //Can't force close this
+
+// 	if (input->pressedSelectButton && UseRegisteredKeyItemOnField())
+//     {
+//         gInputToStoreInQuestLogMaybe.pressedSelectButton = TRUE;
+//         return TRUE;
+//     }
+
+// 	if (input->pressedLButton && StartLButtonFunc())
+// 	{
+// 		gInputToStoreInQuestLogMaybe.pressedRButton = TRUE;
+// 		return TRUE;
+// 	}
+
+// 	if (input->pressedRButton && JOY_NEW(R_BUTTON) //Not when held!
+// 	&& StartRButtonFunc())
+// 	{
+// 		gInputToStoreInQuestLogMaybe.pressedRButton = TRUE;
+// 		return TRUE;
+// 	}
+
+// 	return FALSE;
+// }
+
 bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
 {
-	if (IsDexNavHudActive())
-		return FALSE; //Can't force close this
+    if (IsDexNavHudActive())
+        return FALSE; // Can't force close this
 
-	if (input->pressedSelectButton && UseRegisteredKeyItemOnField())
+    if (input->pressedSelectButton && UseRegisteredKeyItemOnField())
     {
         gInputToStoreInQuestLogMaybe.pressedSelectButton = TRUE;
         return TRUE;
     }
 
-	if (input->pressedLButton && StartLButtonFunc())
-	{
-		gInputToStoreInQuestLogMaybe.pressedRButton = TRUE;
-		return TRUE;
-	}
+    if (input->pressedLButton && StartLButtonFunc())
+    {
+        gInputToStoreInQuestLogMaybe.pressedLButton = TRUE; // was pressedRButton before
+        return TRUE;
+    }
 
-	if (input->pressedRButton && JOY_NEW(R_BUTTON) //Not when held!
-	&& StartRButtonFunc())
-	{
-		gInputToStoreInQuestLogMaybe.pressedRButton = TRUE;
-		return TRUE;
-	}
+    if (input->pressedRButton && JOY_NEW(R_BUTTON) // Not when held!
+        && StartRButtonFunc())
+    {
+        gInputToStoreInQuestLogMaybe.pressedRButton = TRUE;
+        return TRUE;
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 void UseRegisteredItem(u16 registeredItem)
@@ -3287,3 +3314,11 @@ const struct Coords32 gDirectionToVectors[] =
     [DIR_NORTHWEST] = {-1, -1},
     [DIR_NORTHEAST] = { 1, -1},
 };
+
+// //New Fly implementation from Pret
+
+// void CB2_OpenFlyMap(void)
+// {
+//     InitRegionMapWithExitCB(REGIONMAP_TYPE_FLY, CB2_ReturnToFieldWithOpenMenu);
+//     SetMainCallback2(CB2_RegionMap);
+// }

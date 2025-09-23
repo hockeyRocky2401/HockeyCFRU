@@ -12,10 +12,14 @@ npc 3 1 5 EventScriptP_ViridianCity_Youngster
 npc 3 1 6 EventScriptP_ViridianCity_YoungMan
 npc 5 3 0 EventScript_ViridianClerk
 
+## Route 2
+tile 15 0 0 EventScript_TeraOrb_Aide
+
 ## Pewter City
-npc 3 2 6 SystemScript_DebugMenu
+<!-- npc 3 2 6 SystemScript_DebugMenu -->
 npc 3 2 2 EventScript_Pallet_AideGuy
 npc 6 3 2 SystemScript_GlobalMart
+npc 6 7 2 EventScript_Pewter_Aide
 
 ## Cerulean City
 npc 7 7 0 SystemScript_GlobalMart
