@@ -106,15 +106,19 @@ static void CreateInitialRoamerMon(u16 species, u8 level, bool8 allowedOnLand, b
 
 	if (species == 0xFFFF) //FRLGSytle
 	{
+		//Changing because of Champion teams.
 		switch(GetStarterChoice()) { //0x80CBDB0
 			case SPECIES_BULBASAUR:
-				species = SPECIES_ENTEI;
-				break;
-			case SPECIES_CHARMANDER:
+				// species = SPECIES_ENTEI;
 				species = SPECIES_SUICUNE;
 				break;
-			default:
+			case SPECIES_CHARMANDER:
+				// species = SPECIES_SUICUNE;
 				species = SPECIES_RAIKOU;
+				break;
+			default:
+				// species = SPECIES_RAIKOU;
+				species = SPECIES_ENTEI;
 		}
 	}
 
@@ -158,7 +162,8 @@ static void CreateInitialRoamerMon(u16 species, u8 level, bool8 allowedOnLand, b
 	}
 	#endif
 
-	roamer.level = level;
+	// roamer.level = level;
+	roamer.level = 70;
 	roamer.status = 0;
 	roamer.ivs = GetMonData(&gEnemyParty[0], MON_DATA_IVS, NULL);
 	roamer.personality = gEnemyParty[0].personality;

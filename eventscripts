@@ -20,6 +20,18 @@ tile 15 0 0 EventScript_TeraOrb_Aide
 npc 3 2 2 EventScript_Pallet_AideGuy
 npc 6 3 2 SystemScript_GlobalMart
 npc 6 7 2 EventScript_Pewter_Aide
+npc 6 0 1 EventScript_OldMan_SitrusBerry
+npc 6 1 4 EventScript_Pikachu_Father
+
+## Route 3
+npc 3 21 1 EventScript_Trainer_Robin
+
+## Mt. Moon
+npc 1 1 13 EventScript_Fossil_Excavator
+npc 1 3 11 EventScript_Nurse_MtMoon
+
+## Route 4 (West Cerulean)
+npc 3 22 4 EventScript_BulkUp_Guy
 
 ## Cerulean City
 npc 7 7 0 SystemScript_GlobalMart
@@ -27,6 +39,10 @@ tile 3 3 0 EventScript_Rival_NoFameChecker1
 tile 3 3 1 EventScript_Rival_NoFameChecker2
 tile 3 3 2 EventScript_Rival_NoFameChecker3
 
+## Route 24 (North Cerulean)
+tile 3 43 0 EventScript_Nugget_Grunt1
+tile 3 43 1 EventScript_Nugget_Grunt2
+npc 3 43 0 EventScript_Nugget_Grunt3
 
 ## Vermilion City
 npc 9 5 0 SystemScript_GlobalMart

@@ -254,9 +254,9 @@ const struct BattleMove gBattleMoves[] =
 	{
 		.effect = EFFECT_HIT,
 		.power = 65,
-		.type = TYPE_NORMAL,
+		.type = TYPE_GRASS,
 		.accuracy = 95,
-		.pp = 30,
+		.pp = 25,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,

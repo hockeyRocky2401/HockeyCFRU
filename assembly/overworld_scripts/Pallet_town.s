@@ -320,7 +320,7 @@ EventScript_Pallet_AideGuy:
 
         setvar 0x8000 MOVE_QUICKATTACK
         setvar 0x8001 MOVE_BITE
-        setvar 0x8002 MOVE_TAKEDOWN
+        setvar 0x8002 MOVE_STRENGTH
         setvar 0x8003 MOVE_GROWL
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
@@ -347,9 +347,9 @@ EventScript_Pallet_AideGuy:
         givepokemon SPECIES_DODUO 5 ITEM_NONE 0 1 10
 
         setvar 0x8000 MOVE_ICESPINNER
-        setvar 0x8001 MOVE_DRAGONCLAW
+        setvar 0x8001 MOVE_CUT
         setvar 0x8002 MOVE_FLY
-        setvar 0x8003 MOVE_EXTREMESPEED
+        @ setvar 0x8003 MOVE_EXTREMESPEED
         setvar 0x8004 NATURE_ADAMANT
         setvar 0x8005 0
         setvar 0x8006 16
@@ -362,7 +362,7 @@ EventScript_Pallet_AideGuy:
         @ setflag 0xA08 Tera Battle Flag
         setflag 0x828
         @ additem 0x306 0x1 Tera Orb
-        additem ITEM_POKEVIAL 0x1
+        @ additem ITEM_POKEVIAL 0x1
         msgbox gText_TestScript2 MSG_NORMAL
         release
         end

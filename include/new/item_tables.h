@@ -1556,7 +1556,7 @@ extern const u8 DESC_RAZOR_FANG[];
 #define DESC_ORAN_BERRY ((const u8 *)0x083D6DF8)
 #define DESC_PERSIM_BERRY ((const u8 *)0x083D6E3C)
 #define DESC_LUM_BERRY ((const u8 *)0x083D6E81)
-#define DESC_SITRUS_BERRY ((const u8 *)0x083D6EC8)
+// #define DESC_SITRUS_BERRY ((const u8 *)0x083D6EC8)
 #define DESC_FIGY_BERRY ((const u8 *)0x083D6F0C)
 #define DESC_WIKI_BERRY ((const u8 *)0x083D6F4C)
 #define DESC_MAGO_BERRY ((const u8 *)0x083D6F8C)

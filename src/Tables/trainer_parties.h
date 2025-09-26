@@ -564,7 +564,7 @@ struct TrainerMonItemCustomMoves sParty_LassRobin[] = {
         .iv = 225,
         .lvl = 14,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_PURSUIT, MOVE_QUICKATTACK, MOVE_TAILWHIP, MOVE_TACKLE},
+        .moves = {MOVE_BITE, MOVE_QUICKATTACK, MOVE_TACKLE, MOVE_NONE},
     },
     {
         .iv = 225,
@@ -716,7 +716,7 @@ struct TrainerMonItemCustomMoves sParty_LassDawn[] = {
         .iv = 225,
         .lvl = 24,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_PURSUIT, MOVE_TAILWHIP},
+        .moves = {MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_BITE, MOVE_TAILWHIP},
     },
     // {
     //     .iv = 0,
@@ -3183,7 +3183,7 @@ struct TrainerMonItemCustomMoves sParty_BeautyLola[] = {
         .iv = 225,
         .lvl = 41,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_PURSUIT, MOVE_TAILWHIP},
+        .moves = {MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_CRUNCH, MOVE_TAILWHIP},
     },
     {
         .iv = 225,
@@ -4860,7 +4860,7 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt[] = {
         .iv = 225,
         .lvl = 16,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_QUICKATTACK, MOVE_TACKLE, MOVE_PURSUIT, MOVE_TAILWHIP},
+        .moves = {MOVE_QUICKATTACK, MOVE_TACKLE, MOVE_BITE, MOVE_TAILWHIP},
     },
     // {
     //     .iv = 0,
@@ -4907,7 +4907,7 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt4[] = {
         .iv = 225,
         .lvl = 15,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_PURSUIT, MOVE_QUICKATTACK, MOVE_TAILWHIP, MOVE_TACKLE},
+        .moves = {MOVE_BITE, MOVE_QUICKATTACK, MOVE_TACKLE, MOVE_NONE},
     },
     {
         .iv = 225,
@@ -5032,7 +5032,7 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt11[] = {
         .iv = 225,
         .lvl = 32,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_PURSUIT, MOVE_TAILWHIP},
+        .moves = {MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_CRUNCH, MOVE_NONE},
     },
 };
 
@@ -5216,7 +5216,7 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt21[] = {
         .iv = 225,
         .lvl = 35,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_PURSUIT, MOVE_SUPERFANG, MOVE_QUICKATTACK, MOVE_HYPERFANG},
+        .moves = {MOVE_CRUNCH, MOVE_SUPERFANG, MOVE_QUICKATTACK, MOVE_HYPERFANG},
     },
     {
         .iv = 225,
@@ -5457,13 +5457,13 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt35[] = {
         .iv = 225,
         .lvl = 36,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_PURSUIT, MOVE_FOCUSENERGY, MOVE_QUICKATTACK, MOVE_HYPERFANG},
+        .moves = {MOVE_CRUNCH, MOVE_HYPERFANG, MOVE_QUICKATTACK, MOVE_NONE},
     },
     {
         .iv = 225,
         .lvl = 36,
         .species = SPECIES_RATICATE,
-        .moves = {MOVE_PURSUIT, MOVE_FOCUSENERGY, MOVE_QUICKATTACK, MOVE_HYPERFANG},
+        .moves = {MOVE_CRUNCH, MOVE_FOCUSENERGY, MOVE_QUICKATTACK, MOVE_HYPERFANG},
     },
     // {
     //     .iv = 0,
@@ -5551,7 +5551,7 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt40[] = {
         .iv = 225,
         .lvl = 35,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_PURSUIT, MOVE_SUPERFANG, MOVE_QUICKATTACK, MOVE_HYPERFANG},
+        .moves = {MOVE_CRUNCH, MOVE_SUPERFANG, MOVE_QUICKATTACK, MOVE_HYPERFANG},
     },
     // {
     //     .iv = 0,
@@ -7699,7 +7699,7 @@ struct TrainerMonItemCustomMoves sParty_PicnickerSusie[] = {
         .iv = 225,
         .lvl = 40,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_PURSUIT, MOVE_TAILWHIP},
+        .moves = {MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_CRUNCH, MOVE_NONE},
     },
     {
         .iv = 225,
@@ -7780,7 +7780,7 @@ struct TrainerMonItemCustomMoves sParty_CamperFlint[] = {
         .iv = 225,
         .lvl = 20,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_PURSUIT, MOVE_QUICKATTACK, MOVE_TAILWHIP, MOVE_TACKLE},
+        .moves = {MOVE_BITE, MOVE_QUICKATTACK, MOVE_TACKLE, MOVE_NONE},
     },
     // {
     //     .iv = 0,
@@ -7861,7 +7861,7 @@ struct TrainerMonItemCustomMoves sParty_PicnickerAriana[] = {
         .iv = 225,
         .lvl = 29,
         .species = SPECIES_RATTATA,
-        .moves = {MOVE_PURSUIT, MOVE_FOCUSENERGY, MOVE_QUICKATTACK, MOVE_HYPERFANG},
+        .moves = {MOVE_CRUNCH, MOVE_QUICKATTACK, MOVE_HYPERFANG, MOVE_NONE},
     },
     {
         .iv = 225,
@@ -12197,6 +12197,16 @@ struct TrainerMonItemCustomMoves sParty_CueBallPaxton[] = {
         .species = SPECIES_MUK,
         .heldItem = ITEM_BLACK_SLUDGE,
         .moves = {MOVE_GUNKSHOT, MOVE_KNOCKOFF, MOVE_RECOVER, MOVE_TOXIC},
+    },
+};
+    
+    //Custom
+    struct TrainerMonItemCustomMoves sParty_PokefanMGiorgio[] = {
+    {
+        .iv = 225,
+        .lvl = 12,
+        .species = SPECIES_PIKACHU,
+        .moves = {MOVE_THUNDERSHOCK, MOVE_QUICKATTACK, MOVE_NONE, MOVE_NONE},
     },
 };
 #endif

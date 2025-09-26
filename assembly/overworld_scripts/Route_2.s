@@ -29,11 +29,9 @@ waitfanfare
 waitbuttonpress
 setflag 0xA08 @ FLAG_TERA_BATTLE
 putitemaway ITEM_TERA_ORB, 1
-waitmsg
 waitbuttonpress
 textcolor 0
 preparemsg gThats_Tera
-waitmsg
 waitbuttonpress
 closemessage
 applymovement 3, Exit_Aide
@@ -43,6 +41,46 @@ setflag 0x300 @ Aide Flag
 setflag 0x301 @ Aide Script Flag
 releaseall
 end
+
+
+/* Tera Orb with Special Script Doesnt work properly.
+EventScript_TeraOrb_Aide:
+    checkflag 0x301                @ already gave the Tera Orb?
+    if SET _goto SystemScript_End
+
+    lockall
+    applymovement 3, Movement_Aide
+    waitmovement 0
+
+    textcolor 0
+    preparemsg gText_HereIsTera    @ "Here, take this Tera Orb..."
+    waitmsg
+    waitbuttonpress
+
+    @ === Give Tera Orb with special obtain message ===
+    setvar 0x8000 ITEM_SUPER_ROD    @ which item
+    @ setvar 0x8000 0x306            @ which item
+    setvar 0x8001 0                @ how many
+    call SystemScript_ObtainItem
+
+    setflag 0xA08 @ FLAG_TERA_BATTLE
+    @ putitemaway ITEM_TERA_ORB, 1   @ ensure it lands in the right pocket
+
+    textcolor 0
+    preparemsg gThats_Tera         @ "That's the Tera Orb explanation..."
+    waitmsg
+    waitbuttonpress
+    closemessage
+
+    applymovement 3, Exit_Aide
+    waitmovement 0
+    hidesprite 3
+
+    setflag 0x300                   @ Aide met flag
+    setflag 0x301                   @ Script complete flag
+    releaseall
+    end
+    */
 
 @ Aide Movement
 Movement_Aide:

@@ -145,15 +145,15 @@ After_Rival_Exits:
 @ --------------------------------
 
 Cerulean_Rival_Section2:
-    trainerbattle1 0, 332, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro 
+    trainerbattle1 0, 332, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle, Rival_Cerulean_Outro 
     return
 
 Cerulean_Rival_Section3:
-    trainerbattle1 0, 333, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro
+    trainerbattle1 0, 333, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle, Rival_Cerulean_Outro
     return
 
 Cerulean_Rival_Section4:
-    trainerbattle1 0, 334, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle Rival_Cerulean_Outro
+    trainerbattle1 0, 334, 0, gRival_Cerulean_Battle, gText_Rival_Cerulean_PostBattle, Rival_Cerulean_Outro
     return
 
 @ Post-battle continuation (falls back to your main script flow)

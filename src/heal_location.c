@@ -25,6 +25,7 @@ const struct HealLocation gHealLocations[] = {
     { MAP_GROUP(FIVE_ISLAND),     MAP_NUM(FIVE_ISLAND),     18, 7 }, // Five Island PC
     { MAP_GROUP(SIX_ISLAND),      MAP_NUM(SIX_ISLAND),      11, 12 }, // Six Island PC
     { MAP_GROUP(SEVEN_ISLAND),    MAP_NUM(SEVEN_ISLAND),    12,  4 }, // Seven Island PC
+    { MAP_GROUP(ROUTE_4),         MAP_NUM(ROUTE_4),         12,  6 }, // Mt Moon PC
 };
 
 const struct HealLocation *GetHealLocationPointer(u32 loc)

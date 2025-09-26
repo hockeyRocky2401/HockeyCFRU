@@ -261,6 +261,7 @@ SystemScript_WaitForFollower:
 .equ Systemcript_BufferPocketNameTryFanfare, 0x81A66BC
 .equ SystemScript_NoRoomToPickUpItem, 0x81A682D
 
+@ SystemScript_FindItem
 SystemScript_FindItem: @Originally at 0x81A67B3
 	lock
 	pause 0x10 @;Give time for the click sound to play when talking to a Poke Ball
@@ -311,6 +312,8 @@ SystemScript_FindMultipleNormalItems:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+
+.global SystemScript_ObtainItem
 SystemScript_ObtainItem:
 	copyvar 0x8013 0x8012
 	copyvar 0x8004 0x8000 @;Copy item to 0x8004
@@ -335,6 +338,36 @@ SystemScript_ObtainItemMessage:
 	setvar LASTRESULT 0x1
 	special SPECIAL_CLEAR_ITEM_SPRITE_AFTER_FIND_OBTAIN
 	return
+
+/*
+Tried with Tera Orb, didnt work.
+
+	.global SystemScript_ObtainItem
+SystemScript_ObtainItem:
+	copyvar 0x8013 0x8012
+	copyvar 0x8004 0x8000    @ Copy item ID to 0x8004
+	copyvar 0x8005 0x8001    @ Copy amount to 0x8005
+	textcolor BLACK
+	additem 0x8000 0x8001    @ Actually give the item
+	copyvar 0x8007 LASTRESULT
+	copyvar 0x8012 0x8013
+	return
+
+.global SystemScript_ObtainItemMessage
+SystemScript_ObtainItemMessage:
+	special SPECIAL_SHOW_ITEM_SPRITE_ON_FIND_OBTAIN
+	compare 0x8005 1
+	if lessorequal _call ObtainedSingleItemMsg
+	compare 0x8005 1
+	if greaterthan _call ObtainedMultipleItemMsg
+	waitfanfare
+	@waitmsg
+	waitbuttonpress
+	msgbox 0x81A5218 MSG_KEEPOPEN @ "[PLAYER] put the item in the..."
+	setvar LASTRESULT 0x1
+	special SPECIAL_CLEAR_ITEM_SPRITE_AFTER_FIND_OBTAIN
+	return
+	*/
 
 ObtainedSingleItemMsg:
 	special2 LASTRESULT 0x196
@@ -1324,12 +1357,12 @@ SystemScript_DebugMenu_StartWildBattleNow:
 	dowildbattle
 	end
 
-@ Supposed to be Fly
+/* Supposed to be Fly
 .global SystemScript_Fly
     SystemScript_Fly:
     lockall
     callasm Debug_OpenFlyFromScript+1
-    end
+    end */
 
 @ Warp Fly Scripts
 .global SystemScript_WarpFly
@@ -1345,6 +1378,8 @@ SystemScript_DebugMenu_StartWildBattleNow:
 
 	copyvar 0x8000, LASTRESULT
     callasm DebugMenu_DoWarpToTown_Page1
+	compare 0x8000, 6    @ "More" selected?
+    if equal _goto SystemScript_WarpFly2
     releaseall
     end
 
@@ -1360,6 +1395,8 @@ SystemScript_WarpFly2:
 
 	copyvar 0x8000, LASTRESULT
     callasm DebugMenu_DoWarpToTown_Page2
+	compare 0x8000, 4    @ "More" selected?
+    if equal _goto SystemScript_WarpFly3
     releaseall
     end
 
@@ -1375,6 +1412,8 @@ SystemScript_WarpFly3:
 
 	copyvar 0x8000, LASTRESULT
     callasm DebugMenu_DoWarpToTown_Page3
+	compare 0x8000, 4    @ "More" selected?
+    if equal _goto SystemScript_WarpFly4
     releaseall
     end
 
@@ -1385,7 +1424,8 @@ SystemScript_WarpFly4:
     multichoiceoption gText_FiveIsland 1
     multichoiceoption gText_SixIsland 2
     multichoiceoption gText_SevenIsland 3
-    multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
+    multichoiceoption gText_Route4 4
+    multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
 
 	copyvar 0x8000, LASTRESULT
     callasm DebugMenu_DoWarpToTown_Page4
@@ -1509,8 +1549,13 @@ SystemScript_Portable_PC_Off:
 	release
 	end
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 .align 2
 .thumb
+
+@ Custom Scripts
 
 @ Mart Script
 .equ   VAR_RESULT, 0x800D
@@ -1563,5 +1608,3 @@ waitbuttonpress
 closemessage
 release
 end
-
-

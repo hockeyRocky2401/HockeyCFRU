@@ -1022,9 +1022,26 @@
 #define FLAG_0x3E7               0x3E7
 */
 
+//Custom Flags
+
+//Route 2
 #define FLAG_HIDE_ROUTE2_AIDE               0x300
 #define FLAG_HIDE_ROUTE2_AIDE_SCRIPT        0x301
 
+//Pewter
+#define FLAG_OLD_MAN_SITRUS                 0x302
+#define FLAG_PIKACHU_FATHER                 0x303
+
+//Route 3
+#define FLAG_TRAINER_ROBIN                  0x304
+
+//Mt.Moon
+#define FLAG_FOSSIL_EXCAVATOR               0x305
+
+//Route 4 West Cerulean
+#define FLAG_BULKUP_GUY                     0x306
+
+#define FLAG_NUGGET_GRUNT                   0x307
 
 #define FLAG_HIDDEN_ITEMS_START 1000 // 0x3E8
 #define FLAG_HIDDEN_ITEM(map, item) (FLAG_HIDDEN_ITEMS_START + HIDDEN_ITEM_##map##_##item)

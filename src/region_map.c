@@ -36,26 +36,26 @@
 
 #define MapGroup(group, num) ((group << 8) | (num))
 
-enum {
-    REGION_MAP_MODE_VIEW = 0,   // read-only browser
-    REGION_MAP_MODE_FLY  = 1,   // Fly selection
-    // add more modes later if you need (e.g., dungeon map, etc.)
-};
+// enum {
+//     REGION_MAP_MODE_VIEW = 0,   // read-only browser
+//     REGION_MAP_MODE_FLY  = 1,   // Fly selection
+//     // add more modes later if you need (e.g., dungeon map, etc.)
+// };
 
-static u8 sRegionMapMode;
-static void (*sRegionMapExitCB)(void) = NULL;
-static inline void RegionMap_EnterMode(u8 mode, void (*exitCB)(void)) {
-    sRegionMapMode = mode; 
-    sRegionMapExitCB = exitCB;
-}
+// static u8 sRegionMapMode;
+// static void (*sRegionMapExitCB)(void) = NULL;
+// static inline void RegionMap_EnterMode(u8 mode, void (*exitCB)(void)) {
+//     sRegionMapMode = mode; 
+//     sRegionMapExitCB = exitCB;
+// }
 
 static inline bool8 MapSecHasFlySpot(u16 sec);           // per-mapsec fly spot
 static inline bool8 MapSecVisited(u16 sec);              // visited flag/bit
 static inline void DoFlyTo(u16 sec);                     // set warp + start effect
 
-static inline u16 GetCursorMapSec(void) {
-    return RegionMap_GetMapSecUnderCursor();
-}
+// static inline u16 GetCursorMapSec(void) {
+//     return RegionMap_GetMapSecUnderCursor();
+// }
 
 extern const struct HealLocation gHealLocations[];
 
@@ -84,6 +84,7 @@ const MapsecToHealLoc sMapsecToHealLoc[] = {
     { MAPSEC_FIVE_ISLAND,     15, FLAG_WORLD_MAP_FIVE_ISLAND },
     { MAPSEC_SIX_ISLAND,      16, FLAG_WORLD_MAP_SIX_ISLAND },
     { MAPSEC_SEVEN_ISLAND,    17, FLAG_WORLD_MAP_SEVEN_ISLAND },
+    { MAPSEC_ROUTE_4,         18, FLAG_WORLD_MAP_ROUTE4_POKEMON_CENTER_1F },
 };
 
 
@@ -148,38 +149,38 @@ static inline void DoFlyTo(u16 sec)
     }
 }
 
-void OpenFlyRegionMap(void) {
-    FieldClearVBlankHBlankCallbacks(); // clear old field vblanks
-    InitRegionMapWithExitCB(0 /*view base*/, CB2_ReturnToFieldContinueScriptPlayMapMusic);
-    RegionMap_EnterMode(REGION_MAP_MODE_FLY, CB2_ReturnToFieldContinueScriptPlayMapMusic);
-    SetRegionMapVBlankCB();            // <- make sure VBlank handler is installed
-    SetMainCallback2(DoRegionMapMain); // hand control to the region map loop
-}
+// void OpenFlyRegionMap(void) {
+//     FieldClearVBlankHBlankCallbacks(); // clear old field vblanks
+//     InitRegionMapWithExitCB(0 /*view base*/, CB2_ReturnToFieldContinueScriptPlayMapMusic);
+//     RegionMap_EnterMode(REGION_MAP_MODE_FLY, CB2_ReturnToFieldContinueScriptPlayMapMusic);
+//     SetRegionMapVBlankCB();            // <- make sure VBlank handler is installed
+//     SetMainCallback2(DoRegionMapMain); // hand control to the region map loop
+// }
 
 // ---------- Public entry points you already call ----------
 
-void CB2_OpenFlyMap(void)
-{
-     PlaySE(SE_PC_LOGON);
+// void CB2_OpenFlyMap(void)
+// {
+//      PlaySE(SE_PC_LOGON);
 
-    // wipe any previous VBlank/HBlank that could block drawing
-    FieldClearVBlankHBlankCallbacks();
+//     // wipe any previous VBlank/HBlank that could block drawing
+//     FieldClearVBlankHBlankCallbacks();
 
-  // init region map (sets BGs, tasks, windows, etc.)
-    InitRegionMapWithExitCB(MAPSEC_PALLET_TOWN /* view base */, CB2_ReturnToFieldContinueScriptPlayMapMusic);
+//   // init region map (sets BGs, tasks, windows, etc.)
+//     InitRegionMapWithExitCB(MAPSEC_PALLET_TOWN /* view base */, CB2_ReturnToFieldContinueScriptPlayMapMusic);
 
-    // explicitly enter Fly mode so A-button does Fly instead of just exiting
+//     // explicitly enter Fly mode so A-button does Fly instead of just exiting
 
-    RegionMap_EnterMode(REGION_MAP_MODE_FLY, CB2_ReturnToFieldContinueScriptPlayMapMusic);
+//     RegionMap_EnterMode(REGION_MAP_MODE_FLY, CB2_ReturnToFieldContinueScriptPlayMapMusic);
 
-    // ensure the map’s own VBlank is live so it can draw
-    SetRegionMapVBlankCB();
+//     // ensure the map’s own VBlank is live so it can draw
+//     SetRegionMapVBlankCB();
 
-    // NO FadeScreen here — keep it 100% clean
-    // SetMainCallback2(CB2_RegionMap);
+//     // NO FadeScreen here — keep it 100% clean
+//     // SetMainCallback2(CB2_RegionMap);
 
-    SetMainCallback2(DoRegionMapMain);
-}
+//     SetMainCallback2(DoRegionMapMain);
+// }
 
 // Main callback that runs the Fly map until user picks a destination or exits
 // void CB2_RegionMap(void)
@@ -195,14 +196,14 @@ void CB2_OpenFlyMap(void)
 
 // ---------- The Fly-only main loop you were missing ----------
 
-static bool32 sPressedA;
-static bool32 sPressedB;
+// static bool32 sPressedA;
+// static bool32 sPressedB;
 
-static inline void ReadAB(void)
-{
-    sPressedA = (gMain.newKeys & A_BUTTON) != 0;
-    sPressedB = (gMain.newKeys & B_BUTTON) != 0;
-}
+// static inline void ReadAB(void)
+// {
+//     sPressedA = (gMain.newKeys & A_BUTTON) != 0;
+//     sPressedB = (gMain.newKeys & B_BUTTON) != 0;
+// }
 
 // static void DoFlyWarpToHealLocation(u32 healLocIndex)
 // {
@@ -219,34 +220,34 @@ static inline void ReadAB(void)
 //     SetMainCallback2(CB2_LoadMap);
 // }
 
-void DoRegionMapMain(void)
-{
-    // Always update button states each frame
-    ReadAB();
+// void DoRegionMapMain(void)
+// {
+//     // Always update button states each frame
+//     ReadAB();
 
-    // Only layer custom Fly behaviour on top of the stock region map
-    if (sRegionMapMode == REGION_MAP_MODE_FLY && sPressedA)
-    {
-        u16 sec = GetCursorMapSec();
+//     // Only layer custom Fly behaviour on top of the stock region map
+//     if (sRegionMapMode == REGION_MAP_MODE_FLY && sPressedA)
+//     {
+//         u16 sec = GetCursorMapSec();
 
-        if (MapSecVisited(sec) && MapSecHasFlySpot(sec))
-        {
-            DoFlyTo(sec);        // sets warp + plays Fly effect
-        }
-        else
-        {
-            PlaySE(SE_ERROR);    // give feedback if invalid
-        }
-    }
+//         if (MapSecVisited(sec) && MapSecHasFlySpot(sec))
+//         {
+//             DoFlyTo(sec);        // sets warp + plays Fly effect
+//         }
+//         else
+//         {
+//             PlaySE(SE_ERROR);    // give feedback if invalid
+//         }
+//     }
 
-    // NOTE:
-    // - B is NOT handled here.
-    //   The stock Region Map task (run by RunTasks() in CB2_RegionMap)
-    //   already checks for B, cleans up, and calls sRegionMapExitCB.
-    //
-    // - Town Map mode (sRegionMapMode == REGION_MAP_MODE_VIEW)
-    //   falls through to stock behaviour entirely.
-}
+//     // NOTE:
+//     // - B is NOT handled here.
+//     //   The stock Region Map task (run by RunTasks() in CB2_RegionMap)
+//     //   already checks for B, cleans up, and calls sRegionMapExitCB.
+//     //
+//     // - Town Map mode (sRegionMapMode == REGION_MAP_MODE_VIEW)
+//     //   falls through to stock behaviour entirely.
+// }
 
 
 // void DoRegionMapMain(void)

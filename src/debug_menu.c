@@ -34,7 +34,7 @@
 #include "../include/script.h"
 #include "../include/random.h"
 
-#define DEBUG_PC_SCRIPT_ADDR ((const u8*)0x081A6955) // same pointer used for MB_PC
+// #define DEBUG_PC_SCRIPT_ADDR ((const u8*)0x081A6955) // same pointer used for MB_PC
 
 // #define CB2_REGIONMAP_ADDR 0x080F08F9  // FireRed US v1.0 thumb address
 
@@ -61,7 +61,7 @@ extern bool8 SetUpFieldMove_Fly(void);
 
 extern u8 FldEff_Use_Fly(void); // some trees require starting via ID, others via function
 
-extern const u8 SystemScript_Fly[]; // provided in your assembled system scripts
+// extern const u8 SystemScript_Fly[]; // provided in your assembled system scripts
 // No need to touch FieldEffectStart or gFieldCallback2 here.
 
 // forward declarations
@@ -75,7 +75,7 @@ static void Debug_OpenFly(void);
 static void DebugMenu_Action_Fly(void) { Debug_OpenFly(); }
 
 // Forward declaration (prevents order issues)
-static void Task_LaunchFlyMapAfterFade(u8 taskId);
+// static void Task_LaunchFlyMapAfterFade(u8 taskId);
 
 // static const struct DebugMenuItem sFieldUtilItems[] = {
 //     { "Fly…", DebugMenu_Action_Fly },
@@ -385,27 +385,27 @@ void DebugMenu_ForceRedraw(void)
     DrawWholeMapView();
 }
 
-void DebugMenu_OpenPortablePC(void)
-{
-    // 1) Cleanly close the active multichoice window (prevents the “box” tile)
-    u8 multichoiceTaskId = FindTaskIdByFunc(Task_MultichoiceMenu_HandleInput);
-    if (multichoiceTaskId != 0xFF)
-    {
-        // window id is stored in data[6] in this base
-        DestroyScriptMenuWindow(gTasks[multichoiceTaskId].data[6]);
-        DestroyTask(multichoiceTaskId);
-    }
+// void DebugMenu_OpenPortablePC(void)
+// {
+//     // 1) Cleanly close the active multichoice window (prevents the “box” tile)
+//     u8 multichoiceTaskId = FindTaskIdByFunc(Task_MultichoiceMenu_HandleInput);
+//     if (multichoiceTaskId != 0xFF)
+//     {
+//         // window id is stored in data[6] in this base
+//         DestroyScriptMenuWindow(gTasks[multichoiceTaskId].data[6]);
+//         DestroyTask(multichoiceTaskId);
+//     }
 
-    // 2) Hide any field message UI & tidy the BG
-    HideFieldMessageBox();
-    DismissMapNamePopup();
-    ChangeBgY(0, 0, 0);
+//     // 2) Hide any field message UI & tidy the BG
+//     HideFieldMessageBox();
+//     DismissMapNamePopup();
+//     ChangeBgY(0, 0, 0);
 
-    // 3) Launch the normal PC script (let it handle lockall/Context2 itself)
-    PlaySE(SE_SELECT);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(DEBUG_PC_SCRIPT_ADDR);
-}
+//     // 3) Launch the normal PC script (let it handle lockall/Context2 itself)
+//     PlaySE(SE_SELECT);
+//     ScriptContext2_Enable();
+//     ScriptContext1_SetupScript(DEBUG_PC_SCRIPT_ADDR);
+// }
 
 // ----- helper that mirrors SetUpFieldMove_Fly -----
 static bool8 CanDebugFlyHere(void)
@@ -414,10 +414,10 @@ static bool8 CanDebugFlyHere(void)
     return Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType);
 }
 
-static void Debug_OpenFly(void)
-{
-      ScriptContext1_SetupScript(SystemScript_Fly);
-}
+// static void Debug_OpenFly(void)
+// {
+//       ScriptContext1_SetupScript(SystemScript_Fly);
+// }
 
 // callable from scripts via `callasm`
 // IMPORTANT: not static, no args, no return
@@ -426,48 +426,48 @@ static void Debug_OpenFly(void)
 //     Debug_OpenFly();
 // }
 
-static void Task_LaunchFlyMapAfterFade(u8 taskId)
-{
-    // gPaletteFade is a pointer in your tree
-   if (!gPaletteFade->active)
-    {
-		 FieldClearVBlankHBlankCallbacks();
-        InitRegionMapWithExitCB(0, CB2_ReturnToFieldContinueScriptPlayMapMusic);
-        SetRegionMapVBlankCB();
+// static void Task_LaunchFlyMapAfterFade(u8 taskId)
+// {
+//     // gPaletteFade is a pointer in your tree
+//    if (!gPaletteFade->active)
+//     {
+// 		 FieldClearVBlankHBlankCallbacks();
+//         InitRegionMapWithExitCB(0, CB2_ReturnToFieldContinueScriptPlayMapMusic);
+//         SetRegionMapVBlankCB();
 
-        // OpenFlyRegionMap();
-		// CB2_OpenFlyMap();   // << was OpenFlyRegionMap()
-		// SetMainCallback2(CB2_RegionMap);   // << was OpenFlyRegionMap()
-        FieldSpecial_Flymap();   // use the stock party menu path
-        DestroyTask(taskId);
-    }
-}
+//         // OpenFlyRegionMap();
+// 		// CB2_OpenFlyMap();   // << was OpenFlyRegionMap()
+// 		// SetMainCallback2(CB2_RegionMap);   // << was OpenFlyRegionMap()
+//         FieldSpecial_Flymap();   // use the stock party menu path
+//         DestroyTask(taskId);
+//     }
+// }
 
-void Debug_OpenFlyFromScript(void) // called via callasm ...+1
-{
-    // 1) Kill any active script/mode so Region Map owns the screen
-    ScriptContext1_Stop();
-    ScriptContext2_Disable();
+// void Debug_OpenFlyFromScript(void) // called via callasm ...+1
+// {
+//     // 1) Kill any active script/mode so Region Map owns the screen
+//     ScriptContext1_Stop();
+//     ScriptContext2_Disable();
 
-    // 2) Tear down *all* windows (pret does this before big UIs)
-    FreeAllWindowBuffers();
+//     // 2) Tear down *all* windows (pret does this before big UIs)
+//     FreeAllWindowBuffers();
 
-    // 3) Fade to black and wait via a task
-    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-    CreateTask(Task_LaunchFlyMapAfterFade, 0);
+//     // 3) Fade to black and wait via a task
+//     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+//     CreateTask(Task_LaunchFlyMapAfterFade, 0);
 
-	// FieldClearVBlankHBlankCallbacks();
-	// InitRegionMapWithExitCB(0, CB2_ReturnToField);
-	// SetRegionMapVBlankCB();
-	// SetMainCallback2(CB2_RegionMap);
-	// SetMainCallback2(OpenFlyRegionMap);
-}
+// 	// FieldClearVBlankHBlankCallbacks();
+// 	// InitRegionMapWithExitCB(0, CB2_ReturnToField);
+// 	// SetRegionMapVBlankCB();
+// 	// SetMainCallback2(CB2_RegionMap);
+// 	// SetMainCallback2(OpenFlyRegionMap);
+// }
 
 //Warp to Town
 
-extern const u8 SystemScript_WarpFly2[];
-extern const u8 SystemScript_WarpFly3[];
-extern const u8 SystemScript_WarpFly4[];
+// extern const u8 SystemScript_WarpFly2[];
+// extern const u8 SystemScript_WarpFly3[];
+// extern const u8 SystemScript_WarpFly4[];
 
 // extern u16 gSpecialVar_0;
 
@@ -482,7 +482,7 @@ void DebugMenu_DoWarpToTown_Page1(void)
     case 3: DebugMenu_DoFlyToTown(sMapsecToHealLoc[3].healIndex); break; // Cerulean
     case 4: DebugMenu_DoFlyToTown(sMapsecToHealLoc[4].healIndex); break; // Vermilion
     case 5: DebugMenu_DoFlyToTown(sMapsecToHealLoc[5].healIndex); break; // Lavender
-    case 6: ScriptContext1_SetupScript(SystemScript_WarpFly2); break;
+    // case 6: ScriptContext1_SetupScript(SystemScript_WarpFly2); break;
     }
 }
 
@@ -495,7 +495,7 @@ void DebugMenu_DoWarpToTown_Page2(void)
     case 1: DebugMenu_DoFlyToTown(sMapsecToHealLoc[7].healIndex); break; // Fuchsia
     case 2: DebugMenu_DoFlyToTown(sMapsecToHealLoc[8].healIndex); break; // Cinnabar
     case 3: DebugMenu_DoFlyToTown(sMapsecToHealLoc[9].healIndex); break; // Saffron
-    case 4: ScriptContext1_SetupScript(SystemScript_WarpFly3); break;
+    // case 4: ScriptContext1_SetupScript(SystemScript_WarpFly3); break;
     }
 }
 
@@ -508,7 +508,7 @@ void DebugMenu_DoWarpToTown_Page3(void)
     case 1: DebugMenu_DoFlyToTown(sMapsecToHealLoc[11].healIndex); break; // One Island
     case 2: DebugMenu_DoFlyToTown(sMapsecToHealLoc[12].healIndex); break; // Two Island
     case 3: DebugMenu_DoFlyToTown(sMapsecToHealLoc[13].healIndex); break; // Three Island
-    case 4: ScriptContext1_SetupScript(SystemScript_WarpFly4); break;
+    // case 4: ScriptContext1_SetupScript(SystemScript_WarpFly4); break;
     }
 }
 
@@ -521,7 +521,9 @@ void DebugMenu_DoWarpToTown_Page4(void)
     case 1: DebugMenu_DoFlyToTown(sMapsecToHealLoc[15].healIndex); break; // Five Island
     case 2: DebugMenu_DoFlyToTown(sMapsecToHealLoc[16].healIndex); break; // Six Island
     case 3: DebugMenu_DoFlyToTown(sMapsecToHealLoc[17].healIndex); break; // Seven Island
+    case 4: DebugMenu_DoFlyToTown(sMapsecToHealLoc[18].healIndex); break; // Mt Moon
     }
+
 }
 
 void DebugMenu_DoFlyToTown(u8 healIndex)
@@ -532,4 +534,6 @@ void DebugMenu_DoFlyToTown(u8 healIndex)
     WarpFadeScreen();
     DoWarp();
     ResetInitialPlayerAvatarState();
+	// Clean up script context so later NPC scripts don’t break
+    // ScriptContext1_Stop();
 }

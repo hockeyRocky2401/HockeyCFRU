@@ -328,8 +328,11 @@ When held by a POK\eMON, it will be\nused in battle to lift confusion.
 #org @DESC_LUM_BERRY
 When held by a POK\eMON, it will be\nused in battle to heal any problem.
 
-#org @DESC_SITRUS_BERRY
-When held by a POK\eMON, it will be\nused in battle to restore 30 HP.
+//#org @DESC_SITRUS_BERRY
+//When held by a POK\eMON, it will be\nused in battle to restore 1/4\nof their HP.
+
+#org @gItemDescription_SitrusBerry
+When held by a POK\eMON, it will be\nused in battle to restore 1/4\nof their HP.
 
 #org @DESC_FIGY_BERRY
 A hold item that restores HP but\nmay cause confusion when used.
@@ -2266,7 +2269,7 @@ A special vial that fully restores \nall Pokémon in your party. One-time use \n
 Know the secrets of \nall your party pokemon!
 
 #org @DESC_TERA_ORB
-An orb that holds within it the\npower to crystallize. When charged \nwith energy, it can Terastallize mons.
+An orb that holds within it the\npower to crystallize. Used for\nTerastallisation.
 
 #org @DESC_CATCHING_CHARM
 A charm that raises the chance \nof Critical Captures.

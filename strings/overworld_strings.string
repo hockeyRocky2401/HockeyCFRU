@@ -345,7 +345,7 @@ Hi, there!\nMay I help you?
 #org @gText_Viridian_PleaseAgain
 Please come again!
 
-// ROUTE 2
+// #ROUTE 2
 
 #org @gText_HereIsTera
 Hello [PLAYER]!\pI work with Prof. Oak, based\nin Pewter City. He called me\pand told me to give you\nthis. 
@@ -356,12 +356,91 @@ You recieved a Tera Orb!
 #org @gThats_Tera
 That Tera Orb will allow you\nto Terastallize one of your Pokémon\pin battle. It should help you\nwith your Gym challenge.\pPress the R Button when selecting\na move to Terastallize.\pGood luck and see you soon,\n[PLAYER]!  
 
-// PEWTER
+// #PEWTER
 
+//Aide
 #org @gPewter_Aide
-Hello again [PLAYER]!\pHow are you finding that Tera\nOrb?\pI've heard a rumor that there\nis someone in the region with\pknowledge of how to change A\nPokémon's Tera-Type. It would be\pa great help to you if\nyou can find that person.
+Hello again [PLAYER]!\pHow are you finding that Tera\nOrb?\pI've heard a rumor that there\nis someone in the region with\pknowledge of how to change a\nPokémon's Tera-Type. It would be\pa great help to you if\nyou can find that person.
 
-// CERULEAN
+//Old Man in Museum
+#org @gOldMan_Sitrus
+I should be grateful for my long\nlife.\pNever did I think I would get to\nsee the bones of a dragon!\pIt's making me feel generous.\nTake this.
+
+#org @gThats_Sitrus
+That's a Sitrus Berry. It\nrestores your Pokémon's HP when\pthey're low. Use it well.
+
+#org @gOldMan_Museum
+This is wonderful!
+
+// Pikachu Father Giorgio in Museum 
+#org @gText_Pikachu_Father
+My daughter wants a Pikachu of her\nown but they're not exactly easy\pto catch.\pYou have the look of a\nTrainer.\pDo you want to battle against my\nPikachu?
+
+#org @gText_Giorgio_NoBattle
+You must be busy, I understand.
+
+#org @gText_Giorgio_Battle
+Let's do it!
+
+#org @gText_Giorgio_PostBattle
+Great, my daughter's crying again.
+
+#org @gText_Giorgio_Outro
+Our Pokemon did well not to\ndamage anything in here.
+
+//# ROUTE 3
+#org @gText_Trainer_Robin
+Eek!\nDid you touch me?
+
+#org @gText_Robin_Lost
+That's it?
+
+#org @gText_Robin_PostBattle
+Oh well.\nHere, take this TM.
+
+#org @gText_Thats_ShockWave
+Shock Wave is an Electric-Type\nattack that never misses.\pTeach it to a Pikachu!
+
+#org @gText_Robin_Idle
+Route 4 is at the foot of\nMt. Moon.
+
+// ##MT.MOON
+// Fossil Excavator 
+#org @gText_Excavator
+Hi, I'm excavating for fossils here\nunder Mt. Moon.\pSometimes Brock of Pewter Gym\nlends me a hand.\pAs it so happens, I have\ntwo fossils here that I obtained\pfrom the Kalos region.\pI'm tired of carrying the both of\nthem so would you care to\ptake one of them off my\nhands please?
+
+#org @gText_Jaw_Fossil
+Jaw Fossil
+
+#org @gText_Sail_Fossil
+Sail Fossil
+
+#org @gText_Neither 
+Neither
+
+#org @gThats_JawSailFossil
+Now, as for how to resurrect\nfrom this fossil, I have no idea.
+
+#org @gText_Excavator_Neither
+Fair enough.\nI'll be here if you want\pa fossil.\pAnd I'd be very grateful if you'd\ntake one.
+
+//Nurse Mt. Moon
+#org @gText_Nurse_MtMoon
+Mt. Moon is a trek!\nLet me heal you're Pokemon.
+
+#org @gText_Nurse_Done
+There, good as new!
+
+// ##ROUTE 4 WEST CERULEAN
+
+//Mega Move Guy
+#org @gText_BulkUp_Guy
+A punch of roaring ferocity!\pPacked with destructive power!\pThat's what happens after you use\nBulk Up!\pYes! Bulk Up!\pHere, take it!
+
+#org @gText_Thats_BulkUp
+Bulk Up raises your Pokémon's Attack\nand Defense.\pNow we are comrades in the\nway of Bulk Up!
+
+// #CERULEAN
 
 #org @gText_Rival_Cerulean_Intro
 [RIVAL]: Yo! [PLAYER]! You're still\nstruggling along back here? I'm\pdoing great! I caught a bunch\nof strong and smart Pokémon!
@@ -375,4 +454,23 @@ Hey!\nTake it easy!\pYou won already!
 #org @gText_Rival_Cerulean_Outro
 [RIVAL]: Hey, guess what?\nI went to Bill's and got \phim to show me his rare\nPokémon. That added a lot of\ppages to my Pokédex! After\nall, Bill's world famous as\pa Pokémaniac. He invented the\nPokémon Storage System on PC too.\pSince you're using his system, you\nshould go thank him. Well, I\pbetter get rolling! Smell ya later!
 
+// ##ROUTE 24 NORTH CERULEAN
 
+// Nugget Grunt
+#org @gText_Congrats_Nugget
+Congratulations! You beat our\nfive contest Trainers!\pYou just earned a fabulous prize!
+
+#org @gText_Join_Rocket
+By the way, how would you like to\njoin Team Rocket?\pWe're a group of professional\ncriminals specializing in Pokémon!\pWant to join?
+
+#org @gText_Please_Join
+Are you sure?\pCome on, join us!\pI'm telling you to join!\pOkay, you need convincing!\pI'll make you an offer you can't\nrefuse!
+
+#org @gText_Nugget_PostBattle
+Arrgh!\nYou are good!
+
+#org @gText_Nugget_Beaten
+With your ability, you'd become\na top leader in Team Rocket.\pCome on, think of the opportunity!\nDon't let this chance go to waste.
+
+#org @gText_Report_Rocket
+Okay, report to our base at the\nCeladon Game Corner.\pIf anyone asks, tell 'em\nthat the Nugget Bridge Grunt\psent you.

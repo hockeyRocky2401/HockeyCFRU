@@ -9075,9 +9075,13 @@ const struct Trainer gTrainers[] = {
         .gender = GENDER_MALE,
         .trainerPic = TRAINER_PIC_BUG_CATCHER,
         #ifdef DECAP_TRAINER_NAMES
-        .trainerName = { _C, _h, _a, _r, _l, _i, _e, _END },
+        // .trainerName = { _C, _h, _a, _r, _l, _i, _e, _END },
+        // #else
+        // .trainerName = { _C, _H, _A, _R, _L, _I, _E, _END },
+        // #endif
+          .trainerName = { _S, _a, _m, _u, _r, _a, _i, _END },
         #else
-        .trainerName = { _C, _H, _A, _R, _L, _I, _E, _END },
+        .trainerName = { _S, _A, _M, _U, _R, _A, _I, _END },
         #endif
         .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
         .doubleBattle = FALSE,
@@ -12663,6 +12667,23 @@ const struct Trainer gTrainers[] = {
         .partySize = 6,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
         .party =  { .ItemCustomMoves = sParty_CueBallPaxton },
+    },
+    [TRAINER_POKEFAN_M_GIORGIO] = {
+        .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
+        .trainerClass = CLASS_POKEFAN,
+        .encounterMusic = TRAINER_ENCOUNTER_MUSIC_TWINS,
+        .gender = GENDER_MALE,
+        .trainerPic = TRAINER_PIC_POKEFAN_M,
+        #ifdef DECAP_TRAINER_NAMES
+        .trainerName = { _G,_i, _o, _r, _g, _i, _o, _END },
+        #else
+        .trainerName = { _G,_I, _O, _R, _G, _I, _O, _END },
+        #endif
+        .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
+        .doubleBattle = FALSE,
+        .partySize = 1,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
+        .party =  { .ItemCustomMoves = sParty_PokefanMGiorgio},
     },
 };
 #endif

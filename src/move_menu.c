@@ -2005,6 +2005,10 @@ static void LoadShadowColourForGreyedOutBagText(void)
 
 void HandleInputChooseAction(void)
 {
+	// #ifdef LAST_USED_BALL_TRIGGER
+    // TryLoadLastUsedBallTrigger();
+    // #endif
+
 	DoBounceEffect(gActiveBattler, BOUNCE_HEALTHBOX, 7, 1);
 	DoBounceEffect(gActiveBattler, BOUNCE_MON, 7, 1);
 

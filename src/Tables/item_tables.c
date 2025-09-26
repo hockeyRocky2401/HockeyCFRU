@@ -1800,6 +1800,7 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 
 extern const u8 gItemDescription_SuperPotion[];
 extern const u8 gItemDescription_HyperPotion[];
+extern const u8 gItemDescription_SitrusBerry[];
 
 const struct Item gItemData[] =
 {
@@ -4084,7 +4085,8 @@ const struct Item gItemData[] =
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_RESTORE_HP,
         .holdEffectParam = 30,
-		.description = DESC_SITRUS_BERRY,
+		// .description = DESC_SITRUS_BERRY,
+		.description = gItemDescription_SitrusBerry,
 		.importance = 0,
         .unk19 = 10,
 		.pocket = POCKET_BERRY_POUCH,

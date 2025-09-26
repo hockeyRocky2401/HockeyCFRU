@@ -348,14 +348,13 @@ bool8 StartRButtonFunc(void)
         return FALSE;
 
     // Open Debug Menu (script-based in your repo)
-    ScriptContext2_Enable();
+    // ScriptContext2_Enable();
     DismissMapNamePopup();
     ChangeBgY(0, 0, 0);
     PlaySE(SE_SELECT);
     ScriptContext1_SetupScript(SystemScript_DebugMenu);
     return TRUE;
 }
-
 
 void InitPartyMenuFromField(void)
 {
