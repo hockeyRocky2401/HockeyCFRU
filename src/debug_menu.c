@@ -135,16 +135,16 @@ void DebugMenu_ProcessGiveItem(void)
 		case 1: //General Useful Items
 			AddBagItem(ITEM_MAX_REPEL, 100);
 			AddBagItem(ITEM_ESCAPE_ROPE, 100);
-			AddBagItem(ITEM_HEART_SCALE, 100);
+			AddBagItem(ITEM_MAX_POTION, 100);
 			#if (defined ITEM_HM01_CUT && defined ITEM_HM08_ROCK_CLIMB)
 			for (i = ITEM_HM01_CUT; i <= ITEM_HM08_ROCK_CLIMB; ++i)
 				AddBagItem(i, 1);
 			#endif
 
-			AddBagItem(ITEM_RED_SHARD, 100);
-			AddBagItem(ITEM_BLUE_SHARD, 100);
-			AddBagItem(ITEM_YELLOW_SHARD, 100);
-			AddBagItem(ITEM_GREEN_SHARD, 100);
+			AddBagItem(ITEM_ANTIDOTE, 100);
+			AddBagItem(ITEM_PARALYZE_HEAL, 100);
+			AddBagItem(ITEM_AWAKENING, 100);
+			AddBagItem(ITEM_RARE_CANDY, 100);
 			break;
 		case 2: //Poke Balls
 			for (i = ITEM_MASTER_BALL; i <= ITEM_PREMIER_BALL; ++i)
@@ -537,3 +537,19 @@ void DebugMenu_DoFlyToTown(u8 healIndex)
 	// Clean up script context so later NPC scripts don’t break
     // ScriptContext1_Stop();
 }
+
+// static void DebugMenu_TrainerSee(u8 taskId)
+// {
+//     if (FlagGet(FLAG_DISABLE_TRAINER_SEE))
+//     {
+//         FlagClear(FLAG_DISABLE_TRAINER_SEE);
+//         Debug_DestroyMenu(taskId);
+//         Debug_ShowMessage("Trainer Spotting ENABLED");
+//     }
+//     else
+//     {
+//         FlagSet(FLAG_DISABLE_TRAINER_SEE);
+//         Debug_DestroyMenu(taskId);
+//         Debug_ShowMessage("Trainer Spotting DISABLED");
+//     }
+// }

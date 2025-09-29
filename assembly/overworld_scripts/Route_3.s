@@ -8,13 +8,36 @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 @ Robin Jigglypuff trainer 
-/*
+
 EventScript_Trainer_Robin:
 checkflag 0x304
 if SET _goto Trainer_Robin_Idle
 lockall
 faceplayer
 textcolor 1
+trainerbattle1 0, 118, 0, gText_Trainer_Robin, gText_Robin_Lost, Robin_PostBattle 
+releaseall
+end
+
+EventScript_Trainer_Robin0:
+@Trigger 0 Bottom tile
+setvar 0x4001, 0
+call Trainer_Robin
+end
+
+EventScript_Trainer_Robin1:
+@Trigger 1 Top tile
+setvar 0x4001, 1
+call Trainer_Robin
+end
+
+Trainer_Robin:
+lockall
+textcolor 1
+compare 0x4001, 1 
+if equal _call Robin_Walk_Up
+applymovement 255, Look_Down
+waitmovement 0
 trainerbattle1 0, 118, 0, gText_Trainer_Robin, gText_Robin_Lost, Robin_PostBattle 
 releaseall
 end
@@ -33,6 +56,7 @@ waitmsg
 waitbuttonpress
 closemessage
 setflag 0x304
+setvar 0x4092, 1
 releaseall
 end
 
@@ -44,4 +68,15 @@ waitmsg
 waitbuttonpress
 closemessage
 releaseall
-end */
+end 
+
+Robin_Walk_Up:
+applymovement 2, Walk_Up
+waitmovement 0
+return
+
+Walk_Up:
+.byte walk_up, end_m
+
+Look_Down:
+.byte look_down, end_m

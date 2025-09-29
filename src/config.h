@@ -402,3 +402,6 @@ enum //These vars need to be one after the other (hence the enum)
 
 /* Trainer Data */
 #define EXPAND_TRAINERS // Makes trainers editable, well useless if OPEN_WORLD_TRAINERS is being used.
+
+//Custom Config 
+#define FLAG_DISABLE_TRAINER_SEE 0x309 //Disable trainer see.

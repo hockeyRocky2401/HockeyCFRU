@@ -747,5 +747,9 @@
 #define TRAINER_CUE_BALL_PAXTON                  742
 //Custom
 #define TRAINER_POKEFAN_M_GIORGIO                743
+#define TRAINER_HIKER_WES                        744
+#define TRAINER_HIKER_KENNY                      745
 
-#define MAX_TRAINER_COUNT (TRAINER_CUE_BALL_PAXTON + 1)
+
+// #define MAX_TRAINER_COUNT (TRAINER_CUE_BALL_PAXTON + 1)
+#define MAX_TRAINER_COUNT (TRAINER_HIKER_KENNY + 1)

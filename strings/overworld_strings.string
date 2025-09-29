@@ -347,6 +347,7 @@ Please come again!
 
 // #ROUTE 2
 
+// Tera Orb Aide 
 #org @gText_HereIsTera
 Hello [PLAYER]!\pI work with Prof. Oak, based\nin Pewter City. He called me\pand told me to give you\nthis. 
 
@@ -356,9 +357,15 @@ You recieved a Tera Orb!
 #org @gThats_Tera
 That Tera Orb will allow you\nto Terastallize one of your Pokémon\pin battle. It should help you\nwith your Gym challenge.\pPress the R Button when selecting\na move to Terastallize.\pGood luck and see you soon,\n[PLAYER]!  
 
+// Eastern Building Aide
+#org @gText_Aide_East
+Hi! Remember me?\nI'm one of Prof. Oak's Aides.\pProf. Oak entrusted me with this\nTM, U-Turn, to give to you.
+
+#org @gText_Thats_UTurn
+U-Turn is a Bug-type attack\nthat also switches out the Trainer's\pPokémon on hit.\pIt's very popular amongst some of\nthe best Trainers in the world. 
 // #PEWTER
 
-//Aide
+//Pewter Aide
 #org @gPewter_Aide
 Hello again [PLAYER]!\pHow are you finding that Tera\nOrb?\pI've heard a rumor that there\nis someone in the region with\pknowledge of how to change a\nPokémon's Tera-Type. It would be\pa great help to you if\nyou can find that person.
 
@@ -387,6 +394,40 @@ Great, my daughter's crying again.
 
 #org @gText_Giorgio_Outro
 Our Pokemon did well not to\ndamage anything in here.
+
+//Fossil Regen in Museum
+#org @gText_Fossil_Regen
+We have two fossils of rare,\nprehistoric Pokémon on exhibit.\pWe can actually restore fossils here\nif you have them.
+
+#org @gText_WantToReviveDome
+Do you want to revive this\nDome Fossil?
+
+#org @gText_WantToReviveHelix
+Do you want to revive this\nHelix Fossil?
+
+#org @gText_WantToReviveJaw
+Do you want to revive this\nJaw Fossil?
+
+#org @gText_WantToReviveSail
+Do you want to revive this\nSail Fossil?
+
+#org @gText_Exit
+Exit 
+
+#org @gText_Got_Kabuto
+[PLAYER] recieved the Kabuto\nfrom the doctor.
+
+#org @gText_Got_Omanyte
+[PLAYER] recieved the Omanyte\nfrom the doctor.
+
+#org @gText_Got_Tyrunt
+[PLAYER] recieved the Tyrunt\nfrom the doctor.
+
+#org @gText_Got_Amaura
+[PLAYER] recieved the Amaura\nfrom the doctor.
+
+#org @gText_Fossil_ComeBack
+Come back if you want to\nrevive a fossil.
 
 //# ROUTE 3
 #org @gText_Trainer_Robin
@@ -440,6 +481,10 @@ A punch of roaring ferocity!\pPacked with destructive power!\pThat's what happen
 #org @gText_Thats_BulkUp
 Bulk Up raises your Pokémon's Attack\nand Defense.\pNow we are comrades in the\nway of Bulk Up!
 
+//Mega Kick Guy
+#org @gText_MegaKick
+Mega Kick? Mega Punch?\pNever heard of 'em.
+
 // #CERULEAN
 
 #org @gText_Rival_Cerulean_Intro
@@ -474,3 +519,85 @@ With your ability, you'd become\na top leader in Team Rocket.\pCome on, think of
 
 #org @gText_Report_Rocket
 Okay, report to our base at the\nCeladon Game Corner.\pIf anyone asks, tell 'em\nthat the Nugget Bridge Grunt\psent you.
+
+// ##ROUTE 25 EAST NUGGET BRIDGE 
+
+#org @gText_Trainer_Haley
+My friend has many cute Pokémon.\nI'm so jealous.
+
+#org @gText_Haley_Lost
+I'm not so jealous!
+
+#org @gText_Haley_PostBattle
+I need cuter Pokémon. Here, take\nthis.
+
+#org @gText_Thats_GigaDrain
+I love Giga Drain! It does\ndamage and also restores your\pPokémon's HP.\pWorks great against Misty!
+
+#org @gText_Haley_Idle
+You came from Mt. Moon?\pMay I have a Clefairy?
+
+// ##DIGLETT CAVE 
+
+#org @gText_Trainer_Wes
+I've caught some great Diglett\nin here.\pTime to test them out!
+
+#org @gText_Wes_Lost
+Nooo my Diglett!
+
+#org @gText_Wes_PostBattle
+Thanks for battling my Diglett.\pI have these spare Heavy-Duty Boots\nthat you might be able to\pput to good use.
+
+#org @gText_Thats_Boots
+Those Heavy-Duty Boots will protect\na Pokémon from entry hazard moves\psuch as Stealth Rock.
+
+// ROUTE 10 BEFORE ROCK TUNNEL 
+
+//Route 10 Aide
+#org @gText_Route10_Aide
+Oh. [PLAYER]!\pI've been looking for you!\pIt's me! One of the ever-present\nAides to Prof. Oak.\pHe entrusted me with this\nEverstone to give to you, [PLAYER].
+
+#org @gText_Thats_Everstone
+Making Pokémon evolve certainly\ncan add to the Pokédex.\pHowever, at times, you may not\nwant a certain Pokémon to evolve.\pIn that case, give the Everstone\nto that Pokémon.\pIt will prevent evolution according\nto the Professor.
+
+// ROUTE 11 SOUTH gText_Lavender
+
+//Route 11 Aide
+#org @gText_Route11_Aide
+Hi! Remember me?\pI'm one of Prof. Oak's Aides.\pProf. Oak entrusted me with the\nItemfinder for you.
+
+#org @gText_Thats_Itemfinder
+There are items on the ground that\nmay be hidden from view.\pUse the Itemfinder to detect any\nhidden items close to you.\pThe machine is a bit limited.\nIt can't pinpoint item locations.\pWhat it does is show the direction\nwhere the item is.\pUse it to get your bearings, then\nsearch the suspect area by hand.
+
+// ROUTE 7 EAST CELADON 
+
+//Black Augurite Trainer 
+#org @gText_Trainer_Kenny
+You there! Beat me in a\nbattle and i'll give you something.
+
+#org @gText_Kenny_Lost
+Well fought, young man.
+
+#org @gText_Kenny_PostBattle
+You won fair and square.\pHave this.
+
+#org @gText_Thats_Augurite
+I found that augurite when i\nwas in the Sinnoh region.\pI'm not sure what it does\nbut it looks important.\pMaybe you can find a use\nfor it.
+
+// CELADON CITY
+
+// Oak After Gym
+#org @gText_MegaRing
+Well done [PLAYER]!\pI was watching your battle through\nthe window there.\pYou're becoming quite the young\nTrainer.\pI came all this way to give you\nsomething.\pI'm sure you've seen Trainers on\nTV using Mega-Evolved Pokémon,\pPokémon that have taken on a\ngreater form during battle.\pWell, with this Mega Ring, you'll\nbe able to Mega Evolve your\pPokémon too.
+
+#org @gText_Thats_MegaRing
+You'll need more than just the\nMega Ring to Mega Evolve your\pPokémon though.\pYou'll also require Mega Stones.
+
+#org @gText_Charizardite
+This is for the Pokémon that\nyou recieved in my Lab.\pHave it hold one of these,\nthen use your Mega Ring in battle\pby pressing the R Button when\nselecting a move.\pCharizard has two possible Mega\nEvolutions, depending on which of\pthese stones that it's holding.\pBoth forms are quite different so\nmaybe test each one in battle\pand see which one you prefer.
+
+#org @gText_Blastoisinite
+This is for the Pokémon that\nyou recieved in my Lab.\pHave it hold this stone, then\nuse your Mega Ring in battle\pby pressing the R Button when\nselecting a move.
+
+#org @gText_Bye_Oak
+I'm sure you'll find more Mega\nStones as you travel.\pI've kept you long enough.\pI must return to my Lab.\pTalk soon, [PLAYER]!

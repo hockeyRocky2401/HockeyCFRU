@@ -6467,7 +6467,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _0, _3, _END},
 		.itemId = ITEM_TM03,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM03,
@@ -6595,7 +6595,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _1, _END},
 		.itemId = ITEM_TM11,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM11,
@@ -6707,7 +6707,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _8, _END},
 		.itemId = ITEM_TM18,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM18,
@@ -7011,7 +7011,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _3, _7, _END},
 		.itemId = ITEM_TM37,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM37,

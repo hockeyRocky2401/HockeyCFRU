@@ -632,7 +632,7 @@ The foe is made to\nswitch out with an\nally. In the wild,\nthe battle ends.
 A move that badly\npoisons the foe.\nIts poison damage\nworsens every turn.
 
 #org @DESC_TM07
-A hailstorm lasting\nfive turns damages\nall POK\eMON except\nthe ICE-type.
+A hailstorm lasting\nseven turns damages\nall POK\eMON except\nthe ICE-type.
 
 #org @DESC_TM08
 The user bulks up\nits body to boost\nboth its ATTACK and\nDEFENSE stats.
@@ -644,7 +644,7 @@ The user shoots\nseeds at the foe.\nTwo to five seeds\nare shot at once.
 An attack that\nvaries in type and\nintensity depending\non the user.
 
 #org @DESC_TM11
-The sun blazes for\nfive turns, powering\nup FIRE-type\nmoves.
+The sun blazes for\nseven turns, powering\nup FIRE-type\nmoves.
 
 #org @DESC_TM12
 The foe is taunted\ninto a rage that\nallows it to use\nonly attack moves.
@@ -665,7 +665,7 @@ A wall of light\ncuts damage from\nSP. ATK attacks\nfor five turns.
 Enables the user to\nevade all attacks.\nIt may fail if used\nin succession.
 
 #org @DESC_TM18
-A heavy rain falls\nfor five turns,\npowering up WATER-\ntype moves.
+A heavy rain falls\nfor seven turns,\npowering up WATER-\ntype moves.
 
 #org @DESC_TM19
 A harsh attack that\nabsorbs half the\ndamage it inflicted\nto restore HP.
@@ -722,7 +722,7 @@ The foe is scorched\nwith intense flames.\nThe foe may suffer\na burn.
 Filthy sludge is\nhurled at the foe.\nIt may poison the\ntarget.
 
 #org @DESC_TM37
-A 5-turn sandstorm\nthat damages all\ntypes except ROCK,\nGROUND, and STEEL.
+A 7-turn sandstorm\nthat damages all\ntypes except ROCK,\nGROUND, and STEEL.
 
 #org @DESC_TM38
 The foe is hit with\nan intense flame.\nIt may leave the\ntarget with a burn.
@@ -1270,7 +1270,7 @@ User yells as if it\nis ranting about\nsomething, making\nfoes SpAtk decrease.
 A strong wind blows\naway foes barriers.\nThis also lowers the\ntargets evasiveness.
 
 #org @DESC_TM110
-If it is the opposite\ngender of the user,\nthe foe is charmed\ninto lower its SpAtk.
+User attacks with an\nenergy-draining\nkiss that restores\nthe user's HP.
 
 #org @DESC_TM111
 User throws a stone\nor projectile. A\nflying Pokémon will\nfall to the ground.
@@ -2155,7 +2155,7 @@ A peculiar set of armor that\ncan make a certain\nspecies of Pokémon evolve.
 A peculiar set of armor that\ncan make a certain\nspecies of Pokémon evolve.
 
 #org @DESC_BLACK_AUGURITE
-A glassy black stone that produces\na sharp cutting edge when split.\nIt[B4]s loved by a certain Pokémon.
+A glassy black stone that produces\na sharp cutting edge when split.
 
 #org @DESC_METAL_ALLOY
 A peculiar metal that can make\ncertain species of Pokémon\nevolve. Composed of many layers.

@@ -189,9 +189,10 @@
 #define VAR_0x408D                 0x408D
 #define VAR_0x408E                 0x408E
 #define VAR_0x408F                 0x408F
-#define VAR_0x4090                 0x4090
-#define VAR_0x4091                 0x4091
-#define VAR_0x4092                 0x4092
+#define VAR_0x4090                 0x4090 
+//Custom
+#define VAR_0x4091                 0x4091 //Using for Haley
+#define VAR_0x4092                 0x4092 //Using for Robin
 #define VAR_0x4093                 0x4093
 #define VAR_0x4094                 0x4094
 #define VAR_0x4095                 0x4095

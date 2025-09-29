@@ -1041,7 +1041,32 @@
 //Route 4 West Cerulean
 #define FLAG_BULKUP_GUY                     0x306
 
+//Nugget Bridge
 #define FLAG_NUGGET_GRUNT                   0x307
+
+//Route 25
+// #define FLAG_TRAINER_HALEY                  0x308
+//0x309 used by Trainer See
+
+//Route 6
+#define FLAG_ROUTE6_WACAN                   0x30A
+
+//Diglett Cave
+#define FLAG_HIKER_WES                      0x30B
+
+//Route 2 Return
+#define FLAG_ROUTE2_AIDE_EAST               0x30C
+
+//Route 10
+#define FLAG_ROUTE10_AIDE                   0x30D
+
+//Route 11 South Lavender
+#define FLAG_ROUTE11_AIDE                   0x30E
+
+//Route 7 East Celadon
+#define FLAG_HIKER_KENNY                    0x30F
+
+
 
 #define FLAG_HIDDEN_ITEMS_START 1000 // 0x3E8
 #define FLAG_HIDDEN_ITEM(map, item) (FLAG_HIDDEN_ITEMS_START + HIDDEN_ITEM_##map##_##item)

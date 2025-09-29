@@ -9,7 +9,7 @@
 
 @ Grunt on Nugget Bridge
 
-/*EventScript_Nugget_Grunt2:
+EventScript_Nugget_Grunt2:
 lockall
 @Trigger A Middle tile 
 setvar 0x4001, 0
@@ -55,7 +55,7 @@ lockall
 textcolor 0
 compare 0x4001, 1 
 if equal _call Grunt_Walk_Left
-applymovement 255, Player_Look_Right
+applymovement 255, Look_Right
 preparemsg gText_Congrats_Nugget
 waitmsg
 waitbuttonpress
@@ -104,6 +104,6 @@ return
 Walk_Left:
 .byte walk_left, end_m
 
-Player_Look_Right:
+.global Look_Right
+Look_Right:
 .byte look_right, end_m
-*/

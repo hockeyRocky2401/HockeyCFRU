@@ -704,6 +704,9 @@ u8 CheckForTrainersWantingBattle(void)
 
 static bool8 CheckTrainerSpotting(u8 eventObjId) //Or just CheckTrainer
 {
+	if (FlagGet(FLAG_DISABLE_TRAINER_SEE))
+        return FALSE; // Global override: spotting disabled
+		
 	const u8* scriptPtr = GetEventObjectScriptPointerByEventObjectId(eventObjId); //Get NPC Script Pointer from its Object Id
 	u8 battleType = scriptPtr[1];
 

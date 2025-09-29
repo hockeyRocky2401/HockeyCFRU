@@ -29,6 +29,7 @@ const u16 sAllGameMart[] = {
 
 const u16 sTMMart[] = {
     // ITEM_TM05, //Roar
+    // ITEM_TM07, //Hail New
     ITEM_TM11, //Sunny Day New
     ITEM_TM14, //Blizzard New
     ITEM_TM15, //Hyper Beam
@@ -65,6 +66,14 @@ const u16 sEvoMart[] = {
     ITEM_DUSK_STONE,
     ITEM_DAWN_STONE,
     ITEM_LINK_CABLE,
+    ITEM_NONE,
+};
+
+const u16 sWeatherMart[] = {
+    ITEM_SMOOTH_ROCK,
+    ITEM_ICY_ROCK,
+    ITEM_HEAT_ROCK,
+    ITEM_DAMP_ROCK,
     ITEM_NONE,
 };
 

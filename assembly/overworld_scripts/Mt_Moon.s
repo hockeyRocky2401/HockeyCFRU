@@ -6,7 +6,7 @@
 .include "../asm_defines.s"
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-/*
+
 @ Fossil Excavator
 EventScript_Fossil_Excavator:
 checkflag 0x305
@@ -93,4 +93,4 @@ waitmsg
 waitbuttonpress
 closemessage
 releaseall
-end */
+end 

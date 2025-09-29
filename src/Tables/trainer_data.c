@@ -1897,7 +1897,7 @@ const struct Trainer gTrainers[] = {
         #endif
         .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
         .doubleBattle = FALSE,
-        .partySize = 1,
+        .partySize = 2,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
         .party =  { .ItemCustomMoves = sParty_BugCatcherCale },
     },
@@ -12684,6 +12684,40 @@ const struct Trainer gTrainers[] = {
         .partySize = 1,
         .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
         .party =  { .ItemCustomMoves = sParty_PokefanMGiorgio},
+    },
+    [TRAINER_HIKER_WES] = {
+        .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
+        .trainerClass = CLASS_HIKER,
+        .encounterMusic = TRAINER_ENCOUNTER_MUSIC_HIKER,
+        .gender = GENDER_MALE,
+        .trainerPic = TRAINER_PIC_HIKER,
+        #ifdef DECAP_TRAINER_NAMES
+        .trainerName = { _W, _e, _s, _END },
+        #else
+        .trainerName = { _W, _E, _S, _END },
+        #endif
+        .items = {ITEM_TERA_ORB, ITEM_NONE, ITEM_NONE, ITEM_NONE},
+        .doubleBattle = FALSE,
+        .partySize = 4,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
+        .party =  { .ItemCustomMoves = sParty_HikerWes },
+    },
+    [TRAINER_HIKER_KENNY] = {
+        .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
+        .trainerClass = CLASS_HIKER,
+        .encounterMusic = TRAINER_ENCOUNTER_MUSIC_HIKER,
+        .gender = GENDER_MALE,
+        .trainerPic = TRAINER_PIC_HIKER,
+        #ifdef DECAP_TRAINER_NAMES
+        .trainerName = { _K, _e, _n, _n, _y, _END },
+        #else
+        .trainerName = { _K, _E, _N, _N, _Y, _END },
+        #endif
+        .items = {ITEM_TERA_ORB, ITEM_NONE, ITEM_NONE, ITEM_NONE},
+        .doubleBattle = FALSE,
+        .partySize = 5,
+        .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
+        .party =  { .ItemCustomMoves = sParty_HikerKenny },
     },
 };
 #endif

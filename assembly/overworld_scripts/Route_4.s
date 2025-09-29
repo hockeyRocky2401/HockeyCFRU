@@ -9,7 +9,6 @@
 
 @ Mega Punch/Kick Guy Scripts
 
-/*
 EventScript_BulkUp_Guy:
 checkflag 0x306
 if SET _goto BulkUp_Idle
@@ -40,4 +39,16 @@ waitmsg
 waitbuttonpress
 closemessage
 releaseall
-end */
+end 
+
+@Mega Kick Guy
+EventScript_MegaKick:
+lockall
+faceplayer
+textcolor 0
+preparemsg gText_MegaKick
+waitmsg
+waitbuttonpress
+closemessage
+releaseall
+end 
