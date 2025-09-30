@@ -1,7 +1,7 @@
 # Welcome to my repo for Complete Fire Red Upgrade Expansion Version!
 This fork is made by Shiny Miner, and I'm currently learning how to work with it so that I can make a game that would be suitable for a playthrough of Pokemon Fire Red with up to Gen 9 inclusive game mechanics.  
 
-##### This is CFRU expansion project and not affiliated to the og CFRU.
+##### This is CFRU expansion project and not affiliated to the og CFRU. It is adviced to read the wiki here before touching anything read this as well Guidelines before using.
 
 #### New features I hope to fully implement:
 - Last used Pokeball by L button
