@@ -32,6 +32,7 @@ This fork is made by Shiny Miner, and I'm currently learning how to work with it
 
 ##### This is CFRU expansion project and not affiliated to the og CFRU. It is adviced to read [wiki](https://github.com/Shiny-Miner/CFRU-expansion/wiki) here before touching anything read this as well[ Guidelines before using](https://github.com/Shiny-Miner/CFRU-expansion/wiki/Must-read-before-you-start-working!). 
 
+##### Instructions
 - Use your own Pokemon FireRed 1.0 Rom with this project and name it BPRE0.gba before using the 'py scripts//clean.py' and 'py scripts//make.py' commands.
 - Its advised to use the Dynamic-Pokemon-Expansion_Gen9 project first before using this project(CFRU).
 - Run your rom through DPE(https://github.com/hockeyRocky2401/Dynamic-Pokemon-Expansion-Gen-9) before you use it with CFRU to include all of the Gen 9 features and Pokemon.
