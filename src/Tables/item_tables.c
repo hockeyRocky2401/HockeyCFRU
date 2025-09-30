@@ -7,6 +7,7 @@
 #include "../../include/constants/items.h"
 #include "../../include/constants/item_effects.h"
 #include "../../include/new/item.h"
+// #include "../../include/generated/item_desc_auto.h" //new
 #include "../../include/new/item_effects.h"
 #include "../../include/new/pickup_items.h"
 #include "../../include/new/item_tables.h"
@@ -1785,6 +1786,22 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
 };
 
+// static const u8 sSuperPotionDesc[] = 
+//     "A spray-type wound medicine.\nIt restores the HP of one POK\xE9MON\xFEby 60 points.\xFF";
+
+// static const u8 DESC_SUPER_POTION[] = 
+//     "A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 60 points.";
+
+// static const u8 sHyperPotionDesc[] = 
+//    "A spray-type wound medicine.\xFEIt restores the HP of one POK\xE9MON\xFEby 120 points.\xFF";
+
+// static const u8 DESC_HYPER_POTION[] = 
+//    "A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 120 points.";
+
+extern const u8 gItemDescription_SuperPotion[];
+extern const u8 gItemDescription_HyperPotion[];
+extern const u8 gItemDescription_SitrusBerry[];
+
 const struct Item gItemData[] =
 {
 	{
@@ -2076,7 +2093,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _a, _r, _a, _l, _y, _z, _SPACE, _H, _e, _a, _l, _END, _END},
+		.name = {_P, _a, _r, _a, _l, _y, _z, _SPACE, _H, _e, _a, _l, _END},
 		.itemId = ITEM_PARALYZE_HEAL,
 		.price = 100,
 		.holdEffect = 0,
@@ -2129,7 +2146,9 @@ const struct Item gItemData[] =
 		.price = 700,
 		.holdEffect = 0,
         .holdEffectParam = 120,
-		.description = DESC_HYPER_POTION,
+		// .description = sHyperPotionDesc,
+		// .description = sHyperPotionDesc,
+		.description = gItemDescription_HyperPotion,
 		.importance = 0,
         .unk19 = 0,
 		.pocket = POCKET_ITEMS,
@@ -2145,8 +2164,9 @@ const struct Item gItemData[] =
 		.price = 300,
 		.holdEffect = 0,
         .holdEffectParam = 60,
-		.description = DESC_SUPER_POTION,
-		.importance = 0,
+		// .description = DESC_SUPER_POTION,
+	    .description = gItemDescription_SuperPotion,
+	    .importance = 0,
         .unk19 = 0,
 		.pocket = POCKET_ITEMS,
 		.type = ITEM_USE_PARTY_MENU,
@@ -2764,7 +2784,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _l, _e, _v, _e, _r, _SPACE, _W, _i, _n, _g, _SPACE, _END, 0xDC},
+		.name = {_C, _l, _e, _v, _e, _r, _SPACE, _W, _i, _n, _g, _END},
 		.itemId = ITEM_CLEVER_WING,
 		.price = 300,
 		.holdEffect = 0,
@@ -2780,7 +2800,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _w, _i, _f, _t, _SPACE, _W, _i, _n, _g, _SPACE, _SPACE, _END, 0xD9},
+		.name = {_S, _w, _i, _f, _t, _SPACE, _W, _i, _n, _g, _END},
 		.itemId = ITEM_SWIFT_WING,
 		.price = 300,
 		.holdEffect = 0,
@@ -4065,7 +4085,8 @@ const struct Item gItemData[] =
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_RESTORE_HP,
         .holdEffectParam = 30,
-		.description = DESC_SITRUS_BERRY,
+		// .description = DESC_SITRUS_BERRY,
+		.description = gItemDescription_SitrusBerry,
 		.importance = 0,
         .unk19 = 10,
 		.pocket = POCKET_BERRY_POUCH,
@@ -6156,7 +6177,7 @@ const struct Item gItemData[] =
         .secondaryId = 1
 	},
 	{
-		.name = {_PO, _KE, _BL, _OC, _OK, _SPACE, _C, _A, _S, _E, _END},
+		.name = {_PO, _KE, _BL, _OC, _OK, _SPACE, _C, _a, _s, _e, _END},
 		.itemId = ITEM_POKEBLOCK_CASE,
 		.price = 0,
 		.holdEffect = 0,
@@ -6446,7 +6467,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _0, _3, _END},
 		.itemId = ITEM_TM03,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM03,
@@ -6574,7 +6595,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _1, _END},
 		.itemId = ITEM_TM11,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM11,
@@ -6686,7 +6707,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _8, _END},
 		.itemId = ITEM_TM18,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM18,
@@ -6990,7 +7011,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _3, _7, _END},
 		.itemId = ITEM_TM37,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM37,
@@ -13458,7 +13479,7 @@ const struct Item gItemData[] =
         .price = 12000,
         .holdEffect = ITEM_EFFECT_ABILITY_CAPSULE,
         .holdEffectParam = 1,
-        .description = DESC_ABILITY_CAPSULE,
+        .description = DESC_ABILITY_PATCH,
         .importance = 0,
         .unk19 = 0,
         .pocket = POCKET_ITEMS,
@@ -14232,15 +14253,15 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-        .name = {_F, _r, _e, _e, _SPACE, _S, _p, _a, _c, _e, _SPACE, _1, _END},
+        .name = {_F, _l, _y, _i, _n, _g, _SPACE, _T, _a, _x, _i, _END},
         .itemId = ITEM_FREE_SPACE1,
         .price = 0,
         .holdEffect = 0,
         .holdEffectParam = 0,
         .description = gText_ItemNone,
-        .importance = 0,
+        .importance = 1,
         .unk19 = 0,
-        .pocket = POCKET_ITEMS,
+        .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = FieldUseFunc_OakStopsYou,
         .battleUsage = 0,

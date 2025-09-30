@@ -786,7 +786,7 @@
 */
 #define FLAG_OAKS_RATING_IS_VIA_PC                       0x2FF
 
-// Unused?
+// Unused? 
 /*
 #define FLAG_0x300               0x300
 #define FLAG_0x301               0x301
@@ -1021,6 +1021,52 @@
 #define FLAG_0x3E6               0x3E6
 #define FLAG_0x3E7               0x3E7
 */
+
+//Custom Flags
+
+//Route 2
+#define FLAG_HIDE_ROUTE2_AIDE               0x300
+#define FLAG_HIDE_ROUTE2_AIDE_SCRIPT        0x301
+
+//Pewter
+#define FLAG_OLD_MAN_SITRUS                 0x302
+#define FLAG_PIKACHU_FATHER                 0x303
+
+//Route 3
+#define FLAG_TRAINER_ROBIN                  0x304
+
+//Mt.Moon
+#define FLAG_FOSSIL_EXCAVATOR               0x305
+
+//Route 4 West Cerulean
+#define FLAG_BULKUP_GUY                     0x306
+
+//Nugget Bridge
+#define FLAG_NUGGET_GRUNT                   0x307
+
+//Route 25
+// #define FLAG_TRAINER_HALEY                  0x308
+//0x309 used by Trainer See
+
+//Route 6
+#define FLAG_ROUTE6_WACAN                   0x30A
+
+//Diglett Cave
+#define FLAG_HIKER_WES                      0x30B
+
+//Route 2 Return
+#define FLAG_ROUTE2_AIDE_EAST               0x30C
+
+//Route 10
+#define FLAG_ROUTE10_AIDE                   0x30D
+
+//Route 11 South Lavender
+#define FLAG_ROUTE11_AIDE                   0x30E
+
+//Route 7 East Celadon
+#define FLAG_HIKER_KENNY                    0x30F
+
+
 
 #define FLAG_HIDDEN_ITEMS_START 1000 // 0x3E8
 #define FLAG_HIDDEN_ITEM(map, item) (FLAG_HIDDEN_ITEMS_START + HIDDEN_ITEM_##map##_##item)
@@ -1384,7 +1430,7 @@
 // #define FLAG_SYS_BEAT_CHAMPION (SYS_FLAGS + 0x4D) //new
 
 // World Map Flags
-/*
+
 #define FLAG_WORLD_MAP_PALLET_TOWN                                  (SYS_FLAGS + 0x90)
 #define FLAG_WORLD_MAP_VIRIDIAN_CITY                                (SYS_FLAGS + 0x91)
 #define FLAG_WORLD_MAP_PEWTER_CITY                                  (SYS_FLAGS + 0x92)
@@ -1436,7 +1482,6 @@
 #define FLAG_WORLD_MAP_THREE_ISLAND_DUNSPARCE_TUNNEL                (SYS_FLAGS + 0xC0)
 #define FLAG_WORLD_MAP_SEVEN_ISLAND_SEVAULT_CANYON_TANOBY_KEY       (SYS_FLAGS + 0xC1)
 #define FLAG_WORLD_MAP_BIRTH_ISLAND_EXTERIOR                        (SYS_FLAGS + 0xC2)
-*/
 
 #define FLAG_0x8D5 (SYS_FLAGS + 0xD5)
 #define FLAG_0x8D6 (SYS_FLAGS + 0xD6)

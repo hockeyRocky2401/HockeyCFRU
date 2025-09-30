@@ -7,6 +7,7 @@
 #include "../include/field_screen_effect.h"
 #include "../include/field_weather.h"
 #include "../include/fieldmap.h"
+#include "../include/global.fieldmap.h"
 #include "../include/item_use.h"
 #include "../include/item_menu.h"
 #include "../include/menu.h"
@@ -25,6 +26,7 @@
 #include "../include/text.h"
 #include "../include/wild_encounter.h"
 #include "../include/window.h"
+
 #include "../include/constants/abilities.h"
 #include "../include/constants/hold_effects.h"
 #include "../include/constants/items.h"
@@ -971,12 +973,12 @@ const u16 gFieldMoves[FIELD_MOVE_COUNT] =
 
 const u8 gFieldMoveBadgeRequirements[FIELD_MOVE_COUNT] =
 {
-        [FIELD_MOVE_FLASH] = 0,
-        [FIELD_MOVE_CUT] = 0,
-        [FIELD_MOVE_FLY] = 0,
-        [FIELD_MOVE_STRENGTH] = 0,
-        [FIELD_MOVE_SURF] = 0,
-        [FIELD_MOVE_ROCK_SMASH] = 0,
+        [FIELD_MOVE_FLASH] = 1,
+        [FIELD_MOVE_CUT] = 2,
+        [FIELD_MOVE_FLY] = 3,
+        [FIELD_MOVE_STRENGTH] = 4,
+        [FIELD_MOVE_SURF] = 5,
+        [FIELD_MOVE_ROCK_SMASH] = 6,
         [FIELD_MOVE_WATERFALL] = 0,
         [FIELD_MOVE_ROCK_CLIMB] = 0,
         [FIELD_MOVE_DEFOG] = 0,
@@ -1146,8 +1148,27 @@ SKIP_FIELD_MOVES:
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
 
+// bool8 SetUpFieldMove_Cut(void)
+// {
+//     s16 x = gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.x;
+//     s16 y = gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.y;
+//     u8 dir = gObjectEvents[gPlayerAvatar.objectEventId].facingDirection;
+
+//     MoveCoords(dir, &x, &y); // look at the tile in front
+
+//     if (MapGridGetMetatileBehaviorAt(x, y) == MB_CUTTABLE_TREE
+//         && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING)
+//         && HasBadgeToUseFieldMove(FIELD_MOVE_CUT))
+//     {
+//         return TRUE; // will trigger Cut field effect
+//     }
+//     return FALSE;
+// }
+
+
+
 static bool8 SetUpFieldMove_Fly(void)
-{
+{ 
         if (gFollowerState.inProgress && !(gFollowerState.flags & FOLLOWER_FLAG_CAN_LEAVE_ROUTE))
                 return FALSE;
 
@@ -1321,6 +1342,11 @@ bool8 HasBadgeToUseFieldMove(unusedArg u8 id)
         #endif
 }
 
+bool8 HasBadgeToUseCut(void) //New
+{
+        return HasBadgeToUseFieldMove(FIELD_MOVE_CUT);
+}
+
 bool8 HasBadgeToUseSurf(void)
 {
         return HasBadgeToUseFieldMove(FIELD_MOVE_SURF);
@@ -1405,29 +1431,42 @@ void sp109_IsPlayerFacingNPCWithOverworldPic(void)
         gSpecialVar_LastResult = CheckObjectGraphicsInFrontOfPlayer(Var8000);
 }
 
+// void sp10A_CanUseCutOnTree(void)
+// {
+//         u16 item = ITEM_NONE;
+
+//         #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+//         item = ITEM_HM01_CUT;
+//         #endif
+
+//         Var8004 = PARTY_SIZE;
+//         if (HasBadgeToUseFieldMove(FIELD_MOVE_CUT))
+//         {
+//                 #ifdef FLAG_BOUGHT_ADM
+//                 if (FlagGet(FLAG_BOUGHT_ADM))
+//                         Var8004 = 0; //Mon doesn't matter, just can't be over 6
+//                 else
+//                 #endif
+//                 #ifdef FLAG_SANDBOX_MODE
+//                 if (FlagGet(FLAG_SANDBOX_MODE))
+//                         Var8004 = 0; //Mon doesn't matter, just can't be over 6
+//                 else
+//                 #endif
+//                         // Var8004 = PartyHasMonWithFieldMovePotential(MOVE_CUT, item, SHOULDNT_BE_SURFING);
+//                         Var8004 = 0; //Allow anyone to use Cut in the field.
+//         }
+// }
+
 void sp10A_CanUseCutOnTree(void)
 {
-        u16 item = ITEM_NONE;
+    Var8004 = PARTY_SIZE; // default = fail (no eligible mon)
 
-        #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-        item = ITEM_HM01_CUT;
-        #endif
+    // Optional: forbid while surfing (matches most bases)
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+        return;
 
-        Var8004 = PARTY_SIZE;
-        if (HasBadgeToUseFieldMove(FIELD_MOVE_CUT))
-        {
-                #ifdef FLAG_BOUGHT_ADM
-                if (FlagGet(FLAG_BOUGHT_ADM))
-                        Var8004 = 0; //Mon doesn't matter, just can't be over 6
-                else
-                #endif
-                #ifdef FLAG_SANDBOX_MODE
-                if (FlagGet(FLAG_SANDBOX_MODE))
-                        Var8004 = 0; //Mon doesn't matter, just can't be over 6
-                else
-                #endif
-                        Var8004 = PartyHasMonWithFieldMovePotential(MOVE_CUT, item, SHOULDNT_BE_SURFING);
-        }
+    if (HasBadgeToUseCut())
+        Var8004 = 0; // pretend the first mon can do Cut (badge-only unlock)
 }
 
 void sp10B_CanUseRockSmashOnRock(void)
@@ -1455,30 +1494,41 @@ void sp10B_CanUseRockSmashOnRock(void)
         }
 }
 
+// void sp10C_CanUseStrengthOnBoulder(void)
+// {
+//         u16 item = ITEM_NONE;
+
+//         #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+//         item = ITEM_HM04_STRENGTH;
+//         #endif
+
+//         Var8004 = PARTY_SIZE;
+//         if (HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH))
+//         {
+//                 #ifdef FLAG_BOUGHT_ADM
+//                 if (FlagGet(FLAG_BOUGHT_ADM))
+//                         Var8004 = 0; //Mon doesn't matter, just can't be over 6
+//                 else
+//                 #endif
+//                 #ifdef FLAG_SANDBOX_MODE
+//                 if (FlagGet(FLAG_SANDBOX_MODE))
+//                         Var8004 = 0; //Mon doesn't matter, just can't be over 6
+//                 else
+//                 #endif
+//                         // Var8004 = PartyHasMonWithFieldMovePotential(MOVE_STRENGTH, item, SHOULDNT_BE_SURFING);
+//                         Var8004 = 0; //Anyone can use Strength in the field.
+//         }
+// }
+
 void sp10C_CanUseStrengthOnBoulder(void)
 {
-        u16 item = ITEM_NONE;
-
-        #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-        item = ITEM_HM04_STRENGTH;
-        #endif
-
-        Var8004 = PARTY_SIZE;
-        if (HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH))
-        {
-                #ifdef FLAG_BOUGHT_ADM
-                if (FlagGet(FLAG_BOUGHT_ADM))
-                        Var8004 = 0; //Mon doesn't matter, just can't be over 6
-                else
-                #endif
-                #ifdef FLAG_SANDBOX_MODE
-                if (FlagGet(FLAG_SANDBOX_MODE))
-                        Var8004 = 0; //Mon doesn't matter, just can't be over 6
-                else
-                #endif
-                        Var8004 = PartyHasMonWithFieldMovePotential(MOVE_STRENGTH, item, SHOULDNT_BE_SURFING);
-        }
+    Var8004 = PARTY_SIZE; // default fail
+    if (HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH))
+    {
+        Var8004 = 0; // success
+    }
 }
+
 
 //Move Item - Credits to Sagiri/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -111,3 +111,14 @@ Enter trainer id (in Decimal).
 
 #org @DebugMenu_LossMessage
 Caterpie can't hack it.
+
+//Custom Debug
+
+#org @gText_DebugMenu_TrainerSee
+Trainer See
+
+#org @gText_TrainerSeeDisabled
+Trainer See disabled!
+
+#org @gText_TrainerSeeEnabled
+Trainer See enabled!

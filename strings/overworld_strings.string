@@ -345,8 +345,153 @@ Hi, there!\nMay I help you?
 #org @gText_Viridian_PleaseAgain
 Please come again!
 
+// #ROUTE 2
+
+// Tera Orb Aide 
+#org @gText_HereIsTera
+Hello [PLAYER]!\pI work with Prof. Oak, based\nin Pewter City. He called me\pand told me to give you\nthis. 
+
+#org @gGot_Tera_Orb
+You recieved a Tera Orb!
+
+#org @gThats_Tera
+That Tera Orb will allow you\nto Terastallize one of your Pokémon\pin battle. It should help you\nwith your Gym challenge.\pPress the R Button when selecting\na move to Terastallize.\pGood luck and see you soon,\n[PLAYER]!  
+
+// Eastern Building Aide
+#org @gText_Aide_East
+Hi! Remember me?\nI'm one of Prof. Oak's Aides.\pProf. Oak entrusted me with this\nTM, U-Turn, to give to you.
+
+#org @gText_Thats_UTurn
+U-Turn is a Bug-type attack\nthat also switches out the Trainer's\pPokémon on hit.\pIt's very popular amongst some of\nthe best Trainers in the world. 
+// #PEWTER
+
+//Pewter Aide
+#org @gPewter_Aide
+Hello again [PLAYER]!\pHow are you finding that Tera\nOrb?\pI've heard a rumor that there\nis someone in the region with\pknowledge of how to change a\nPokémon's Tera-Type. It would be\pa great help to you if\nyou can find that person.
+
+//Old Man in Museum
+#org @gOldMan_Sitrus
+I should be grateful for my long\nlife.\pNever did I think I would get to\nsee the bones of a dragon!\pIt's making me feel generous.\nTake this.
+
+#org @gThats_Sitrus
+That's a Sitrus Berry. It\nrestores your Pokémon's HP when\pthey're low. Use it well.
+
+#org @gOldMan_Museum
+This is wonderful!
+
+// Pikachu Father Giorgio in Museum 
+#org @gText_Pikachu_Father
+My daughter wants a Pikachu of her\nown but they're not exactly easy\pto catch.\pYou have the look of a\nTrainer.\pDo you want to battle against my\nPikachu?
+
+#org @gText_Giorgio_NoBattle
+You must be busy, I understand.
+
+#org @gText_Giorgio_Battle
+Let's do it!
+
+#org @gText_Giorgio_PostBattle
+Great, my daughter's crying again.
+
+#org @gText_Giorgio_Outro
+Our Pokemon did well not to\ndamage anything in here.
+
+//Fossil Regen in Museum
+#org @gText_Fossil_Regen
+We have two fossils of rare,\nprehistoric Pokémon on exhibit.\pWe can actually restore fossils here\nif you have them.
+
+#org @gText_WantToReviveDome
+Do you want to revive this\nDome Fossil?
+
+#org @gText_WantToReviveHelix
+Do you want to revive this\nHelix Fossil?
+
+#org @gText_WantToReviveJaw
+Do you want to revive this\nJaw Fossil?
+
+#org @gText_WantToReviveSail
+Do you want to revive this\nSail Fossil?
+
+#org @gText_Exit
+Exit 
+
+#org @gText_Got_Kabuto
+[PLAYER] recieved the Kabuto\nfrom the doctor.
+
+#org @gText_Got_Omanyte
+[PLAYER] recieved the Omanyte\nfrom the doctor.
+
+#org @gText_Got_Tyrunt
+[PLAYER] recieved the Tyrunt\nfrom the doctor.
+
+#org @gText_Got_Amaura
+[PLAYER] recieved the Amaura\nfrom the doctor.
+
+#org @gText_Fossil_ComeBack
+Come back if you want to\nrevive a fossil.
+
+//# ROUTE 3
+#org @gText_Trainer_Robin
+Eek!\nDid you touch me?
+
+#org @gText_Robin_Lost
+That's it?
+
+#org @gText_Robin_PostBattle
+Oh well.\nHere, take this TM.
+
+#org @gText_Thats_ShockWave
+Shock Wave is an Electric-Type\nattack that never misses.\pTeach it to a Pikachu!
+
+#org @gText_Robin_Idle
+Route 4 is at the foot of\nMt. Moon.
+
+// ##MT.MOON
+// Fossil Excavator 
+#org @gText_Excavator
+Hi, I'm excavating for fossils here\nunder Mt. Moon.\pSometimes Brock of Pewter Gym\nlends me a hand.\pAs it so happens, I have\ntwo fossils here that I obtained\pfrom the Kalos region.\pI'm tired of carrying the both of\nthem so would you care to\ptake one of them off my\nhands please?
+
+#org @gText_Jaw_Fossil
+Jaw Fossil
+
+#org @gText_Sail_Fossil
+Sail Fossil
+
+#org @gText_Neither 
+Neither
+
+#org @gThats_JawSailFossil
+Now, as for how to resurrect\nfrom this fossil, I have no idea.
+
+#org @gText_Excavator_Neither
+Fair enough.\nI'll be here if you want\pa fossil.\pAnd I'd be very grateful if you'd\ntake one.
+
+//Nurse Mt. Moon
+#org @gText_Nurse_MtMoon
+Mt. Moon is a trek!\nLet me heal you're Pokemon.
+
+#org @gText_Nurse_Done
+There, good as new!
+
+// ##ROUTE 4 WEST CERULEAN
+
+//Mega Move Guy
+#org @gText_BulkUp_Guy
+A punch of roaring ferocity!\pPacked with destructive power!\pThat's what happens after you use\nBulk Up!\pYes! Bulk Up!\pHere, take it!
+
+#org @gText_Thats_BulkUp
+Bulk Up raises your Pokémon's Attack\nand Defense.\pNow we are comrades in the\nway of Bulk Up!
+
+//Mega Kick Guy
+#org @gText_MegaKick
+Mega Kick? Mega Punch?\pNever heard of 'em.
+
+// #CERULEAN
+
 #org @gText_Rival_Cerulean_Intro
-[RIVAL]: Yo! [PLAYER]! You're still\nstruggling along back here? I'm\pdoing great! I caught a bunch\nof strong and smart Pokémon! Here,\plet me see what you've caught,\n[PLAYER]!
+[RIVAL]: Yo! [PLAYER]! You're still\nstruggling along back here? I'm\pdoing great! I caught a bunch\nof strong and smart Pokémon!
+
+#org @gRival_Cerulean_Battle
+Here, let me see what you've\ncaught, [PLAYER]!
 
 #org @gText_Rival_Cerulean_PostBattle
 Hey!\nTake it easy!\pYou won already!
@@ -354,4 +499,105 @@ Hey!\nTake it easy!\pYou won already!
 #org @gText_Rival_Cerulean_Outro
 [RIVAL]: Hey, guess what?\nI went to Bill's and got \phim to show me his rare\nPokémon. That added a lot of\ppages to my Pokédex! After\nall, Bill's world famous as\pa Pokémaniac. He invented the\nPokémon Storage System on PC too.\pSince you're using his system, you\nshould go thank him. Well, I\pbetter get rolling! Smell ya later!
 
+// ##ROUTE 24 NORTH CERULEAN
 
+// Nugget Grunt
+#org @gText_Congrats_Nugget
+Congratulations! You beat our\nfive contest Trainers!\pYou just earned a fabulous prize!
+
+#org @gText_Join_Rocket
+By the way, how would you like to\njoin Team Rocket?\pWe're a group of professional\ncriminals specializing in Pokémon!\pWant to join?
+
+#org @gText_Please_Join
+Are you sure?\pCome on, join us!\pI'm telling you to join!\pOkay, you need convincing!\pI'll make you an offer you can't\nrefuse!
+
+#org @gText_Nugget_PostBattle
+Arrgh!\nYou are good!
+
+#org @gText_Nugget_Beaten
+With your ability, you'd become\na top leader in Team Rocket.\pCome on, think of the opportunity!\nDon't let this chance go to waste.
+
+#org @gText_Report_Rocket
+Okay, report to our base at the\nCeladon Game Corner.\pIf anyone asks, tell 'em\nthat the Nugget Bridge Grunt\psent you.
+
+// ##ROUTE 25 EAST NUGGET BRIDGE 
+
+#org @gText_Trainer_Haley
+My friend has many cute Pokémon.\nI'm so jealous.
+
+#org @gText_Haley_Lost
+I'm not so jealous!
+
+#org @gText_Haley_PostBattle
+I need cuter Pokémon. Here, take\nthis.
+
+#org @gText_Thats_GigaDrain
+I love Giga Drain! It does\ndamage and also restores your\pPokémon's HP.\pWorks great against Misty!
+
+#org @gText_Haley_Idle
+You came from Mt. Moon?\pMay I have a Clefairy?
+
+// ##DIGLETT CAVE 
+
+#org @gText_Trainer_Wes
+I've caught some great Diglett\nin here.\pTime to test them out!
+
+#org @gText_Wes_Lost
+Nooo my Diglett!
+
+#org @gText_Wes_PostBattle
+Thanks for battling my Diglett.\pI have these spare Heavy-Duty Boots\nthat you might be able to\pput to good use.
+
+#org @gText_Thats_Boots
+Those Heavy-Duty Boots will protect\na Pokémon from entry hazard moves\psuch as Stealth Rock.
+
+// ROUTE 10 BEFORE ROCK TUNNEL 
+
+//Route 10 Aide
+#org @gText_Route10_Aide
+Oh. [PLAYER]!\pI've been looking for you!\pIt's me! One of the ever-present\nAides to Prof. Oak.\pHe entrusted me with this\nEverstone to give to you, [PLAYER].
+
+#org @gText_Thats_Everstone
+Making Pokémon evolve certainly\ncan add to the Pokédex.\pHowever, at times, you may not\nwant a certain Pokémon to evolve.\pIn that case, give the Everstone\nto that Pokémon.\pIt will prevent evolution according\nto the Professor.
+
+// ROUTE 11 SOUTH gText_Lavender
+
+//Route 11 Aide
+#org @gText_Route11_Aide
+Hi! Remember me?\pI'm one of Prof. Oak's Aides.\pProf. Oak entrusted me with the\nItemfinder for you.
+
+#org @gText_Thats_Itemfinder
+There are items on the ground that\nmay be hidden from view.\pUse the Itemfinder to detect any\nhidden items close to you.\pThe machine is a bit limited.\nIt can't pinpoint item locations.\pWhat it does is show the direction\nwhere the item is.\pUse it to get your bearings, then\nsearch the suspect area by hand.
+
+// ROUTE 7 EAST CELADON 
+
+//Black Augurite Trainer 
+#org @gText_Trainer_Kenny
+You there! Beat me in a\nbattle and i'll give you something.
+
+#org @gText_Kenny_Lost
+Well fought, young man.
+
+#org @gText_Kenny_PostBattle
+You won fair and square.\pHave this.
+
+#org @gText_Thats_Augurite
+I found that augurite when i\nwas in the Sinnoh region.\pI'm not sure what it does\nbut it looks important.\pMaybe you can find a use\nfor it.
+
+// CELADON CITY
+
+// Oak After Gym
+#org @gText_MegaRing
+Well done [PLAYER]!\pI was watching your battle through\nthe window there.\pYou're becoming quite the young\nTrainer.\pI came all this way to give you\nsomething.\pI'm sure you've seen Trainers on\nTV using Mega-Evolved Pokémon,\pPokémon that have taken on a\ngreater form during battle.\pWell, with this Mega Ring, you'll\nbe able to Mega Evolve your\pPokémon too.
+
+#org @gText_Thats_MegaRing
+You'll need more than just the\nMega Ring to Mega Evolve your\pPokémon though.\pYou'll also require Mega Stones.
+
+#org @gText_Charizardite
+This is for the Pokémon that\nyou recieved in my Lab.\pHave it hold one of these,\nthen use your Mega Ring in battle\pby pressing the R Button when\nselecting a move.\pCharizard has two possible Mega\nEvolutions, depending on which of\pthese stones that it's holding.\pBoth forms are quite different so\nmaybe test each one in battle\pand see which one you prefer.
+
+#org @gText_Blastoisinite
+This is for the Pokémon that\nyou recieved in my Lab.\pHave it hold this stone, then\nuse your Mega Ring in battle\pby pressing the R Button when\nselecting a move.
+
+#org @gText_Bye_Oak
+I'm sure you'll find more Mega\nStones as you travel.\pI've kept you long enough.\pI must return to my Lab.\pTalk soon, [PLAYER]!

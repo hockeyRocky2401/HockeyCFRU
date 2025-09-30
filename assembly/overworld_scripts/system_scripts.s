@@ -10,6 +10,14 @@
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+@ Custom End Script
+
+.global SystemScript_End
+SystemScript_End:
+end
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 .global EventScript_SecondBagItemCanBeRegisteredToL
 EventScript_SecondBagItemCanBeRegisteredToL:
 	lockall
@@ -82,7 +90,7 @@ SystemScript_DisableSurfTurboBoost:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.global SystemScript_PartyMenuFromField
+.global SystemScript_PartyMenuFrom
 SystemScript_PartyMenuFromField:
 	lockall
 	special SPECIAL_STOP_SOUNDS
@@ -252,6 +260,7 @@ SystemScript_WaitForFollower:
 .equ Systemcript_BufferPocketNameTryFanfare, 0x81A66BC
 .equ SystemScript_NoRoomToPickUpItem, 0x81A682D
 
+.global SystemScript_FindItem
 SystemScript_FindItem: @Originally at 0x81A67B3
 	lock
 	pause 0x10 @;Give time for the click sound to play when talking to a Poke Ball
@@ -270,6 +279,7 @@ SystemScript_FindItem: @Originally at 0x81A67B3
 	release
 	return
 
+.global SystemScript_PickUpItem
 SystemScript_PickUpItem:
 	textcolor BLACK
 	hidesprite LASTTALKED
@@ -302,6 +312,8 @@ SystemScript_FindMultipleNormalItems:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+
+.global SystemScript_ObtainItem
 SystemScript_ObtainItem:
 	copyvar 0x8013 0x8012
 	copyvar 0x8004 0x8000 @;Copy item to 0x8004
@@ -355,6 +367,7 @@ ObtainedMultipleItemMsg:
 
 @Var8005 = Item
 @Var8006 = Quantity
+.global SystemScript_PickedUpHiddenItem 
 SystemScript_PickedUpHiddenItem: @;Replaces 81A6885
 	callasm ShowItemSpriteOnFindHidden
 	compare 0x8006 1
@@ -1122,20 +1135,40 @@ SystemScript_DebugMenu:
 	lockall
 	multichoiceoption gText_DebugMenu_SetFlag 0
 	multichoiceoption gText_DebugMenu_GiveItem 1
-	multichoiceoption gText_DebugMenu_Level100Team 2
-	multichoiceoption gText_DebugMenu_MaxCoinage 3
-	multichoiceoption gText_DebugMenu_ShinyTeam 4
+	multichoiceoption gText_OpenPCBox 2   @ new
+	@ multichoiceoption gText_DebugMenu_MaxCoinage 3
+	multichoiceoption gText_DebugMenu_TrainerSee 3
+	@ multichoiceoption gText_DebugMenu_ShinyTeam 4
+	multichoiceoption NAME_FLY 4
 	multichoiceoption gText_DebugMenu_Give 5
 	multichoiceoption gText_DebugMenu_Debug 6
+	@ multichoiceoption gText_DebugMenu_Level100Team 2
 	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
+	@setvar SCROLL_MULTICHOICE_NUM, 8        @ total number of items
+    @setvar SCROLL_MULTICHOICE_HEIGHT, 8     @ visible rows (use 7 for a scrollbar)
+	@multichoice 0x0 0x0 SCROLL_MULTICHOICE_NUM SCROLL_MULTICHOICE_HEIGHT
+
+	@ Reset 0x8004 and 0x800D (Required for Scrolling Multichoice)
+    @ resetvar 0x8004
+    @ resetvar 0x800D
+
+    @ Scrolling Multichoice
+    @ setvar 0x8000 0 @ Multichoice Index
+    @ setvar 0x8001 6 @ Number of options to display at once
+    @ special 0x158   @ Scrolling Multichoice
+    @ waitstate
 	switch LASTRESULT
 	case 0, SystemScript_DebugMenu_SetFlag
 	case 1, SystemScript_DebugMenu_GiveItem
-	case 2, SystemScript_DebugMenu_Level100Team
-	case 3, SystemScript_DebugMenu_MaxCoinage
-	case 4, SystemScript_DebugMenu_ShinyTeam
+	case 2, OpenPCBox
+	@ case 2, SystemScript_DebugMenu_PortablePC
+	@ case 3, SystemScript_DebugMenu_MaxCoinage
+	case 3, SystemScript_DebugMenu_TrainerSee
+	@ case 4, SystemScript_DebugMenu_ShinyTeam
+	case 4, SystemScript_WarpFly
 	case 5, SystemScript_DebugMenu_Custom
 	case 6, SystemScript_DebugMenu_Debug
+	@ case 2, SystemScript_DebugMenu_Level100Team
 SystemScript_DebugMenu_End:
 	releaseall
 	end
@@ -1297,6 +1330,118 @@ SystemScript_DebugMenu_StartWildBattleNow:
 	dowildbattle
 	end
 
+/* Supposed to be Fly
+.global SystemScript_Fly
+    SystemScript_Fly:
+    lockall
+    callasm Debug_OpenFlyFromScript+1
+    end */
+
+@ Warp Fly Scripts
+.global SystemScript_WarpFly
+    SystemScript_WarpFly:
+	multichoiceoption gText_Pallet 0
+	multichoiceoption gText_Viridian 1
+	multichoiceoption gText_Pewter 2
+	multichoiceoption gText_Cerulean 3
+	multichoiceoption gText_Vermilion 4
+	multichoiceoption gText_Lavender 5
+	multichoiceoption gText_More 6
+	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
+
+	copyvar 0x8000, LASTRESULT
+    callasm DebugMenu_DoWarpToTown_Page1
+	compare 0x8000, 6    @ "More" selected?
+    if equal _goto SystemScript_WarpFly2
+    releaseall
+    end
+
+	.global SystemScript_WarpFly2
+SystemScript_WarpFly2:
+    lockall
+    multichoiceoption gText_Celadon 0
+    multichoiceoption gText_Fuchsia 1
+    multichoiceoption gText_Cinnabar 2
+    multichoiceoption gText_Saffron 3
+    multichoiceoption gText_More 4
+    multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+
+	copyvar 0x8000, LASTRESULT
+    callasm DebugMenu_DoWarpToTown_Page2
+	compare 0x8000, 4    @ "More" selected?
+    if equal _goto SystemScript_WarpFly3
+    releaseall
+    end
+
+.global SystemScript_WarpFly3
+SystemScript_WarpFly3:
+    lockall
+    multichoiceoption gText_IndigoPlateau 0
+    multichoiceoption gText_OneIsland 1
+    multichoiceoption gText_TwoIsland 2
+    multichoiceoption gText_ThreeIsland 3
+    multichoiceoption gText_More 4
+    multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+
+	copyvar 0x8000, LASTRESULT
+    callasm DebugMenu_DoWarpToTown_Page3
+	compare 0x8000, 4    @ "More" selected?
+    if equal _goto SystemScript_WarpFly4
+    releaseall
+    end
+
+	.global SystemScript_WarpFly4
+SystemScript_WarpFly4:
+    lockall
+    multichoiceoption gText_FourIsland 0
+    multichoiceoption gText_FiveIsland 1
+    multichoiceoption gText_SixIsland 2
+    multichoiceoption gText_SevenIsland 3
+    multichoiceoption gText_Route4 4
+    multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+
+	copyvar 0x8000, LASTRESULT
+    callasm DebugMenu_DoWarpToTown_Page4
+    releaseall
+    end
+
+/* @ New Portable PC Option
+.global SystemScript_DebugMenu_PortablePC
+SystemScript_DebugMenu_PortablePC:
+    @ callasm DebugMenu_PreparePortablePC     @ close menu, snapshot tile, pre-clean
+	@ call 0x081A6955                            @ <- the normal PC script your MB_PC uses
+    @ callasm DebugMenu_RestorePortablePCTile @ put the tile back and repaint
+	@ releaseall
+    end */
+
+@ Trainer See flag
+
+.global SystemScript_DebugMenu_TrainerSee
+SystemScript_DebugMenu_TrainerSee:
+    checkflag 0x309   @ Trainer see flag
+    @ compare LASTRESULT, TRUE
+	if SET _goto TrainerSee_Disable
+
+TrainerSee_Enable:
+    setflag 0x309
+    lockall
+    preparemsg gText_TrainerSeeDisabled   @ "Trainer spotting disabled!"
+    waitmsg
+    waitbuttonpress
+    closemessage
+    releaseall
+    end
+
+TrainerSee_Disable:
+    clearflag 0x309
+    lockall
+    preparemsg gText_TrainerSeeEnabled    @ "Trainer spotting enabled!"
+    waitmsg
+    waitbuttonpress
+    closemessage
+    releaseall
+    end
+
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 .global SystemScript_PokemonEncounter
@@ -1405,8 +1550,13 @@ SystemScript_Portable_PC_Off:
 	release
 	end
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 .align 2
 .thumb
+
+@ Custom Scripts
 
 @ Mart Script
 .equ   VAR_RESULT, 0x800D
@@ -1460,4 +1610,19 @@ closemessage
 release
 end
 
-
+@ Weather Mart Script
+.equ   VAR_RESULT, 0x800D
+.extern sWeatherMart
+SystemScript_WeatherMart:
+lock
+faceplayer
+preparemsg gText_GlobalMart_Hi
+waitmsg
+.byte  0x86              @ pokemart opcode
+.4byte sWeatherMart
+preparemsg gText_GlobalMart_Again
+waitmsg
+waitbuttonpress
+closemessage
+release
+end

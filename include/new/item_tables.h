@@ -1435,8 +1435,8 @@ void FieldUseFunc_PortablePC(u8 taskId);
 #define DESC_PARALYZE_HEAL ((const u8 *)0x083D53DF)
 #define DESC_FULL_RESTORE ((const u8 *)0x083D541B)
 #define DESC_MAX_POTION ((const u8 *)0x083D546F)
-#define DESC_HYPER_POTION ((const u8 *)0x083D54B5)
-#define DESC_SUPER_POTION ((const u8 *)0x083D5503)
+// #define DESC_HYPER_POTION ((const u8 *)0x083D54B5)
+// #define DESC_SUPER_POTION ((const u8 *)0x083D5503)
 #define DESC_FULL_HEAL ((const u8 *)0x083D5550)
 #define DESC_REVIVE ((const u8 *)0x083D5598)
 #define DESC_MAX_REVIVE ((const u8 *)0x083D55EC)
@@ -1556,7 +1556,7 @@ extern const u8 DESC_RAZOR_FANG[];
 #define DESC_ORAN_BERRY ((const u8 *)0x083D6DF8)
 #define DESC_PERSIM_BERRY ((const u8 *)0x083D6E3C)
 #define DESC_LUM_BERRY ((const u8 *)0x083D6E81)
-#define DESC_SITRUS_BERRY ((const u8 *)0x083D6EC8)
+// #define DESC_SITRUS_BERRY ((const u8 *)0x083D6EC8)
 #define DESC_FIGY_BERRY ((const u8 *)0x083D6F0C)
 #define DESC_WIKI_BERRY ((const u8 *)0x083D6F4C)
 #define DESC_MAGO_BERRY ((const u8 *)0x083D6F8C)
@@ -2128,6 +2128,7 @@ extern const u8 DESC_HEAVY_DUTY_BOOTS[];
 extern const u8 DESC_UTILITY_UMBRELLA[];
 extern const u8 DESC_THROAT_SPRAY[];
 extern const u8 DESC_ABILITY_CAPSULE[];
+extern const u8 DESC_ABILITY_PATCH[];
 extern const u8 DESC_AUSPICIOUS_ARMOR[];
 extern const u8 DESC_MALICIOUS_ARMOR[];
 extern const u8 DESC_BLACK_AUGURITE[];

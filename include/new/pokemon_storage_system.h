@@ -54,6 +54,7 @@ struct __attribute__((packed)) CompressedPokemon
  /* 0x01 */	u8 metLocation;
  /* 0x02 */ u16 metInfo; //Met level, met game, OT gender
  /* 0x04 */ u32 ivs;
+            u16 teraType; //Added by me.
 }; //SIZE = 0x3A / 58 bytes
 
 

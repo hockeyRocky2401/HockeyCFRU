@@ -315,6 +315,9 @@ void CreateBoxMonFromCompressedMon(struct BoxPokemon* boxMon, struct CompressedP
 
 	for (int i = 0; i < MAX_MON_MOVES; ++i) //Give PP
 		boxMon->substruct1.pp[i] = CalculatePPWithBonus(boxMon->substruct1.moves[i], boxMon->substruct0.ppBonuses, i);
+
+	boxMon->teraType = compMon->teraType;
+
 }
 
 void CreateCompressedMonFromBoxMon(struct BoxPokemon* boxMon, struct CompressedPokemon* compMon)
@@ -330,6 +333,9 @@ void CreateCompressedMonFromBoxMon(struct BoxPokemon* boxMon, struct CompressedP
 	compMon->move2 = boxMon->substruct1.moves[1];
 	compMon->move3 = boxMon->substruct1.moves[2];
 	compMon->move4 = boxMon->substruct1.moves[3];
+
+	compMon->teraType = boxMon->teraType;
+
 }
 
 u8* GetBoxNamePtr(u8 boxId)

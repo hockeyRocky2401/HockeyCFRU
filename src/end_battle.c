@@ -139,9 +139,9 @@ const u16 gEndBattleFlagClearTable[] =
 #ifdef FLAG_START_WITH_RAID_SHIELDS
 	FLAG_START_WITH_RAID_SHIELDS,
 #endif
-#ifdef FLAG_KEEP_CONSUMABLE_ITEMS
-	FLAG_KEEP_CONSUMABLE_ITEMS,
-#endif
+// #ifdef FLAG_KEEP_CONSUMABLE_ITEMS
+// 	FLAG_KEEP_CONSUMABLE_ITEMS,
+// #endif
 #ifdef FLAG_HIDDEN_ABILITY
 	FLAG_HIDDEN_ABILITY,
 #endif
@@ -703,7 +703,9 @@ static void RestoreNonConsumableItems(void)
 	bool8 keepConsumables = FALSE;
 	#endif
 
-	if (gBattleTypeFlags & BATTLE_TYPE_TRAINER || IsRaidBattle())
+	// if (gBattleTypeFlags & BATTLE_TYPE_TRAINER || IsRaidBattle())
+	//Fixes Consumable items.
+	if (!(gBattleTypeFlags & BATTLE_TYPE_LINK)) // restore in all non-link battles
 	{
 		for (int i = 0; i < PARTY_SIZE; ++i)
 		{

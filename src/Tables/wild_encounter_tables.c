@@ -982,7 +982,7 @@ const struct WildPokemon gRoute11_LandMonsMorning[] =
 	{20, 22, SPECIES_FARFETCHD},
 	{20, 22, SPECIES_MR_MIME},
 	{20, 22, SPECIES_ELECTABUZZ},
-	{20, 22, SPECIES_MR_MIME},
+	{20, 22, SPECIES_GRIMER},
 	{21, 22, SPECIES_FEAROW},
 	{21, 22, SPECIES_ARBOK},
 	{21, 22, SPECIES_SANDSLASH},
@@ -1000,7 +1000,7 @@ const struct WildPokemon gRoute11_LandMonsDay[] =
 	{20, 22, SPECIES_FARFETCHD},
 	{20, 22, SPECIES_MR_MIME},
 	{20, 22, SPECIES_ELECTABUZZ},
-	{20, 22, SPECIES_MR_MIME},
+	{20, 22, SPECIES_GRIMER},
 	{21, 22, SPECIES_FEAROW},
 	{21, 22, SPECIES_ARBOK},
 	{21, 22, SPECIES_SANDSLASH},
@@ -1018,7 +1018,7 @@ const struct WildPokemon gRoute11_LandMonsEvening[] =
 	{20, 22, SPECIES_FARFETCHD},
 	{20, 22, SPECIES_MR_MIME},
 	{20, 22, SPECIES_ELECTABUZZ},
-	{20, 22, SPECIES_MR_MIME},
+	{20, 22, SPECIES_GRIMER},
 	{21, 22, SPECIES_FEAROW},
 	{21, 22, SPECIES_ARBOK},
 	{21, 22, SPECIES_SANDSLASH},
@@ -1036,7 +1036,7 @@ const struct WildPokemon gRoute11_LandMonsNight[] =
 	{20, 22, SPECIES_FARFETCHD},
 	{20, 22, SPECIES_MR_MIME},
 	{20, 22, SPECIES_ELECTABUZZ},
-	{20, 22, SPECIES_MR_MIME},
+	{20, 22, SPECIES_GRIMER},
 	{21, 22, SPECIES_FEAROW},
 	{21, 22, SPECIES_ARBOK},
 	{21, 22, SPECIES_SANDSLASH},
@@ -1414,7 +1414,7 @@ const struct WildPokemon gPokemonTower_LandMonsNight[] =
 
 const struct WildPokemonInfo gPokemonTower_LandMonsInfoNight = {7, gPokemonTower_LandMonsNight};
 
-//Route 8
+//Route 8 West Lavender
 
 const struct WildPokemon gRoute8_LandMonsMorning[] =
 {
@@ -1429,7 +1429,7 @@ const struct WildPokemon gRoute8_LandMonsMorning[] =
 	{24, 28, SPECIES_PINSIR},
 	{24, 28, SPECIES_SCYTHER},
 	{24, 28, SPECIES_ARBOK},
-	{24, 28, SPECIES_PIDGEOTTO},
+	{24, 28, SPECIES_PORYGON},
 };
 
 const struct WildPokemonInfo gRoute8_LandMonsInfoMorning = {21, gRoute8_LandMonsMorning};
@@ -1447,7 +1447,7 @@ const struct WildPokemon gRoute8_LandMonsDay[] =
 	{24, 28, SPECIES_PINSIR},
 	{24, 28, SPECIES_SCYTHER},
 	{24, 28, SPECIES_ARBOK},
-	{24, 28, SPECIES_PIDGEOTTO},
+	{24, 28, SPECIES_PORYGON},
 };
 
 const struct WildPokemonInfo gRoute8_LandMonsInfoDay = {21, gRoute8_LandMonsDay};
@@ -1465,7 +1465,7 @@ const struct WildPokemon gRoute8_LandMonsEvening[] =
 	{24, 28, SPECIES_PINSIR},
 	{24, 28, SPECIES_SCYTHER},
 	{24, 28, SPECIES_ARBOK},
-	{24, 28, SPECIES_PIDGEOTTO},
+	{24, 28, SPECIES_PORYGON},
 };
 
 const struct WildPokemonInfo gRoute8_LandMonsInfoEvening = {21, gRoute8_LandMonsEvening};
@@ -1483,7 +1483,7 @@ const struct WildPokemon gRoute8_LandMonsNight[] =
 	{24, 28, SPECIES_PINSIR},
 	{24, 28, SPECIES_SCYTHER},
 	{24, 28, SPECIES_ARBOK},
-	{24, 28, SPECIES_PIDGEOTTO},
+	{24, 28, SPECIES_PORYGON},
 };
 
 const struct WildPokemonInfo gRoute8_LandMonsInfoNight = {21, gRoute8_LandMonsNight};
