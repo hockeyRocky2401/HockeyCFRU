@@ -3318,3 +3318,25 @@ void SetTitleScreenScene_Cry(s16 *data)
         break;
     }
 }
+
+//Took from Shiny
+// To change/set Pokemon's IVs manually
+void SetCustomMonIVs(void)
+{
+    u16 *ivs = &Var8006; // Till Var800B
+    u8 partyIndex = VarGet(Var8005);
+    struct Pokemon *mon = &gPlayerParty[partyIndex];
+
+    for (u8 i = 0; i < NUM_STATS; ++i)
+    {
+        u16 *currIv = &ivs[i];
+        u16 monIv = GetMonData(mon, MON_DATA_HP_IV + i, NULL);
+
+        // Only change if var is non-zero
+		// const u16 ivValue = *currIv ? *currIv : monIv;
+
+		// Only change if var is not 32
+		const u16 ivValue = (*currIv < 32) ? *currIv : monIv;
+		SetMonData(mon, MON_DATA_HP_IV + i, &ivValue);
+    }
+}

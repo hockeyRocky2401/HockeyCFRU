@@ -1336,7 +1336,7 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_TMTiles, gBag_TMFlyingPal},    // ITEM_TM40_AERIAL_ACE - Voador
 	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM41_TORMENT - Sombrio
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM42_FACADE - Normal
-	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM43_SECRET_POWER - Normal
+	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM43_SECRET_POWER - Normal - Now Tera Blast
 	{gBag_TMTiles, gBag_TMPsychicPal},   // ITEM_TM44_REST - Psíquico
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM45_ATTRACT - Normal
 	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM46_THIEF - Sombrio
@@ -1400,7 +1400,7 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM67_RECYCLE - Normal
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM68_GIGA_IMPACT - Normal
 	{gBag_TMTiles, gBag_TMRockPal},      // ITEM_TM69_ROCK_POLISH - Pedra
-	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM70_FLASH - Normal
+	{gBag_TMTiles, gBag_TMFirePal},      // ITEM_TM70_FLASH - Normal / Noww Heat Wave
 	{gBag_TMTiles, gBag_TMRockPal},      // ITEM_TM71_STONE_EDGE - Pedra
 	{gBag_TMTiles, gBag_TMIcePal},       // ITEM_TM72_AVALANCHE - Gelo
 	{gBag_TMTiles, gBag_TMElectricPal},  // ITEM_TM73_THUNDER_WAVE - Elétrico
@@ -4787,7 +4787,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _B, _a, _n, _d, _END},
 		.itemId = ITEM_CHOICE_BAND,
-		.price = 4000,
+		.price = 12000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
         .holdEffectParam = 0,
 		.description = DESC_CHOICE_BAND,
@@ -12659,7 +12659,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _i, _f, _e, _SPACE, _O, _r, _b, _END},
 		.itemId = ITEM_LIFE_ORB,
-		.price = 4000,
+		.price = 10000,
 		.holdEffect = ITEM_EFFECT_LIFE_ORB,
 		.holdEffectParam = 0,
 		.description = DESC_LIFE_ORB,
@@ -12931,7 +12931,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _S, _c, _a, _r, _f, _END},
 		.itemId = ITEM_CHOICE_SCARF,
-		.price = 4000,
+		.price = 12000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
 		.holdEffectParam = 2,
 		.description = DESC_CHOICE_SCARF,
@@ -12947,7 +12947,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _S, _p, _e, _c, _s, _END},
 		.itemId = ITEM_CHOICE_SPECS,
-		.price = 2000,
+		.price = 12000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
 		.holdEffectParam = 1,
 		.description = DESC_CHOICE_SPECS,

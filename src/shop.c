@@ -77,6 +77,32 @@ const u16 sWeatherMart[] = {
     ITEM_NONE,
 };
 
+const u16 sTwoIslandMart[] = {
+    ITEM_POKE_BALL,
+    ITEM_POTION,
+    ITEM_SUPER_POTION,
+    ITEM_HYPER_POTION,
+    ITEM_MAX_POTION,
+    ITEM_ANTIDOTE,
+    ITEM_PARALYZE_HEAL,
+    ITEM_AWAKENING,
+    ITEM_BURN_HEAL,
+    ITEM_ICE_HEAL,
+    ITEM_REVIVE,
+    ITEM_ESCAPE_ROPE,
+    ITEM_REPEL,
+    ITEM_SUPER_REPEL,
+    ITEM_MAX_REPEL,
+    ITEM_ETHER,
+    ITEM_ABILITY_CAPSULE,
+    ITEM_ABILITY_PATCH,
+    ITEM_CHOICE_SPECS,
+    ITEM_CHOICE_SCARF,
+    ITEM_CHOICE_BAND,
+    ITEM_LIFE_ORB,
+    ITEM_NONE,
+};
+
 static u16 CountItemList(const u16 *list) {
     u16 n = 0;
     while (list[n] != ITEM_NONE)

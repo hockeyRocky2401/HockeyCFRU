@@ -1066,6 +1066,18 @@
 //Route 7 East Celadon
 #define FLAG_HIKER_KENNY                    0x30F
 
+//Silph Co
+#define FLAG_PETREL_OAK                     0x310
+
+//Route 16
+#define FLAG_AIDE_ROUTE_16                  0x311
+#define FLAG_AMULET_WOMAN                   0x312
+
+//Route 18
+#define FLAG_RAMIRO_ROUTE18                 0x313
+
+//Route 18
+#define FLAG_AIDE_ROUTE15                   0x314
 
 
 #define FLAG_HIDDEN_ITEMS_START 1000 // 0x3E8

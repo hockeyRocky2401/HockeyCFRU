@@ -75,7 +75,7 @@
 #define TRAINER_RS_LASS                           72
 #define TRAINER_RS_BUG_CATCHER                    73
 #define TRAINER_RS_HIKER                          74
-#define TRAINER_RS_YOUNG_COUPLE                   75
+#define TRAINER_RS_YOUNG_COUPLE                   75 //Currently used for Samurai
 #define TRAINER_OLD_COUPLE                        76
 #define TRAINER_RS_SIS_AND_BRO                    77
 #define TRAINER_AQUA_ADMIN_MATT                   78
@@ -749,7 +749,8 @@
 #define TRAINER_POKEFAN_M_GIORGIO                743
 #define TRAINER_HIKER_WES                        744
 #define TRAINER_HIKER_KENNY                      745
+#define TRAINER_WHITNEY                          746
 
 
 // #define MAX_TRAINER_COUNT (TRAINER_CUE_BALL_PAXTON + 1)
-#define MAX_TRAINER_COUNT (TRAINER_HIKER_KENNY + 1)
+#define MAX_TRAINER_COUNT (TRAINER_WHITNEY + 1)

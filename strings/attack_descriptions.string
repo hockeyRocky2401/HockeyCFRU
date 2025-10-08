@@ -1593,7 +1593,7 @@ Emits an incredibly\nspicy extract. Ups\ntarget's Attack and\nlower it's Defense
 User spins furiously\nagainst foe\ninflicting damage.\nAlso lower Speed.
 
 #org @DESC_TERABLAST
-If the user has\nTerastallized, it\nunleashes energy of\nits Tera Type.
+If the user has\nTerastallized, it\nunleashes energy of\nit's Tera Type.
 
 #org @DESC_TIDYUP
 Tidies up and clean\nhazards effects.\nAlso boosts user's\nAttack and Speed.
@@ -1602,7 +1602,7 @@ Tidies up and clean\nhazards effects.\nAlso boosts user's\nAttack and Speed.
 Blows out flames as\nif singing a song.\nThis also boosts\nthe user's Sp. Atk.
 
 #org @DESC_TRAILBLAZE
-Attacks suddenly\nas if leaping out\nfrom tall grass.\nAlso boost Speed.
+Attacks suddenly\nas if leaping out\nfrom tall grass.\nAlso boosts Speed.
 
 #org @DESC_TRIPLEDIVE
 Performs a perfect\ntimed triple dive.\nHit foe three times\nin a row.

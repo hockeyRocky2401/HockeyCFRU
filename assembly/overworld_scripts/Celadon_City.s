@@ -44,6 +44,8 @@ CheckOak:
     checkflag 0x22          @ Oak event done?
     if SET _goto End
     setvar 0x4001, 1        @ trigger Oak
+
+.global End
 End:
     end
 

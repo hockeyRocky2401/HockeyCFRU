@@ -323,6 +323,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8000 MOVE_ICESPINNER
         setvar 0x8001 MOVE_CUT
         setvar 0x8002 MOVE_FLY
+        setvar 0x8003 MOVE_DARKVOID
         setvar 0x8004 NATURE_ADAMANT
         setvar 0x8005 0
         random 32        @ generates 0–31
@@ -339,9 +340,10 @@ EventScript_Pallet_AideGuy:
         copyvar 0x800B, LASTRESULT  @ SpDef IV
         givepokemon SPECIES_DRAGONITE 70 ITEM_HEAVY_DUTY_BOOTS 0 1 10
 
-        setvar 0x8000 MOVE_IRONTAIL
-        setvar 0x8001 MOVE_VOLTSWITCH
-        setvar 0x8002 MOVE_THUNDERBOLT
+        setvar 0x8000 MOVE_ENERGYBALL
+        setvar 0x8001 MOVE_SLUDGEBOMB
+        setvar 0x8002 MOVE_LEECHSEED
+        setvar 0x8003 MOVE_GROWTH
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
         setvar 0x8006 16
@@ -350,7 +352,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_VENUSAUR 100 ITEM_NONE 0 1 10
+        givepokemon SPECIES_VENUSAUR 100 ITEM_VENUSAURITE 0 1 10
 
         setvar 0x8000 MOVE_QUICKATTACK
         setvar 0x8001 MOVE_BITE
@@ -377,14 +379,16 @@ EventScript_Pallet_AideGuy:
         setvar 0x800B 16
         givepokemon SPECIES_SCYTHER 30 ITEM_NONE 0 1 10
 
-        @ setflag 0xA08 Tera Battle Flag
-        setflag 0x828
-        @ additem 0x306 0x1 Tera Orb
-        @ additem ITEM_POKEVIAL 0x1
+        setflag 0xA08 @ Tera Battle Flag
+        setflag 0x828 @ Give flag 
+        setflag 0x2A5 @ Can use hideout lift
+        setflag 0x23C @ Grunt outside Silph
+        setflag 0x23D @ Got Poke Flute 
+        additem ITEM_TERA_ORB 1
         additem ITEM_DOME_FOSSIL 0x1
-        additem ITEM_HELIX_FOSSIL 0x1
-        additem ITEM_JAW_FOSSIL 0x1
-        additem ITEM_BLACK_AUGURITE 0x1
+        additem ITEM_POKE_FLUTE 1
+        additem ITEM_BICYCLE 1
+        additem ITEM_OLD_AMBER 1
         msgbox gText_TestScript2 MSG_NORMAL
         release
         end

@@ -738,6 +738,14 @@ map \map
 .byte 0x5a
 .endm
 
+@ Added in by myself.
+.macro setobjectgraphicsid index:req, gfx:req
+    .byte 0x5A
+    .2byte \index
+    .2byte \gfx
+.endm
+
+
 @ Faces the object in a given direction
 .macro spriteface localId:req, direction:req
 .byte 0x5b
@@ -1434,6 +1442,11 @@ special Special_OpenGlobalMart
 .byte \effect
 .byte \speed
 .endm
+
+.macro waitfadescreen
+	.byte 0x2F
+.endm
+
 
 .macro setflashlevel word:req
 .byte 0x99

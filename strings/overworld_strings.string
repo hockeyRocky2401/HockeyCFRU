@@ -336,6 +336,8 @@ Hi, there!\nMay I help you?
 #org @gText_GlobalMart_Again
 Please come again!
 	
+// VIRIDIAN CITY 
+
 #org @gText_Viridian_ParcelThanks
 Okay, thanks! Please say hi to\nProf. Oak for me, too.
 
@@ -344,6 +346,26 @@ Hi, there!\nMay I help you?
 
 #org @gText_Viridian_PleaseAgain
 Please come again!
+
+// Giovanni Gym
+
+#org @gText_Giovanni_Intro
+Fwahahaha!\pSurprised to see me, young\nprodigy?\pYes, not only am I the leader\nof Team Rocket, I'm also the\pViridian City Gym Leader.\pLet's see how good you really\nare.\pFace me, Giovanni, the greatest\nTrainer in the world!
+
+#org @gText_Giovanni_Lost
+Ha!\nThat was a truly intense fight.\nYou have won!
+
+#org @gText_Giovanni_PostBattle
+As proof of your victory, take\nthis Earth Badge.
+
+#org @gText_Got_EarthBadge
+[PLAYER] recieved the Earth Badge from\nGiovanni.
+
+#org @gText_Here_Earthquake
+It is evidence of your mastery\nas a Pokémon Trainer. With it,\pyou can challenge the Pokémon\nLeague.\pAlso take this TM.
+
+#org @gText_Thats_Earthquake
+We will meet again, young\nprodigy.\pWhat's that?\pDisband Team Rocket?\pFwahahaha!\pWho do you think you are,\nkid?
 
 // #ROUTE 2
 
@@ -359,10 +381,13 @@ That Tera Orb will allow you\nto Terastallize one of your Pokémon\pin battle. I
 
 // Eastern Building Aide
 #org @gText_Aide_East
-Hi! Remember me?\nI'm one of Prof. Oak's Aides.\pProf. Oak entrusted me with this\nTM, U-Turn, to give to you.
+Hi! Remember me?\nI'm one of Prof. Oak's Aides.\pProf. Oak entrusted me with this\nHM, Fly, to give to you.
 
 #org @gText_Thats_UTurn
 U-Turn is a Bug-type attack\nthat also switches out the Trainer's\pPokémon on hit.\pIt's very popular amongst some of\nthe best Trainers in the world. 
+
+#org @gText_Thats_Fly
+Have a Pokémon that can use\nFly to take you back to\pplaces that you've already visited.\pYou'll need it to navigate\nKanto.
 // #PEWTER
 
 //Pewter Aide
@@ -586,6 +611,39 @@ I found that augurite when i\nwas in the Sinnoh region.\pI'm not sure what it do
 
 // CELADON CITY
 
+//Rocket Hideout
+//Petrel
+#org @gText_MeetPetrel
+How did you get in here?\pThis place is off-limits.\nRun along now, child.\p...\p......\pHave it your way then.
+
+#org @gText_Petrel_PostBattle
+Petrel: What?!
+
+#org @gText_Petrel_Idle
+Petrel: Giovanni forgive me..\pOhh what do I do?!
+
+#org @gText_MeetArcher
+Whoa! What are you doing in\nhere?\pLeave at once!
+
+#org @gText_Archer_PostBattle
+Archer: I don't believe this!
+
+#org @gText_Archer_Idle
+Archer: You're quite the Trainer.\pYou still need to get out of\nhere though.\pThis is no place for kids.
+
+#org @gText_MeetAriana
+Hold it right there!\pWe can't have a little brat\nlike you on the loose!
+
+#org @gText_Ariana_PostBattle
+Ariana: Tch!
+
+#org @gText_Ariana_Idle
+Ariana: You're strong.\pWhy are you even in here\nanyway?!
+
+//Giovanni
+#org @gText_Giovanni
+Who are you?\pI'm very impressed that you've made\nit past my employees, you must\pbe quite the little prodigy.\pI am Giovanni.\pYou should join us. We could\nuse the extra firepower.\pI can make you very rich.\nYou'll be set for life!\pFwahahaha!\pNow, I must take my leave. I\nhave business to attend to.\pThink about it, young prodigy.
+
 // Oak After Gym
 #org @gText_MegaRing
 Well done [PLAYER]!\pI was watching your battle through\nthe window there.\pYou're becoming quite the young\nTrainer.\pI came all this way to give you\nsomething.\pI'm sure you've seen Trainers on\nTV using Mega-Evolved Pokémon,\pPokémon that have taken on a\ngreater form during battle.\pWell, with this Mega Ring, you'll\nbe able to Mega Evolve your\pPokémon too.
@@ -601,3 +659,158 @@ This is for the Pokémon that\nyou recieved in my Lab.\pHave it hold this stone,
 
 #org @gText_Bye_Oak
 I'm sure you'll find more Mega\nStones as you travel.\pI've kept you long enough.\pI must return to my Lab.\pTalk soon, [PLAYER]!
+
+// SAFFRON CITY
+
+//Silph Co.
+//Petrel 2
+#org @gText_Petrel_Oak
+Prof. Oak: Hellooo!\pWhat are you doing in Silph\nCo?\pYou should really leave, there's\nnothing here anyway.\pDon't you have a Pokémon League\nChallenge to be doing?!\pFwahahaha!
+
+#org @gText_Petrel_Stop
+Prof. Oak: Damn it!\pYou should've listened\nto me!
+
+#org @gText_Petrel_Disguise
+Petrel: Either my disguise didn't\nfool you or you're just a\pdisobedient infant.\pNow I'm going to make an\nexample of you.
+
+#org @gText_Petrel_Lost2
+Petrel: Noooo!
+
+#org @gText_Petrel_PostBattle2
+Petrel: Giovanni forgive me, I\nwill make this up to you!
+
+//Giovanni Scene Silph 
+#org @gText_Giovanni_Silph
+Giovanni: Ah! The young prodigy!\pThe President and I were just\ndiscussing a vital business\pproposition.\pI assume you've come to take\nme up on my offer and\pjoin Team Rocket?\pNo?\pI must say, I'm dissapointed.\pArcher, Ariana, take care of this!\pArcher & Ariana: Yes Boss!
+
+#org @gText_Archer_PreBattle
+Archer: You won't beat the two\nof us together!
+
+#org @gText_Ariana_PreBattle
+Ariana: Stay out of our way,\nbrat!
+
+#org @gText_Silph_Double_Loss
+Archer: Man, you're strong.\pAriana: I.. I'm shattered.
+
+#org @gText_Archie_Loss
+Archer: We'll meet again kid.
+
+#org @gText_Ariana_Loss
+Ariana: Ta-ta for now, brat!
+
+// ROUTE 16 WEST CELADON
+
+//Aide in builidng 
+#org @gText_Aide_Route16
+Hi! Remember me?\nI'm one of Prof. Oak's Aides.\pProf. Oak entrusted me with this\nTM43, Tera Blast for you.
+
+#org @gText_Thats_Terablast
+If your Pokémon has Terastallized,\nit attacks using its Tera-\pType.\pThis move inflicts damage using\nthe Attack or Sp. Atk, whichever\pis higher for the user.\pThis could be a game-changer\nfor you.\pUse it well.
+
+//Woman behind Aide Building
+#org @gText_Amulet_Woman
+Oh, dear.\nYou've found my secret retreat.\pPlease don't tell anyone I'm here.\pI'll make it up to you with this!
+
+#org @gText_Thats_AmuletCoin
+Have one of your Pokémon hold\nthat before it battles and\pit will double your winnings!\p...\pNo, it's perfectly legal!
+
+//ROUTE 18 WEST FUCHSIA
+
+//Ramiro
+#org @gText_Ramiro_Intro
+Kurukkoo!\nHow do you like my birdcall?
+
+#org @gText_Ramiro_PostBattle
+I had to bug you!
+
+#org @gText_Here_Pidgeotite
+Here, I have this spare\nPidgeotite. You deserve it.
+
+#org @gText_Thats_Pidgeotite
+Use it to Mega Evolve a\nPidgeot.\pMega Pidgeot's moves don't miss!
+
+// ROUTE 14 EAST FUCHSIA
+
+// Yazmin 
+#org @gText_Yazmin_Intro
+Want to play with my Pokémon?
+
+#org @gText_Yazmin_Loss
+I was too impatient!
+
+#org @gText_Here_Beedrillite
+You have a Mega Ring, take\nthis Beedrillite!
+
+#org @gText_Thats_Beedrillite
+Mega Beedrill is super strong\nand fast.\pI don't know how you beat\nit!
+
+// ROUTE 15 GATE TO FUCHSIA
+
+#org @gText_Route15_Aide
+Hi! Remember me?\nI'm one of Prof. Oak's Aides.\pFor some reason, Prof. Oak\nhas instructed me to give you\pthis.
+
+#org @gText_Thats_ToxicOrb
+According to Prof. Oak, that\nToxic Orb can actually be used to\pnmake certain Pokémon more effective\nin battle, despite it badly\ppoisoning them if they hold it.\pI don't get it, but Prof.\nOak says it works and who am\pI to argue? 
+
+// ROUTE 19 SOUTH FUCHSIA
+
+// Axle
+#org @gText_Axle_Intro
+Ahoy there!\nThese waters are treacherous!
+
+#org @gText_Axle_PostBattle
+Ooh!\nDangerous!
+
+#org @gText_Here_Gyaradosite
+M-my legs! They cramped up!\nGlub, glub.\pTake this, glub, glub, before\nI drown!
+
+#org @gText_Thats_Gyaradosite
+Use that, glub, glub, to Mega-\nEvolve, glub, glub, Gyarados!
+
+// CINNABAR
+
+// Cinnabar Lab
+//Fossil Regenerator
+#org @gText_Aerodactyl_Regen
+Hiya!\pI am important doctor.\nYes, very much so, indeed.\pHere, I study rare Pokémon fossils.\nAll the time, I study.\pYou!\nHave you a fossil for me?
+
+#org @gText_Amber_ComeBack
+Aiyah!\nYou come again!
+
+#org @gText_WantToReviveAmber
+You want to revive this Old Amber?
+
+#org @gText_Got_Aerodactyl
+[PLAYER] recieved the Aerodactyl\nfrom the doctor.
+
+// TWO ISLAND
+
+// Move Reminder Guy
+#org @gText_No_Need
+I'm the Pokémon Move Maniac.\pI know every single move that\nPokémon learn growing up.\pOh!\pI guess you have no need\nof me.
+
+
+// VICTORY ROAD  
+
+// Juggler Nelson 
+#org @gText_Nelson_Intro
+Ah, so you wish to\nchallenge the Elite Four?
+
+#org @gText_Nelson_Loss
+You got me!
+
+#org @gText_Here_Aerodactylite
+Some brash guy came through\nhere earlier.\pHe was really tough.\pThis might help you beat him.
+
+#org @gText_Thats_Aerodactylite
+Use the Aerodactylite to Mega-\nEvolve an Aerodactyl.\pNot many Pokémon hit harder than\nMega Aerodactyl.
+
+// Whitney
+#org @gText_Whitney_Intro
+Snivel, hic..\pI was a member of the Elite\nFour, but some guy just came\pin and beat me!\pSnivel, hic..\pAfter I beat you, I'm\ngonna go back and beat\peverybody!
+
+#org @gText_Whitney_Loss
+Snivel, hic... you meanie!
+
+#org @gText_Whitney_Idle
+Sob...Waaaaaaaah!

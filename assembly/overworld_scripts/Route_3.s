@@ -75,8 +75,10 @@ applymovement 2, Walk_Up
 waitmovement 0
 return
 
+.global Walk_Up
 Walk_Up:
 .byte walk_up, end_m
 
+.global Look_Down
 Look_Down:
 .byte look_down, end_m

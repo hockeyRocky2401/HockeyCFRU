@@ -740,7 +740,7 @@ It enrages the foe,\nmaking it incapable\nof using the same\nmove successively.
 An attack that is\nboosted if user is\nburned, poisoned,\nor paralyzed.
 
 #org @DESC_TM43
-An attack that may\nhave an additional\neffect that varies\nwith the terrain.
+If the user has\nTerastallized, it\nunleashes energy of\nit's Tera Type.
 
 #org @DESC_TM44
 The user sleeps for\ntwo turns to fully\nrestore HP and heal\nany status problem.
@@ -761,7 +761,7 @@ The user employs\nits psychic power\nto swap abilities\nwith the foe.
 Steals the effects\nof the foe's\nhealing or status-\nchanging move.
 
 #org @DESC_TM50
-An intense attack\nthat also sharply\nreduces the user's\nSP. ATK stat.
+Exhales a hot breath on a\nfoe(s). May inflict a burn.
 
 #org @DESC_CRAZY_AXE
 
@@ -1149,9 +1149,9 @@ User charges at the\nfoe using every bit\nof its power. Must\nrecharge next turn
 #org @DESC_TM69
 User polishes its\nbody to reduce drag.\nIt can sharply raise\nthe Speed stat.
 
+//Was Flash, Now Heat Wave
 #org @DESC_TM70
-A blast of light\nthat cuts the foe's\naccuracy. It also\nilluminates caves.
-
+Exhales a hot breath on the\nfoe. May inflict a burn.
 #org @DESC_TM71
 The user stabs the target\nwith sharpened stones\nfrom below. Critical hits\nland more easily.
 

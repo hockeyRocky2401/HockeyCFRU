@@ -409,17 +409,21 @@ static u8 LoadCorrectTrainerPicId(void)
 	}
 	else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
 	{
-		if (position == 1)
-			trainerPicId = gTrainers[gTrainerBattleOpponent_A].trainerPic;
-		else
-			trainerPicId = gTrainers[gTrainerBattleOpponent_B].trainerPic;
-	}
-	else
-	{
-		trainerPicId = gTrainers[gTrainerBattleOpponent_A].trainerPic;
-	}
+		if (position == B_POSITION_OPPONENT_LEFT)
+        {
+            trainerPicId = gTrainers[gTrainerBattleOpponent_A].trainerPic;
+        }
+        else
+        {
+            trainerPicId = gTrainers[gTrainerBattleOpponent_B].trainerPic;
+        }
+    }
+    else
+    {
+        trainerPicId = gTrainers[gTrainerBattleOpponent_A].trainerPic;
+    }
 
-	return trainerPicId;
+    return trainerPicId;
 }
 
 void SpriteCB_SlideInTrainer(struct Sprite* sprite)

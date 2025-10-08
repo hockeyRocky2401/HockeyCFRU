@@ -254,6 +254,7 @@ static const u16* sPlayerMarlonOutfitColours[] =
 	const struct EventObjectGraphicsInfo** const gOverworldTableSwitcher[] =
 	{
 		(NPCPtr*) 0x88110E0,
+		// (NPCPtr*) 0x89A0000,
 		(NPCPtr*) 0x88B2720,
 		(NPCPtr*) 0x88B2B20,
 	};
@@ -1490,7 +1491,8 @@ static NPCPtr sOverworldTable6[] =
 	// create 255 OW tables
 	const struct EventObjectGraphicsInfo** const gOverworldTableSwitcher[255] =
 	{
-		(NPCPtr*) 0x839FDB0,
+		// (NPCPtr*) 0x839FDB0,
+		(NPCPtr*) 0x871F740,
 		sOverworldTable2,
 		sOverworldTable3,
 		sOverworldTable4,
@@ -3880,7 +3882,7 @@ static NPCPtr sOverworldTable6[] =
 #ifdef PALETTE_SWAPPER
 	const struct SpritePalette* const gObjectEventSpritePalettesSwitcher[255] =
 	{
-		[0x11] = gObjectEventSpritePalettes11,
+		[0x11] = ((void*) 0x871F9D0),
 		[0x12] = gObjectEventSpritePalettes12,
 		[0x13] = gObjectEventSpritePalettes13,
 		[0x14] = gObjectEventSpritePalettes14,

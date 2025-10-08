@@ -6,6 +6,7 @@
 .include "../asm_defines.s"
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 @ Itemfinder Aide in building
 
 EventScript_Route11_Aide:
@@ -32,6 +33,7 @@ end
 Route11_Aide_Idle:
 lockall
 faceplayer
+textcolor 0
 preparemsg gText_Thats_Itemfinder
 waitmsg
 waitbuttonpress

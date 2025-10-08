@@ -85,6 +85,7 @@ EventScriptP_ViridianCity_Youngster:
     end
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 @  Viridian Mart Script
 .equ VAR_RESULT,  0x800D
 .equ ITEM_OAKS_PARCEL, 349
@@ -122,3 +123,49 @@ waitbuttonpress
 closemessage
 release
 end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@ Giovanni Script
+
+EventScript_Giovanni_Gym:
+lockall
+faceplayer
+textcolor 0
+trainerbattle1 0, 350, 0, gText_Giovanni_Intro, gText_Giovanni_Lost, Giovanni_PostBattle
+end
+
+Giovanni_PostBattle:
+textcolor 0
+preparemsg gText_Giovanni_PostBattle
+waitmsg
+waitbuttonpress
+preparemsg gText_Got_EarthBadge
+playsong 0x101
+waitfanfare
+waitmsg
+waitbuttonpress
+setflag 0x0AD @ Misc Kanto Rockets
+setflag 0x4B7 @ Defeated Giovanni 
+setflag 0x827 @ Got Earth Badge 
+setvar 0x4054, 3 @ Blue Battle Var
+preparemsg gText_Here_Earthquake
+waitmsg
+waitbuttonpress
+setvar 0x8000 ITEM_TM26    
+setvar 0x8001 1               
+call SystemScript_ObtainItem
+textcolor 0
+preparemsg gText_Thats_Earthquake
+waitmsg
+waitbuttonpress
+closemessage
+fadescreen 0
+hidesprite 8
+setflag 0x055 @ Giovanni Flag
+callasm FadeInFromBlack
+releaseall
+end
+
+
+
