@@ -1079,6 +1079,17 @@
 //Route 18
 #define FLAG_AIDE_ROUTE15                   0x314
 
+//Tera Type Guy Saffron
+#define FLAG_TERATYPE_INTRO                 0x315
+
+//Wide Lens Guy Viridan
+#define FLAG_WIDE_LENS                      0x316
+
+//Dubious Disc Guy Cinnabar
+#define FLAG_DUBIOUS_DISC                   0x317
+
+//Rare Candy Guy Viridian
+#define FLAG_RARE_CANDY_GUY                 0x318
 
 #define FLAG_HIDDEN_ITEMS_START 1000 // 0x3E8
 #define FLAG_HIDDEN_ITEM(map, item) (FLAG_HIDDEN_ITEMS_START + HIDDEN_ITEM_##map##_##item)

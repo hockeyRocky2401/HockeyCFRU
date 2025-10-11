@@ -1023,32 +1023,32 @@ typedef struct {
 static const PurchaseReward sPurchaseRewards[] = {
     // 🎯 Poké Balls
     {ITEM_POKE_BALL,    ITEM_PREMIER_BALL,   10, 1},  // Standard Premier Ball bonus
-    {ITEM_GREAT_BALL,   ITEM_DUSK_BALL,      10, 1},  // Great Ball → Dusk Ball (good for caves)
-    {ITEM_ULTRA_BALL,   ITEM_LUXURY_BALL,    10, 1},  // Ultra Ball → Luxury Ball (friendship-based)
+    // {ITEM_GREAT_BALL,   ITEM_DUSK_BALL,      10, 1},  // Great Ball → Dusk Ball (good for caves)
+    // {ITEM_ULTRA_BALL,   ITEM_LUXURY_BALL,    10, 1},  // Ultra Ball → Luxury Ball (friendship-based)
  
-    // ❤️ Healing Items → Status Cures  
-    {ITEM_POTION,       ITEM_ORAN_BERRY,      5, 1},  // Potion → Small healing berry
-    {ITEM_SUPER_POTION, ITEM_SITRUS_BERRY,    5, 1},  // Super Potion → Sitrus Berry (better healing)
-    {ITEM_HYPER_POTION, ITEM_MAX_REVIVE,     10, 1},  // Hyper Potion → Max Revive (rare but useful)
-    {ITEM_FULL_RESTORE, ITEM_REVIVAL_HERB,   10, 1},  // Full Restore → Revival Herb (strong but bitter)
+    // // ❤️ Healing Items → Status Cures  
+    // {ITEM_POTION,       ITEM_ORAN_BERRY,      5, 1},  // Potion → Small healing berry
+    // {ITEM_SUPER_POTION, ITEM_SITRUS_BERRY,    5, 1},  // Super Potion → Sitrus Berry (better healing)
+    // {ITEM_HYPER_POTION, ITEM_MAX_REVIVE,     10, 1},  // Hyper Potion → Max Revive (rare but useful)
+    // {ITEM_FULL_RESTORE, ITEM_REVIVAL_HERB,   10, 1},  // Full Restore → Revival Herb (strong but bitter)
      
-     // 💊 Status Heals → Berries (same effect, but saves items)
-    {ITEM_ANTIDOTE,     ITEM_PECHA_BERRY,     3, 1},  // Antidote → Pecha Berry (poison cure)
-    {ITEM_PARALYZE_HEAL, ITEM_CHERI_BERRY,    3, 1},  // Paralyze Heal → Cheri Berry (paralysis cure)
-    {ITEM_BURN_HEAL,    ITEM_RAWST_BERRY,     3, 1},  // Burn Heal → Rawst Berry (burn cure)
-    {ITEM_ICE_HEAL,     ITEM_ASPEAR_BERRY,    3, 1},  // Ice Heal → Aspear Berry (freeze cure)
-    {ITEM_AWAKENING,    ITEM_CHESTO_BERRY,    3, 1},  // Awakening → Chesto Berry (sleep cure)
-    {ITEM_FULL_HEAL,    ITEM_LUM_BERRY,       5, 1},  // Full Heal → Lum Berry (cures all)
+    //  // 💊 Status Heals → Berries (same effect, but saves items)
+    // {ITEM_ANTIDOTE,     ITEM_PECHA_BERRY,     3, 1},  // Antidote → Pecha Berry (poison cure)
+    // {ITEM_PARALYZE_HEAL, ITEM_CHERI_BERRY,    3, 1},  // Paralyze Heal → Cheri Berry (paralysis cure)
+    // {ITEM_BURN_HEAL,    ITEM_RAWST_BERRY,     3, 1},  // Burn Heal → Rawst Berry (burn cure)
+    // {ITEM_ICE_HEAL,     ITEM_ASPEAR_BERRY,    3, 1},  // Ice Heal → Aspear Berry (freeze cure)
+    // {ITEM_AWAKENING,    ITEM_CHESTO_BERRY,    3, 1},  // Awakening → Chesto Berry (sleep cure)
+    // {ITEM_FULL_HEAL,    ITEM_LUM_BERRY,       5, 1},  // Full Heal → Lum Berry (cures all)
  
-     // ⛏️ Exploration Items
-    {ITEM_ESCAPE_ROPE,  ITEM_SUPER_REPEL,     3, 1},  // Escape Rope → Super Repel (helps with caves)
-    {ITEM_REPEL,        ITEM_ESCAPE_ROPE,     5, 1},  // Repel → Escape Rope (exploration combo)
-    {ITEM_SUPER_REPEL,  ITEM_MAX_REPEL,       5, 1},  // Super Repel → Max Repel (stronger version)
-    {ITEM_MAX_REPEL,    ITEM_NUGGET,         10, 1},  // Max Repel → Nugget (money reward)
+    //  // ⛏️ Exploration Items
+    // {ITEM_ESCAPE_ROPE,  ITEM_SUPER_REPEL,     3, 1},  // Escape Rope → Super Repel (helps with caves)
+    // {ITEM_REPEL,        ITEM_ESCAPE_ROPE,     5, 1},  // Repel → Escape Rope (exploration combo)
+    // {ITEM_SUPER_REPEL,  ITEM_MAX_REPEL,       5, 1},  // Super Repel → Max Repel (stronger version)
+    // {ITEM_MAX_REPEL,    ITEM_NUGGET,         10, 1},  // Max Repel → Nugget (money reward)
  
-     // ⚔️ Battle Boosters  
-    {ITEM_X_ATTACK,     ITEM_X_DEFEND,       5, 1},  // X Attack → X Defense (strategic buffing)
-    {ITEM_X_SPEED,      ITEM_X_SP_DEF,        5, 1},  // X Speed → X Sp. Defense (balancing stats)
+    //  // ⚔️ Battle Boosters  
+    // {ITEM_X_ATTACK,     ITEM_X_DEFEND,       5, 1},  // X Attack → X Defense (strategic buffing)
+    // {ITEM_X_SPEED,      ITEM_X_SP_DEF,        5, 1},  // X Speed → X Sp. Defense (balancing stats)
  };
  
 extern const u8 gText_ReceivedBonusItem[];

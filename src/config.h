@@ -350,7 +350,7 @@ enum //These vars need to be one after the other (hence the enum)
 /*Expansion specials!*/
 #define SIDEWAY_STAIRS_IMPLEMENTED //Uncomment if you're using Sideway Stairs patch.
 #define FLAG_FOLLOWER_POKEMON 0x4BD //0x4BD is an unused flag.
-#define MAX_POKEVIAL_USES 3  // Maximum uses before recharge
+#define MAX_POKEVIAL_USES 6  // Maximum uses before recharge
 #define VAR_POKEVIAL_USES 0x5155 // Use a free variable ID to track uses
 //#define REMOVE_CRITICAL_HITS //Uncomment this to remove critical hits.
 #define MULTIPLE_PREMIER_BALLS_AT_ONCE //Comment out if you don't want the player received a Premier ball for every 10 Poke Balls purchased (only 1 no matter how many over 10 balls the player buys)

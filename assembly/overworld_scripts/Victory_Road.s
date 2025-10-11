@@ -68,6 +68,29 @@ Walk_Left2:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+@ Nurse Victory Road
+
+EventScript_Nurse_Victory:
+lockall
+faceplayer
+textcolor 1
+preparemsg gText_Nurse_Victory
+waitmsg        
+waitbuttonpress
+closemessage
+special 0x0
+playse 0x1
+waitse 
+textcolor 1
+preparemsg gText_Nurse_Done
+waitmsg        
+waitbuttonpress
+closemessage
+releaseall
+end 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 @ Whitney Script 
 
 EventScript_Whitney0:

@@ -40,3 +40,24 @@ waitbuttonpress
 closemessage
 release
 end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@ Newer Moves Guy
+
+.equ   VAR_RESULT, 0x800D
+.extern sNewTMMart
+.extern GetQuestLogState
+SystemScript_Rare_Moves:
+lock
+faceplayer
+preparemsg gText_RareMoves_Hi
+waitmsg
+.byte  0x86              @ pokemart opcode
+.4byte sNewTMMart
+preparemsg gText_GlobalMart_Again
+waitmsg
+waitbuttonpress
+closemessage
+release
+end

@@ -7,6 +7,36 @@
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+@ Dubious Disc NPC
+
+EventScript_Dubious_Disc:
+checkflag 0x317
+if SET _goto Dubious_Idle
+lockall
+faceplayer
+textcolor 0
+preparemsg gText_Here_Dubious
+waitmsg
+waitbuttonpress
+setvar 0x8000 ITEM_DUBIOUS_DISC
+setvar 0x8001 1               
+call SystemScript_ObtainItem
+setflag 0x317
+goto Dubious_Idle
+
+Dubious_Idle:
+lockall
+faceplayer
+textcolor 0
+preparemsg gText_Thats_Dubious
+waitmsg
+waitbuttonpress
+closemessage
+releaseall
+end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 @ Aerodactyl Regenerator
 
 EventScript_Aerodactyl_Regen:
@@ -37,7 +67,7 @@ preparemsg gText_WantToReviveAmber
     return
 
 Fossil_Amber:
-fadescreen 0
+fadescreen 1
 callasm FadeInFromBlack
 setvar 0x8000 MOVE_HYPERBEAM
 setvar 0x8001 MOVE_STONEEDGE
@@ -59,7 +89,7 @@ random 32
 copyvar 0x800A, LASTRESULT  @ SpAtk IV
 random 32
 copyvar 0x800B, LASTRESULT  @ SpDef IV
-givepokemon SPECIES_AERODACTYL 45 ITEM_NONE 0 1 0
+givepokemon SPECIES_AERODACTYL 50 ITEM_NONE 0 1 0
 
 removeitem ITEM_OLD_AMBER, 1
 preparemsg gText_Got_Aerodactyl

@@ -2,7 +2,7 @@ import re, sys, shutil
 from pathlib import Path
 
 THRESHOLD = 24
-BUMP = 2
+BUMP = 4
 CAP = 100
 
 def bump(n: int) -> int:

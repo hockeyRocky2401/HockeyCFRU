@@ -347,6 +347,27 @@ Hi, there!\nMay I help you?
 #org @gText_Viridian_PleaseAgain
 Please come again!
 
+// Rare Candy Guy
+#org @gText_Want_RareCandy
+Pssst! I have a great deal\nfor you!\pI can give you 100 Rare Candies\nfor just 5000 Poké Dollars!\pThey'd be great for raising\nPokémon on an adventure!\pDo you want 100 Rare Candies\nfor 5000 Poké Dollars?
+
+#org @gText_Candy_Again
+I'll be here if you want these\nRare Candies!
+
+#org @gText_Not_Enough_Candy
+That's not enough money!\nCome back when you have 5000.
+
+#org @gText_Got_Candy
+And remember this...\pYou didn't get those Rare Candies\nfrom me!
+
+
+//Wide Lens Guy
+#org @gText_Here_Wide_Lens
+Yawn!\nI must have dozed off in the sun.\pI had this weird dream about\na Hypno eating my dream.\pI'm spooked!\nHere, have this.
+
+#org @gText_Thats_WideLens
+Wide Lens make the holder's\nmoves more accurate.
+
 // Giovanni Gym
 
 #org @gText_Giovanni_Intro
@@ -512,6 +533,10 @@ Mega Kick? Mega Punch?\pNever heard of 'em.
 
 // #CERULEAN
 
+//Badge Checker Guy
+#org @gText_Badge_Guy
+Only skilled Trainers can collect\nPokémon Badges.\pI see you have at least one.\pThose Badges have amazing secrets,\ndid you know?
+
 #org @gText_Rival_Cerulean_Intro
 [RIVAL]: Yo! [PLAYER]! You're still\nstruggling along back here? I'm\pdoing great! I caught a bunch\nof strong and smart Pokémon!
 
@@ -646,7 +671,7 @@ Who are you?\pI'm very impressed that you've made\nit past my employees, you mus
 
 // Oak After Gym
 #org @gText_MegaRing
-Well done [PLAYER]!\pI was watching your battle through\nthe window there.\pYou're becoming quite the young\nTrainer.\pI came all this way to give you\nsomething.\pI'm sure you've seen Trainers on\nTV using Mega-Evolved Pokémon,\pPokémon that have taken on a\ngreater form during battle.\pWell, with this Mega Ring, you'll\nbe able to Mega Evolve your\pPokémon too.
+Well done [PLAYER]!\pI was watching your battle through\nthe window there.\pYou're becoming quite the young\nTrainer.\pI came all this way to give you\nsomething.\pI'm sure you've seen Trainers on\nTV using Mega-Evolved Pokémon,\pPokémon that have taken on a\ngreater form during battle.\pWell, with this Mega Ring, you'll\nbe able to Mega Evolve your\pown Pokémon too.
 
 #org @gText_Thats_MegaRing
 You'll need more than just the\nMega Ring to Mega Evolve your\pPokémon though.\pYou'll also require Mega Stones.
@@ -750,7 +775,7 @@ Mega Beedrill is super strong\nand fast.\pI don't know how you beat\nit!
 Hi! Remember me?\nI'm one of Prof. Oak's Aides.\pFor some reason, Prof. Oak\nhas instructed me to give you\pthis.
 
 #org @gText_Thats_ToxicOrb
-According to Prof. Oak, that\nToxic Orb can actually be used to\pnmake certain Pokémon more effective\nin battle, despite it badly\ppoisoning them if they hold it.\pI don't get it, but Prof.\nOak says it works and who am\pI to argue? 
+According to Prof. Oak, that\nToxic Orb can actually be used to\pmake certain Pokémon more effective\nin battle, despite it badly\ppoisoning them if they hold it.\pI don't get it, but Prof.\nOak says it works and who am\pI to argue? 
 
 // ROUTE 19 SOUTH FUCHSIA
 
@@ -770,6 +795,13 @@ Use that, glub, glub, to Mega-\nEvolve, glub, glub, Gyarados!
 // CINNABAR
 
 // Cinnabar Lab
+// Dubious Disc Guy
+#org @gText_Here_Dubious 
+Tch-tch-tch!\nI'll give you a nifty item.\pGive it to a Porygon2, and watch\nthe fun unfold!
+
+#org @gText_Thats_Dubious
+Thats a Dubious Disc.\nIt further enhances the evolution\pof Porygon.
+
 //Fossil Regenerator
 #org @gText_Aerodactyl_Regen
 Hiya!\pI am important doctor.\nYes, very much so, indeed.\pHere, I study rare Pokémon fossils.\nAll the time, I study.\pYou!\nHave you a fossil for me?
@@ -789,6 +821,8 @@ You want to revive this Old Amber?
 #org @gText_No_Need
 I'm the Pokémon Move Maniac.\pI know every single move that\nPokémon learn growing up.\pOh!\pI guess you have no need\nof me.
 
+#org @gText_RareMoves_Hi
+I have rare TMs. Would\nyou like to purchase some?
 
 // VICTORY ROAD  
 
@@ -804,6 +838,9 @@ Some brash guy came through\nhere earlier.\pHe was really tough.\pThis might hel
 
 #org @gText_Thats_Aerodactylite
 Use the Aerodactylite to Mega-\nEvolve an Aerodactyl.\pNot many Pokémon hit harder than\nMega Aerodactyl.
+
+#org @gText_Nurse_Victory
+There's a lot of tough trainers\nhere.\pLet me heal your Pokémon!
 
 // Whitney
 #org @gText_Whitney_Intro

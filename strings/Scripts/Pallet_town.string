@@ -4,8 +4,11 @@ Creating following mon.
 #org @gText_PalletGirl_Text1
 Show or hide follower mon?\nSelect Yes to show or No to hide.
 
+#org @gText_ChangeTera
+Ah, hi there.\pI might not look like it,\nbut I used to work alongside\pthe Professors Sada and Turo\nin the Paldea Region.\pDuring our research, we discovered a\nmethod for altering a Pokémon’s Tera\pType, a process few outside our\nold lab can perform.\pI still maintain some of the equipment\nhere, and with it, I can\phelp your Pokémon resonate with\na different Tera Type, if you\pwish.
+
 #org @gText_ChangeTeraTypeNPCAsk
-Ah, hi there[.]\pI can change your Pok\emon's\nTera Type!\pWould you like me to change it?
+Would you like me to change\nyour Pokémon’s Tera Type?
 
 #org @gText_ChangeTeraTypeNPCNo
 Oh, I see[.]\pPlease do visit again\nnext time!

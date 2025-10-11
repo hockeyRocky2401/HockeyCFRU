@@ -1738,7 +1738,8 @@ extern const u8 DESC_TM43[];
 #define DESC_TM46 ((const u8 *)0x0848548B)
 #define DESC_TM47 ((const u8 *)0x0848602B)
 #define DESC_TM48 ((const u8 *)0x0848743C)
-#define DESC_TM49 ((const u8 *)0x08487558)
+// #define DESC_TM49 ((const u8 *)0x08487558)
+extern const u8 DESC_TM49[];
 // #define DESC_TM50 ((const u8 *)0x08487C46)
 extern const u8 DESC_TM50[];
 extern const u8 DESC_HM01[];
