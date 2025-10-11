@@ -7,6 +7,21 @@
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+@ Badge Checker Guy
+
+EventScript_Badge_Guy:
+lockall
+faceplayer
+textcolor 0
+preparemsg gText_Badge_Guy
+waitmsg
+waitbuttonpress
+closemessage
+releaseall
+end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 @ Cerulean City — Rival by Nugget Bridge (no Fame Checker)
 
 EventScript_Rival_NoFameChecker1:

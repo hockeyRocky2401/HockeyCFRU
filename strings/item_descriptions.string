@@ -740,7 +740,7 @@ It enrages the foe,\nmaking it incapable\nof using the same\nmove successively.
 An attack that is\nboosted if user is\nburned, poisoned,\nor paralyzed.
 
 #org @DESC_TM43
-An attack that may\nhave an additional\neffect that varies\nwith the terrain.
+If the user has\nTerastallized, it\nunleashes energy of\nit's Tera Type.
 
 #org @DESC_TM44
 The user sleeps for\ntwo turns to fully\nrestore HP and heal\nany status problem.
@@ -758,10 +758,10 @@ The foe is hit with\nwings of steel.\nIt may also raise\nthe user's DEFENSE.
 The user employs\nits psychic power\nto swap abilities\nwith the foe.
 
 #org @DESC_TM49
-Steals the effects\nof the foe's\nhealing or status-\nchanging move.
+Foe is soaked by a\nspecial acid. Power doubles if\nfoe is poisoned.
 
 #org @DESC_TM50
-An intense attack\nthat also sharply\nreduces the user's\nSP. ATK stat.
+Exhales a hot breath on a\nfoe(s). May inflict a burn.
 
 #org @DESC_CRAZY_AXE
 
@@ -1108,7 +1108,7 @@ A restrained attack that\nprevents the foe from\nfainting. The target is\nleft w
 This move's power is\ndoubled if the\ntarget's HP is at\nhalf or less.
 
 #org @DESC_TM56
-User sharpens its\nclaws to increase\nits Attack and\nAccuracy.
+The ground under the\nfoe erupts. It may\nalso lower the foe's\nSp. Def.          
 
 #org @DESC_TM57
 User attacks with\nbeam of energy that\nmay also raise its\nSpecial Attack.
@@ -1126,13 +1126,13 @@ User attacks with an\nenergy-draining\npunch that restores\nthe user's HP.
 The user shoots a\nsinister flame at\nthe target to\ninflict a burn.
 
 #org @DESC_TM62
-The foe is attacked\nwith a silver dust.\nIt may raise all\nthe user's stats.
+Covers feet in Ice\nand twirls slams\ninto the foe. Also\ndestroys terrains.
 
 #org @DESC_TM63
 The foe is soaked by\na special acid. Its\npower doubles if the\nfoe is poisoned.
 
 #org @DESC_TM64
-The user explodes to\ninflict terrible\ndamage even while\nfainting itself.
+The move's power\nincreases and damages\nall opposing targets\nin Psychic Terrain.
 
 #org @DESC_TM65
 User slashes with a\nsharp claw made from\nshadows. Critical\nhits land easily.
@@ -1149,9 +1149,9 @@ User charges at the\nfoe using every bit\nof its power. Must\nrecharge next turn
 #org @DESC_TM69
 User polishes its\nbody to reduce drag.\nIt can sharply raise\nthe Speed stat.
 
+//Was Flash, Now Heat Wave
 #org @DESC_TM70
-A blast of light\nthat cuts the foe's\naccuracy. It also\nilluminates caves.
-
+Exhales a hot breath on the\nfoe. May inflict a burn.
 #org @DESC_TM71
 The user stabs the target\nwith sharpened stones\nfrom below. Critical hits\nland more easily.
 
@@ -1195,16 +1195,16 @@ Boiling water is\nshot at the foe.\nIt may also cause\na burn.
 The foe is stabbed\nby an arm steeped\nin poison. It may\nalso poison the foe.
 
 #org @DESC_TM85
-The user eats the\nfoe's dreams to deal\ndamage and\nrecover HP.
+Changes terrain to grass\nfor seven turns,\nboosting Grass moves and\nrestoring HP.
 
 #org @DESC_TM86
 Grass snares and\ntrips the foe. It\ndoes more damage\nto heavier foes.
 
 #org @DESC_TM87
-A move that makes\nthe foe confused,\nbut also sharply\nraises its Attack.
+Electrifies the ground for\nseven turns, boosting\nElectric moves and\neluding sleep.
 
 #org @DESC_TM88
-User pecks the foe.\nIf foe is holding a\nBerry, the user\ngains its effect.
+Mist covers ground for\nseven turns, halving\nDragon moves and\npreventing status.
 
 #org @DESC_TM89
 After attacking,\nthe user switches\nplaces with a\nparty Pokémon.
@@ -1222,7 +1222,7 @@ After attacking,\nthe user switches\nplaces with a\nparty Pokémon.
 The foe is made to\nswitch out with an\nally. In the wild,\nthe battle ends.
 
 #org @DESC_TM94
-If the target is\nholding a Berry, the\nBerry becomes burnt\nup and unusable.
+Terrain is weird for\nseven turns, boosting\nPsychic moves and\nblocking priority.
 
 #org @DESC_TM95
 Resisting, the user\nattacks the opposing\nPokémon. Foe's SpAtk\nstat is reduced.
@@ -1267,7 +1267,7 @@ User nimbly strikes\nthe target. Power\ndoubled if user's\nnot holding a item.
 User yells as if it\nis ranting about\nsomething, making\nfoes SpAtk decrease.
 
 #org @DESC_TM109
-A strong wind blows\naway foes barriers.\nThis also lowers the\ntargets evasiveness.
+Wind blows away foes\nobstacles. This also lowers\nthe targets evasiveness.
 
 #org @DESC_TM110
 User attacks with an\nenergy-draining\nkiss that restores\nthe user's HP.

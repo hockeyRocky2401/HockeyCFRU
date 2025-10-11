@@ -1336,13 +1336,13 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_TMTiles, gBag_TMFlyingPal},    // ITEM_TM40_AERIAL_ACE - Voador
 	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM41_TORMENT - Sombrio
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM42_FACADE - Normal
-	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM43_SECRET_POWER - Normal
+	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM43_SECRET_POWER - Normal - Now Tera Blast
 	{gBag_TMTiles, gBag_TMPsychicPal},   // ITEM_TM44_REST - Psíquico
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM45_ATTRACT - Normal
 	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM46_THIEF - Sombrio
 	{gBag_TMTiles, gBag_TMFlyingPal},    // ITEM_TM47_STEEL_WING - Voador/Aço
 	{gBag_TMTiles, gBag_TMPsychicPal},   // ITEM_TM48_SKILL_SWAP - Psíquico
-	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM49_SNATCH - Sombrio
+	{gBag_TMTiles, gBag_TMPoisonPal},      // ITEM_TM49_SNATCH - Now Venoshock
 	{gBag_TMTiles, gBag_TMFirePal},      // ITEM_TM50_OVERHEAT - Fogo
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_HM01_CUT - Normal
 	{gBag_TMTiles, gBag_TMFlyingPal},    // ITEM_HM02_FLY - Voador
@@ -1392,15 +1392,15 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_TMTiles, gBag_TMDragonPal},    // ITEM_TM59_DRAGON_PULSE - Dragão
 	{gBag_TMTiles, gBag_TMFightingPal},  // ITEM_TM60_DRAIN_PUNCH - Lutador
 	{gBag_TMTiles, gBag_TMFirePal},   	 // ITEM_TM61_WILL_O_WISP - Fogo
-	{gBag_TMTiles, gBag_TMBugPal},       // ITEM_TM62_SILVER_WIND - Inseto
+	{gBag_TMTiles, gBag_TMIcePal},       // ITEM_TM62_SILVER_WIND - Inseto
 	{gBag_TMTiles, gBag_TMPoisonPal},    // ITEM_TM63_VENOSHOCK - Veneno
-	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM64_EXPLOSION - Normal
+	{gBag_TMTiles, gBag_TMPsychicPal},    // ITEM_TM64_EXPLOSION - Normal / Now Expanding Forc
 	{gBag_TMTiles, gBag_TMGhostPal},     // ITEM_TM65_SHADOW_CLAW - Fantasma
 	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM66_PAYBACK - Sombrio
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM67_RECYCLE - Normal
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM68_GIGA_IMPACT - Normal
 	{gBag_TMTiles, gBag_TMRockPal},      // ITEM_TM69_ROCK_POLISH - Pedra
-	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM70_FLASH - Normal
+	{gBag_TMTiles, gBag_TMFirePal},      // ITEM_TM70_FLASH - Normal / Noww Heat Wave
 	{gBag_TMTiles, gBag_TMRockPal},      // ITEM_TM71_STONE_EDGE - Pedra
 	{gBag_TMTiles, gBag_TMIcePal},       // ITEM_TM72_AVALANCHE - Gelo
 	{gBag_TMTiles, gBag_TMElectricPal},  // ITEM_TM73_THUNDER_WAVE - Elétrico
@@ -1410,21 +1410,21 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_TMTiles, gBag_TMFirePal},      // ITEM_TM77_FLAME_CHARGE - Fogo
 	{gBag_TMTiles, gBag_TMFightingPal},  // ITEM_TM78_LOW_SWEEP - Lutador
 	{gBag_TMTiles, gBag_TMDarkPal},      // ITEM_TM79_DARK_PULSE - Sombrio
-	{gBag_TMTiles, gBag_TMRockPal},      // ITEM_TM80_ROCK_SLIDE - Pedra
+	{gBag_TMTiles, gBag_TMGroundPal},      // ITEM_TM80_ROCK_SLIDE - Now Scorching Sands
 	{gBag_TMTiles, gBag_TMBugPal},       // ITEM_TM81_X_SCISSOR - Inseto
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM82_SLEEP_TALK - Normal
 	{gBag_TMTiles, gBag_TMWaterPal},     // ITEM_TM83_SCALD - Água
 	{gBag_TMTiles, gBag_TMPoisonPal},    // ITEM_TM84_POISON_JAB - Veneno
-	{gBag_TMTiles, gBag_TMPsychicPal},   // ITEM_TM85_DREAM_EATER - Psíquico
+	{gBag_TMTiles, gBag_TMGrassPal},   // ITEM_TM85_DREAM_EATER - Now Grassy Terrain
 	{gBag_TMTiles, gBag_TMGrassPal},     // ITEM_TM86_GRASS_KNOT - Grama
-	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM87_SWAGGER - Normal
-	{gBag_TMTiles, gBag_TMFlyingPal},    // ITEM_TM88_PLUCK - Voador
+	{gBag_TMTiles, gBag_TMElectricPal},    // ITEM_TM87_SWAGGER - Noow Electric Terrain
+	{gBag_TMTiles, gBag_TMFairyPal},    // ITEM_TM88_PLUCK - Now Misty Terrain
 	{gBag_TMTiles, gBag_TMBugPal},       // ITEM_TM89_U_TURN - Inseto
 	{gBag_TMTiles, gBag_TMNormalPal},    // ITEM_TM90_SUBSTITUTE - Normal
 	{gBag_TMTiles, gBag_TMSteelPal},     // ITEM_TM91_FLASH_CANNON - Aço
 	{gBag_TMTiles, gBag_TMElectricPal},  // ITEM_TM92_VOLT_SWITCH - Elétrico
 	{gBag_TMTiles, gBag_TMDragonPal},    // ITEM_TM93_DRAGON_TAIL - Dragão
-	{gBag_TMTiles, gBag_TMFirePal},      // ITEM_TM94_INCINERATE - Fogo
+	{gBag_TMTiles, gBag_TMPsychicPal},      // ITEM_TM94_INCINERATE - Now Psychic Terrain
 	{gBag_TMTiles, gBag_TMBugPal},       // ITEM_TM95_STRUGGLE_BUG - Inseto
 	{gBag_TMTiles, gBag_TMGroundPal},    // ITEM_TM96_BULLDOZE - Terra
 	{gBag_TMTiles, gBag_TMIcePal},       // ITEM_TM97_FROST_BREATH - Gelo
@@ -4787,7 +4787,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _B, _a, _n, _d, _END},
 		.itemId = ITEM_CHOICE_BAND,
-		.price = 4000,
+		.price = 12000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
         .holdEffectParam = 0,
 		.description = DESC_CHOICE_BAND,
@@ -7203,7 +7203,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _4, _9, _END},
 		.itemId = ITEM_TM49,
-		.price = 3000,
+		.price = 10000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM49,
@@ -7907,7 +7907,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _5, _6, _END},
 		.itemId = ITEM_TM56,
-		.price = 3000,
+		.price = 10000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM56,
@@ -8003,7 +8003,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _6, _2, _END},
 		.itemId = ITEM_TM62,
-		.price = 3000,
+		.price = 10000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM62,
@@ -8035,7 +8035,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _6, _4, _END},
 		.itemId = ITEM_TM64,
-		.price = 3000,
+		.price = 10000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM64,
@@ -8291,7 +8291,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _8, _0, _END},
 		.itemId = ITEM_TM80,
-		.price = 3000,
+		.price = 10000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM80,
@@ -8371,7 +8371,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _8, _5, _END},
 		.itemId = ITEM_TM85,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM85,
@@ -8403,7 +8403,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _8, _7, _END},
 		.itemId = ITEM_TM87,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM87,
@@ -8419,7 +8419,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _8, _8, _END},
 		.itemId = ITEM_TM88,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM88,
@@ -8515,7 +8515,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _9, _4, _END},
 		.itemId = ITEM_TM94,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM94,
@@ -8755,7 +8755,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _1, _0, _9, _END},
 		.itemId = ITEM_TM109,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM109,
@@ -12659,7 +12659,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _i, _f, _e, _SPACE, _O, _r, _b, _END},
 		.itemId = ITEM_LIFE_ORB,
-		.price = 4000,
+		.price = 10000,
 		.holdEffect = ITEM_EFFECT_LIFE_ORB,
 		.holdEffectParam = 0,
 		.description = DESC_LIFE_ORB,
@@ -12931,7 +12931,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _S, _c, _a, _r, _f, _END},
 		.itemId = ITEM_CHOICE_SCARF,
-		.price = 4000,
+		.price = 12000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
 		.holdEffectParam = 2,
 		.description = DESC_CHOICE_SCARF,
@@ -12947,7 +12947,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _S, _p, _e, _c, _s, _END},
 		.itemId = ITEM_CHOICE_SPECS,
-		.price = 2000,
+		.price = 12000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
 		.holdEffectParam = 1,
 		.description = DESC_CHOICE_SPECS,

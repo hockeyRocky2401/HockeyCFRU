@@ -3,7 +3,7 @@
 
 #include "global.h"
 
-#define NO_OF_TRAINERS      854
+#define NO_OF_TRAINERS      858  //854
 #define TRAINER_ID_STEVEN   804
 
 #endif // GUARD_TRAINER_IDS_H

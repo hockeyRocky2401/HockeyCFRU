@@ -96,6 +96,8 @@ enum OverworldNPCSprites
 #define EVENT_OBJ_GFX_CUT_TREE 95
 #define EVENT_OBJ_GFX_ROCK_SMASH_ROCK 96
 #define EVENT_OBJ_GFX_PUSHABLE_BOULDER 97
+//Petrel Sprite
+#define EVENT_OBJ_GFX_PETREL 154
 
 #define EVENT_OBJ_GFX_RED_UNDERWATER 6 //By default VS. Seeker on bike b\c not used by anything else
 #define EVENT_OBJ_GFX_LEAF_UNDERWATER 13

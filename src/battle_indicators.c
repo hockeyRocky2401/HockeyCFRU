@@ -2225,74 +2225,76 @@ void DestroyTypeIcon(struct Sprite* sprite)
 	FreeSpritePaletteByTag(TYPE_ICON_TAG_2);
 }
 
-// u16 GetLastUsedBall(void)
-// {
-// 	#ifdef UNBOUND
-// 	if (!FlagGet(FLAG_SANDBOX_MODE) //All balls have 100% catch rate so no point in this
-// 	&& FlagGet(FLAG_SHOW_BEST_BALL))
-// 		return GetBestBallInBag();
-// 	#endif
-
-// 	return gLastUsedBall;
-// }
-
 u16 GetLastUsedBall(void)
 {
-    #ifdef UNBOUND
-    if (!FlagGet(FLAG_SANDBOX_MODE)
-     && FlagGet(FLAG_SHOW_BEST_BALL))
-        return GetBestBallInBag();
-    #endif
+	#ifdef UNBOUND
+	if (!FlagGet(FLAG_SANDBOX_MODE) //All balls have 100% catch rate so no point in this
+	&& FlagGet(FLAG_SHOW_BEST_BALL))
+		return GetBestBallInBag();
+	#endif
 
-    // If a real ball was last used this session, return it
-    if (gLastUsedBall != ITEM_NONE
-     && GetPocketByItemId(gLastUsedBall) == POCKET_POKEBALLS
-     && CheckBagHasItem(gLastUsedBall, 1))
-        return gLastUsedBall;
-
-    // Otherwise default to Poké Ball if you have one
-    if (CheckBagHasItem(ITEM_POKE_BALL, 1))
-        return ITEM_POKE_BALL;
-
-    // Otherwise search bag for any valid ball
-    for (u16 i = ITEM_POKE_BALL; i <= ITEM_PREMIER_BALL; i++) // extend range if needed
-    {
-        if (GetPocketByItemId(i) == POCKET_POKEBALLS
-         && CheckBagHasItem(i, 1))
-            return i;
-    }
-
-    return ITEM_NONE; // no balls at all
+	return gLastUsedBall;
 }
 
-
-// bool8 CantLoadLastBallTrigger(void)
+// u16 GetLastUsedBall(void)
 // {
-// 	u16 lastUsedBall = GetLastUsedBall();
+//     #ifdef UNBOUND
+//     if (!FlagGet(FLAG_SANDBOX_MODE)
+//      && FlagGet(FLAG_SHOW_BEST_BALL))
+//         return GetBestBallInBag();
+//     #endif
 
-// 	return (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-// 		|| CantCatchPokemonRightNow()
-// 		|| (!gNewBS->threwBall //Haven't thrown a ball
-// 		 #ifdef FLAG_ALWAYS_SHOW_LAST_BALL
-// 		 && !FlagGet(FLAG_ALWAYS_SHOW_LAST_BALL) //And the ball shouldn't show until the player has
-// 		 #endif
-// 		)
-// 		|| GetPocketByItemId(lastUsedBall) != POCKET_POKEBALLS
-// 		|| !CheckBagHasItem(lastUsedBall, 1);
+//     // If a real ball was last used this session, return it
+//     if (gLastUsedBall != ITEM_NONE
+//      && GetPocketByItemId(gLastUsedBall) == POCKET_POKEBALLS
+//      && CheckBagHasItem(gLastUsedBall, 1))
+//         return gLastUsedBall;
+
+//     // Otherwise default to Poké Ball if you have one
+//     if (CheckBagHasItem(ITEM_POKE_BALL, 1))
+//         return ITEM_POKE_BALL;
+
+//     // Otherwise search bag for any valid ball
+//     for (u16 i = ITEM_POKE_BALL; i <= ITEM_PREMIER_BALL; i++) // extend range if needed
+//     {
+//         if (GetPocketByItemId(i) == POCKET_POKEBALLS
+//          && CheckBagHasItem(i, 1))
+//             return i;
+//     }
+
+//     return ITEM_NONE; // no balls at all
 // }
+
 
 bool8 CantLoadLastBallTrigger(void)
 {
-    u16 lastUsedBall = GetLastUsedBall();
+	u16 lastUsedBall = GetLastUsedBall();
 
-    return (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-        || CantCatchPokemonRightNow()
-    #ifdef FLAG_ALWAYS_SHOW_LAST_BALL
-        || !FlagGet(FLAG_ALWAYS_SHOW_LAST_BALL) // only allow if flag set
-    #endif
-        || GetPocketByItemId(lastUsedBall) != POCKET_POKEBALLS
-        || !CheckBagHasItem(lastUsedBall, 1);
+	return (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+		|| CantCatchPokemonRightNow()
+		|| (!gNewBS->threwBall //Haven't thrown a ball
+		 #ifdef FLAG_ALWAYS_SHOW_LAST_BALL
+		 && !FlagGet(FLAG_ALWAYS_SHOW_LAST_BALL) //And the ball shouldn't show until the player has
+		 #endif
+		)
+		|| GetPocketByItemId(lastUsedBall) != POCKET_POKEBALLS
+		|| !CheckBagHasItem(lastUsedBall, 1);
 }
+
+//Tried to change Poke ball to show at start of every battle.
+
+// bool8 CantLoadLastBallTrigger(void)
+// {
+//     u16 lastUsedBall = GetLastUsedBall();
+
+//     return (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+//         || CantCatchPokemonRightNow()
+//     #ifdef FLAG_ALWAYS_SHOW_LAST_BALL
+//         || !FlagGet(FLAG_ALWAYS_SHOW_LAST_BALL) // only allow if flag set
+//     #endif
+//         || GetPocketByItemId(lastUsedBall) != POCKET_POKEBALLS
+//         || !CheckBagHasItem(lastUsedBall, 1);
+// }
 
 
 void TryLoadLastUsedBallTrigger(void)

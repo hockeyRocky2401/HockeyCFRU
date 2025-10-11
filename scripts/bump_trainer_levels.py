@@ -8,8 +8,8 @@ import shutil
 #   python tools/bump_trainer_levels.py src/data/trainers/   (a folder)
 
 LEVEL_FIELDS = (".lvl", ".level")
-THRESHOLD = 24
-BUMP = 2
+THRESHOLD = 23
+BUMP = 4
 CAP = 100
 
 # Regex matches ".lvl = 27," or ".level=27," with optional spaces

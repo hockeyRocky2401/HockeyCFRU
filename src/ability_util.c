@@ -1563,8 +1563,14 @@ bool8 SpeciesHasZerotoHero(unusedArg u16 species) //Custom Unbound Ability
 	#endif
 }
 
-bool8 SpeciesHasHydroDisplacer(u16 species)
+bool8 SpeciesHasHydroDisplacer(unusedArg u16 species)
 {
-	return gBaseStats[species].ability1 == ABILITY_HYDRODISPLACER
-        || gBaseStats[species].ability2 == ABILITY_HYDRODISPLACER;
+	// return gBaseStats[species].ability1 == ABILITY_HYDRODISPLACER
+    //     || gBaseStats[species].ability2 == ABILITY_HYDRODISPLACER;
+
+	#if (defined SPECIES_BLASTOISE)
+	return species == SPECIES_BLASTOISE;
+	#else
+	return FALSE;
+	#endif
 }

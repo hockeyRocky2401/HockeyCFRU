@@ -57,6 +57,7 @@ PalletGirl_ShowFollowerMon:
 .global EventScript_Pallet_AideGuy
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+/* 
 EventScript_ChangeTeraTypeNPC:
     lock
     faceplayer
@@ -271,58 +272,17 @@ EventScript_ChangeTeraTypeNPC_SetStellar:
     msgbox gText_ChangeTeraTypeNPCFetchTeraStellar MSG_NORMAL
     release
     end
+    */
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 EventScript_Pallet_AideGuy:
     lock
     faceplayer
-        /*setvar 0x8000 MOVE_PSYCHIC
-        setvar 0x8001 MOVE_SNIPESHOT
-        setvar 0x8002 MOVE_CHILLYRECEPTION
-        setvar 0x8003 MOVE_LASTRESORT
-        setvar 0x8004 NATURE_MODEST
-        setvar 0x8005 0
-        setvar 0x8006 16
-        setvar 0x8007 16
-        setvar 0x8008 16
-        setvar 0x8009 16
-        setvar 0x800A 16
-        setvar 0x800B 16
-        givepokemon SPECIES_GARDEVOIR 100 ITEM_LEFTOVERS 0 1 10 */
-
-      /*  setvar 0x8000 MOVE_DOUBLEIRONBASH
-        setvar 0x8001 MOVE_PSYCHOCUT
-        setvar 0x8002 MOVE_ALLURINGVOICE
-        setvar 0x8003 0x2E6
-        setvar 0x8004 NATURE_MODEST
-        setvar 0x8005 0
-        setvar 0x8006 16
-        setvar 0x8007 16
-        setvar 0x8008 16
-        setvar 0x8009 16
-        setvar 0x800A 16
-        setvar 0x800B 16
-        givepokemon SPECIES_GALLADE 10 ITEM_LEFTOVERS 0 1 10 */
-
-/*
-        setvar 0x8000 MOVE_ICESPINNER
-        setvar 0x8001 MOVE_CUT
-        setvar 0x8002 MOVE_FLY
-        @ setvar 0x8003 MOVE_EXTREMESPEED
-        setvar 0x8004 NATURE_ADAMANT
-        setvar 0x8005 0
-        setvar 0x8006 16
-        setvar 0x8007 16
-        setvar 0x8008 16
-        setvar 0x8009 16
-        setvar 0x800A 16
-        setvar 0x800B 16
-        givepokemon SPECIES_DRAGONITE 70 ITEM_HEAVY_DUTY_BOOTS 0 1 10
-        */
 
         setvar 0x8000 MOVE_ICESPINNER
         setvar 0x8001 MOVE_CUT
         setvar 0x8002 MOVE_FLY
+        setvar 0x8003 MOVE_DARKVOID
         setvar 0x8004 NATURE_ADAMANT
         setvar 0x8005 0
         random 32        @ generates 0–31
@@ -339,9 +299,10 @@ EventScript_Pallet_AideGuy:
         copyvar 0x800B, LASTRESULT  @ SpDef IV
         givepokemon SPECIES_DRAGONITE 70 ITEM_HEAVY_DUTY_BOOTS 0 1 10
 
-        setvar 0x8000 MOVE_IRONTAIL
-        setvar 0x8001 MOVE_VOLTSWITCH
-        setvar 0x8002 MOVE_THUNDERBOLT
+        setvar 0x8000 MOVE_ENERGYBALL
+        setvar 0x8001 MOVE_SLUDGEBOMB
+        setvar 0x8002 MOVE_LEECHSEED
+        setvar 0x8003 MOVE_RAZORLEAF
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
         setvar 0x8006 16
@@ -350,9 +311,9 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_VENUSAUR 100 ITEM_NONE 0 1 10
+        givepokemon SPECIES_VENUSAUR 100 ITEM_VENUSAURITE 0 1 10
 
-        setvar 0x8000 MOVE_QUICKATTACK
+        setvar 0x8000 MOVE_DYNAMICPUNCH
         setvar 0x8001 MOVE_BITE
         setvar 0x8002 MOVE_STRENGTH
         setvar 0x8004 NATURE_MODEST
@@ -363,10 +324,10 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_EEVEE 20 ITEM_NONE 0 1 10
+        givepokemon SPECIES_MACHAMP 30 ITEM_NONE 0 1 10
 
-        setvar 0x8000 MOVE_PECK
-        setvar 0x8001 MOVE_GROWL
+        setvar 0x8000 MOVE_HYDROPUMP
+        setvar 0x8001 MOVE_SLEEPPOWDER
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0
         setvar 0x8006 16
@@ -375,16 +336,41 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 16
         setvar 0x800A 16
         setvar 0x800B 16
-        givepokemon SPECIES_SCYTHER 30 ITEM_NONE 0 1 10
+        givepokemon SPECIES_BLASTOISE 40 ITEM_BLASTOISINITE 0 1 10
 
-        @ setflag 0xA08 Tera Battle Flag
-        setflag 0x828
-        @ additem 0x306 0x1 Tera Orb
-        @ additem ITEM_POKEVIAL 0x1
+        setvar 0x8000 MOVE_HURRICANE
+        setvar 0x8001 MOVE_HEATWAVE
+        setvar 0x8002 MOVE_TAILWIND
+        setvar 0x8003 MOVE_VOLTSWITCH
+        random NUM_NATURES
+        copyvar 0x8004, LASTRESULT       @ random naturesetvar 0x8005 0
+        setvar 0x8005, 0 @ ability
+        random 32        @ generates 0–31
+        copyvar 0x8006, LASTRESULT  @ HP IV
+        random 32
+        copyvar 0x8007, LASTRESULT  @ Attack IV
+        random 32
+        copyvar 0x8008, LASTRESULT  @ Defense IV
+        random 32
+        copyvar 0x8009, LASTRESULT  @ Speed IV
+        random 32
+        copyvar 0x800A, LASTRESULT  @ SpAtk IV
+        random 32
+        copyvar 0x800B, LASTRESULT  @ SpDef IV
+        givepokemon SPECIES_PIDGEOT 80 ITEM_PIDGEOTITE 0 1 0
+
+        setflag 0xA08 @ Tera Battle Flag
+        setflag 0x828 @ Give flag 
+        setflag 0x2A5 @ Can use hideout lift
+        setflag 0x23C @ Grunt outside Silph
+        setflag 0x23D @ Got Poke Flute 
+        setflag 0x054 @ Snorlax flag Route 12
+        additem ITEM_MEGA_RING 1
+        additem ITEM_TERA_ORB 1
         additem ITEM_DOME_FOSSIL 0x1
-        additem ITEM_HELIX_FOSSIL 0x1
-        additem ITEM_JAW_FOSSIL 0x1
-        additem ITEM_BLACK_AUGURITE 0x1
+        additem ITEM_POKE_FLUTE 1
+        additem ITEM_BICYCLE 1
+        additem ITEM_OLD_AMBER 1
         msgbox gText_TestScript2 MSG_NORMAL
         release
         end

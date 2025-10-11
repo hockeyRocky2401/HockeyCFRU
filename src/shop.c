@@ -62,9 +62,9 @@ const u16 sEvoMart[] = {
     ITEM_FIRE_STONE,
     ITEM_WATER_STONE,
     ITEM_LEAF_STONE,
-    ITEM_ICE_STONE,
-    ITEM_DUSK_STONE,
-    ITEM_DAWN_STONE,
+    // ITEM_ICE_STONE,
+    // ITEM_DUSK_STONE,
+    // ITEM_DAWN_STONE,
     ITEM_LINK_CABLE,
     ITEM_NONE,
 };
@@ -74,6 +74,47 @@ const u16 sWeatherMart[] = {
     ITEM_ICY_ROCK,
     ITEM_HEAT_ROCK,
     ITEM_DAMP_ROCK,
+    ITEM_NONE,
+};
+
+const u16 sTwoIslandMart[] = {
+    ITEM_POKE_BALL,
+    ITEM_POTION,
+    ITEM_SUPER_POTION,
+    ITEM_HYPER_POTION,
+    ITEM_MAX_POTION,
+    ITEM_ANTIDOTE,
+    ITEM_PARALYZE_HEAL,
+    ITEM_AWAKENING,
+    ITEM_BURN_HEAL,
+    ITEM_ICE_HEAL,
+    ITEM_REVIVE,
+    ITEM_ESCAPE_ROPE,
+    ITEM_REPEL,
+    ITEM_SUPER_REPEL,
+    ITEM_MAX_REPEL,
+    ITEM_ETHER,
+    ITEM_ABILITY_CAPSULE,
+    ITEM_ABILITY_PATCH,
+    ITEM_CHOICE_SPECS,
+    ITEM_CHOICE_SCARF,
+    ITEM_CHOICE_BAND,
+    ITEM_LIFE_ORB,
+    ITEM_NONE,
+};
+
+const u16 sNewTMMart[] = {
+
+    ITEM_TM49, //Venoshock
+    ITEM_TM56, //Earth Power
+    ITEM_TM62, //Ice Spinner
+    ITEM_TM64, //Expanding Force
+    ITEM_TM80, //Scorching Sands
+    ITEM_TM85, //Grassy Terrain
+    ITEM_TM87, //Electric Terrain
+    ITEM_TM88, //Misty Terrain
+    ITEM_TM94, //Psychic Terrain
+    ITEM_TM109, //Defog
     ITEM_NONE,
 };
 

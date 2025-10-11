@@ -101,6 +101,7 @@ applymovement 1, Walk_Left
 waitmovement 0
 return
 
+.global Walk_Left
 Walk_Left:
 .byte walk_left, end_m
 

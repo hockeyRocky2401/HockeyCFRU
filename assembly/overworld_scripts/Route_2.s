@@ -56,7 +56,7 @@ Exit_Aide:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-@ Aide in eastern building.
+@ Aide in eastern building. Gives Fly
 
 EventScript_Aide_East:
 checkflag 0x30C
@@ -67,11 +67,12 @@ textcolor 0
 preparemsg gText_Aide_East
 waitmsg
 waitbuttonpress
-setvar 0x8000 ITEM_TM89    @ which item
-setvar 0x8001 1                @ how many
+setvar 0x8000 ITEM_HM02_FLY    @ Was U-Turn
+setvar 0x8001 1               
 call SystemScript_ObtainItem
 textcolor 0
-preparemsg gText_Thats_UTurn
+@ preparemsg gText_Thats_UTurn
+preparemsg gText_Thats_Fly
 waitmsg
 waitbuttonpress
 closemessage
@@ -82,7 +83,7 @@ end
 Aide_East_Idle:
 lockall
 faceplayer
-preparemsg gText_Thats_UTurn
+preparemsg gText_Thats_Fly
 waitmsg
 waitbuttonpress
 closemessage

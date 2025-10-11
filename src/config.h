@@ -122,7 +122,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define NUM_TMS 120	//keep this defined even if EXPANDED_TMSHMS is not!!
 #define NUM_HMS 8	//keep this defined even if EXPANDED_TMSHMS is not!!
 #define NUM_MOVE_TUTORS 152 //keep this defined even if EXPANDED_MOVE_TUTORS is not!! If using DPE, set to 128.
-#define LAST_TOTAL_TUTOR_NUM 161 //Should be equal to (NUM_MOVE_TUTORS - 1) + 9. Must be set to an actual integer or the compilation will not work.
+#define LAST_TOTAL_TUTOR_NUM 151 //Should be equal to (NUM_MOVE_TUTORS - 1) + 9. Must be set to an actual integer or the compilation will not work.
 // #define TMS_BEFORE_HMS  //Uncomment this if you want the HMs to appear after the TMs in your bag
 #define DELETABLE_HMS //Uncomment this if you want HMs to be deletable without the Move Deleter
 #define REUSABLE_TMS	//if defined, don't forget to give all TMs a Mystery byte of 1!
@@ -350,7 +350,7 @@ enum //These vars need to be one after the other (hence the enum)
 /*Expansion specials!*/
 #define SIDEWAY_STAIRS_IMPLEMENTED //Uncomment if you're using Sideway Stairs patch.
 #define FLAG_FOLLOWER_POKEMON 0x4BD //0x4BD is an unused flag.
-#define MAX_POKEVIAL_USES 3  // Maximum uses before recharge
+#define MAX_POKEVIAL_USES 6  // Maximum uses before recharge
 #define VAR_POKEVIAL_USES 0x5155 // Use a free variable ID to track uses
 //#define REMOVE_CRITICAL_HITS //Uncomment this to remove critical hits.
 #define MULTIPLE_PREMIER_BALLS_AT_ONCE //Comment out if you don't want the player received a Premier ball for every 10 Poke Balls purchased (only 1 no matter how many over 10 balls the player buys)
@@ -402,6 +402,7 @@ enum //These vars need to be one after the other (hence the enum)
 
 /* Trainer Data */
 #define EXPAND_TRAINERS // Makes trainers editable, well useless if OPEN_WORLD_TRAINERS is being used.
+// #define STEVEBELS_TRAINER_TABLE //You can edit any existing trainer just by entering their ID. Do not use if EXPAND_TRAINERS is uncommented.
 
 //Custom Config 
 #define FLAG_DISABLE_TRAINER_SEE 0x309 //Disable trainer see.

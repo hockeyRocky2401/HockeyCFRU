@@ -173,6 +173,14 @@
 #define TRAINER_PIC_SELPHY 0x92
 #define TRAINER_PIC_PAINTER 0x93
 
+//My Custom
+#define TRAINER_PIC_PETREL 0x94
+#define TRAINER_PIC_ARCHER 0x95
+#define TRAINER_PIC_ARIANA 0x96
+#define TRAINER_PIC_ADMINS 0x97
+#define TRAINER_PIC_WHITNEY 0x98
+
+
 //Backsprites
 #define TRAINER_BACK_PIC_RED              	0
 #define TRAINER_BACK_PIC_LEAF             	1

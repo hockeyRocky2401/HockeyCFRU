@@ -308,3 +308,22 @@ closemessage
 releaseall
 end
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@ TestScript 
+
+EventScript_Trainer_Test:
+lockall 
+trainerbattle3 0, 381, 0, gText_Ariana_PreBattle
+goto TestEnd
+end 
+
+TestEnd:
+lockall
+preparemsg gText_Archie_Loss
+waitmsg
+waitbuttonpress
+closemessage
+releaseall
+end
+ 

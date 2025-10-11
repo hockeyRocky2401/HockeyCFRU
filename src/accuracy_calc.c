@@ -384,20 +384,36 @@ static bool8 AccuracyCalcHelper(u16 move, u8 bankDef)
 	//then stomp on a minimized target,
 	//then always hitting telekinesis except 0HKO moves,
 	//then 0 acc moves
-	if (((gStatuses3[bankDef] & STATUS3_ALWAYS_HITS) && gDisableStructs[bankDef].bankWithSureHit == gBankAttacker)
-	// HydroDisplacer effect for attacker only
-    || ((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
-      && ABILITY(gBankAttacker) == ABILITY_NOGUARD
-      && (gBaseStats[gBattleMons[gBankAttacker].species].ability1 == ABILITY_HYDRODISPLACER
-       || gBaseStats[gBattleMons[gBankAttacker].species].ability2 == ABILITY_HYDRODISPLACER))
 
-  // Standard No Guard effect (attacker or defender), but exclude HydroDisplacer as defender
-    || (ABILITY(gBankAttacker) == ABILITY_NOGUARD
-      && !(gBaseStats[gBattleMons[gBankAttacker].species].ability1 == ABILITY_HYDRODISPLACER
-        || gBaseStats[gBattleMons[gBankAttacker].species].ability2 == ABILITY_HYDRODISPLACER))
-    || (ABILITY(bankDef) == ABILITY_NOGUARD
-      && !(gBaseStats[gBattleMons[bankDef].species].ability1 == ABILITY_HYDRODISPLACER
-        || gBaseStats[gBattleMons[bankDef].species].ability2 == ABILITY_HYDRODISPLACER))
+	// 	if (((gStatuses3[bankDef] & STATUS3_ALWAYS_HITS) && gDisableStructs[bankDef].bankWithSureHit == gBankAttacker)
+// 	// HydroDisplacer effect for attacker only
+//     || ((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+//       && ABILITY(gBankAttacker) == ABILITY_NOGUARD
+//       && (gBaseStats[gBattleMons[gBankAttacker].species].ability1 == ABILITY_HYDRODISPLACER
+//        || gBaseStats[gBattleMons[gBankAttacker].species].ability2 == ABILITY_HYDRODISPLACER))
+
+//   // Standard No Guard effect (attacker or defender), but exclude HydroDisplacer as defender
+//     || (ABILITY(gBankAttacker) == ABILITY_NOGUARD
+//       && !(gBaseStats[gBattleMons[gBankAttacker].species].ability1 == ABILITY_HYDRODISPLACER
+//         || gBaseStats[gBattleMons[gBankAttacker].species].ability2 == ABILITY_HYDRODISPLACER))
+//     || (ABILITY(bankDef) == ABILITY_NOGUARD
+//       && !(gBaseStats[gBattleMons[bankDef].species].ability1 == ABILITY_HYDRODISPLACER
+//         || gBaseStats[gBattleMons[bankDef].species].ability2 == ABILITY_HYDRODISPLACER))
+
+//Second attempt at HydroDisplacer 
+if (((gStatuses3[bankDef] & STATUS3_ALWAYS_HITS)
+      && gDisableStructs[bankDef].bankWithSureHit == gBankAttacker)
+
+    // Hydro Displacer: Hydro moves always hit when used by those species
+    || ((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+        && ABILITY(gBankAttacker) == ABILITY_NOGUARD
+        && SpeciesHasHydroDisplacer(gBattleMons[gBankAttacker].species))
+
+    // Standard No Guard (attacker or defender), excluding Hydro Displacer species
+    || ((ABILITY(gBankAttacker) == ABILITY_NOGUARD
+         && !SpeciesHasHydroDisplacer(gBattleMons[gBankAttacker].species))
+      || (ABILITY(bankDef) == ABILITY_NOGUARD
+         && !SpeciesHasHydroDisplacer(gBattleMons[bankDef].species)))
 
 	||   (move == MOVE_TOXIC && IsOfType(gBankAttacker, TYPE_POISON))
 	||   (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
@@ -573,20 +589,32 @@ u32 VisualAccuracyCalc(u16 move, u8 bankAtk, u8 bankDef)
 	u8 defAbility = GetRecordedAbility(bankDef);
 	u32 acc = AccuracyCalcPassDefAbilityItemEffect(move, bankAtk, bankDef, defAbility, defEffect);
 
-	if (
-		 // HydroDisplacer attacker case
-    ((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
-    && ABILITY(bankAtk) == ABILITY_NOGUARD
-    && (gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
-     || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+	// if (
+	// 	 // HydroDisplacer attacker case
+    // ((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+    // && ABILITY(bankAtk) == ABILITY_NOGUARD
+    // && (gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
+    //  || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
 
-	   // Standard No Guard (excluding HydroDisplacer)
+	//    // Standard No Guard (excluding HydroDisplacer)
+    // || (ABILITY(bankAtk) == ABILITY_NOGUARD
+    // && !(gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
+    //  || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+    // || (defAbility == ABILITY_NOGUARD
+    // && !(gBaseStats[gBattleMons[bankDef].species].ability1 == ABILITY_HYDRODISPLACER
+    //   || gBaseStats[gBattleMons[bankDef].species].ability2 == ABILITY_HYDRODISPLACER))
+
+	//HydroDisplacer second attempt atk 
+	// Hydro Displacer (attacker only, special Hydro moves)
+if (((move == MOVE_HYDROPUMP || move == MOVE_HYDROCANNON)
+     && ABILITY(bankAtk) == ABILITY_NOGUARD
+     && SpeciesHasHydroDisplacer(gBattleMons[bankAtk].species))
+
+    // Standard No Guard (attacker or defender), excluding Hydro Displacer species
     || (ABILITY(bankAtk) == ABILITY_NOGUARD
-    && !(gBaseStats[gBattleMons[bankAtk].species].ability1 == ABILITY_HYDRODISPLACER
-     || gBaseStats[gBattleMons[bankAtk].species].ability2 == ABILITY_HYDRODISPLACER))
+        && !SpeciesHasHydroDisplacer(gBattleMons[bankAtk].species))
     || (defAbility == ABILITY_NOGUARD
-    && !(gBaseStats[gBattleMons[bankDef].species].ability1 == ABILITY_HYDRODISPLACER
-      || gBaseStats[gBattleMons[bankDef].species].ability2 == ABILITY_HYDRODISPLACER))
+        && !SpeciesHasHydroDisplacer(gBattleMons[bankDef].species))
 
 	|| (gStatuses3[bankDef] & STATUS3_ALWAYS_HITS && gDisableStructs[bankDef].bankWithSureHit == bankAtk)
 	|| (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON))

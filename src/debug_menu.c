@@ -144,7 +144,8 @@ void DebugMenu_ProcessGiveItem(void)
 			AddBagItem(ITEM_ANTIDOTE, 100);
 			AddBagItem(ITEM_PARALYZE_HEAL, 100);
 			AddBagItem(ITEM_AWAKENING, 100);
-			AddBagItem(ITEM_RARE_CANDY, 100);
+			AddBagItem(ITEM_REVIVE, 100);
+			AddBagItem(ITEM_RARE_CANDY, 500);
 			break;
 		case 2: //Poke Balls
 			for (i = ITEM_MASTER_BALL; i <= ITEM_PREMIER_BALL; ++i)

@@ -49,10 +49,10 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 30,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = TYPE_GHOST,
+		.teraType = DONT_TERA,
 	},
 	[3] = //257
-	{ // { //Special Sweeper: Power Based
+	{  //Special Sweeper: Power Based
 	// 	.nature = NATURE_MODEST,
 	// 	.ivs = 31,
 	// 	.hpEv = 6,
@@ -76,7 +76,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.teraType = DONT_TERA,
 	},
 	[4] = //258
-	{ // { //Special Sweeper: Speed Based
+	{ //Special Sweeper: Speed Based
 	// 	.nature = NATURE_TIMID,
 	// 	.ivs = 31,
 	// 	.hpEv = 6,
@@ -118,8 +118,8 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spDefEv = 30,
 		.spdEv = 30,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Hidden,
-		.teraType = TYPE_ELECTRIC,
+		.ability = Ability_1,
+		.teraType = TYPE_FLYING,
 	},
 	[6] = //260
 	{ //Bulky Physical Attacker 
@@ -392,7 +392,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 
 		//Wes's Dugtrio
 		.nature = NATURE_SERIOUS,
-		.ivs = 19,
+		.ivs = 15,
 		.hpEv = 20,
 		.atkEv = 20,
 		.defEv = 20,
@@ -401,7 +401,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_GRASS,
+		.teraType = TYPE_GROUND,
 	},
 	[18] =
 	{ //Mixed Attacker: Sp. Attack Based, Less Sp. Defense
@@ -414,9 +414,9 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		// .ability = Ability_Random_1_2,
 		// .teraType = TERA_TYPE_RANDOM,
 
-		 //Adamant. 19 ivs, 20 evs. Ability Hidden. Tera Rock. Kenny's Pinsir on Route 7.
+		 //Adamant. 19 ivs, 20 evs. Ability Hidden. Kenny's Pinsir on Route 7.
 		.nature = NATURE_ADAMANT,
-		.ivs = 19,
+		.ivs = 17,
 		.hpEv = 20,
 		.atkEv = 20,
 		.defEv = 20,
@@ -425,139 +425,295 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = TYPE_ROCK,
+		.teraType = TYPE_BUG,
 	},
 	[19] =
 	{ //Mixed Attacker: Speed Based, Less Defense
-		.nature = NATURE_HASTY,
-		.ivs = 31,
-		.atkEv = 128,
-		.spdEv = 252,
-		.spAtkEv = 128,
+		// .nature = NATURE_HASTY,
+		// .ivs = 31,
+		// .atkEv = 128,
+		// .spdEv = 252,
+		// .spAtkEv = 128,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+       
+		//Petrel's Murkrow Hideout
+		.nature = NATURE_SERIOUS,
+		.ivs = 17,
+		.hpEv = 20,
+		.atkEv = 20,
+		.defEv = 20,
+		.spAtkEv = 20,
+		.spDefEv = 20,
+		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_Hidden,
+		.teraType = TYPE_DARK,
 	},
 	[20] =
 	{ //Mixed Attacker: Speed Based, Less Sp. Defense
-		.nature = NATURE_NAIVE,
-		.ivs = 31,
-		.atkEv = 128,
-		.spdEv = 252,
-		.spAtkEv = 128,
+		// .nature = NATURE_NAIVE,
+		// .ivs = 31,
+		// .atkEv = 128,
+		// .spdEv = 252,
+		// .spAtkEv = 128,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Petrel's Raticate Hideout
+		.nature = NATURE_SERIOUS,
+		.ivs = 15,
+		.hpEv = 15,
+		.atkEv = 15,
+		.defEv = 15,
+		.spAtkEv = 15,
+		.spDefEv = 15,
+		.spdEv = 15,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_2,
+		.teraType = DONT_TERA,
 	},
 	[21] =
 	{ //Mixed Wall: Defense Based, Less Attack
-		.nature = NATURE_BOLD,
-		.ivs = 31,
-		.hpEv = 252,
-		.defEv = 128,
-		.spDefEv = 128,
+		// .nature = NATURE_BOLD,
+		// .ivs = 31,
+		// .hpEv = 252,
+		// .defEv = 128,
+		// .spDefEv = 128,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Petrel's Koffing Hideout
+		.nature = NATURE_SERIOUS,
+		.ivs = 15,
+		.hpEv = 15,
+		.atkEv = 15,
+		.defEv = 15,
+		.spAtkEv = 15,
+		.spDefEv = 15,
+		.spdEv = 15,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_1,
+		.teraType = DONT_TERA,
 	},
 	[22] =
 	{ //Mixed Wall: Defense Based, Less Sp. Attack
-		.nature = NATURE_IMPISH,
-		.ivs = 31,
-		.hpEv = 252,
-		.defEv = 128,
-		.spDefEv = 128,
+		// .nature = NATURE_IMPISH,
+		// .ivs = 31,
+		// .hpEv = 252,
+		// .defEv = 128,
+		// .spDefEv = 128,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Archer's Houndoom Hideout
+		.nature = NATURE_SERIOUS,
+		.ivs = 17,
+		.hpEv = 20,
+		.atkEv = 20,
+		.defEv = 20,
+		.spAtkEv = 20,
+		.spDefEv = 20,
+		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_Hidden,
+		.teraType = TYPE_FIRE,
 	},
 	[23] =
 	{ //Mixed Wall: Sp. Defense Based, Less Attack
-		.nature = NATURE_CALM,
-		.ivs = 31,
-		.hpEv = 252,
-		.defEv = 128,
-		.spDefEv = 128,
+		// .nature = NATURE_CALM,
+		// .ivs = 31,
+		// .hpEv = 252,
+		// .defEv = 128,
+		// .spDefEv = 128,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Ariana's Arbok Hideout
+		.nature = NATURE_SERIOUS,
+		.ivs = 17,
+		.hpEv = 20,
+		.atkEv = 20,
+		.defEv = 20,
+		.spAtkEv = 20,
+		.spDefEv = 20,
+		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_Hidden,
+		.teraType = TYPE_POISON,
 	},
 	[24] =
 	{ //Mixed Wall: Sp. Defense Based, Less Sp. Attack
-		.nature = NATURE_CAREFUL,
-		.ivs = 31,
-		.hpEv = 252,
-		.defEv = 128,
-		.spDefEv = 128,
+		// .nature = NATURE_CAREFUL,
+		// .ivs = 31,
+		// .hpEv = 252,
+		// .defEv = 128,
+		// .spDefEv = 128,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+    //Petrel's Honchkrow Silph
+		.nature = NATURE_SERIOUS,
+		.ivs = 17,
+		.hpEv = 25,
+		.atkEv = 25,
+		.defEv = 25,
+		.spAtkEv = 25,
+		.spDefEv = 25,
+		.spdEv = 25,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_Hidden,
+		.teraType = TYPE_DARK,
 	},
 	[25] =
 	{ //Fast Wall: HP Based, Less Attack
-		.nature = NATURE_TIMID,
-		.ivs = 31,
-		.hpEv = 252,
-		.spdEv = 252,
-		.spAtkEv = 4,
+		// .nature = NATURE_TIMID,
+		// .ivs = 31,
+		// .hpEv = 252,
+		// .spdEv = 252,
+		// .spAtkEv = 4,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Petrel's Raticate Silph
+		.nature = NATURE_SERIOUS,
+		.ivs = 15,
+		.hpEv = 20,
+		.atkEv = 20,
+		.defEv = 20,
+		.spAtkEv = 20,
+		.spDefEv = 20,
+		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_2,
+		.teraType = DONT_TERA,
 	},
 	[26] =
 	{ //Fast Wall: HP Based, Less Sp. Attack
-		.nature = NATURE_JOLLY,
-		.ivs = 31,
-		.hpEv = 252,
-		.atkEv = 4,
-		.spdEv = 252,
+		// .nature = NATURE_JOLLY,
+		// .ivs = 31,
+		// .hpEv = 252,
+		// .atkEv = 4,
+		// .spdEv = 252,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Petrel's Weezing Silph
+		.nature = NATURE_SERIOUS,
+		.ivs = 15,
+		.hpEv = 20,
+		.atkEv = 20,
+		.defEv = 20,
+		.spAtkEv = 20,
+		.spDefEv = 20,
+		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_1,
+		.teraType = DONT_TERA,
 	},
 	[27] =
 	{ //Fast Wall: Defense Based, Less Attack
-		.nature = NATURE_TIMID,
-		.ivs = 31,
-		.hpEv = 4,
-		.defEv = 252,
-		.spdEv = 252,
+		// .nature = NATURE_TIMID,
+		// .ivs = 31,
+		// .hpEv = 4,
+		// .defEv = 252,
+		// .spdEv = 252,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Ariana's Arbok Silph
+		.nature = NATURE_SERIOUS,
+		.ivs = 17,
+		.hpEv = 25,
+		.atkEv = 25,
+		.defEv = 25,
+		.spAtkEv = 25,
+		.spDefEv = 25,
+		.spdEv = 25,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_Hidden,
+		.teraType = DONT_TERA,
 	},
 	[28] =
 	{ //Fast Wall: Defense Based, Less Sp. Attack
-		.nature = NATURE_JOLLY,
-		.ivs = 31,
-		.hpEv = 4,
-		.defEv = 252,
-		.spdEv = 252,
+		// .nature = NATURE_JOLLY,
+		// .ivs = 31,
+		// .hpEv = 4,
+		// .defEv = 252,
+		// .spdEv = 252,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Archer's Houndoom Silph
+		.nature = NATURE_SERIOUS,
+		.ivs = 17,
+		.hpEv = 25,
+		.atkEv = 25,
+		.defEv = 25,
+		.spAtkEv = 25,
+		.spDefEv = 25,
+		.spdEv = 25,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_Hidden,
+		.teraType = TYPE_FIRE,
 	},
 	[29] =
 	{ //Fast Wall: Sp. Defense Based, Less Attack
-		.nature = NATURE_TIMID,
-		.ivs = 31,
-		.hpEv = 4,
-		.spdEv = 252,
-		.spDefEv = 252,
+		// .nature = NATURE_TIMID,
+		// .ivs = 31,
+		// .hpEv = 4,
+		// .spdEv = 252,
+		// .spDefEv = 252,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Whitney's Miltank
+		.nature = NATURE_ADAMANT,
+		.ivs = 23,
+		.hpEv = 84,
+		.atkEv = 84,
+		.defEv = 84,
+		.spAtkEv = 84,
+		.spDefEv = 84,
+		.spdEv = 84,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_Hidden,
+		.teraType = TYPE_FAIRY,
 	},
 	[30] =
 	{ //Fast Wall: Sp. Defense Based, Less Sp. Attack
+		// .nature = NATURE_JOLLY,
+		// .ivs = 31,
+		// .hpEv = 4,
+		// .spdEv = 252,
+		// .spDefEv = 252,
+		// .ball = TRAINER_EV_CLASS_BALL,
+		// .ability = Ability_Random_1_2,
+		// .teraType = TERA_TYPE_RANDOM,
+
+		//Whitney's Maushold
 		.nature = NATURE_JOLLY,
-		.ivs = 31,
-		.hpEv = 4,
-		.spdEv = 252,
-		.spDefEv = 252,
+		.ivs = 21,
+		.hpEv = 84,
+		.atkEv = 84,
+		.defEv = 84,
+		.spAtkEv = 84,
+		.spDefEv = 84,
+		.spdEv = 84,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Random_1_2,
-		.teraType = TERA_TYPE_RANDOM,
+		.ability = Ability_Hidden,
+		.teraType = DONT_TERA,
 	},
 	[31] =
 	{ //Physical Sweeper: Power Based - Ability_1
@@ -1736,7 +1892,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.teraType = DONT_TERA, 
 	},
 	[136] =
-	{ //Adamant. Ability Hidden. Lance's Gyarados.
+	{ //Adamant. Ability Hidden. Lance's Red Gyarados.
 		.nature = NATURE_ADAMANT,
 		.ivs = 23,
 		.hpEv = 84,
@@ -1748,6 +1904,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
 		.teraType = DONT_TERA, 
+		.shiny = TRUE,
 	},
 	[137] =
 	{ //Jolly +spe -spatk. Ability Hidden. Lance's Cyclizar.
@@ -2044,7 +2201,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.teraType = DONT_TERA,
 	},
 	[158] =
-	{ //Adamant +atk -spatk. Ability 2. Tera Steel. Blaine's Arcanine
+	{ //Adamant +atk -spatk. Ability 2. Blaine's Arcanine
 		.nature = NATURE_ADAMANT,
 		.ivs = 21,
 		.hpEv = 84,
@@ -2055,7 +2212,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 84,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_STEEL,
+		.teraType = TYPE_FIRE,
 	},
 	[159] =
 	{ //Serious. Blaine's Magmar.
@@ -2086,7 +2243,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.teraType = DONT_TERA,
 	},
 	[161] =
-	{ //Modest. Ability 2. Tera Dragon. Koga's Venomoth.
+	{ //Modest. Ability 2. Koga's Venomoth.
 		.nature = NATURE_MODEST,
 		.ivs = 21,
 		.hpEv = 84,
@@ -2097,7 +2254,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 84,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_DRAGON,
+		.teraType = TYPE_POISON,
 	},
 	[162] =
 	{ //Jolly. Koga's Golbat, Beedrill.
@@ -2181,7 +2338,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 69,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = TYPE_DARK,
+		.teraType = TYPE_FIGHTING,
 	},
 	[168] =
 	{ //Adamant. Ability 2. Tera Steel. Koichi's Hitmonchan.
@@ -2195,7 +2352,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 69,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_STEEL,
+		.teraType = DONT_TERA,
 	},
 	[169] =
 	{ //Adamant. Ability Hidden. Koichi's Primeape.
@@ -2464,7 +2621,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.teraType = DONT_TERA,
 	},
 	[188] =
-	{ //Modest. Erika's Gloom.
+	{ //Modest. Erika's Vileplume.
 		.nature = NATURE_MODEST,
 		.ivs = 21,
 		.hpEv = 54,
@@ -2475,7 +2632,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 54,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_ROCK,
+		.teraType = TYPE_GRASS,
 	},
 	[189] =
 	{ //Adamant. Ability 2. Giovanni's Kangaskhan (Hideout)
@@ -2559,7 +2716,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 39,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_DRAGON,
+		.teraType = TYPE_FIRE,
 	},
 	[195] =
 	{ //Modest. Rival's Exeggcute (PKMN Tower)
@@ -2629,7 +2786,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 39,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_ROCK,
+		.teraType = TERA_TYPE_RANDOM,
 	},
 	[200] =
 	{ //Adamant. Rival's Gyarados (PKMN Tower)
@@ -2646,7 +2803,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.teraType = DONT_TERA,
 	},
 	[201] =
-	{ //Serious. Ability 2. Tera Grass. Rival's Wartortle (PKMN Tower, SS Anne)
+	{ //Serious. Ability 2. Rival's Wartortle (PKMN Tower, SS Anne)
 		.nature = NATURE_SERIOUS,
 		.ivs = 25,
 		.hpEv = 39,
@@ -2657,10 +2814,10 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 39,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_GRASS,
+		.teraType = TYPE_WATER,
 	},
 	[202] =
-	{ //Serious. Ability 2. Tera Flying. Surge's Raichu.
+	{ //Serious. Ability 2. Surge's Raichu.
 		.nature = NATURE_SERIOUS,
 		.ivs = 21,
 		.hpEv = 39,
@@ -2671,7 +2828,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 39,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_FLYING,
+		.teraType = TYPE_ELECTRIC,
 	},
 	[203] =
 	{ //Serious. Ability 2. Surge's Electabuzz.
@@ -2741,7 +2898,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 24,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_DRAGON,
+		.teraType = TYPE_FIRE,
 	},
 	[208] =
 	{ //Jolly. Ability 2. Rival's Rattata (Cerulean).
@@ -2797,7 +2954,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 24,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_ROCK,
+		.teraType = TERA_TYPE_RANDOM,
 	},
 	[212] =
 	{ //Serious. Ability 2. Tera Grass. Rival's Wartortle (Cerulean)
@@ -2811,7 +2968,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 24,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_GRASS,
+		.teraType = TYPE_WATER,
 	},
 	[213] =
 	{ //Serious. Ability Hidden. Tera Poison. Misty's Starmie
@@ -3007,7 +3164,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 10,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_1,
-		.teraType = TYPE_GHOST,
+		.teraType = TYPE_FAIRY,
 	},
 	[227] =
 	{ //Serious. 19 ivs, 20 evs. Ability Hidden. Haley's Weepinbell on Route 25.
@@ -3021,7 +3178,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = TYPE_ROCK,
+		.teraType = TERA_TYPE_RANDOM,
 	},
 	[228] =
 	{ //Modest. 17 ivs, 15 evs. Ability 2. Haley's Horsea on Route 25.
@@ -3077,7 +3234,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_1,
-		.teraType = TYPE_STEEL,
+		.teraType = TYPE_WATER,
 	},
 	[232] =
 	{ //Adamant. 17 ivs, 15 evs. Ricky's Paras on Route 6.
@@ -3119,7 +3276,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = TYPE_WATER,
+		.teraType = TYPE_FIRE,
 	},
 	[235] =
 	{ //Adamant. 17 ivs, 15 evs. Ability 2. Thomas's Geodude on SS Anne.
@@ -3164,7 +3321,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.teraType = DONT_TERA,
 	},
 	[238] =
-	{ //Serious. 19 ivs, 20 evs. Ability 2. Dirk's Electabuzz on Route 11.
+	{ //Serious. 19 ivs, 20 evs. Static. Dirk's Electabuzz on Route 11.
 		.nature = NATURE_SERIOUS,
 		.ivs = 19,
 		.hpEv = 20,
@@ -3174,8 +3331,8 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spDefEv = 20,
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_2,
-		.teraType = TYPE_FLYING,
+		.ability = Ability_1,
+		.teraType = TYPE_ELECTRIC,
 	},
 	[239] =
 	{ //Modest. 17 ivs, 15 evs. Ability Hidden. Dirk's Drowzee on Route 11.
@@ -3217,7 +3374,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_1,
-		.teraType = TYPE_STELLAR,
+		.teraType = TYPE_FIRE,
 	},
 	[242] =
 	{ //Adamant. 19 ivs, 20 evs. Ashton's Cubone in Rock Tunnel.
@@ -3231,7 +3388,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = TYPE_WATER,
+		.teraType = TYPE_GROUND,
 	},
 	[243] =
 	{ //Serious. 17 ivs, 15 evs. Ability Hidden. Ashton's Slowpoke in Rock Tunnel.
@@ -3273,7 +3430,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_1,
-		.teraType = TYPE_ELECTRIC,
+		.teraType = TYPE_GHOST,
 	},
 	[246] =
 	{ //Adamant. 19 ivs, 20 evs. Ability Hidden. Tera Ghost. Glenn's Eevee on Route 8.
@@ -3360,8 +3517,8 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.teraType = TYPE_DRAGON,
 	},
 	[252] =
-	{ //Adamant. 19 ivs, 30 evs. Ability 2. Tera Ghost. Marlon's Dodrio on Route 14.
-		.nature = NATURE_ADAMANT,
+	{ //Adamant. 19 ivs, 30 evs. Ability 2. Ramiro's Pidgeot on Route 14.
+		.nature = NATURE_SERIOUS,
 		.ivs = 19,
 		.hpEv = 30,
 		.atkEv = 30,
@@ -3371,7 +3528,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 30,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_FLYING,
+		.teraType = DONT_TERA,
 	},
 	[253] =
 	{ //Adamant. 19 ivs, 30 evs. Ability 2. Tera Rock. Ron and Mya's Hitmons on Route 15.

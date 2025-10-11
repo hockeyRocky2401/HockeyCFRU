@@ -335,3 +335,50 @@ egg_hatchingPal 0826012C
 
 ## Trainer Data
 gTrainers 0800FC00
+
+## Trainer Sprites
+## Samurai overwrites young couple Rs
+SamuraiTiles 8720E40
+SamuraiPal 871FFA0
+
+## Petrel over Gym Camper. 148
+PetrelTiles 87210C0
+PetrelPal 8720220
+
+## Archer over Grunt 16 149
+ArcherTiles 87210C8
+ArcherPal 8720228
+
+## Ariana over Grunt 17 150
+ArianaTiles 87210D0
+ArianaPal 8720230
+
+## Ariana and Archer
+AdminsTiles 87210D8
+AdminsPal 8720238
+
+## Whitney
+WhitneyTiles 87210E0
+WhitneyPal 8720240
+
+## Overworld Sprites
+## Samurai 152
+gEventObjectGraphicsInfo_Samurai 871F9A0
+gEventObjectPic_SamuraiPal 871FA60
+
+## Archer 153
+gEventObjectGraphicsInfo_Archer 871F9A4
+gEventObjectPic_ArcherPal 871FA68
+
+## Petrel 154
+gEventObjectGraphicsInfo_Petrel 871F9A8
+gEventObjectPic_PetrelPal 871FA70
+
+## Ariana 155
+gEventObjectGraphicsInfo_Ariana 871F9AC
+gEventObjectPic_ArianaPal 871FA78
+
+## Whitney 156
+gEventObjectGraphicsInfo_Whitney 871F9B0
+gEventObjectPic_WhitneyPal 871FA80
+
