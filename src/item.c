@@ -5,12 +5,14 @@
 #include "../include/menu.h"
 #include "../include/menu_helpers.h"
 #include "../include/money.h"
+ #include "../include/overworld.h"
 #include "../include/party_menu.h"
 #include "../include/pokemon_summary_screen.h"
 #include "../include/script.h"
 #include "../include/shop.h"
 #include "../include/string_util.h"
 #include "../include/window.h"
+
 #include "../include/constants/hold_effects.h"
 #include "../include/constants/items.h"
 #include "../include/constants/moves.h"
@@ -86,6 +88,10 @@ static void BagMenu_ConfirmSort(u8 taskId);
 static void BagMenu_CancelSort(u8 taskId);
 static void Task_SortFinish(u8 taskId);
 static void FinishBagSortIntro(u8 taskId);
+
+//I added this function
+static void Task_ReturnToField(u8 taskId);
+
 
 //General Utility Functions
 u16 SanitizeItemId(u16 itemId)
@@ -2260,6 +2266,14 @@ extern const u8 gText_PokeVial_LowBattery[];
 extern const u8 gText_PokeVial_Used[];
 extern void HealPlayerParty(void);
 
+//Task for using PokéVial out of battle and returning to field.
+static void Task_ReturnToField(u8 taskId)
+{
+    DestroyTask(taskId);
+    SetMainCallback2(CB2_ReturnToField);
+}
+
+
 
 void ItemUseOutOfBattle_PokeVial(u8 taskId)
 {
@@ -2275,7 +2289,8 @@ void ItemUseOutOfBattle_PokeVial(u8 taskId)
     if (uses >= MAX_POKEVIAL_USES) 
     {
         // If the PokéVial is out of charge
-        DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_NoCharge, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+        // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_NoCharge, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+        DisplayItemMessageOnField(taskId, 0, gText_PokeVial_NoCharge, Task_ReturnToField);
         return;
     }
 
@@ -2288,12 +2303,14 @@ void ItemUseOutOfBattle_PokeVial(u8 taskId)
     if (uses + 1 == MAX_POKEVIAL_USES) 
     {
         // Display "Low Battery" warning when 1 use is left
-        DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_LowBattery, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+        // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_LowBattery, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+        DisplayItemMessageOnField(taskId, 0, gText_PokeVial_LowBattery, Task_ReturnToField);
     } 
     else 
     {
         // Regular message
-        DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_Used, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+        // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_Used, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+        DisplayItemMessageOnField(taskId, 0, gText_PokeVial_Used, Task_ReturnToField);
     }
 }
 #include "../include/event_data.h"

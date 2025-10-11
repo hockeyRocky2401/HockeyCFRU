@@ -85,8 +85,7 @@ waitmsg
 waitbuttonpress
 closemessage
 special 0x0
-playse 0x1
-waitse 
+playse 0x1 
 textcolor 1
 preparemsg gText_Nurse_Done
 waitmsg        

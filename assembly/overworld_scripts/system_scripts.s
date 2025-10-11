@@ -1133,7 +1133,8 @@ SystemScript_StopZooming:
 .global SystemScript_DebugMenu
 SystemScript_DebugMenu:
 	lockall
-	multichoiceoption gText_DebugMenu_SetFlag 0
+	@ multichoiceoption gText_DebugMenu_SetFlag 0
+	multichoiceoption gText_PokeVial 0
 	multichoiceoption gText_DebugMenu_GiveItem 1
 	multichoiceoption gText_OpenPCBox 2   @ new
 	@ multichoiceoption gText_DebugMenu_MaxCoinage 3
@@ -1158,7 +1159,8 @@ SystemScript_DebugMenu:
     @ special 0x158   @ Scrolling Multichoice
     @ waitstate
 	switch LASTRESULT
-	case 0, SystemScript_DebugMenu_SetFlag
+@	case 0, SystemScript_DebugMenu_SetFlag
+	case 0, SystemScript_DebugMenu_PokeVial
 	case 1, SystemScript_DebugMenu_GiveItem
 	case 2, OpenPCBox
 	@ case 2, SystemScript_DebugMenu_PortablePC
@@ -1233,10 +1235,12 @@ SystemScript_DebugMenu_Debug:
 	lockall
 	multichoiceoption gText_DebugMenu_Dex 0
 	multichoiceoption gText_DebugMenu_StartWildBattle 1
-	multichoice 0, 0, TWO_MULTICHOICE_OPTIONS, 0
+	multichoiceoption gText_DebugMenu_SetFlag 2
+	multichoice 0, 0, THREE_MULTICHOICE_OPTIONS, 0
 	switch LASTRESULT
 		case 0, SystemScript_DebugMenu_DebugPokedex
 		case 1, SystemScript_DebugMenu_StartWildBattleNow
+		case 2, SystemScript_DebugMenu_SetFlag
 	releaseall
 	end
 
@@ -1413,6 +1417,86 @@ SystemScript_DebugMenu_PortablePC:
     @ callasm DebugMenu_RestorePortablePCTile @ put the tile back and repaint
 	@ releaseall
     end */
+
+	@ Poke Vial Option
+	SystemScript_DebugMenu_PokeVial:
+	/*callasm ItemUseOutOfBattle_PokeVial
+	end*/
+
+	lockall
+	faceplayer
+    compare 0x5155, 6    @VAR_POKEVIAL_USES, MAX_POKEVIAL_USES
+    if equal _goto NoCharge
+
+    # --- Heal the party ---
+    callasm HealPlayerParty
+	playse 0x1
+    addvar 0x5155, 1
+
+    # Show message depending on current number of uses
+	compare 0x5155, 1
+    if equal _goto Use1
+    compare 0x5155, 2
+    if equal _goto Use2
+    compare 0x5155, 3
+    if equal _goto Use3
+    compare 0x5155, 4
+    if equal _goto Use4
+    compare 0x5155, 5
+    if equal _goto Use5
+    compare 0x5155, 6
+    if equal _goto Use6
+    releaseall
+	end
+
+	Use1:
+    msgbox gText_PokeVial_Use1 MSG_NORMAL
+    waitmsg
+    waitbuttonpress
+    releaseall
+	end
+
+	Use2:
+    msgbox gText_PokeVial_Use2 MSG_NORMAL
+    waitmsg
+    waitbuttonpress
+	releaseall
+	end 
+	
+	Use3:
+    msgbox gText_PokeVial_Use3 MSG_NORMAL
+    waitmsg
+    waitbuttonpress
+	releaseall
+	end
+
+	Use4:
+    msgbox gText_PokeVial_Use4 MSG_NORMAL
+    waitmsg
+    waitbuttonpress
+	releaseall
+	end
+
+	Use5:
+    msgbox gText_PokeVial_Use5 MSG_NORMAL
+    waitmsg
+    waitbuttonpress
+	releaseall
+	end
+
+	Use6:
+    msgbox gText_PokeVial_Use6 MSG_NORMAL
+    waitmsg
+    waitbuttonpress
+	releaseall
+	end
+
+	NoCharge:
+    msgbox gText_PokeVial_NoCharge MSG_NORMAL
+    waitmsg
+    waitbuttonpress
+	releaseall
+	end 
 
 @ Trainer See flag
 

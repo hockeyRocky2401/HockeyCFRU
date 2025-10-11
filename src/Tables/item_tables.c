@@ -14120,7 +14120,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_POKEVIAL]
 	{
-		.name = {_P, _o, _k, _e, _v, _i, _a, _l, _END},
+		.name = {_P, _o, _k, _e, _SPACE, _V, _i, _a, _l, _END},
 		.itemId = ITEM_POKEVIAL,  // No standard effect
 		.price = 0,  // Key Items have no price
 		.holdEffect = 0,  // Not a held item

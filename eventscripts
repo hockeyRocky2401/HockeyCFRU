@@ -15,6 +15,7 @@ npc 5 1 7 EventScript_Giovanni_Gym
 npc 3 1 0 EventScript_Wide_Lens
 npc 5 3 0 EventScript_ViridianClerk
 npc 3 1 5 EventScript_Rare_Candy
+npc 5 4 3 EventScript_PokeVial_Explain
 
 ## Route 2
 tile 15 0 0 EventScript_TeraOrb_Aide

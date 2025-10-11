@@ -360,6 +360,9 @@ That's not enough money!\nCome back when you have 5000.
 #org @gText_Got_Candy
 And remember this...\pYou didn't get those Rare Candies\nfrom me!
 
+// Poke Vial Explain Guy
+#org @gText_PokeVial_Explain
+Press the R button, and press\n"Poké Vial" to restore all of\pyour Pokémon.\pIt's very handy out in the field\nbut you only have 6 charges\pbefore you need to take it\nto a Pokémon Center and\precharge it.
 
 //Wide Lens Guy
 #org @gText_Here_Wide_Lens
@@ -516,7 +519,7 @@ Fair enough.\nI'll be here if you want\pa fossil.\pAnd I'd be very grateful if y
 Mt. Moon is a trek!\nLet me heal you're Pokemon.
 
 #org @gText_Nurse_Done
-There, good as new!
+There, good as new!\pUnfortunately I can't recharge\nyour Poké Vial. You'll need\pto do that at a Pokémon\nCenter.
 
 // ##ROUTE 4 WEST CERULEAN
 
