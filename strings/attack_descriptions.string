@@ -1669,3 +1669,7 @@ User electrifies\nits body and drops\nonto the target.\nTake damage if fail.
 
 #org @DESC_PSYCHICNOISE
 Foe is prevented\nfrom recovering HP\nfor two turns.
+
+#org @DESC_FLAMINGEXIT
+After attacking,\nthe user switches\nplaces with a\nparty Pok\emon.
+

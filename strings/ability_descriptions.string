@@ -614,6 +614,9 @@ Turns Ground move into HP.
 #org @gText_AbilityDescription_Electromorphosis
 Ups next electric move if damaged.
 
+#org @gText_AbilityDescription_FeralInstinct
+Increases Atk when hit.
+
 #org @gText_AbilityDescription_GoodAsGold
 Full immunity to status moves.
 
@@ -622,6 +625,9 @@ Blocks intimidate and switch out.
 
 #org @gText_AbilityDescription_HadronEngine
 Calls Electric Terrain, up SpAtk.
+
+#org @gText_AbilityDescription_HighFlyer
+Powers up Flying-type moves.
 
 #org @gText_AbilityDescription_MindsEye
 Enables moves to hit Ghost-type.

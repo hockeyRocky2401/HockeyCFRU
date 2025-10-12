@@ -1038,6 +1038,7 @@ gMoveAnimations:
 .word ANIM_TEMPERFLARE
 .word ANIM_SUPERCELLSLAM
 .word ANIM_PSYCHICNOISE
+.word ANIM_FLAMING_EXIT
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -18334,6 +18335,48 @@ ANIM_FLIP_TURN:
 .align 2
 FLIP_TURN_THERE: objtemplate ANIM_TAG_HYDRO_PUMP ANIM_TAG_HYDRO_PUMP OAM_OFF_16x16 gDummySpriteAnimTable 0x0 0x83E7604 0x80B563D
 FLIP_TURN_BACK: objtemplate ANIM_TAG_HYDRO_PUMP ANIM_TAG_HYDRO_PUMP OAM_OFF_16x16 gDummySpriteAnimTable 0x0 0x83E7604 0x80A2581
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+ANIM_FLAMING_EXIT:
+    loadparticle ANIM_TAG_SMALL_EMBER
+    loadparticle ANIM_TAG_IMPACT
+    pokespritetoBG bank_target
+    soundcomplex 0x89 SOUND_PAN_ATTACKER 0x20 0x6
+
+    @ Attacker flourish (safe: a single launchtask early + we wait right after)
+    launchtask AnimTask_TranslateMonEllipticalRespectSide 0x2 0x5 bank_attacker 0xC 0x6 0x6 0x3
+
+    @ 3 swirls, but we wait once at the end so we don’t stack tasks
+    call FLAMEWHEEL_SWIRL
+    pause 0x1
+    call FLAMEWHEEL_SWIRL
+    pause 0x1
+    call FLAMEWHEEL_SWIRL
+    waitanimation
+
+     @ --- Prepare for fiery strike ---
+    leftbankBG_over_partnerBG bank_target
+    setblends 0x80C
+    makebankinvisible bank_attacker
+
+    @ --- Fiery hit (single impact) ---
+    playsound2 0x88 SOUND_PAN_ATTACKER
+    launchtemplate FLAMING_EXIT_BALL TEMPLATE_TARGET | 2, 0x3, 0x0, 0x0, 0x0, 0x15
+    waitanimation
+
+    @ --- Transition into U-Turn retreat animation ---
+    call ANIM_UTURN   
+
+    @ --- Cleanup ---
+    resetblends
+    makebankvisible bank_attacker
+    pokespritefromBG bank_target
+    endanimation
+
+.align 2
+FLAMING_EXIT_BALL:
+    objtemplate ANIM_TAG_SMALL_EMBER ANIM_TAG_SMALL_EMBER OAM_OFF_16x16 gDummySpriteAnimTable 0x0 0x83E7604 0x80B563D
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

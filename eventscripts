@@ -62,8 +62,11 @@ tile 3 44 0 EventScript_Trainer_Haley0
 tile 3 44 1 EventScript_Trainer_Haley1
 tile 3 44 2 EventScript_Trainer_Haley2
 
+## Route 5 (South Cerulean)
+npc 3 23 0 EventScript_DayCare_Lady
+
 ## Route 6 (North Vermilion)
-# sign 3 24 1 EventScript_Route_6_Wacan
+<!-- # sign 3 24 1 EventScript_Route_6_Wacan -->
 
 ## Vermilion City
 npc 9 5 0 SystemScript_GlobalMart
@@ -99,6 +102,7 @@ tile 1 45 1 EventScript_Giovanni1
 ## Saffron City
 npc 14 5 0 SystemScript_GlobalMart
 npc 14 4 4 EventScript_ChangeTeraTypeNPC
+npc 14 6 2 EventScript_Cant_TeraEvolve
 
 ## Silph Co.
 map 1 47 EventScript_SilphCo_Map

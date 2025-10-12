@@ -54,6 +54,17 @@ const struct Evolution* CanMegaEvolve(unusedArg u8 bank, unusedArg bool8 CheckUB
 	if (!CheckUBInstead && !MegaEvolutionEnabled(bank)) //Ultra Burst doesn't need Mega Ring
 		return NULL;
 
+		  // --- NEW: Block Mega Evolution if this side already Terastallized ---
+    {
+        u8 side = GetBattlerSide(bank);
+        for (u8 i = 0; i < PARTY_SIZE; ++i)
+        {
+            if (gNewBS->teraData.done[side][i])
+                return NULL; // Side has already used Terastalization
+        }
+    }
+    // --------------------------------------------------------------------
+
 	if (IsMegaZMoveBannedBattle()
 	|| (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && SIDE(bank) == B_SIDE_OPPONENT)) //Wild mons (like Rayquaza) can't Mega Evolve
 		return NULL;

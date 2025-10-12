@@ -293,3 +293,18 @@ EventScript_ChangeTeraTypeNPC_SetStellar:
     msgbox gText_ChangeTeraTypeNPCFetchTeraStellar MSG_NORMAL
     release
     end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@ Woman in Pokemon Center 
+
+EventScript_Cant_TeraEvolve:
+lockall
+faceplayer
+textcolor 1
+preparemsg gText_Cant_TeraEvolve
+waitmsg
+waitbuttonpress
+closemessage
+releaseall
+end

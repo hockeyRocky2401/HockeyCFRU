@@ -590,6 +590,21 @@ I love Giga Drain! It does\ndamage and also restores your\pPokémon's HP.\pWorks
 #org @gText_Haley_Idle
 You came from Mt. Moon?\pMay I have a Clefairy?
 
+// ROUTE 5 SOUTH CERULEAN
+
+//Day Care Lady
+#org @gText_Want_Egg
+My husband recently came across\nthis Pokémon Egg on his travels.\pI think it needs a strong trainer\nto raise it properly.\pWould you be willing to bring\nit with you?
+
+#org @gText_Egg_Again
+I'll be here if you change\nyour mind.
+
+#org @gText_Got_Egg
+[PLAYER] recieved an Egg from the\nlady!
+
+#org @gText_Care_Egg
+Please take care of that Egg!\nIt will require a kind trainer\pto look after it.
+
 // ##DIGLETT CAVE 
 
 #org @gText_Trainer_Wes
@@ -725,6 +740,10 @@ Archer: We'll meet again kid.
 
 #org @gText_Ariana_Loss
 Ariana: Ta-ta for now, brat!
+
+//Woman in Pokemon Center
+#org @gText_Cant_TeraEvolve
+You can't Terastallize one Pokémon\nand then Mega Evolve another\pin the same battle.\pYou can't have it both ways!
 
 // ROUTE 16 WEST CELADON
 
