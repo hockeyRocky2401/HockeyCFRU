@@ -833,6 +833,12 @@ u32 GetSpeciesExpToLevel(u16 species, u8 toLevel)
 //////////////////// POWER ITEMS ////////////////////////////////
 static void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
 {
+	 // 🛑 New addition — disables all EV gain if your toggle is ON
+    if (FlagGet(FLAG_DISABLE_EVS))
+{
+    return;
+}
+
 	u16 evIncrease;
 	u16 heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, NULL);
 	u8 holdEffect = ItemId_GetHoldEffect(heldItem);
@@ -903,6 +909,12 @@ static void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
 
 bool8 AddEVs(struct Pokemon* mon, u8 statId, u16 numToAdd)
 {
+	  // 🛑 New: block all EV modification when disabled
+    if (FlagGet(FLAG_DISABLE_EVS))
+	{
+        return FALSE;
+	}
+
 	u8 currentEv = GetMonData(mon, MON_DATA_HP_EV + statId, NULL);
 	u16 totalEvs = GetMonEVCount(mon);
 

@@ -1107,11 +1107,14 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 			{
 				const struct TrainersWithEvs* spread = &gTrainersWithEvsSpreads[spreadNum];
 
+				 // ✅ Only disable EV/IV application
 				#ifdef VAR_GAME_DIFFICULTY
 				if (gameDifficulty != OPTIONS_EASY_DIFFICULTY)
 				#endif
 				{
+					if (!FlagGet(FLAG_DISABLE_EVS))
 					SET_EVS(spread);
+
 					if (spread->ivs != 0) //Otherwise use default class values
 						SET_IVS_SINGLE_VALUE(MathMin(31, spread->ivs));
 				}
@@ -1178,7 +1181,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 					mon->teraType = GetRandomTeraType();
 				else if (spread->teraType != TERA_TYPE_RANDOM) // We skip 0xFF because it has already been assigned prior
 					mon->teraType = spread->teraType; // Set teraType to designated value
-			}
+		}
 			#endif
 
 			#ifdef VAR_GAME_DIFFICULTY
@@ -4561,6 +4564,13 @@ void CalculateMonStatsNew(struct Pokemon *mon)
 	{
 		ivs[i] = GetMonData(mon, MON_DATA_HP_IV + i, NULL);
 		evs[i] = GetMonData(mon, MON_DATA_HP_EV + i, NULL);
+	}
+
+	// ✅ NEW: ignore EVs if the flag is active
+	if (FlagGet(FLAG_DISABLE_EVS))
+	{
+		for (i = 0; i < NUM_STATS; ++i)
+			evs[i] = 0;
 	}
 
 	u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);

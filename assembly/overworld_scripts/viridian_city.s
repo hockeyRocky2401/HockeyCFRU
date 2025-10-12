@@ -258,5 +258,18 @@ closemessage
 releaseall
 end
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+@ Poke Vial explainer Pokemon Center 
+
+EventScript_PokeVial_Explain:
+lockall
+faceplayer
+textcolor 0
+preparemsg gText_PokeVial_Explain
+waitmsg
+waitbuttonpress
+closemessage
+releaseall
+end
 

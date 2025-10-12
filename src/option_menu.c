@@ -78,6 +78,7 @@ enum
     // MENUITEM_WILDLEVELSCALING,
     MENUITEM_AUTOSORTBAG,
     MENUITEM_LEVELCAP,
+    MENUITEM_DISABLEEVS,
 	// MENUITEM_GAME_DIFFICULTY,
     MENUITEM_CANCEL_PAGE_2,
     MENUITEM_PAGE2_COUNT,
@@ -115,6 +116,7 @@ extern const u8 gText_BattleMusic[];
 extern const u8 gText_AutoSortBag[];
 // extern const u8 gText_GameDifficulty[];
 extern const u8 gText_LevelCap[];
+extern const u8 gText_DisableEVs[];
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -134,6 +136,7 @@ static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_PAGE2_COUNT] =
     [MENUITEM_AUTOSORTBAG] = gText_AutoSortBag,
 	// [MENUITEM_GAME_DIFFICULTY] = gText_GameDifficulty,
     [MENUITEM_LEVELCAP] = gText_LevelCap,
+    [MENUITEM_DISABLEEVS] = gText_DisableEVs,
     [MENUITEM_CANCEL_PAGE_2] = gText_OptionMenuCancel,
 };
 
@@ -251,9 +254,15 @@ static const u8 *const sLevelCapOptions[] =
     gText_OnOption,
 };
 
+static const u8 *const sDisableEVsOptions[] =
+{
+    gText_OffOption,
+    gText_OnOption,
+};
+
 static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 10, 0};
 // static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 0};
-static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {2, 4, 2, 0};
+static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {2, 4, 2, 2, 0};
 
 void CB2_OptionsMenuFromStartMenu(void)
 {
@@ -278,6 +287,7 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG] = VarGet(VAR_AUTO_SORT_BAG);
     // sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY] = VarGet(VAR_GAME_DIFFICULTY);
     sOptionMenuPtr->option_secondPage[MENUITEM_LEVELCAP] = FlagGet(FLAG_HARD_LEVEL_CAP);
+    sOptionMenuPtr->option_secondPage[MENUITEM_DISABLEEVS] = FlagGet(FLAG_DISABLE_EVS);
 
     
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
@@ -390,9 +400,20 @@ else
     #ifdef FLAG_KEPT_LEVEL_CAP_ON
     FlagClear(FLAG_KEPT_LEVEL_CAP_ON);
     #endif
-}    SetPokemonCryStereo(gSaveBlock2->optionsSound);
+}   
+    // Disable EVs toggle
+if (sOptionMenuPtr->option_secondPage[MENUITEM_DISABLEEVS]) // 1 = On, 0 = Off
+{
+    FlagSet(FLAG_DISABLE_EVS);
+}
+else
+{
+    FlagClear(FLAG_DISABLE_EVS);
+}
+ SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
+
 }
 
 void CB2_OptionMenu(void)
@@ -505,6 +526,9 @@ void BufferOptionMenuString(u8 selection)
             //     break;
             case MENUITEM_LEVELCAP:
                 AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sLevelCapOptions[sOptionMenuPtr->option_secondPage[selection]]);
+                break;
+            case MENUITEM_DISABLEEVS:
+                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sDisableEVsOptions[sOptionMenuPtr->option_secondPage[selection]]);
                 break;
             default:
                 break;

@@ -6,6 +6,7 @@
  */
 
 /*===== Debugging Options =====*/
+
 //#define DEBUG_QUICK_BATTLES //Battles will end after choosing the first attack
 //#define DEBUG_MEGA //Mega Evolution can always be used
 //#define DEBUG_HMS //HMs can always be used from the party screen, Surf, Waterfall, and Rock Climb can always be used
@@ -15,6 +16,7 @@
 //#define DEBUG_TERASTAL //Terastallization can be used in any battle without a Tera Orb
 
 /*===== General Vars =====*/
+
 #define VAR_TERRAIN 0x5000 //Set to a terrain type for a battle to begin with the given terrain
 #define VAR_TOTEM 0x5001 //to var + 3 (0x5004)
 #define VAR_BACKSPRITE_SWITCH 0x5006 //This var can be set to a number to change the Player's backsprite
@@ -31,6 +33,7 @@
 #define VAR_PARTNER_BACKSPRITE 0x5012 //Set this to the var used to store the backsprite number of your partner in Multi Battles (can be any free var)
 
 /*===== General Flags =====*/
+
 #define FLAG_INVERSE 0x900 //Set this flag for all battles to become Inverse Battles
 #define FLAG_SKY_BATTLE 0x901 //Set this flag to indicate the Sky Battle rules should be followed in the next battle.
 #define FLAG_NO_CATCHING 0x902 //The player cannot catch Pokemon in battles when this flag is set
@@ -69,18 +72,21 @@
 #define FLAG_DAILY_EVENTS_START 0xE00 //To flag + 0xFF, resets every new day.
 
 /*===== Start Menu/Poketools Flags =====*/
+
 #define FLAG_SYS_BAG_HIDE 0x91B		//Toggle bag off
 #define FLAG_SYS_PLAYER_HIDE 0x91C	//Toggle [player] off
 #define FLAG_SYS_SAVE_HIDE 0x91D	//Toggle save off
 // #define FLAG_SYS_DEXNAV 0x91E		//Flag to turn dexnav on/off in start menu (if undefined, this will eliminate dexnav from the start menu)
 
 /*===== Pedometer Flags as in JPAN Engine =====*/
+
 #define FLAG_LONG_PEDOMETER 0x920		//32 bit / 4 bytes / Max 4 294 967 295 steps
 #define FLAG_MED_PEDOMETER 0x921		//16 bit / 2 bytes / Max 65 535 steps
 #define FLAG_SMALL_PEDOMETER_1 0x922	//8 bit  / 1 byte  / Max 255 steps
 #define FLAG_SMALL_PEDOMETER_2 0x923	//8 bit  / 1 byte  / Max 255 steps
 
 /*===== Battle Tower Options =====*/
+
 #define FLAG_BATTLE_FACILITY 0x930
 #define VAR_BATTLE_FACILITY_POKE_NUM 0x5015 //Var
 #define VAR_BATTLE_FACILITY_POKE_LEVEL 0x5016 //Var
@@ -98,6 +104,7 @@ enum //These vars need to be one after the other (hence the enum)
 };
 
 /*===== Character Customization Vars =====*/
+
 #define VAR_PLAYER_WALKRUN 0x501F			//Change walking, running player sprite. 0x4054 in JPAN engine.
 #define VAR_PLAYER_BIKING 0x5020			//Change biking player sprite. 0x4055 in JPAN engine.
 #define VAR_PLAYER_SURFING 0x5021			//Change player surfing sprite. 0x4056 in JPAN engine.
@@ -112,11 +119,13 @@ enum //These vars need to be one after the other (hence the enum)
 #define VAR_RUNTIME_CHANGEABLE 0x5028	//'Secret Base' variables, save 15 consecutive variables for this. 0x4080 in JPAN engine.
 
 /*===== Healing Place as in JPAN's Engine =====*/
+
 #define VAR_HEALINGMAP 0x5037 //0x405A in JPAN's Engine
 #define VAR_HEALING_XPOS 0x5038 //0x405B in JPAN's Engine
 #define VAR_HEALING_YPOS 0x5039 //0x405C in JPAN's Engine
 
 /*===== TM/HM/Tutor Options (Vastly improved from other versions!) =====*/
+
 #define EXPANDED_TMSHMS  //Comment this out if you want to keep 50 tms/8 hms
 #define EXPANDED_MOVE_TUTORS //Comment this out if you want to keep 16 move tutors and the ultimate elemental moves being exclusive to Kantonian starters
 #define NUM_TMS 120	//keep this defined even if EXPANDED_TMSHMS is not!!
@@ -128,12 +137,14 @@ enum //These vars need to be one after the other (hence the enum)
 #define REUSABLE_TMS	//if defined, don't forget to give all TMs a Mystery byte of 1!
 
 /*===== Time of Day Options =====*/
+
 #define TIME_MORNING_START 4		//4:00 AM / 4:00
 #define TIME_DAY_START 8			//8:00 AM / 8:00
 #define TIME_EVENING_START 17		//5:00 PM / 17:00
 #define TIME_NIGHT_START 20			//8:00 PM / 20:00
 
 /*===== General Number Options =====*/
+
 #define KANTO_DEX_COUNT 151
 #define NATIONAL_DEX_COUNT 1025
 
@@ -154,6 +165,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define BIKE_ENCOUNTER_PERCENT 60 //Biking through grass or in caves only has this percentage of the encounter rate (vanilla FR is 80)
 
 /*===== Metatile Behaviours =====*/
+
 #define MB_OMNIDIRECTIONAL_JUMP 0x7F //The tile behaviour byte that can be jumped over in all directions
 #define MB_LOCKED_DOOR 0xA4 //The tile behaviour byte for doors that are locked and cannot be opened
 #define MB_ROCK_CLIMB_WALL 0xA5 //The tile behaviour byte that can be climbed up using Rock Climb
@@ -164,6 +176,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define MAP_PLAYER_HOME ((4 << 8) | 0) //The map bank and map number of the player's home
 
 /*===== Expanded Coins Options =====*/
+
 #define MAX_COINS_DIGITS 9	//Max number of digits for game corner coins (eg. 4 = 9999, 9 = 999,999,999). maximum of 9
 
 /*===== Badge Obedience Options =====*/
@@ -177,11 +190,13 @@ enum //These vars need to be one after the other (hence the enum)
 #define BADGE_7_OBEDIENCE_LEVEL 70
 
 /*===== OW Palette Options =====*/
+
 #define TREE_DISGUISE_PAL_ID 0x1105 //The NPC palette id of the tree disguise movement permission.
 #define ROCK_DISGUISE_PAL_ID 0x1104 //The NPC palette id of the mountain disguise movement permission.
 #define WEIRD_DISGUISE_PAL_ID 0x1103 //The NPC palette id of the weird disguise movement permission.
 
 /*===== Pre-Battle Mugshot Options ====*/
+
 #define FR_PRE_BATTLE_MUGSHOT_STYLE //The FR Elite Four and Champion use their GF defined mugshots
 #define VAR_PRE_BATTLE_MUGSHOT_STYLE 0x503A //Used for changing between big, two bars, etc.
 #define VAR_PRE_BATTLE_MUGSHOT_SPRITE 0x503B //Used for determining if the Vs. sprite should show
@@ -189,22 +204,26 @@ enum //These vars need to be one after the other (hence the enum)
 #define FLAG_LOAD_MUGSHOT_SPRITE_FROM_TABLE 0x924 //Load custom mugshot for pre-battle transition
 
 /*=====Safari Zone Options=====*/
+
 #define EXPAND_SAFARI_BALLS	//Hold up to 0xFFFF safari balls
 #define SAFARI_ZONE_MAX_STEPS 1000	//Number of safari zone steps the player has
 #define SAFARI_ZONE_BALL_START 30	//Number of safari balls the player starts with
 #define MAX_SAFARI_BALLS 30		//Total safari balls player can get (maximum is 0xFFFF or 0xFF if EXPAND_SAFARI_BALLS is defined or not)
 
 /*=====Randomizer Options=====*/
+
 #define FLAG_POKEMON_RANDOMIZER 0x940 //Setting randomizes Pokemon species that are created.
 #define FLAG_POKEMON_LEARNSET_RANDOMIZER 0x941 //Setting randomizes Pokemon learnsets.
 #define FLAG_ABILITY_RANDOMIZER 0x942 //Setting randomizes Pokemon abilities.
 #define NUM_SPECIES_RANDOMIZER NUM_SPECIES //The final number of Pokemon (+ 1) of species that can appear in the randomizer. Change to NUM_SPECIES for Gen 8
 
 /*===== Pre-existing Offsets =====*/
+
 //#define EXISTING_FOSSIL_IMAGE_TABLE_ADDRESS 0x81a4600 //Uncomment this if you've already inserted a fossil image table
 //#define EXISTING_OW_TABLE_ADDRESS 0x81a2000 //Uncomment if you don't want new overworld NPC tables to be generated. DON'T TOUCH IF YOU DON'T KNOW EXACTLY WHAT THIS IS FOR!
 
 /*===== Other General Options =====*/
+
 #define TIME_ENABLED //Comment this line to disable time based features. All time dependent features will default in Daytime.
 #define DNS_IN_BATTLE //Comment this line to disable the Day/Night system from working in battle
 #define OVERWRITE_RIVAL //Comment this line to disable to loading of your rival's name into trainer classes 0x51, 0x59, and 0x5A
@@ -229,7 +248,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define SELECT_FROM_PC //Comment this out to remove select-from-pc hack
 //#define SET_HEALING_PLACE_HACK  //Uncomment this if you want custom map/bank whiteout respawn locations
 //#define FOSSIL_IMAGE_HACK   //Uncommenting includes JPANs fossil image hack (see EXISTING_FOSSIL_IMAGE_TABLE_ADDRESS)
-#define EVO_HOLD_ITEM_REMOVAL //Comment this out if you want leveling up/hold item evolution (eg. sneasel) to remove the item (like normal)
+// #define EVO_HOLD_ITEM_REMOVAL //Comment this out if you want leveling up/hold item evolution (eg. sneasel) to remove the item (like normal)
 #define EXPAND_MOVESETS //Comment this out if you're using the Dynamic Pokemon Expansion repo to expand the movesets
 #define FATHER_PASSES_TMS //Uncomment this out if you want TMs the father knows to be passed through breeding
 //#define INHERIT_MASTER_CHERISH_BALL  //Uncomment this if you want Master and Cherish balls to be inherited by daycare offspring
@@ -267,6 +286,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define SYNCHRONIZE_GIFT_POKEMON //Gift Pokemon can have their natures manipulated with synchronize
 
 /*===== Misc Battle Effect Options =====*/
+
 //#define OLD_BURN_DAMAGE //Uncomment this line if you want burn damage to do 1/8 of max health instead of 1/16
 //#define OLD_PARALYSIS_SPD_DROP //Uncomment this line if you want paralysis to lower Spd down to 1/4 instead of 1/2
 //#define OLD_CONFUSION_CHANCE //Uncomment this line if you want the chance that confusion will stop your attack to 50% instead of 33%
@@ -279,10 +299,12 @@ enum //These vars need to be one after the other (hence the enum)
 //#define PLA_HELD_ORIGIN_ORBS //Dialga and Palkia change into their Origin forms when they hold their respective orbs
 
 /*===== Ability Options =====*/
+
 //#define OLD_GALE_WINGS //Uncomment this line if you want Gale Wings to activate regardless of the user's HP
 //#define OLD_PRANKSTER //Uncomment this line if you want Prankster to be able to affect Dark-Types
 
 /*===== Damage Calculation Options =====*/
+
 //#define OLD_CRIT_DAMAGE //Uncomment this line if you want Critical hits to do 2x damage, and 3x with Sniper
 //#define CRIT_CHANCE_GEN_6 //Uncomment this line if you want the Gen 6 crit chance
 //#define CRIT_CHANCE_GEN_2_TO_5 //Uncomment this line if you want the Gens 2-5 crit chance
@@ -302,6 +324,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define DARK_VOID_ACC_NERF //Comment out for Dark Void to retain its original accuracy.
 
 /*===== Capturing Pokemon Options =====*/
+
 //#define NO_HARDER_WILD_DOUBLES //In Gen 5, Pokemon encountered in double wild battles were harder to catch (based on how many species are owned). Uncomment this line to remove the catch rate decrement.
 #define CRITICAL_CAPTURE //Comment this line to remove the Critical Capture feature
 #define SWSH_CATCHING_DIFFICULTY_MODIFIER //Trying to catch a Pokemon that's higher level than your current Pokemon makes it harder to catch
@@ -315,6 +338,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define EXP_AFFECTION_BOOST //Pokemon with friendship >= 220 gain boosted experience
 
 /*===== Other Battle Options =====*/
+
 //#define NO_GHOST_BATTLES //Uncomment this line to disable the Ghost battle feature from Pokemon Tower in Lavender town
 #define GEN4_PLUS_SELECTION_SCREEN //Uncommenting this line does not give you the Gen 4+ selection screen, it only adds features that supports it
 //#define OBEDIENCE_CHECK_FOR_PLAYER_ORIGINAL_POKEMON //Uncommenting line line will open up the possibility that the Player's Pokemon can disobey them (not just traded mons)
@@ -395,6 +419,7 @@ enum //These vars need to be one after the other (hence the enum)
 #ifdef IgnoreWildPokemon
 #define FLAG_WILD_POKEMON_PREBATTLE_SCREEN 0xA02 //If set, CreateWindowFromRect starts from tile 0x98 instead of 0x38
 #define FLAG_ENABLE_WILD_PMN_PREBATTLE_SCREEN 0xA03 //If set, it generates a prebattle screen.
+
 #endif
 
 /* Palette Swapper*/
@@ -406,3 +431,4 @@ enum //These vars need to be one after the other (hence the enum)
 
 //Custom Config 
 #define FLAG_DISABLE_TRAINER_SEE 0x309 //Disable trainer see.
+#define FLAG_DISABLE_EVS 0x319 //Disable EVs entirely.
