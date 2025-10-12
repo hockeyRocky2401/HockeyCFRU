@@ -914,6 +914,9 @@ Earth Eater
 #org @gText_AbilityName_Electromorphosis
 Electromorphosis
 
+#org @gText_AbilityName_FeralInstinct
+Feral Instinct
+
 #org @gText_AbilityName_GoodAsGold
 Good As Gold
 
@@ -922,6 +925,9 @@ Guard Dog
 
 #org @gText_AbilityName_HadronEngine
 HadronEngine
+
+#org @gText_AbilityName_HighFlyer
+High Flyer
 
 #org @gText_AbilityName_MindsEye
 Mind[B4]s Eye

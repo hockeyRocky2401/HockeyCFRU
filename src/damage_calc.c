@@ -4207,6 +4207,9 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		//1.5x Boost
 			if (SpeciesHasRockyPayload(SPECIES(bankAtk)) && data->moveType == TYPE_ROCK)
 				power = (power * 15) / 10;
+				//New for Dodrio line
+			else if (SpeciesHasHighFlyer(SPECIES(bankAtk)) && data->moveType == TYPE_FLYING)
+				power = (power * 15) / 10;
 			else if (data->moveType == TYPE_STEEL)
 				power = (power * 15) / 10;
 			break;

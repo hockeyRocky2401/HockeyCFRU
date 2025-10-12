@@ -62,8 +62,11 @@ tile 3 44 0 EventScript_Trainer_Haley0
 tile 3 44 1 EventScript_Trainer_Haley1
 tile 3 44 2 EventScript_Trainer_Haley2
 
+## Route 5 (South Cerulean)
+npc 3 23 0 EventScript_DayCare_Lady
+
 ## Route 6 (North Vermilion)
-# sign 3 24 1 EventScript_Route_6_Wacan
+<!-- # sign 3 24 1 EventScript_Route_6_Wacan -->
 
 ## Vermilion City
 npc 9 5 0 SystemScript_GlobalMart

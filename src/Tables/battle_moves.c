@@ -7189,7 +7189,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 70,
 		.type = TYPE_BUG,
 		.accuracy = 100,
-		.pp = 20,
+		.pp = 15,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -7205,7 +7205,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 70,
 		.type = TYPE_ELECTRIC,
 		.accuracy = 100,
-		.pp = 20,
+		.pp = 15,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -11819,7 +11819,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 60,
 		.type = TYPE_WATER,
 		.accuracy = 100,
-		.pp = 20,
+		.pp = 15,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -16138,6 +16138,23 @@ const struct BattleMove gBattleMoves[] =
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
 		.z_move_power = 175,
 		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	//New for Ponyta line
+	[MOVE_FLAMINGEXIT] =
+	{
+		.effect = EFFECT_BATON_PASS,
+		.power = 60,
+		.type = TYPE_FIRE,
+		.accuracy = 100,
+		.pp = 15,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 120,
+		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
 	}
 // #endif

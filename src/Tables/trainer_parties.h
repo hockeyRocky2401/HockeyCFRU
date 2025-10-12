@@ -1427,7 +1427,7 @@ struct TrainerMonItemCustomMoves sParty_PokemaniacAshton[] = {
         .iv = 243,
         .lvl = 35,
         .species = SPECIES_PONYTA,
-        .moves = {MOVE_FLAMETHROWER, MOVE_HIGHHORSEPOWER, MOVE_FLAMECHARGE, MOVE_STOMP},
+        .moves = {MOVE_FLAMETHROWER, MOVE_HIGHHORSEPOWER, MOVE_FLAMECHARGE, MOVE_FLAMINGEXIT},
     },
     {
         .iv = 244,
@@ -3882,7 +3882,7 @@ struct TrainerMonItemCustomMoves sParty_BirdKeeperChester[] = {
         .iv = 225,
         .lvl = 46,
         .species = SPECIES_DODRIO,
-        .moves = {MOVE_QUICKATTACK, MOVE_DRILLPECK, MOVE_JUMPKICK, MOVE_NONE},
+        .moves = {MOVE_QUICKATTACK, MOVE_DRILLPECK, MOVE_JUMPKICK, MOVE_SWORDSDANCE},
     },
     // {
     //     .iv = 0,
@@ -3926,10 +3926,10 @@ struct TrainerMonItemCustomMoves sParty_BirdKeeperRamiro[] = {
         .moves = {MOVE_DRILLPECK, MOVE_PURSUIT, MOVE_QUICKATTACK, MOVE_UTURN},
     },
     {
-        .iv = 249,
+        .iv = 248,
         .lvl = 51,
         .species = SPECIES_DODRIO,
-        .moves = {MOVE_DRILLPECK, MOVE_JUMPKICK, MOVE_DOUBLEHIT, MOVE_SWORDSDANCE},
+        .moves = {MOVE_DRILLPECK, MOVE_JUMPKICK, MOVE_UTURN, MOVE_SWORDSDANCE},
     },
     {
         .iv = 249,
@@ -6154,10 +6154,10 @@ struct TrainerMonItemCustomMoves sParty_CooltrainerNaomi[] = {
         .moves = {MOVE_PARTINGSHOT, MOVE_FAKEOUT, MOVE_KNOCKOFF, MOVE_SLASH},
     },
     {
-        .iv = 12,
+        .iv = 13,
         .lvl = 65,
         .species = SPECIES_RAPIDASH,
-        .moves = {MOVE_HIGHHORSEPOWER, MOVE_FLAREBLITZ, MOVE_MEGAHORN, MOVE_RAPIDSPIN},
+        .moves = {MOVE_HIGHHORSEPOWER, MOVE_FLAREBLITZ, MOVE_FLAMINGEXIT, MOVE_RAPIDSPIN},
     },
     {
         .iv = 12,
@@ -6663,7 +6663,7 @@ struct TrainerMonItemCustomMoves sParty_LeaderBlaine[] = {
         .lvl = 60,
         .species = SPECIES_RAPIDASH,
         .heldItem = ITEM_SITRUS_BERRY,
-        .moves = {MOVE_RAPIDSPIN, MOVE_FLAREBLITZ, MOVE_HIGHHORSEPOWER, MOVE_MORNINGSUN},
+        .moves = {MOVE_RAPIDSPIN, MOVE_FLAREBLITZ, MOVE_HIGHHORSEPOWER, MOVE_FLAMINGEXIT},
     },
     {
         .iv = 158,
@@ -7271,7 +7271,7 @@ struct TrainerMonItemCustomMoves sParty_RivalRoute22LateCharmander[] = {
         .lvl = 66,
         .species = SPECIES_PIDGEOT,
         .heldItem = ITEM_HEAVY_DUTY_BOOTS,
-        .moves = {MOVE_BRAVEBIRD, MOVE_UTURN, MOVE_DEFOG, MOVE_TAILWIND},
+        .moves = {MOVE_BRAVEBIRD, MOVE_UTURN, MOVE_BODYSLAM, MOVE_TAILWIND},
     },
     {
         .iv = 129,
@@ -7316,7 +7316,7 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstSquirtle[] = {
         .lvl = 74,
         .species = SPECIES_PIDGEOT,
         .heldItem = ITEM_HEAVY_DUTY_BOOTS,
-        .moves = {MOVE_HURRICANE, MOVE_UTURN, MOVE_DEFOG, MOVE_TAILWIND},
+        .moves = {MOVE_BODYSLAM, MOVE_UTURN, MOVE_BRAVEBIRD, MOVE_TAILWIND},
     },
     {
         .iv = 129,
@@ -7361,7 +7361,7 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstBulbasaur[] = {
         .lvl = 74,
         .species = SPECIES_PIDGEOT,
         .heldItem = ITEM_HEAVY_DUTY_BOOTS,
-        .moves = {MOVE_BRAVEBIRD, MOVE_UTURN, MOVE_DEFOG, MOVE_TAILWIND},
+        .moves = {MOVE_BRAVEBIRD, MOVE_UTURN, MOVE_BODYSLAM, MOVE_TAILWIND},
     },
     {
         .iv = 129,
@@ -7406,7 +7406,7 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstCharmander[] = {
         .lvl = 74,
         .species = SPECIES_PIDGEOT,
         .heldItem = ITEM_HEAVY_DUTY_BOOTS,
-        .moves = {MOVE_BRAVEBIRD, MOVE_UTURN, MOVE_DEFOG, MOVE_TAILWIND},
+        .moves = {MOVE_BRAVEBIRD, MOVE_UTURN, MOVE_BODYSLAM, MOVE_TAILWIND},
     },
     {
         .iv = 129,
@@ -8225,7 +8225,7 @@ struct TrainerMonItemCustomMoves sParty_YoungCoupleLeaJed[] = {
         .iv = 249,
         .lvl = 48,
         .species = SPECIES_PONYTA,
-        .moves = {MOVE_HIGHHORSEPOWER, MOVE_FLAREBLITZ, MOVE_MEGAHORN, MOVE_RAPIDSPIN},
+        .moves = {MOVE_HIGHHORSEPOWER, MOVE_FLAREBLITZ, MOVE_FLAMINGEXIT, MOVE_RAPIDSPIN},
     },
     {
         .iv = 249,
@@ -8244,7 +8244,7 @@ struct TrainerMonItemCustomMoves sParty_YoungCoupleLeaJed[] = {
         .lvl = 49,
         .species = SPECIES_RAPIDASH,
         .heldItem = ITEM_SITRUS_BERRY,
-        .moves = {MOVE_HIGHHORSEPOWER, MOVE_FLAREBLITZ, MOVE_MEGAHORN, MOVE_RAPIDSPIN},
+        .moves = {MOVE_HIGHHORSEPOWER, MOVE_FLAREBLITZ, MOVE_FLAMINGEXIT, MOVE_RAPIDSPIN},
     },
     {
         .iv = 2,
@@ -9282,10 +9282,10 @@ struct TrainerMonItemCustomMoves sParty_SwimmerFemaleTisha[] = {
         .moves = {MOVE_REFLECT, MOVE_LIGHTSCREEN, MOVE_PSYCHIC, MOVE_DAZZLINGGLEAM},
     },
     {
-        .iv = 249,
+        .iv = 248,
         .lvl = 62,
         .species = SPECIES_DODRIO,
-        .moves = {MOVE_DRILLPECK, MOVE_UTURN, MOVE_SWORDSDANCE, MOVE_THRASH},
+        .moves = {MOVE_DRILLPECK, MOVE_UTURN, MOVE_SWORDSDANCE, MOVE_JUMPKICK},
     },
     {
         .iv = 248,
@@ -10795,47 +10795,19 @@ struct TrainerMonItemCustomMoves sParty_BeautySheila2[] = {
 
 struct TrainerMonItemCustomMoves sParty_BirdKeeperRobert2[] = {
     {
-        .iv = 60,
-        .lvl = 34,
-        .species = SPECIES_PIDGEOTTO,
-    },
-    {
-        .iv = 60,
-        .lvl = 34,
-        .species = SPECIES_PIDGEOTTO,
-    },
-    {
-        .iv = 60,
-        .lvl = 34,
+        .iv = 225,
+        .lvl = 45,
         .species = SPECIES_FEAROW,
-    },
-    {
-        .iv = 60,
-        .lvl = 34,
-        .species = SPECIES_FEAROW,
+        .moves = {MOVE_DRILLPECK, MOVE_PURSUIT, MOVE_DOUBLEEDGE, MOVE_NONE},
     },
 };
 
 struct TrainerMonItemCustomMoves sParty_BirdKeeperRobert3[] = {
-    {
-        .iv = 80,
-        .lvl = 53,
-        .species = SPECIES_PIDGEOT,
-    },
-    {
-        .iv = 80,
-        .lvl = 53,
-        .species = SPECIES_PIDGEOT,
-    },
-    {
-        .iv = 80,
+   {
+        .iv = 225,
         .lvl = 53,
         .species = SPECIES_FEAROW,
-    },
-    {
-        .iv = 80,
-        .lvl = 53,
-        .species = SPECIES_FEAROW,
+        .moves = {MOVE_DRILLPECK, MOVE_PURSUIT, MOVE_DOUBLEEDGE, MOVE_NONE},
     },
 };
 
@@ -11022,38 +10994,32 @@ struct TrainerMonItemCustomMoves sParty_BeautyGrace2[] = {
 };
 
 struct TrainerMonItemCustomMoves sParty_BirdKeeperChester2[] = {
-    {
-        .iv = 60,
-        .lvl = 36,
-        .species = SPECIES_DODRIO,
-    },
-    {
-        .iv = 60,
-        .lvl = 36,
-        .species = SPECIES_DODRIO,
-    },
-    {
-        .iv = 60,
-        .lvl = 36,
+   {
+        .iv = 225,
+        .lvl = 46,
         .species = SPECIES_DODUO,
+        .moves = {MOVE_QUICKATTACK, MOVE_DRILLPECK, MOVE_JUMPKICK, MOVE_NONE},
+    },
+    {
+        .iv = 225,
+        .lvl = 46,
+        .species = SPECIES_DODRIO,
+        .moves = {MOVE_QUICKATTACK, MOVE_DRILLPECK, MOVE_JUMPKICK, MOVE_SWORDSDANCE},
     },
 };
 
 struct TrainerMonItemCustomMoves sParty_BirdKeeperChester3[] = {
     {
-        .iv = 80,
+        .iv = 225,
         .lvl = 54,
-        .species = SPECIES_DODRIO,
+        .species = SPECIES_DODUO,
+        .moves = {MOVE_QUICKATTACK, MOVE_DRILLPECK, MOVE_JUMPKICK, MOVE_NONE},
     },
     {
-        .iv = 80,
+        .iv = 225,
         .lvl = 54,
         .species = SPECIES_DODRIO,
-    },
-    {
-        .iv = 80,
-        .lvl = 54,
-        .species = SPECIES_DODRIO,
+        .moves = {MOVE_QUICKATTACK, MOVE_DRILLPECK, MOVE_JUMPKICK, MOVE_SWORDSDANCE},
     },
 };
 
@@ -12414,7 +12380,7 @@ struct TrainerMonItemCustomMoves sParty_HikerKenny[] = {
         .iv = 244,
         .lvl = 38,
         .species = SPECIES_PONYTA,
-        .moves = {MOVE_RAPIDSPIN, MOVE_FLAMETHROWER, MOVE_HIGHHORSEPOWER, MOVE_NONE},
+        .moves = {MOVE_RAPIDSPIN, MOVE_FLAMETHROWER, MOVE_HIGHHORSEPOWER, MOVE_FLAMINGEXIT},
     },
     {
         .iv = 230,

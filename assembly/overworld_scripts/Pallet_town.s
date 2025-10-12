@@ -293,10 +293,10 @@ EventScript_Pallet_AideGuy:
         setvar 0x800B 28
         givepokemon SPECIES_DRAGONITE 75 ITEM_HEAVY_DUTY_BOOTS 0 1 10
 
-        setvar 0x8000 MOVE_ENERGYBALL
-        setvar 0x8001 MOVE_SLUDGEBOMB
-        setvar 0x8002 MOVE_LEECHSEED
-        setvar 0x8003 MOVE_RAZORLEAF
+        setvar 0x8000 MOVE_FLAMINGEXIT
+        setvar 0x8001 MOVE_FLAMECHARGE
+        setvar 0x8002 MOVE_FLAREBLITZ
+        setvar 0x8003 MOVE_VOLTSWITCH
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0 
         setvar 0x8006 28
@@ -305,7 +305,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_VENUSAUR 75 ITEM_LIFE_ORB 0 1 10
+        givepokemon SPECIES_RAPIDASH 75 ITEM_LIFE_ORB 0 1 10
 
         setvar 0x8000 MOVE_DYNAMICPUNCH
         setvar 0x8001 MOVE_KNOCKOFF
@@ -321,10 +321,10 @@ EventScript_Pallet_AideGuy:
         setvar 0x800B 28
         givepokemon SPECIES_MACHAMP 75 ITEM_LEFTOVERS 0 1 10
 
-        setvar 0x8000 MOVE_HYDROPUMP
-        setvar 0x8001 MOVE_ICEBEAM
-        setvar 0x8002 MOVE_SHELLSMASH
-        setvar 0x8003 MOVE_AQUATAIL
+        setvar 0x8000 MOVE_DRILLPECK
+        setvar 0x8001 MOVE_DOUBLEEDGE
+        setvar 0x8002 MOVE_QUICKATTACK
+        setvar 0x8003 MOVE_VOLTSWITCH
         setvar 0x8004 NATURE_SERIOUS
         setvar 0x8005 0
         setvar 0x8006 28
@@ -333,11 +333,11 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_BLASTOISE 75 ITEM_WHITE_HERB 0 1 10
+        givepokemon SPECIES_DODRIO 75 ITEM_SITRUS_BERRY 0 1 10
 
-        setvar 0x8000 MOVE_HURRICANE
-        setvar 0x8001 MOVE_HEATWAVE
-        setvar 0x8002 MOVE_TAILWIND
+        setvar 0x8000 MOVE_FLIPTURN
+        setvar 0x8001 MOVE_SHELLSMASH
+        setvar 0x8002 MOVE_HYDROPUMP
         setvar 0x8003 MOVE_VOLTSWITCH
         random NUM_NATURES
         copyvar 0x8004, LASTRESULT       @ random naturesetvar 0x8005 0
@@ -348,10 +348,11 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_PIDGEOT 75 ITEM_PIDGEOTITE 0 1 0
+        givepokemon SPECIES_BLASTOISE 75 ITEM_WHITE_HERB 0 1 0
 
         setflag 0xA08 @ Tera Battle Flag
         setflag 0x828 @ Give flag 
+        setflag 0x234 @ SS Anne Ticket flag 
         setflag 0x2A5 @ Can use hideout lift
         setflag 0x23C @ Grunt outside Silph
         setflag 0x23D @ Got Poke Flute 

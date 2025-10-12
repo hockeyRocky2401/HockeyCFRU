@@ -77,6 +77,8 @@ extern const u8 gText_AbilityDescription_CudChew[];
 extern const u8 gText_AbilityName_EarthEater[];
 extern const u8 gText_AbilityDescription_EarthEater[];
 extern const u8 gText_AbilityName_Electromorphosis[];
+extern const u8 gText_AbilityDescription_FeralInstinct[];
+extern const u8 gText_AbilityName_FeralInstinct[];
 extern const u8 gText_AbilityDescription_Electromorphosis[];
 extern const u8 gText_AbilityName_GoodAsGold[];
 extern const u8 gText_AbilityDescription_GoodAsGold[];
@@ -84,6 +86,8 @@ extern const u8 gText_AbilityName_GuardDog[];
 extern const u8 gText_AbilityDescription_GuardDog[];
 extern const u8 gText_AbilityName_HadronEngine[];
 extern const u8 gText_AbilityDescription_HadronEngine[];
+extern const u8 gText_AbilityName_HighFlyer[];
+extern const u8 gText_AbilityDescription_HighFlyer[];
 extern const u8 gText_AbilityName_HydroDisplacer[];
 extern const u8 gText_AbilityDescription_HydroDisplacer[];
 extern const u8 gText_AbilityName_MindsEye[];
@@ -499,6 +503,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_STEELWORKER:
 			if (SpeciesHasRockyPayload(species))
 				return gText_AbilityName_RockyPayload;
+			else if (SpeciesHasHighFlyer(species))
+				return gText_AbilityName_HighFlyer;
 			break;
 		case ABILITY_GRASSYSURGE:
 			if (SpeciesHasSeedSower(species))
@@ -554,6 +560,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
             if (SpeciesHasHydroDisplacer(species))
                return gText_AbilityName_HydroDisplacer;
 		    break;
+		case ABILITY_STAMINA:
+			if (SpeciesHasFeralInstinct(species))
+			  return gText_AbilityName_FeralInstinct;
+			break;	
 	}
 
 	return NULL;
@@ -658,9 +668,16 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		if (SpeciesHasPurifyingSalt(species))
 				return gText_AbilityDescription_PurifyingSalt;
 			break;
+		//For Fearow
+		case ABILITY_STAMINA:
+            if (SpeciesHasFeralInstinct(species))
+				return gText_AbilityDescription_FeralInstinct;
+			break;
 		case ABILITY_STEELWORKER:
 			if (SpeciesHasRockyPayload(species))
 				return gText_AbilityDescription_RockyPayload;
+			else if (SpeciesHasHighFlyer(species))
+				return gText_AbilityDescription_HighFlyer;	
 			break;
 		case ABILITY_GRASSYSURGE:
 			if (SpeciesHasSeedSower(species))
@@ -1260,6 +1277,15 @@ bool8 SpeciesHasElectromorphosis(unusedArg u16 species)
 	#endif
 }
 
+bool8 SpeciesHasFeralInstinct(unusedArg u16 species)
+{
+	#ifdef SPECIES_FEAROW
+	return species == SPECIES_FEAROW;
+	#else
+	return FALSE;
+	#endif
+}
+
 bool8 SpeciesHasCudChew(unusedArg u16 species)
 {
 	#if (defined SPECIES_TAUROS_P && SPECIES_TAUROS_AQUA_P && SPECIES_TAUROS_BLAZE_P && SPECIES_FARIGIRAF)
@@ -1306,6 +1332,15 @@ bool8 SpeciesHasHadronEngine(unusedArg u16 species)
 {
 	#ifdef SPECIES_MIRAIDON
 	return species == SPECIES_MIRAIDON;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasHighFlyer(unusedArg u16 species)
+{
+	#if (defined SPECIES_DODUO && SPECIES_DODRIO)
+	return species == SPECIES_DODUO || species == SPECIES_DODRIO;
 	#else
 	return FALSE;
 	#endif

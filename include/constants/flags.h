@@ -1092,6 +1092,9 @@
 #define FLAG_RARE_CANDY_GUY                 0x318
 // FLAG 0x319 used by Disable EVs
 
+//Daycare lady Togepi Egg
+#define FLAG_DAYCARE_LADY                   0x31A
+
 #define FLAG_HIDDEN_ITEMS_START 1000 // 0x3E8
 #define FLAG_HIDDEN_ITEM(map, item) (FLAG_HIDDEN_ITEMS_START + HIDDEN_ITEM_##map##_##item)
 

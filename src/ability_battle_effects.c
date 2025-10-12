@@ -2400,14 +2400,26 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
-				&& gBankAttacker != bank
-				&& gBattleMons[bank].statStages[STAT_DEF - 1] < 12)
+				&& gBankAttacker != bank)
+				 // Fearow's version: Attack up
+                {
+				if (SpeciesHasFeralInstinct(SPECIES(bank))
+                && gBattleMons[bank].statStages[STAT_ATK - 1] < 12)
+                {
+                gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
+                effect++;
+                }
+				// && gBattleMons[bank].statStages[STAT_DEF - 1] < 12)
+				else if (gBattleMons[bank].statStages[STAT_DEF - 1] < 12)
 				{
 					gBattleScripting.statChanger = STAT_DEF | INCREASE_1;
 					BattleScriptPushCursor();
 					gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
 					effect++;
 				}
+			    }
 				break;
 
 			case ABILITY_WATERCOMPACTION:
