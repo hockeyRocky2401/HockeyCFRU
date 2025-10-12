@@ -397,6 +397,11 @@ static u16 GetTrainerIdForOpponentBank(u8 bank)
 // Check for both
 bool8 TerastalEnabled(u8 bank)
 {
+    // Check if anyone on this side already Terastallized
+u8 side = GetBattlerSide(bank);
+u8 partyCount = (side == B_SIDE_PLAYER) ? PARTY_SIZE : gBattlersCount / 2;
+u8 i;
+
     // 1) Mutually exclusive with Dynamax (global check)
     if (gBattleTypeFlags & BATTLE_TYPE_DYNAMAX)
         return FALSE;
@@ -421,7 +426,8 @@ bool8 TerastalEnabled(u8 bank)
             return FALSE;
 
         // Shared “one gimmick” precedence and no-Dynamax-on-mon checks
-        if (CanMegaEvolve(bank, FALSE) || CanMegaEvolve(bank, TRUE) || HasMegaSymbol(bank))
+        if (CanMegaEvolve(bank, FALSE) || CanMegaEvolve(bank, TRUE) 
+        || HasMegaSymbol(bank) || gNewBS->megaData.done[B_SIDE_OPPONENT])
             return FALSE;
 
         if (IsZCrystal(ITEM(bank)))
@@ -441,7 +447,8 @@ bool8 TerastalEnabled(u8 bank)
     //     return FALSE;
 
     // Only one gimmick allowed - Mega and Z take precedence
-    if (CanMegaEvolve(bank, FALSE) || CanMegaEvolve(bank, TRUE) || HasMegaSymbol(bank))
+    if (CanMegaEvolve(bank, FALSE) || CanMegaEvolve(bank, TRUE) 
+    || HasMegaSymbol(bank) || gNewBS->megaData.done[B_SIDE_PLAYER])
         return FALSE;
 
     if (IsZCrystal(ITEM(bank)))
@@ -452,6 +459,13 @@ bool8 TerastalEnabled(u8 bank)
      || gNewBS->dynamaxData.used[bank]
      || gNewBS->dynamaxData.toBeUsed[bank])
         return FALSE;
+
+    // Already used Terastalization on your side?
+    for (i = 0; i < partyCount; ++i)
+{
+    if (gNewBS->teraData.done[side][i])
+        return FALSE; // A teammate already used Terastallization
+}
 
     // Your existing player-side orb/key-item rule
     if (FindBankTeraOrb(bank) != ITEM_NONE)

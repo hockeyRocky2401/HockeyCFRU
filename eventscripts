@@ -99,6 +99,7 @@ tile 1 45 1 EventScript_Giovanni1
 ## Saffron City
 npc 14 5 0 SystemScript_GlobalMart
 npc 14 4 4 EventScript_ChangeTeraTypeNPC
+npc 14 6 2 EventScript_Cant_TeraEvolve
 
 ## Silph Co.
 map 1 47 EventScript_SilphCo_Map

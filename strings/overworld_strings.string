@@ -726,6 +726,10 @@ Archer: We'll meet again kid.
 #org @gText_Ariana_Loss
 Ariana: Ta-ta for now, brat!
 
+//Woman in Pokemon Center
+#org @gText_Cant_TeraEvolve
+You can't Terastallize one Pokémon\nand then Mega Evolve another\pin the same battle.\pYou can't have it both ways!
+
 // ROUTE 16 WEST CELADON
 
 //Aide in builidng 

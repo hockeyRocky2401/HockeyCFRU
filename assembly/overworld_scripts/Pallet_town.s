@@ -291,7 +291,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_DRAGONITE 75 ITEM_HEAVY_DUTY_BOOTS 3 1 10
+        givepokemon SPECIES_DRAGONITE 75 ITEM_HEAVY_DUTY_BOOTS 0 1 10
 
         setvar 0x8000 MOVE_ENERGYBALL
         setvar 0x8001 MOVE_SLUDGEBOMB
