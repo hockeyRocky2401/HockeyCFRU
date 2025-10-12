@@ -1864,6 +1864,12 @@ void ItemUseCB_MedicineStep(u8 taskId, TaskFunc func)
                                 canHeal = FALSE;
                 }
 
+                 // 🧩 NEW: respect Disable EVs option for vitamins
+        if (FlagGet(FLAG_DISABLE_EVS) && IsStatBoostDrink(item))
+        {
+        goto WONT_HAVE_EFFECT;
+        }
+
                 if (ExecuteTableBasedItemEffect_(gPartyMenu.slotId, item, 0))
                 {
                         WONT_HAVE_EFFECT:
