@@ -349,7 +349,7 @@ Please come again!
 
 // Rare Candy Guy
 #org @gText_Want_RareCandy
-Pssst! I have a great deal\nfor you!\pI can give you 100 Rare Candies\nfor just 5000 Poké Dollars!\pThey'd be great for raising\nPokémon on an adventure!\pDo you want 100 Rare Candies\nfor 5000 Poké Dollars?
+Pssst! I have a great deal\nfor you!\pI can give you 200 Rare Candies\nfor just 5000 Poké Dollars!\pThey'd be great for raising\nPokémon on an adventure!\pDo you want 200 Rare Candies\nfor 5000 Poké Dollars?
 
 #org @gText_Candy_Again
 I'll be here if you want these\nRare Candies!
@@ -430,7 +430,7 @@ This is wonderful!
 
 // Pikachu Father Giorgio in Museum 
 #org @gText_Pikachu_Father
-My daughter wants a Pikachu of her\nown but they're not exactly easy\pto catch.\pYou have the look of a\nTrainer.\pDo you want to battle against my\nPikachu?
+My daughter wants a Pikachu of her\nown but they're not exactly easy\pto find.\pYou have the look of a\nTrainer.\pDo you want to battle against my\nPikachu?
 
 #org @gText_Giorgio_NoBattle
 You must be busy, I understand.

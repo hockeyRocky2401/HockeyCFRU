@@ -1220,13 +1220,15 @@ SystemScript_DebugMenu_Custom:
 	multichoiceoption gText_DebugMenu_CustomSetFlag 2
 	multichoiceoption gText_DebugMenu_SetVar 3
 	multichoiceoption gText_DebugMenu_Trainerbattle 4
-	multichoice 0, 0, FIVE_MULTICHOICE_OPTIONS, 0
+	multichoiceoption gText_DebugMenu_AllBadges 5
+	multichoice 0, 0, SIX_MULTICHOICE_OPTIONS, 0
 	switch LASTRESULT
 		case 0, SystemScript_DebugMenu_GivePokemonPrompt
 		case 1, SystemScript_DebugMenu_GiveItemPrompt
 		case 2, SystemScript_DebugMenu_CustomSetFlag
 		case 3, SystemScript_DebugMenu_SetVar
 		case 4, SystemScript_DebugMenu_Trainerbattle
+		case 5, SystemScript_DebugMenu_AllBadges
 	releaseall
 	end
 
@@ -1420,12 +1422,9 @@ SystemScript_DebugMenu_PortablePC:
 
 	@ Poke Vial Option
 	SystemScript_DebugMenu_PokeVial:
-	/*callasm ItemUseOutOfBattle_PokeVial
-	end*/
-
 	lockall
 	faceplayer
-    compare 0x5155, 6    @VAR_POKEVIAL_USES, MAX_POKEVIAL_USES
+    compare 0x5155, 4    @VAR_POKEVIAL_USES, MAX_POKEVIAL_USES
     if equal _goto NoCharge
 
     # --- Heal the party ---
@@ -1442,10 +1441,10 @@ SystemScript_DebugMenu_PortablePC:
     if equal _goto Use3
     compare 0x5155, 4
     if equal _goto Use4
-    compare 0x5155, 5
+    /*compare 0x5155, 5
     if equal _goto Use5
     compare 0x5155, 6
-    if equal _goto Use6
+    if equal _goto Use6*/
     releaseall
 	end
 
@@ -1525,6 +1524,20 @@ TrainerSee_Disable:
     closemessage
     releaseall
     end
+
+	/*All Badges Option*/
+
+	SystemScript_DebugMenu_AllBadges:
+    setflag 0x820 @ badge 1
+    setflag 0x821 @ badge 2
+    setflag 0x822 @ badge 3
+    setflag 0x823 @ badge 4
+    setflag 0x824 @ badge 5
+    setflag 0x825 @ badge 6
+    setflag 0x826 @ badge 7
+    setflag 0x827 @ badge 8
+    @ optionally: update badge UI / story locks, depends on your engine
+    goto SystemScript_DebugMenu_Custom
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -1704,6 +1717,23 @@ preparemsg gText_GlobalMart_Hi
 waitmsg
 .byte  0x86              @ pokemart opcode
 .4byte sWeatherMart
+preparemsg gText_GlobalMart_Again
+waitmsg
+waitbuttonpress
+closemessage
+release
+end
+
+@ Mint Mart Script
+.equ   VAR_RESULT, 0x800D
+.extern sMintMart
+SystemScript_MintMart:
+lock
+faceplayer
+preparemsg gText_GlobalMart_Hi
+waitmsg
+.byte  0x86              @ pokemart opcode
+.4byte sMintMart
 preparemsg gText_GlobalMart_Again
 waitmsg
 waitbuttonpress

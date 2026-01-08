@@ -201,7 +201,7 @@ random 32
 copyvar 0x800A, LASTRESULT  @ SpAtk IV
 random 32
 copyvar 0x800B, LASTRESULT  @ SpDef IV
-givepokemon SPECIES_KABUTO 25 ITEM_NONE 0 1 0
+givepokemon SPECIES_KABUTO 30 ITEM_NONE 0 1 0
 
 removeitem ITEM_DOME_FOSSIL, 1
 preparemsg gText_Got_Kabuto
@@ -233,7 +233,7 @@ random 32
 copyvar 0x800A, LASTRESULT  @ SpAtk IV
 random 32
 copyvar 0x800B, LASTRESULT  @ SpDef IV
-givepokemon SPECIES_OMANYTE 25 ITEM_NONE 0 1 0
+givepokemon SPECIES_OMANYTE 30 ITEM_NONE 0 1 0
 
 removeitem ITEM_HELIX_FOSSIL, 1
 preparemsg gText_Got_Omanyte
@@ -265,7 +265,7 @@ random 32
 copyvar 0x800A, LASTRESULT  @ SpAtk IV
 random 32
 copyvar 0x800B, LASTRESULT  @ SpDef IV
-givepokemon SPECIES_TYRUNT 25 ITEM_NONE 0 1 0
+givepokemon SPECIES_TYRUNT 30 ITEM_NONE 0 1 0
 
 removeitem ITEM_JAW_FOSSIL, 1
 preparemsg gText_Got_Tyrunt
@@ -297,7 +297,7 @@ random 32
 copyvar 0x800A, LASTRESULT  @ SpAtk IV
 random 32
 copyvar 0x800B, LASTRESULT  @ SpDef IV
-givepokemon SPECIES_AMAURA 25 ITEM_NONE 0 1 0
+givepokemon SPECIES_AMAURA 30 ITEM_NONE 0 1 0
 
 removeitem ITEM_SAIL_FOSSIL, 1
 preparemsg gText_Got_Amaura

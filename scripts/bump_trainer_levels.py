@@ -8,7 +8,7 @@ import shutil
 #   python tools/bump_trainer_levels.py src/data/trainers/   (a folder)
 
 LEVEL_FIELDS = (".lvl", ".level")
-THRESHOLD = 23
+THRESHOLD = 40
 BUMP = 4
 CAP = 100
 

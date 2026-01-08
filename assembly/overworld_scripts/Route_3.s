@@ -61,7 +61,7 @@ releaseall
 end
 
 Trainer_Robin_Idle:
-lockall
+lock
 faceplayer
 preparemsg gText_Robin_Idle
 waitmsg

@@ -1222,7 +1222,8 @@ static void PredictMovesForBanks(void)
 							bestMoves[++j] = i + 1;
 					}
 
-					if (viabilities[GetMaxByteIndexInList(viabilities, MAX_MON_MOVES)] < 100) //Best move has viability < 100
+					//This was < 100 before i changed it.
+					if (viabilities[GetMaxByteIndexInList(viabilities, MAX_MON_MOVES)] < 60) //Best move has viability < 100
 						StoreSwitchPrediction(bankAtk, bankDef);
 					else
 						StoreMovePrediction(bankAtk, bankDef, gBattleMons[bankAtk].moves[bestMoves[AIRandom() % (j + 1)] - 1]);

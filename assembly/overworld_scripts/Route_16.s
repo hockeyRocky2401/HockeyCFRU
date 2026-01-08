@@ -66,8 +66,8 @@ releaseall
 end
 
 Amulet_Woman_Idle:
-lockall
 faceplayer
+lockall
 preparemsg gText_Thats_AmuletCoin
 waitmsg
 waitbuttonpress

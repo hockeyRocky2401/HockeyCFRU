@@ -160,7 +160,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define WILD_DOUBLE_RANDOM_CHANCE 0 //was 50 //Change this to the percentage that a wild double battle will be initiated if the player is in special grass.
 #define CREATE_WITH_X_PERFECT_IVS 3 //Change this to the number of set 31 IVs you'd like Pokemon defined in gSetPerfectXIvList to have.
 #define CREATE_ROAMER_WITH_X_PERFECT_IVS 3 //Change this to the number of set 31 IVs you'd like roaming pokemon to have.
-#define EGG_HATCH_LEVEL 80 //The level eggs hatch at
+#define EGG_HATCH_LEVEL 1 //The level eggs hatch at
 #define AI_TRY_TO_KILL_RATE 100 //In battles against a trainer with AI flags of 1, the AI will try to use a move to knock out the opponents XX percent of the time
 #define BIKE_ENCOUNTER_PERCENT 60 //Biking through grass or in caves only has this percentage of the encounter rate (vanilla FR is 80)
 
@@ -374,7 +374,7 @@ enum //These vars need to be one after the other (hence the enum)
 /*Expansion specials!*/
 #define SIDEWAY_STAIRS_IMPLEMENTED //Uncomment if you're using Sideway Stairs patch.
 #define FLAG_FOLLOWER_POKEMON 0x4BD //0x4BD is an unused flag.
-#define MAX_POKEVIAL_USES 6  // Maximum uses before recharge
+#define MAX_POKEVIAL_USES 4  // Maximum uses before recharge
 #define VAR_POKEVIAL_USES 0x5155 // Use a free variable ID to track uses
 //#define REMOVE_CRITICAL_HITS //Uncomment this to remove critical hits.
 #define MULTIPLE_PREMIER_BALLS_AT_ONCE //Comment out if you don't want the player received a Premier ball for every 10 Poke Balls purchased (only 1 no matter how many over 10 balls the player buys)

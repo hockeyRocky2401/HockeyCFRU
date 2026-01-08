@@ -2127,7 +2127,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _a, _x, _SPACE, _P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_MAX_POTION,
-		.price = 1200,
+		.price = 900,
 		.holdEffect = 0,
         .holdEffectParam = 255,
 		.description = DESC_MAX_POTION,
@@ -2143,7 +2143,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_H, _y, _p, _e, _r, _SPACE, _P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_HYPER_POTION,
-		.price = 700,
+		.price = 600,
 		.holdEffect = 0,
         .holdEffectParam = 120,
 		// .description = sHyperPotionDesc,
@@ -7827,7 +7827,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _M, _5, _1, _END},
 		.itemId = ITEM_TM51,
-		.price = 3000,
+		.price = 8000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_TM51,
@@ -13765,7 +13765,7 @@ const struct Item gItemData[] =
     {
         .name = {_L, _o, _n, _e, _l, _y, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_LONELY_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 0,
         .description = DESC_LONELY_MINT,
@@ -13782,7 +13782,7 @@ const struct Item gItemData[] =
     {
         .name = {_A, _d, _a, _m, _a, _n, _t, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_ADAMANT_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 1,
         .description = DESC_ADAMANT_MINT,
@@ -13799,7 +13799,7 @@ const struct Item gItemData[] =
     {
         .name = {_N, _a, _u, _g, _h, _t, _y, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_NAUGHTY_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 2,
         .description = DESC_NAUGHTY_MINT,
@@ -13816,7 +13816,7 @@ const struct Item gItemData[] =
     {
         .name = {_B, _r, _a, _v, _e, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_BRAVE_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 3,
         .description = DESC_BRAVE_MINT,
@@ -13833,7 +13833,7 @@ const struct Item gItemData[] =
     {
         .name = {_B, _o, _l, _d, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_BOLD_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 4,
         .description = DESC_BOLD_MINT,
@@ -13850,7 +13850,7 @@ const struct Item gItemData[] =
     {
         .name = {_I, _m, _p, _i, _s, _h, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_IMPISH_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 5,
         .description = DESC_IMPISH_MINT,
@@ -13867,7 +13867,7 @@ const struct Item gItemData[] =
     {
         .name = {_L, _a, _x, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_LAX_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 6,
         .description = DESC_LAX_MINT,
@@ -13884,7 +13884,7 @@ const struct Item gItemData[] =
     {
         .name = {_R, _e, _l, _a, _x, _e, _d, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_RELAXED_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 7,
         .description = DESC_RELAXED_MINT,
@@ -13901,7 +13901,7 @@ const struct Item gItemData[] =
     {
         .name = {_M, _o, _d, _e, _s, _t, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_MODEST_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 8,
         .description = DESC_MODEST_MINT,
@@ -13918,7 +13918,7 @@ const struct Item gItemData[] =
     {
         .name = {_M, _i, _l, _d, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_MILD_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 9,
         .description = DESC_MILD_MINT,
@@ -13935,7 +13935,7 @@ const struct Item gItemData[] =
     {
         .name = {_R, _a, _s, _h, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_RASH_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 10,
         .description = DESC_RASH_MINT,
@@ -13952,7 +13952,7 @@ const struct Item gItemData[] =
     {
         .name = {_Q, _u, _i, _e, _t, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_QUIET_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 11,
         .description = DESC_QUIET_MINT,
@@ -13969,7 +13969,7 @@ const struct Item gItemData[] =
     {
         .name = {_C, _a, _l, _m, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_CALM_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 12,
         .description = DESC_CALM_MINT,
@@ -13986,7 +13986,7 @@ const struct Item gItemData[] =
     {
         .name = {_G, _e, _n, _t, _l, _e, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_GENTLE_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 13,
         .description = DESC_GENTLE_MINT,
@@ -14003,7 +14003,7 @@ const struct Item gItemData[] =
     {
         .name = {_C, _a, _r, _e, _f, _u, _l, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_CAREFUL_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 14,
         .description = DESC_CAREFUL_MINT,
@@ -14020,7 +14020,7 @@ const struct Item gItemData[] =
     {
         .name = {_S, _a, _s, _s, _y, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_SASSY_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 15,
         .description = DESC_SASSY_MINT,
@@ -14037,7 +14037,7 @@ const struct Item gItemData[] =
     {
         .name = {_T, _i, _m, _i, _d, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_TIMID_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 16,
         .description = DESC_TIMID_MINT,
@@ -14054,7 +14054,7 @@ const struct Item gItemData[] =
     {
         .name = {_H, _a, _s, _t, _y, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_HASTY_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 17,
         .description = DESC_HASTY_MINT,
@@ -14071,7 +14071,7 @@ const struct Item gItemData[] =
     {
         .name = {_J, _o, _l, _l, _y, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_JOLLY_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 18,
         .description = DESC_JOLLY_MINT,
@@ -14088,7 +14088,7 @@ const struct Item gItemData[] =
     {
         .name = {_N, _a, _i, _v, _e, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_NAIVE_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 19,
         .description = DESC_NAIVE_MINT,
@@ -14105,7 +14105,7 @@ const struct Item gItemData[] =
     {
         .name = {_S, _e, _r, _i, _o, _u, _s, _SPACE, _M, _i, _n, _t, _END},
         .itemId = ITEM_SERIOUS_MINT,
-        .price = 20000,
+        .price = 1000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
         .holdEffectParam = 20,
         .description = DESC_SERIOUS_MINT,

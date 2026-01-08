@@ -687,7 +687,7 @@ Boost Defense if hit by Fire type.
 Boost electricity if hit by Wind.
 
 #org @gText_AbilityDescription_WindRider
-Boost Atk if hit by Wind Moves.
+Boost Atk if Wind Moves are used.
 
 #org @gText_AbilityDescription_ZerotoHero
 Change Hero form when switch out.

@@ -14,9 +14,9 @@ BattleScript_Terastallize:
 
 TeraAnimBS:
 	playanimation BANK_SCRIPTING ANIM_TERASTAL 0x0
-	callasm BackupScriptingBankMoveSelectionCursor
+	/* callasm BackupScriptingBankMoveSelectionCursor */
 	reloadhealthbar BANK_SCRIPTING
 	setword BATTLE_STRING_LOADER gText_TeraCompletedString
 	printstring 0x184
 	waitmessage DELAY_1SECOND
-    end3
+    end3 

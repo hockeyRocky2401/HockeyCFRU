@@ -57,7 +57,26 @@ bool8 ShouldSwitch(struct Pokemon* party, u8 firstId, u8 lastId)
 	|| gStatuses3[gActiveBattler] & (STATUS3_SKY_DROP_ATTACKER | STATUS3_SKY_DROP_TARGET)) //Can never switch out when in the air
 		return FALSE;
 
+	// 	 // Don’t bother switching if last usable mon or very low HP
+    // if (CountUsablePartyMons(gActiveBattler) <= 1
+    // || gBattleMons[gActiveBattler].hp < gBattleMons[gActiveBattler].maxHP / 4)
+    //     return FALSE;
+
+	// 		// --- Only "smart" AIs do matchup-based logic ---
+    // if (!(AI_THINKING_STRUCT->aiFlags & AI_SCRIPT_SEMI_SMART))
+    //     return FALSE;
+
+	// 	// Optional randomness so it's not perfect
+    // if (Random() % 100 < 30) // 30% chance to stay in anyway
+    //     return FALSE;
+
+	// 	  // NEW Main logic: only switch if losing and can improve matchup
+    // if (IsLosingMatchup(gActiveBattler, gBankTarget)
+    //  && FindBetterMatchupMon(party, firstId, lastId))
+    //     return TRUE;
+
 	availableToSwitch = 0;
+
 	if (IS_DOUBLE_BATTLE)
 	{
 		battlerIn1 = gActiveBattler;

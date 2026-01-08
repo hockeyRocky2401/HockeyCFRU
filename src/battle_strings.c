@@ -198,8 +198,18 @@ void BufferStringBattle(u16 stringID)
 		break;
 
 	case STRINGID_STATWASHEIGHTENED:
-		stringPtr = sText_StatWasHeightened;
-		break;
+    // If battle is already decided and player lost, this message is never wanted.
+    if (IsPlayerDefeated(gBattleOutcome))
+        return;
+
+    // If buffer[00] is empty (Pokemon EOS is often 0xFF), skip it.
+    if (gBattleTextBuff1[0] == 0xFF || gBattleTextBuff1[0] == 0x00)
+        return;
+
+    stringPtr = sText_StatWasHeightened;
+    break;
+
+
 
 	case STRINGID_SUNLIGHTACTIVATEDABILITY:
 		stringPtr = sText_SunlightActivatedAbility;

@@ -3444,7 +3444,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 20,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = TYPE_GHOST,
+		.teraType = TYPE_NORMAL,
 	},
 	[247] =
 	{ //Modest. 19 ivs, 30 evs. Ability 2. Tera Flying. Luca's Electrode on Route 12.

@@ -232,7 +232,7 @@ removemoney 5000, 0
 updatemoney 0, 0, 0
 waitse
 setvar 0x8000 ITEM_RARE_CANDY    @ which item
-setvar 0x8001 100                @ how many
+setvar 0x8001 200                @ how many
 call SystemScript_ObtainItem
 setflag 0x318
 hidemoney 0, 0

@@ -42,6 +42,7 @@ const u16 sTMMart[] = {
     ITEM_TM38, //Fire Blast New
     // ITEM_TM43, //Secret Power not used anymore.
     // ITEM_TM45,   // Attract
+    ITEM_TM51, //Roost New
     ITEM_TM52, //Focus Blast New
     ITEM_TM54, //False Swipe New
     ITEM_TM76, //Stealth Rock New
@@ -115,6 +116,32 @@ const u16 sNewTMMart[] = {
     ITEM_TM88, //Misty Terrain
     ITEM_TM94, //Psychic Terrain
     ITEM_TM109, //Defog
+    ITEM_NONE,
+};
+
+const u16 sMintMart[] = {
+
+    ITEM_ADAMANT_MINT,
+    ITEM_BOLD_MINT,
+    ITEM_BRAVE_MINT,
+    ITEM_CALM_MINT,
+    ITEM_CAREFUL_MINT,
+    ITEM_GENTLE_MINT,
+    ITEM_HASTY_MINT,
+    ITEM_IMPISH_MINT,
+    ITEM_JOLLY_MINT,
+    ITEM_LONELY_MINT,
+    ITEM_LAX_MINT,
+    ITEM_MILD_MINT,
+    ITEM_MODEST_MINT,
+    ITEM_NAUGHTY_MINT,
+    ITEM_NAIVE_MINT,
+    ITEM_QUIET_MINT,
+    ITEM_RASH_MINT,
+    ITEM_RELAXED_MINT,
+    ITEM_SASSY_MINT,
+    ITEM_SERIOUS_MINT,
+    ITEM_TIMID_MINT,
     ITEM_NONE,
 };
 

@@ -1268,70 +1268,206 @@ void RunTurnActionsFunctions(void)
 // For Terastallization
 	switch (gNewBS->teraData.state) 
 	{
-		case Tera_Check:
-			for (i = *teraBank; i < gBattlersCount; ++i, ++*teraBank)
-			{
-				u8 bank = gActiveBattler = gBanksByTurnOrder[i];
-				u8 side = GetBattlerSide(bank);
+		// case Tera_Check:
+		// 	for (i = *teraBank; i < gBattlersCount; ++i, ++*teraBank)
+		// 	{
+		// 		u8 bank = gActiveBattler = gBanksByTurnOrder[i];
+		// 		u8 side = GetBattlerSide(bank);
 
-				// Check if there is already a Terastallized Pokémon on the same side
-				bool8 sideHasTerastallized = FALSE;
-				for (u8 j = 0; j < PARTY_SIZE; j++)
-				{
-					if (gNewBS->teraData.done[side][j])
-					{
-						sideHasTerastallized = TRUE;
-						break;
-					}
-				}
+		// 		// Check if there is already a Terastallized Pokémon on the same side
+		// 		bool8 sideHasTerastallized = FALSE;
+		// 		for (u8 j = 0; j < PARTY_SIZE; j++)
+		// 		{
+		// 			if (gNewBS->teraData.done[side][j])
+		// 			{
+		// 				sideHasTerastallized = TRUE;
+		// 				break;
+		// 			}
+		// 		}
 
-				if (gNewBS->teraData.chosen[bank]
-				&& !IsTerastallized(bank)
-				&& !sideHasTerastallized
-				&& gCurrentActionFuncId == ACTION_USE_MOVE)
-				{
-					const u8* script = DoTerastallize(bank);
-					if (script != NULL)
-					{
-						u8 partyId = gBattlerPartyIndexes[bank];
+		// 		if (gNewBS->teraData.chosen[bank]
+		// 		&& !IsTerastallized(bank)
+		// 		&& !sideHasTerastallized
+		// 		&& gCurrentActionFuncId == ACTION_USE_MOVE)
+		// 		{
+		// 			const u8* script = DoTerastallize(bank);
+		// 			if (script != NULL)
+		// 			{
+		// 				u8 partyId = gBattlerPartyIndexes[bank];
 
-						gNewBS->teraData.done[side][partyId] = TRUE;
-						gNewBS->teraData.chosen[bank] = 0;
-						gNewBS->teraData.teraInProgress = TRUE;
+		// 				gNewBS->teraData.done[side][partyId] = TRUE;
+		// 				gNewBS->teraData.chosen[bank] = 0;
+		// 				gNewBS->teraData.teraInProgress = TRUE;
 
-						BattleScriptExecute(script);
-						gCurrentActionFuncId = savedActionFuncId;
-						return;
-					}
-				}
-			}
-			if (gNewBS->teraData.teraInProgress)
-				++gNewBS->teraData.state;
-			else
-			{	
-				gNewBS->teraData.state = Tera_End;
-				gNewBS->teraData.teraInProgress = FALSE;
-			}
-			return;
+		// 				BattleScriptExecute(script);
+		// 				gCurrentActionFuncId = savedActionFuncId;
+		// 				return;
+		// 			}
+		// 		}
+		// 	}
+		// 	if (gNewBS->teraData.teraInProgress)
+		// 		++gNewBS->teraData.state;
+		// 	else
+		// 	{	
+		// 		gNewBS->teraData.state = Tera_End;
+		// 		gNewBS->teraData.teraInProgress = FALSE;
+		// 	}
+		// 	return;
 
-		// Adjust turn order after Terastallization
-		case Tera_CalcTurnOrder:
-			for (i = 0; i < gBattlersCount - 1; ++i)
-			{
-				for (j = i + 1; j < gBattlersCount; ++j)
-				{
-					u8 bank1 = gBanksByTurnOrder[i];
-					u8 bank2 = gBanksByTurnOrder[j];
-					if (GetWhoStrikesFirst(bank1, bank2, FALSE))
-						SwapTurnOrder(i, j);
-				}
-			}
-			*teraBank = 0;
-			++gNewBS->teraData.state;
 
-			return;
+		//2nd Try
+// 		case Tera_Check:
+// {
+//     // Only ever allow Tera for the battler who is about to perform the current action
+//     if (gCurrentActionFuncId != ACTION_USE_MOVE)
+//     {
+//         gNewBS->teraData.state = Tera_End;
+//         gNewBS->teraData.teraInProgress = FALSE;
+//         return;
+//     }
 
-		case Tera_End:
+//     u8 bank = gActiveBattler = gBanksByTurnOrder[gCurrentTurnActionNumber];
+//     u8 side = GetBattlerSide(bank);
+
+//     // Only if THIS battler selected Tera and hasn't already Tera'd
+//     if (gNewBS->teraData.chosen[bank] && !IsTerastallized(bank))
+//     {
+//         // Check side already used Tera
+//         bool8 sideHasTerastallized = FALSE;
+//         for (u8 j = 0; j < PARTY_SIZE; j++)
+//         {
+//             if (gNewBS->teraData.done[side][j])
+//             {
+//                 sideHasTerastallized = TRUE;
+//                 break;
+//             }
+//         }
+
+//         if (!sideHasTerastallized)
+//         {
+//             const u8* script = DoTerastallize(bank);
+//             if (script != NULL)
+//             {
+//                 u8 partyId = gBattlerPartyIndexes[bank];
+
+//                 gNewBS->teraData.done[side][partyId] = TRUE;
+//                 gNewBS->teraData.chosen[bank] = 0;
+//                 gNewBS->teraData.teraInProgress = TRUE;
+
+//                 BattleScriptExecute(script);
+//                 gCurrentActionFuncId = savedActionFuncId;
+//                 return;
+//             }
+//         }
+//     }
+
+//     // No Tera to do -> end immediately
+//     gNewBS->teraData.state = Tera_End;
+//     gNewBS->teraData.teraInProgress = FALSE;
+//     return;
+// }
+
+case Tera_Check:
+    // Only do the "start-of-turn" tera pass before any actions execute
+    if (gCurrentTurnActionNumber != 0)
+    {
+        gNewBS->teraData.state = Tera_End;
+        gNewBS->teraData.teraInProgress = FALSE;
+        return;
+    }
+
+    for (i = *teraBank; i < gBattlersCount; ++i, ++*teraBank)
+    {
+        u8 bank = gActiveBattler = gBanksByTurnOrder[i];
+        u8 side = GetBattlerSide(bank);
+
+        if (!gNewBS->teraData.chosen[bank] || IsTerastallized(bank))
+            continue;
+
+        // one tera per side check (keep yours)
+        bool8 sideHasTerastallized = FALSE;
+        for (u8 j = 0; j < PARTY_SIZE; j++)
+        {
+            if (gNewBS->teraData.done[side][j])
+            {
+                sideHasTerastallized = TRUE;
+                break;
+            }
+        }
+        if (sideHasTerastallized)
+        {
+            gNewBS->teraData.chosen[bank] = 0; // clear invalid selection
+            continue;
+        }
+
+        const u8* script = DoTerastallize(bank);
+        if (script != NULL)
+        {
+            u8 partyId = gBattlerPartyIndexes[bank];
+            gNewBS->teraData.done[side][partyId] = TRUE;
+            gNewBS->teraData.chosen[bank] = 0;
+            gNewBS->teraData.teraInProgress = TRUE;
+
+            BattleScriptExecute(script);
+            gCurrentActionFuncId = savedActionFuncId;
+            return;
+        }
+    }
+
+    // finished scanning
+    if (gNewBS->teraData.teraInProgress)
+        gNewBS->teraData.state = Tera_CalcTurnOrder;
+    else
+        gNewBS->teraData.state = Tera_End;
+
+    *teraBank = 0;
+    return;
+
+
+	//CalcTurnOrder Tera
+		// // Adjust turn order after Terastallization
+		// case Tera_CalcTurnOrder:
+		// 	for (i = 0; i < gBattlersCount - 1; ++i)
+		// 	{
+		// 		for (j = i + 1; j < gBattlersCount; ++j)
+		// 		{
+		// 			u8 bank1 = gBanksByTurnOrder[i];
+		// 			u8 bank2 = gBanksByTurnOrder[j];
+		// 			if (GetWhoStrikesFirst(bank1, bank2, FALSE))
+		// 				SwapTurnOrder(i, j);
+		// 		}
+		// 	}
+		// 	*teraBank = 0;
+		// 	++gNewBS->teraData.state;
+
+		// 	return;
+
+
+	case Tera_CalcTurnOrder:
+    for (i = 0; i < gBattlersCount - 1; ++i)
+    {
+        for (j = i + 1; j < gBattlersCount; ++j)
+        {
+            u8 bank1 = gBanksByTurnOrder[i];
+            u8 bank2 = gBanksByTurnOrder[j];
+
+            if (gActionsByTurnOrder[i] != ACTION_USE_ITEM
+             && gActionsByTurnOrder[j] != ACTION_USE_ITEM
+             && gActionsByTurnOrder[i] != ACTION_SWITCH
+             && gActionsByTurnOrder[j] != ACTION_SWITCH
+             && gActionsByTurnOrder[i] != ACTION_FINISHED
+             && gActionsByTurnOrder[j] != ACTION_FINISHED)
+            {
+                if (GetWhoStrikesFirst(bank1, bank2, FALSE))
+                    SwapTurnOrder(i, j);
+            }
+        }
+    }
+    *teraBank = 0;
+    gNewBS->teraData.state = Tera_End;
+    return;
+
+	case Tera_End:
 			gNewBS->teraData.state = 0;
 			gNewBS->teraData.teraInProgress = FALSE;
 	}
@@ -1789,30 +1925,31 @@ void HandleAction_UseMove(void)
 	else
 		gBankTarget = selectedTarget;
 
-		// --- TERA: pre-move injection (does NOT consume the action) ---
-if (gNewBS->teraData.chosen[gBankAttacker] && !IsTerastallized(gBankAttacker))
-{
-    u8* scr = DoTerastallize(gBankAttacker);  // returns BattleScript_Terastallize or NULL
-    if (scr != NULL)
-    {
-        // one-shot the request for this battler
-        gNewBS->teraData.chosen[gBankAttacker] = FALSE;
+// 		// --- TERA: pre-move injection (does NOT consume the action) ---
+// if (gNewBS->teraData.chosen[gBankAttacker] && !IsTerastallized(gBankAttacker))
+// {
+//     u8* scr = DoTerastallize(gBankAttacker);  // returns BattleScript_Terastallize or NULL
+//     if (scr != NULL)
+//     {
+//         // one-shot the request for this battler
+//         gNewBS->teraData.chosen[gBankAttacker] = FALSE;
 
-        // target sanity (in case the opponent just switched)
-        if (!BATTLER_ALIVE(gBankTarget)
-         || (gAbsentBattlerFlags & gBitTable[gBankTarget]))
-        {
-            gBankTarget = GetMoveTarget(gCurrentMove, 0);
-        }
+//         // target sanity (in case the opponent just switched)
+//         if (!BATTLER_ALIVE(gBankTarget)
+//          || (gAbsentBattlerFlags & gBitTable[gBankTarget]))
+//         {
+//             gBankTarget = GetMoveTarget(gCurrentMove, 0);
+//         }
 
-        // run Tera anim, then continue into the move (push/pop like Mega)
-        BattleScriptPush(gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect]);
-        gBattlescriptCurrInstr = scr;                 // BattleScript_Terastallize
-        gCurrentActionFuncId = ACTION_RUN_BATTLESCRIPT;
-        return;                                       // after Tera, it pops to the move script
-    }
-}
-// --- end TERA injection ---
+//         // run Tera anim, then continue into the move (push/pop like Mega)
+//         // BattleScriptPush(gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect]);
+//         BattleScriptPushCursor();          // (or the equivalent in your CFRU)
+// 		gBattlescriptCurrInstr = scr;                 // BattleScript_Terastallize
+//         gCurrentActionFuncId = ACTION_RUN_BATTLESCRIPT;
+//         return;                                       // after Tera, it pops to the move script
+//     }
+// }
+// // --- end TERA injection ---
 
 
 	// choose battlescript

@@ -86,6 +86,7 @@ npc 3 25 1 EventScript_Hiker_Kenny
 ## Celadon City
 npc 10 1 1 SystemScript_GlobalMart
 npc 10 1 2 SystemScript_TMMart
+npc 10 2 0 SystemScript_MintMart
 npc 10 3 2 SystemScript_EvoMart
 npc 10 4 2 SystemScript_WeatherMart
 map 3 6 CeladonCity_MapScripts
