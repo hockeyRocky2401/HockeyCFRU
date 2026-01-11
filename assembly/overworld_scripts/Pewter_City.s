@@ -27,18 +27,13 @@ if SET _goto OldMan_Museum
 lockall
 faceplayer
 textcolor 0
-preparemsg gOldMan_Sitrus
-waitmsg
-waitbuttonpress
+msgbox gOldMan_Sitrus MSG_NORMAL
 @ additem ITEM_SITRUS_BERRY
 setvar 0x8000 ITEM_SITRUS_BERRY    @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
 textcolor 0
-preparemsg gThats_Sitrus
-waitmsg        
-waitbuttonpress
-closemessage
+msgbox gThats_Sitrus MSG_NORMAL
 setflag 0x302
 releaseall
 end
@@ -46,10 +41,7 @@ end
 OldMan_Museum:
 lockall
 faceplayer
-preparemsg gOldMan_Museum
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gOldMan_Museum MSG_NORMAL
 releaseall
 end
 
@@ -98,10 +90,7 @@ Father_Museum_Idle:
 lockall
 faceplayer
 textcolor 0
-preparemsg gText_Giorgio_Outro
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Giorgio_Outro MSG_NORMAL
 releaseall
 end
 
@@ -109,12 +98,10 @@ end
 @ Fossil Regenerator Pewter
 
 EventScript_Fossil_Regen:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Fossil_Regen
-waitmsg
-waitbuttonpress
+msgbox gText_Fossil_Regen MSG_NORMAL
 
 // Check for Dome Fossil in Bag
 checkitem ITEM_DOME_FOSSIL, 1
@@ -137,10 +124,7 @@ compare LASTRESULT, 1
 if equal _call AskSail
 
 textcolor 0
-preparemsg gText_Fossil_ComeBack
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Fossil_ComeBack MSG_NORMAL
 releaseall
 end
 
@@ -183,8 +167,8 @@ AskSail:
 Fossil_Dome:
 setvar 0x8000 MOVE_BRINE
 setvar 0x8001 MOVE_ANCIENTPOWER
-setvar 0x8002 MOVE_RAPIDSPIN
-setvar 0x8003 MOVE_LEECHSEED
+setvar 0x8002 MOVE_FLIPTURN
+setvar 0x8003 MOVE_SHOCKWAVE
 random NUM_NATURES
 copyvar 0x8004, LASTRESULT       @ random naturesetvar 0x8005 0
 random 1            @ rolls 0–1 Ability
@@ -268,11 +252,7 @@ copyvar 0x800B, LASTRESULT  @ SpDef IV
 givepokemon SPECIES_TYRUNT 30 ITEM_NONE 0 1 0
 
 removeitem ITEM_JAW_FOSSIL, 1
-preparemsg gText_Got_Tyrunt
-playsong 0x101 @ MUS_FANFA1
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Got_Tyrunt MSG_OBTAIN
 releaseall
 end
 
@@ -300,11 +280,7 @@ copyvar 0x800B, LASTRESULT  @ SpDef IV
 givepokemon SPECIES_AMAURA 30 ITEM_NONE 0 1 0
 
 removeitem ITEM_SAIL_FOSSIL, 1
-preparemsg gText_Got_Amaura
-playsong 0x101
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Got_Amaura MSG_OBTAIN
 releaseall
 end
 

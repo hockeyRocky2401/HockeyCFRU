@@ -12,18 +12,15 @@
 EventScript_DayCare_Lady:
 checkflag 0x31A
 if SET _goto Daycare_Lady_Idle
-lockall
 faceplayer
+lock
 textcolor 1
 preparemsg gText_Want_Egg
 waitmsg
 yesnobox 0, 0
 compare LASTRESULT, 1
 if equal _goto Give_Egg
-preparemsg gText_Egg_Again
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Egg_Again MSG_NORMAL
 releaseall
 end
 
@@ -31,19 +28,13 @@ Give_Egg:
 giveegg SPECIES_TOGEPI
 setflag 0x31A
 textcolor 0xFF
-preparemsg gText_Got_Egg
-playsong 0x101
-waitmsg
-waitbuttonpress
+msgbox gText_Got_Egg MSG_OBTAIN
 goto Daycare_Lady_Idle
 
 Daycare_Lady_Idle:
-lockall
 faceplayer
+lock
 textcolor 1
-preparemsg gText_Care_Egg
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Care_Egg MSG_NORMAL
 releaseall
 end

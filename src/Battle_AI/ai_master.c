@@ -329,8 +329,13 @@ static void TryRevertTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMo
 		TryRevertTempMegaEvolveBank(bank, &backupBattleMons[bank], &backupSpecies[bank], &backupAbilities[bank]);
 
 	//Clear when done
-	Memset(backupSpecies, 0, sizeof(backupSpecies));
-	Memset(backupAbilities, 0, sizeof(backupAbilities));
+	// Memset(backupSpecies, 0, sizeof(backupSpecies));
+	// Memset(backupAbilities, 0, sizeof(backupAbilities));
+
+	//AI gave me this 
+	Memset(backupSpecies, 0, sizeof(u16) * gBattlersCount);
+    Memset(backupAbilities, 0, sizeof(u8) * gBattlersCount);
+
 }
 
 static void TryRevertTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, u8* backupAbility)

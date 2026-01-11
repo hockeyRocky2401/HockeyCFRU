@@ -10,13 +10,10 @@
 @ Badge Checker Guy
 
 EventScript_Badge_Guy:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Badge_Guy
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Badge_Guy MSG_NORMAL
 releaseall
 end
 

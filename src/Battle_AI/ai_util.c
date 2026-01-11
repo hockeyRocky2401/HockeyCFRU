@@ -42,6 +42,74 @@ static bool8 IsEffectivePursuit(u16 move, bool8 defCantSwitch, bool8 playerHasSw
 static u16 PickMoveHumanLikelyToChoose(u16 move1, u16 move2, u8 playerBank, u8 aiBank);
 static bool8 MoveHasUsefulSecondaryEffectToKOWith(u16 move);
 
+//My Custom with AI
+// Only used for AI damage estimation (not battle logic).
+static u8 AI_EstimatedHitsForPopulationBomb(u8 bankAtk, u8 bankDef, u16 move)
+{
+    if (move != MOVE_POPULATIONBOMB)
+        return 1;
+
+    // Only “buff” AI evaluation for Maushold, since you said it’s the only user.
+    if (SPECIES(bankAtk) != SPECIES_MAUSHOLD)
+        return 1;
+
+    // If you implemented Skill Link as "always hits 10 times" (as your description says):
+    if (ABILITY(bankAtk) == ABILITY_SKILLLINK)
+        return 10;
+
+    // Loaded Dice: 4–10 hits, no per-hit accuracy checks after the first
+    // Expected value ≈ 7 hits
+    if (ITEM(bankAtk) == ITEM_LOADED_DICE)
+   {
+        return 7;
+   }
+
+// Wide Lens: improves accuracy, so Population Bomb is more likely to reach later hits
+// We bias expected hits upward, but not to full 10
+else if (ITEM(bankAtk) == ITEM_WIDE_LENS)
+{
+    return 8;
+}
+
+
+    // Otherwise, it's still up to 10, but stops when a hit misses.
+    // We approximate the *expected* number of hits based on move accuracy.
+    // Let p = hit chance per hit, N = 10:
+    // E[hits] = 1 + p + p^2 + ... + p^9 = (1 - p^10) / (1 - p)
+    // We’ll compute it in integer-friendly steps.
+
+    u16 acc = (MoveWillHit(move, bankAtk, bankDef)) ? 100 : CalcAIAccuracy(move, bankAtk, bankDef);
+    if (acc >= 100)
+        return 10;
+
+    // Clamp to avoid weirdness
+    if (acc < 1)
+        return 1;
+
+    // Integer approximation of expected hits
+    // Using fixed-point-ish accumulation: sum_{k=0..9} p^k
+    // where p = acc/100.
+    u32 sum = 0;
+    u32 term = 10000; // represents 1.0 in 1/10000 units
+    u32 p = (u32)acc * 100; // acc/100 in 1/10000 units
+
+    for (u8 k = 0; k < 10; k++)
+    {
+        sum += term;                 // add p^k
+        term = (term * p) / 10000;   // multiply by p
+        if (term == 0)
+            break;
+    }
+
+    // sum is in 1/10000 units. Convert to hits.
+    // e.g., sum=50000 => 5 hits expected.
+    u8 expected = (u8)((sum + 5000) / 10000); // rounded
+    if (expected < 1) expected = 1;
+    if (expected > 10) expected = 10;
+    return expected;
+}
+
+
 u16 AIRandom()
 {
 	if (gBattleTypeFlags & BATTLE_TYPE_MOCK_BATTLE)
@@ -1542,7 +1610,15 @@ static move_t CalcStrongestMoveIgnoringMove(const u8 bankAtk, const u8 bankDef, 
 					continue;
 			}
 	
-			predictedDamage = CalcFinalAIMoveDamage(move, bankAtk, bankDef, 1, &damageData);
+			// predictedDamage = CalcFinalAIMoveDamage(move, bankAtk, bankDef, 1, &damageData);
+
+			//My Custom for Population Bomb
+			u8 hits = 1;
+            if (move == MOVE_POPULATIONBOMB && SPECIES(bankAtk) == SPECIES_MAUSHOLD)
+            hits = AI_EstimatedHitsForPopulationBomb(bankAtk, bankDef, move);
+
+            predictedDamage = CalcFinalAIMoveDamage(move, bankAtk, bankDef, hits, &damageData);
+
 
 			if (predictedDamage > (u32) highestDamage)
 			{

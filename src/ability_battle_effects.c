@@ -2201,21 +2201,39 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				}
 				break;
 
+			// case ABILITY_CURSEDBODY:
+			// 	if (umodsi(Random(), 3) == 0
+			// 	&& MOVE_HAD_EFFECT
+			// 	&& TOOK_DAMAGE(bank)
+			// 	&& BATTLER_ALIVE(gBankAttacker)
+			// 	&& gBankAttacker != bank
+			// 	&& gBattleMoves[gCurrentMove].effect != EFFECT_FUTURE_SIGHT //Can never be disabled
+			// 	&& ABILITY(gBankAttacker) != ABILITY_AROMAVEIL
+			// 	&& !(IS_DOUBLE_BATTLE && ABILITY(PARTNER(gBankAttacker)) == ABILITY_AROMAVEIL))
+			// 	{
+			// 		BattleScriptPushCursor();
+			// 		gBattlescriptCurrInstr = BattleScript_CursedBodyActivates;
+			// 		effect++;
+			// 	}
+			// 	break;
+
 			case ABILITY_CURSEDBODY:
-				if (umodsi(Random(), 3) == 0
-				&& MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
-				&& BATTLER_ALIVE(gBankAttacker)
-				&& gBankAttacker != bank
-				&& gBattleMoves[gCurrentMove].effect != EFFECT_FUTURE_SIGHT //Can never be disabled
-				&& ABILITY(gBankAttacker) != ABILITY_AROMAVEIL
-				&& !(IS_DOUBLE_BATTLE && ABILITY(PARTNER(gBankAttacker)) == ABILITY_AROMAVEIL))
-				{
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_CursedBodyActivates;
-					effect++;
-				}
-				break;
+    if (umodsi(Random(), 3) == 0
+    && MOVE_HAD_EFFECT
+    && TOOK_DAMAGE(bank)
+    && BATTLER_ALIVE(gBankAttacker)
+    && gBankAttacker != bank
+    && CheckContact(move, gBankAttacker, bank)  // ✅ only if attacker made contact
+    && gBattleMoves[gCurrentMove].effect != EFFECT_FUTURE_SIGHT //Can never be disabled
+    && ABILITY(gBankAttacker) != ABILITY_AROMAVEIL
+    && !(IS_DOUBLE_BATTLE && ABILITY(PARTNER(gBankAttacker)) == ABILITY_AROMAVEIL))
+    {
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_CursedBodyActivates;
+        effect++;
+    }
+    break;
+
 
 			case ABILITY_MUMMY:
 				if (MOVE_HAD_EFFECT

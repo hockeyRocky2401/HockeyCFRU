@@ -25,15 +25,7 @@ setvar 0x8000 ITEM_TERA_ORB    @ which item
 @ setvar 0x8000 0x306            @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
-@ additem ITEM_TERA_ORB, 1
-@ textcolor BLACK
-@ preparemsg gGot_Tera_Orb
-@ playsong 0x101 @ Fanfare 1
-@ waitfanfare
-@ waitbuttonpress
 setflag 0xA08 @ FLAG_TERA_BATTLE
-@ putitemaway ITEM_TERA_ORB, 1
-@ waitbuttonpress
 textcolor 0
 preparemsg gThats_Tera
 waitmsg
@@ -61,31 +53,22 @@ Exit_Aide:
 EventScript_Aide_East:
 checkflag 0x30C
 if SET _goto Aide_East_Idle
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Aide_East
-waitmsg
-waitbuttonpress
+msgbox gText_Aide_East MSG_NORMAL
 setvar 0x8000 ITEM_HM02_FLY    @ Was U-Turn
 setvar 0x8001 1               
 call SystemScript_ObtainItem
 textcolor 0
-@ preparemsg gText_Thats_UTurn
-preparemsg gText_Thats_Fly
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Thats_Fly MSG_NORMAL
 setflag 0x30C
 releaseall
 end
 
 Aide_East_Idle:
-lockall
 faceplayer
-preparemsg gText_Thats_Fly
-waitmsg
-waitbuttonpress
-closemessage
+lock
+msgbox gText_Thats_Fly MSG_NORMAL
 releaseall
 end 

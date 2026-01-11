@@ -1133,8 +1133,34 @@ SystemScript_StopZooming:
 .global SystemScript_DebugMenu
 SystemScript_DebugMenu:
 	lockall
-	@ multichoiceoption gText_DebugMenu_SetFlag 0
-	multichoiceoption gText_PokeVial 0
+	@ remaining Pokevials = 4 - usesUsed(0x5155)
+	compare 0x5155, 0
+    if equal _goto PV_4
+    compare 0x5155, 1
+    if equal _goto PV_3
+    compare 0x5155, 2
+    if equal _goto PV_2
+    compare 0x5155, 3
+    if equal _goto PV_1
+    goto PV_0
+
+PV_4:
+    multichoiceoption gText_PokeVial_4 0
+    goto BuildRest
+PV_3:
+    multichoiceoption gText_PokeVial_3 0
+    goto BuildRest
+PV_2:
+    multichoiceoption gText_PokeVial_2 0
+    goto BuildRest
+PV_1:
+    multichoiceoption gText_PokeVial_1 0
+    goto BuildRest
+PV_0:
+    multichoiceoption gText_PokeVial_0 0
+
+BuildRest:
+	@ multichoiceoption gText_PokeVial 0
 	multichoiceoption gText_DebugMenu_GiveItem 1
 	multichoiceoption gText_OpenPCBox 2   @ new
 	@ multichoiceoption gText_DebugMenu_MaxCoinage 3
@@ -1423,7 +1449,6 @@ SystemScript_DebugMenu_PortablePC:
 	@ Poke Vial Option
 	SystemScript_DebugMenu_PokeVial:
 	lockall
-	faceplayer
     compare 0x5155, 4    @VAR_POKEVIAL_USES, MAX_POKEVIAL_USES
     if equal _goto NoCharge
 
@@ -1441,59 +1466,45 @@ SystemScript_DebugMenu_PortablePC:
     if equal _goto Use3
     compare 0x5155, 4
     if equal _goto Use4
-    /*compare 0x5155, 5
+    /* compare 0x5155, 5
     if equal _goto Use5
     compare 0x5155, 6
-    if equal _goto Use6*/
+    if equal _goto Use6 */
     releaseall
 	end
 
 	Use1:
     msgbox gText_PokeVial_Use1 MSG_NORMAL
-    waitmsg
-    waitbuttonpress
     releaseall
 	end
 
 	Use2:
     msgbox gText_PokeVial_Use2 MSG_NORMAL
-    waitmsg
-    waitbuttonpress
 	releaseall
 	end 
 	
 	Use3:
     msgbox gText_PokeVial_Use3 MSG_NORMAL
-    waitmsg
-    waitbuttonpress
 	releaseall
 	end
 
 	Use4:
     msgbox gText_PokeVial_Use4 MSG_NORMAL
-    waitmsg
-    waitbuttonpress
 	releaseall
 	end
 
 	Use5:
     msgbox gText_PokeVial_Use5 MSG_NORMAL
-    waitmsg
-    waitbuttonpress
 	releaseall
 	end
 
 	Use6:
     msgbox gText_PokeVial_Use6 MSG_NORMAL
-    waitmsg
-    waitbuttonpress
 	releaseall
 	end
 
 	NoCharge:
     msgbox gText_PokeVial_NoCharge MSG_NORMAL
-    waitmsg
-    waitbuttonpress
 	releaseall
 	end 
 

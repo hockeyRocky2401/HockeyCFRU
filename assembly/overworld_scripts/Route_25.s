@@ -12,8 +12,8 @@
 EventScript_Trainer_Haley:
 checkflag 0x308
 if SET _goto Trainer_Haley_Idle
-lockall
 faceplayer
+lock
 textcolor 1
 trainerbattle1 0, 125, 0, gText_Trainer_Haley, gText_Haley_Lost, Haley_PostBattle 
 releaseall
@@ -59,22 +59,16 @@ setvar 0x8000 ITEM_TM19    @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
 textcolor 1
-preparemsg gText_Thats_GigaDrain
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Thats_GigaDrain MSG_NORMAL
 setflag 0x308
 setvar 0x4091, 1
 releaseall
 end
 
 Trainer_Haley_Idle:
-lockall
 faceplayer
-preparemsg gText_Haley_Idle
-waitmsg
-waitbuttonpress
-closemessage
+lock
+msgbox gText_Haley_Idle MSG_NORMAL
 releaseall
 end 
 

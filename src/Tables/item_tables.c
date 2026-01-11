@@ -2015,7 +2015,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_POTION,
-		.price = 100,
+		.price = 200,
 		.holdEffect = 0,
         .holdEffectParam = 20,
 		.description = DESC_POTION,
@@ -2127,7 +2127,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _a, _x, _SPACE, _P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_MAX_POTION,
-		.price = 900,
+		.price = 1500,
 		.holdEffect = 0,
         .holdEffectParam = 255,
 		.description = DESC_MAX_POTION,
@@ -2143,7 +2143,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_H, _y, _p, _e, _r, _SPACE, _P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_HYPER_POTION,
-		.price = 600,
+		.price = 1200,
 		.holdEffect = 0,
         .holdEffectParam = 120,
 		// .description = sHyperPotionDesc,
@@ -2161,7 +2161,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _u, _p, _e, _r, _SPACE, _P, _o, _t, _i, _o, _n, _END},
 		.itemId = ITEM_SUPER_POTION,
-		.price = 300,
+		.price = 600,
 		.holdEffect = 0,
         .holdEffectParam = 60,
 		// .description = DESC_SUPER_POTION,
@@ -2194,7 +2194,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_R, _e, _v, _i, _v, _e, _END},
 		.itemId = ITEM_REVIVE,
-		.price = 1000,
+		.price = 1500,
 		.holdEffect = 0,
         .holdEffectParam = 0,
 		.description = DESC_REVIVE,
@@ -3138,7 +3138,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _u, _p, _e, _r, _SPACE, _R, _e, _p, _e, _l, _END},
 		.itemId = ITEM_SUPER_REPEL,
-		.price = 200,
+		.price = 400,
 		.holdEffect = 0,
         .holdEffectParam = 200,
 		.description = DESC_SUPER_REPEL,
@@ -3154,7 +3154,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _a, _x, _SPACE, _R, _e, _p, _e, _l, _END},
 		.itemId = ITEM_MAX_REPEL,
-		.price = 300,
+		.price = 600,
 		.holdEffect = 0,
         .holdEffectParam = 250,
 		.description = DESC_MAX_REPEL,
@@ -3186,7 +3186,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_R, _e, _p, _e, _l, _END},
 		.itemId = ITEM_REPEL,
-		.price = 100,
+		.price = 200,
 		.holdEffect = 0,
         .holdEffectParam = 100,
 		.description = DESC_REPEL,
@@ -4787,7 +4787,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _B, _a, _n, _d, _END},
 		.itemId = ITEM_CHOICE_BAND,
-		.price = 12000,
+		.price = 20000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
         .holdEffectParam = 0,
 		.description = DESC_CHOICE_BAND,
@@ -12659,7 +12659,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _i, _f, _e, _SPACE, _O, _r, _b, _END},
 		.itemId = ITEM_LIFE_ORB,
-		.price = 10000,
+		.price = 15000,
 		.holdEffect = ITEM_EFFECT_LIFE_ORB,
 		.holdEffectParam = 0,
 		.description = DESC_LIFE_ORB,
@@ -12931,7 +12931,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _S, _c, _a, _r, _f, _END},
 		.itemId = ITEM_CHOICE_SCARF,
-		.price = 12000,
+		.price = 20000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
 		.holdEffectParam = 2,
 		.description = DESC_CHOICE_SCARF,
@@ -12947,7 +12947,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _S, _p, _e, _c, _s, _END},
 		.itemId = ITEM_CHOICE_SPECS,
-		.price = 12000,
+		.price = 20000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
 		.holdEffectParam = 1,
 		.description = DESC_CHOICE_SPECS,

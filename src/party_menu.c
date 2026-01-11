@@ -838,26 +838,26 @@ extern const u8 EventScript_Defog[];
 
 extern const u8 gMenuText_NickName[];
 
-// Field Move IDs
-enum FieldMovesIDs
-{
-        FIELD_MOVE_FLASH,
-        FIELD_MOVE_CUT,
-        FIELD_MOVE_FLY,
-        FIELD_MOVE_STRENGTH,
-        FIELD_MOVE_SURF,
-        FIELD_MOVE_ROCK_SMASH,
-        FIELD_MOVE_WATERFALL,
-        FIELD_MOVE_TELEPORT,
-        FIELD_MOVE_DIG,
-        FIELD_MOVE_MILK_DRINK,
-        FIELD_MOVE_SOFT_BOILED,
-        FIELD_MOVE_SWEET_SCENT,
-        FIELD_MOVE_ROCK_CLIMB,
-        FIELD_MOVE_DEFOG,
-        FIELD_MOVE_DIVE,
-        FIELD_MOVE_COUNT
-};
+// // Field Move IDs
+// enum FieldMovesIDs
+// {
+//         FIELD_MOVE_FLASH,
+//         FIELD_MOVE_CUT,
+//         FIELD_MOVE_FLY,
+//         FIELD_MOVE_STRENGTH,
+//         FIELD_MOVE_SURF,
+//         FIELD_MOVE_ROCK_SMASH,
+//         FIELD_MOVE_WATERFALL,
+//         FIELD_MOVE_TELEPORT,
+//         FIELD_MOVE_DIG,
+//         FIELD_MOVE_MILK_DRINK,
+//         FIELD_MOVE_SOFT_BOILED,
+//         FIELD_MOVE_SWEET_SCENT,
+//         FIELD_MOVE_ROCK_CLIMB,
+//         FIELD_MOVE_DEFOG,
+//         FIELD_MOVE_DIVE,
+//         FIELD_MOVE_COUNT
+// };
 
 #define CursorCb_FieldMove (TaskFunc) 0x81245a5
 
@@ -1433,77 +1433,57 @@ void sp109_IsPlayerFacingNPCWithOverworldPic(void)
 
 // void sp10A_CanUseCutOnTree(void)
 // {
-//         u16 item = ITEM_NONE;
+//     Var8004 = PARTY_SIZE; // default = fail (no eligible mon)
 
-//         #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-//         item = ITEM_HM01_CUT;
-//         #endif
+//     // Optional: forbid while surfing (matches most bases)
+//     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+//         return;
 
-//         Var8004 = PARTY_SIZE;
-//         if (HasBadgeToUseFieldMove(FIELD_MOVE_CUT))
-//         {
-//                 #ifdef FLAG_BOUGHT_ADM
-//                 if (FlagGet(FLAG_BOUGHT_ADM))
-//                         Var8004 = 0; //Mon doesn't matter, just can't be over 6
-//                 else
-//                 #endif
-//                 #ifdef FLAG_SANDBOX_MODE
-//                 if (FlagGet(FLAG_SANDBOX_MODE))
-//                         Var8004 = 0; //Mon doesn't matter, just can't be over 6
-//                 else
-//                 #endif
-//                         // Var8004 = PartyHasMonWithFieldMovePotential(MOVE_CUT, item, SHOULDNT_BE_SURFING);
-//                         Var8004 = 0; //Allow anyone to use Cut in the field.
-//         }
+//     if (HasBadgeToUseCut())
+//         Var8004 = 0; // pretend the first mon can do Cut (badge-only unlock)
 // }
 
+//My custom using AI
+// void sp10A_CanUseCutOnTree(void)
+// {
+//     Var8004 = PARTY_SIZE; // default fail
+
+//     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+//         return;
+
+//     if (!HasBadgeToUseCut())
+//         return;
+
+//     // require HM in bag
+//     if (CheckBagHasItem(ITEM_HM01_CUT, 1) == 0)  // <-- confirm constant name
+//         return;
+
+//     // If you want: prefer a real mon if one exists (optional)
+//     // Var8004 = PartyHasMonWithFieldMovePotential(MOVE_CUT, ITEM_HM01_CUT, 0);
+//     // if (Var8004 < PARTY_SIZE) return;
+
+//     // Otherwise just pick a safe party index for scripts that expect one
+//     GetFirstNonEggIn8004(); // you already have this helper elsewhere
+// }
+
+//Test
 void sp10A_CanUseCutOnTree(void)
 {
-    Var8004 = PARTY_SIZE; // default = fail (no eligible mon)
-
-    // Optional: forbid while surfing (matches most bases)
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-        return;
-
-    if (HasBadgeToUseCut())
-        Var8004 = 0; // pretend the first mon can do Cut (badge-only unlock)
+    Var8004 = 0;
 }
 
-void sp10B_CanUseRockSmashOnRock(void)
-{
-        u16 item = ITEM_NONE;
 
-        #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-        item = ITEM_HM06_ROCK_SMASH;
-        #endif
 
-        Var8004 = PARTY_SIZE;
-        if (HasBadgeToUseFieldMove(FIELD_MOVE_ROCK_SMASH))
-        {
-                #ifdef FLAG_BOUGHT_ADM
-                if (FlagGet(FLAG_BOUGHT_ADM))
-                        Var8004 = 0; //Mon doesn't matter, just can't be over 6
-                else
-                #endif
-                #ifdef FLAG_SANDBOX_MODE
-                if (FlagGet(FLAG_SANDBOX_MODE))
-                        Var8004 = 0; //Mon doesn't matter, just can't be over 6
-                else
-                #endif
-                        Var8004 = PartyHasMonWithFieldMovePotential(MOVE_ROCKSMASH, item, SHOULDNT_BE_SURFING);
-        }
-}
-
-// void sp10C_CanUseStrengthOnBoulder(void)
+// void sp10B_CanUseRockSmashOnRock(void)
 // {
 //         u16 item = ITEM_NONE;
 
 //         #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-//         item = ITEM_HM04_STRENGTH;
+//         item = ITEM_HM06_ROCK_SMASH;
 //         #endif
 
 //         Var8004 = PARTY_SIZE;
-//         if (HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH))
+//         if (HasBadgeToUseFieldMove(FIELD_MOVE_ROCK_SMASH))
 //         {
 //                 #ifdef FLAG_BOUGHT_ADM
 //                 if (FlagGet(FLAG_BOUGHT_ADM))
@@ -1515,19 +1495,86 @@ void sp10B_CanUseRockSmashOnRock(void)
 //                         Var8004 = 0; //Mon doesn't matter, just can't be over 6
 //                 else
 //                 #endif
-//                         // Var8004 = PartyHasMonWithFieldMovePotential(MOVE_STRENGTH, item, SHOULDNT_BE_SURFING);
-//                         Var8004 = 0; //Anyone can use Strength in the field.
+//                         Var8004 = PartyHasMonWithFieldMovePotential(MOVE_ROCKSMASH, item, SHOULDNT_BE_SURFING);
 //         }
 // }
 
+//My custom using AI
+void sp10B_CanUseRockSmashOnRock(void)
+{
+    u16 item = ITEM_NONE;
+
+    #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+    item = ITEM_HM06_ROCK_SMASH;   // confirm constant
+    #endif
+
+    Var8004 = PARTY_SIZE;
+
+    if (!HasBadgeToUseFieldMove(FIELD_MOVE_ROCK_SMASH))
+        return;
+
+    #ifdef FLAG_BOUGHT_ADM
+    if (FlagGet(FLAG_BOUGHT_ADM))
+    {
+        Var8004 = 0;
+        return;
+    }
+    #endif
+
+    #ifdef FLAG_SANDBOX_MODE
+    if (FlagGet(FLAG_SANDBOX_MODE))
+    {
+        Var8004 = 0;
+        return;
+    }
+    #endif
+
+    // Prefer a real mon if you want (optional)
+    #ifndef ONLY_CHECK_ITEM_FOR_HM_USAGE
+        Var8004 = PartyHasMonWithFieldMovePotential(MOVE_ROCKSMASH, ITEM_NONE, SHOULDNT_BE_SURFING);
+        return;
+    #else
+        u8 partyId = PartyHasMonWithFieldMovePotential(MOVE_ROCKSMASH, item, SHOULDNT_BE_SURFING);
+        if (partyId < PARTY_SIZE)
+        {
+            Var8004 = partyId;
+            return;
+        }
+
+        // NEW: HM in bag allows it even with no eligible mon
+        if (CheckBagHasItem(item, 1) > 0)
+        {
+            GetFirstNonEggIn8004();
+            return;
+        }
+    #endif
+}
+
+// void sp10C_CanUseStrengthOnBoulder(void)
+// {
+//     Var8004 = PARTY_SIZE; // default fail
+//     if (HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH))
+//     {
+//         Var8004 = 0; // success
+//     }
+// }
+
+//My custom using AI
 void sp10C_CanUseStrengthOnBoulder(void)
 {
     Var8004 = PARTY_SIZE; // default fail
-    if (HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH))
-    {
-        Var8004 = 0; // success
-    }
+
+    if (!HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH))
+        return;
+
+    // Require HM in bag
+    if (CheckBagHasItem(ITEM_HM04_STRENGTH, 1) == 0) // confirm constant name
+        return;
+
+    // Pick a safe mon index for scripts that expect one
+    GetFirstNonEggIn8004();
 }
+
 
 
 //Move Item - Credits to Sagiri/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

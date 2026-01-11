@@ -37,8 +37,8 @@ goto EventScript_Axle
 EventScript_Axle:
 checktrainerflag 241 
 if SET _goto Axle_Idle
-lockall
 faceplayer
+lockall
 textcolor 0
 trainerbattle1 0, 241, 0, gText_Axle_Intro, gText_Axle_PostBattle, Axle_PostBattle
 end
@@ -46,20 +46,15 @@ end
 Axle_PostBattle:
 lockall
 textcolor 0
-preparemsg gText_Here_Gyaradosite
-waitmsg
-waitbuttonpress
+msgbox gText_Here_Gyaradosite MSG_NORMAL
 setvar 0x8000 ITEM_GYARADOSITE    @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
 goto Axle_Idle
 
 Axle_Idle:
-lockall
 faceplayer
-preparemsg gText_Thats_Gyaradosite
-waitmsg
-waitbuttonpress
-closemessage
+lock
+msgbox gText_Thats_Gyaradosite MSG_NORMAL
 releaseall
 end

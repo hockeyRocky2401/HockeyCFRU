@@ -362,7 +362,7 @@ And remember this...\pYou didn't get those Rare Candies\nfrom me!
 
 // Poke Vial Explain Guy
 #org @gText_PokeVial_Explain
-Press the R button, and press\n"Poké Vial" to restore all of\pyour Pokémon.\pIt's very handy out in the field\nbut you only have 6 charges\pbefore you need to take it\nto a Pokémon Center and\precharge it.
+Press the R button, and press\n"Poké Vial" to restore all of\pyour Pokémon.\pIt's very handy out in the field\nbut you only have 4 charges\pbefore you need to take it\nto a Pokémon Center and\precharge it.
 
 //Wide Lens Guy
 #org @gText_Here_Wide_Lens
@@ -641,7 +641,7 @@ There are items on the ground that\nmay be hidden from view.\pUse the Itemfinder
 
 //Black Augurite Trainer 
 #org @gText_Trainer_Kenny
-You there! Beat me in a\nbattle and i'll give you something.
+You there! Beat me in a\nbattle and I'll give you something.
 
 #org @gText_Kenny_Lost
 Well fought, young man.
@@ -650,7 +650,7 @@ Well fought, young man.
 You won fair and square.\pHave this.
 
 #org @gText_Thats_Augurite
-I found that augurite when i\nwas in the Sinnoh region.\pI'm not sure what it does\nbut it looks important.\pMaybe you can find a use\nfor it.
+I found that augurite when I\nwas in the Sinnoh region.\pI'm not sure what it does\nbut it looks important.\pMaybe you can find a use\nfor it.
 
 // CELADON CITY
 
@@ -685,7 +685,7 @@ Ariana: You're strong.\pWhy are you even in here\nanyway?!
 
 //Giovanni
 #org @gText_Giovanni
-Who are you?\pI'm very impressed that you've made\nit past my employees, you must\pbe quite the little prodigy.\pI am Giovanni.\pYou should join us. We could\nuse the extra firepower.\pI can make you very rich.\nYou'll be set for life!\pFwahahaha!\pNow, I must take my leave. I\nhave business to attend to.\pThink about it, young prodigy.
+Who are you?\pI'm very impressed that you've made\nit past my employees. You must\pbe quite the little prodigy.\pI am Giovanni.\pYou should join us. We could\nuse the extra firepower.\pI can make you very rich.\nYou'll be set for life!\pFwahahaha!\pNow, I must take my leave. I\nhave business to attend to.\pThink about it, young prodigy.
 
 // Oak After Gym
 #org @gText_MegaRing
@@ -714,7 +714,7 @@ Prof. Oak: Hellooo!\pWhat are you doing in Silph\nCo?\pYou should really leave, 
 Prof. Oak: Damn it!\pYou should've listened\nto me!
 
 #org @gText_Petrel_Disguise
-Petrel: Either my disguise didn't\nfool you or you're just a\pdisobedient infant.\pNow I'm going to make an\nexample of you.
+Petrel: Either my disguise didn't\nfool you or you're just a\pdisobedient infant.\pNow I'm going to make an\nexample of you!
 
 #org @gText_Petrel_Lost2
 Petrel: Noooo!

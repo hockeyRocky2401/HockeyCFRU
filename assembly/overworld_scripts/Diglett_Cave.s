@@ -12,8 +12,8 @@
 EventScript_Hiker_Wes:
 checkflag 0x30B
 if SET _goto Trainer_Wes_Idle
-lockall
 faceplayer
+lock
 textcolor 0
 trainerbattle1 0, 744, 0, gText_Trainer_Wes, gText_Wes_Lost, Wes_PostBattle 
 releaseall
@@ -37,11 +37,8 @@ releaseall
 end
 
 Trainer_Wes_Idle:
-lockall
 faceplayer
-preparemsg gText_Thats_Boots
-waitmsg
-waitbuttonpress
-closemessage
+lock
+msgbox gText_Thats_Boots MSG_NORMAL
 releaseall
 end 

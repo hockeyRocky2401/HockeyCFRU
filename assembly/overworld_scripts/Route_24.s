@@ -33,12 +33,10 @@ if equal _goto Report_Rocket
 end
 
 Nugget_Grunt3:
-lockall
 faceplayer 
+lock
 textcolor 0
-preparemsg gText_Congrats_Nugget
-waitmsg
-waitbuttonpress
+msgbox gText_Congrats_Nugget MSG_NORMAL
 setvar 0x8000 ITEM_NUGGET    @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
@@ -56,9 +54,7 @@ textcolor 0
 compare 0x4001, 1 
 if equal _call Grunt_Walk_Left
 applymovement 255, Look_Right
-preparemsg gText_Congrats_Nugget
-waitmsg
-waitbuttonpress
+msgbox gText_Congrats_Nugget MSG_NORMAL
 setvar 0x8000 ITEM_NUGGET    @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
@@ -71,25 +67,19 @@ trainerbattle1 0, 356, 0, gText_Please_Join, gText_Nugget_PostBattle Nugget_Post
 end
 
 Report_Rocket:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Report_Rocket
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Report_Rocket MSG_NORMAL
 setvar 0x406B, 2
 releaseall
 end
 
 Nugget_PostBattle:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Nugget_Beaten
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Nugget_Beaten MSG_NORMAL
 setvar 0x406B, 1
 releaseall
 end

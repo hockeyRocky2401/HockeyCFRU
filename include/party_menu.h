@@ -23,6 +23,27 @@ enum
 	PARTY_GIVE_ITEM,
 };
 
+//Custom with AI for cut, strength etc
+enum FieldMovesIDs
+{
+        FIELD_MOVE_FLASH,
+        FIELD_MOVE_CUT,
+        FIELD_MOVE_FLY,
+        FIELD_MOVE_STRENGTH,
+        FIELD_MOVE_SURF,
+        FIELD_MOVE_ROCK_SMASH,
+        FIELD_MOVE_WATERFALL,
+        FIELD_MOVE_TELEPORT,
+        FIELD_MOVE_DIG,
+        FIELD_MOVE_MILK_DRINK,
+        FIELD_MOVE_SOFT_BOILED,
+        FIELD_MOVE_SWEET_SCENT,
+        FIELD_MOVE_ROCK_CLIMB,
+        FIELD_MOVE_DEFOG,
+        FIELD_MOVE_DIVE,
+        FIELD_MOVE_COUNT
+};
+
 #define PARTY_LAYOUT_SINGLE          0
 #define PARTY_LAYOUT_DOUBLE          1
 #define PARTY_LAYOUT_MULTI           2
@@ -170,3 +191,6 @@ void __attribute__((long_call)) InitChooseHalfPartyForBattle(u8 a1);
 u8 __attribute__((long_call)) GetItemEffectType(u16 item);
 void __attribute__((long_call)) PartyMenuModifyHP(u8 taskId, u8 slot, s8 hpIncrement, s16 hpDifference, TaskFunc task);
 void __attribute__((long_call)) Task_ClosePartyMenu(u8 taskId);
+
+//Custom with AI for cut, strength etc
+bool8 HasBadgeToUseFieldMove(u8 fieldMove);

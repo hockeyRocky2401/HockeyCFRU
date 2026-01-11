@@ -299,12 +299,9 @@ EventScript_ChangeTeraTypeNPC_SetStellar:
 @ Woman in Pokemon Center 
 
 EventScript_Cant_TeraEvolve:
-lockall
 faceplayer
+lock
 textcolor 1
-preparemsg gText_Cant_TeraEvolve
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Cant_TeraEvolve MSG_NORMAL
 releaseall
 end

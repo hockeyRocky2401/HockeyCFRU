@@ -12,8 +12,8 @@
 EventScript_Dubious_Disc:
 checkflag 0x317
 if SET _goto Dubious_Idle
-lockall
 faceplayer
+lock
 textcolor 0
 preparemsg gText_Here_Dubious
 waitmsg
@@ -25,13 +25,10 @@ setflag 0x317
 goto Dubious_Idle
 
 Dubious_Idle:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Thats_Dubious
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Thats_Dubious MSG_NORMAL
 releaseall
 end
 
@@ -40,8 +37,8 @@ end
 @ Aerodactyl Regenerator
 
 EventScript_Aerodactyl_Regen:
-lockall 
 faceplayer
+lock
 textcolor 0
 preparemsg gText_Aerodactyl_Regen
 waitmsg
@@ -92,10 +89,6 @@ copyvar 0x800B, LASTRESULT  @ SpDef IV
 givepokemon SPECIES_AERODACTYL 50 ITEM_NONE 0 1 0
 
 removeitem ITEM_OLD_AMBER, 1
-preparemsg gText_Got_Aerodactyl
-playsong 0x101 @ MUS_FANFA1
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Got_Aerodactyl MSG_OBTAIN
 releaseall
 end

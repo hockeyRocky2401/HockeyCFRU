@@ -2395,42 +2395,122 @@ bool8 MetatileBehavior_IsRockClimbableWall(u8 behaviour)
 	return behaviour == MB_ROCK_CLIMB_WALL;
 }
 
+static bool8 HasHmItemForMove(u16 move)
+{
+    switch (move)
+    {
+    case MOVE_CUT:
+        return CheckBagHasItem(ITEM_HM01_CUT, 1) > 0;      // confirm item constant name
+    case MOVE_ROCKSMASH:
+        return CheckBagHasItem(ITEM_HM06_ROCK_SMASH, 1) > 0;
+    case MOVE_STRENGTH:
+        return CheckBagHasItem(ITEM_HM04_STRENGTH, 1) > 0;
+    default:
+        return FALSE;
+    }
+}
+
+
+// u8 PartyHasMonWithFieldMovePotential(u16 move, unusedArg u16 item, u8 surfingType)
+// {
+// 	bool8 isSurfing = TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING);
+
+// 	if (surfingType == 0
+// 	|| (surfingType == SHOULDNT_BE_SURFING && !isSurfing)
+// 	|| (surfingType == SHOULD_BE_SURFING && isSurfing))
+// 	{
+// 		#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+// 		bool8 hasHM = CheckBagHasItem(item, 1) > 0;
+// 		#endif
+
+// 		for (u32 i = 0; i < PARTY_SIZE; ++i)
+// 		{
+// 			struct Pokemon* mon = &gPlayerParty[i];
+
+// 			if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
+// 			&& !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+// 			{
+// 				#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+// 				if (hasHM //Must have HM to prevent softlocks
+// 				&& (MonKnowsMove(mon, move) || CanMonLearnTMTutor(mon, item, 0) == CAN_LEARN_MOVE))
+// 					return i;
+// 				#else
+// 				if (MonKnowsMove(mon, move))
+// 					return i;
+// 				#endif
+// 			}
+// 		}
+// 	}
+
+// 	#ifdef DEBUG_HMS
+// 		return 0;
+// 	#endif
+
+// 	return PARTY_SIZE;
+// }
+
+//Custom with AI for cut, strength etc
 u8 PartyHasMonWithFieldMovePotential(u16 move, unusedArg u16 item, u8 surfingType)
 {
-	bool8 isSurfing = TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING);
+    bool8 isSurfing = TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING);
 
-	if (surfingType == 0
-	|| (surfingType == SHOULDNT_BE_SURFING && !isSurfing)
-	|| (surfingType == SHOULD_BE_SURFING && isSurfing))
-	{
-		#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-		bool8 hasHM = CheckBagHasItem(item, 1) > 0;
-		#endif
+    if (surfingType == 0
+    || (surfingType == SHOULDNT_BE_SURFING && !isSurfing)
+    || (surfingType == SHOULD_BE_SURFING && isSurfing))
+    {
+        #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+        bool8 hasHM = CheckBagHasItem(item, 1) > 0;
 
-		for (u32 i = 0; i < PARTY_SIZE; ++i)
-		{
-			struct Pokemon* mon = &gPlayerParty[i];
+        // ✅ Badge+HM-in-bag override (no need to know/learn the move)
+        if (hasHM)
+        {
+            bool8 badgeOk = FALSE;
 
-			if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
-			&& !GetMonData(mon, MON_DATA_IS_EGG, NULL))
-			{
-				#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-				if (hasHM //Must have HM to prevent softlocks
-				&& (MonKnowsMove(mon, move) || CanMonLearnTMTutor(mon, item, 0) == CAN_LEARN_MOVE))
-					return i;
-				#else
-				if (MonKnowsMove(mon, move))
-					return i;
-				#endif
-			}
-		}
-	}
+            if (move == MOVE_CUT)
+                badgeOk = HasBadgeToUseCut();
+            else if (move == MOVE_ROCKSMASH)
+                badgeOk = HasBadgeToUseFieldMove(FIELD_MOVE_ROCK_SMASH);
+            else if (move == MOVE_STRENGTH)
+                badgeOk = HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH);
 
-	#ifdef DEBUG_HMS
-		return 0;
-	#endif
+            if (badgeOk)
+            {
+                // return the first non-egg party member
+                for (u32 i = 0; i < PARTY_SIZE; ++i)
+                {
+                    struct Pokemon* mon = &gPlayerParty[i];
+                    if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
+                    && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+                        return i;
+                }
+            }
+        }
+        #endif
 
-	return PARTY_SIZE;
+        for (u32 i = 0; i < PARTY_SIZE; ++i)
+        {
+            struct Pokemon* mon = &gPlayerParty[i];
+
+            if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
+            && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+            {
+                #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+                if (hasHM
+                && (MonKnowsMove(mon, move) || CanMonLearnTMTutor(mon, item, 0) == CAN_LEARN_MOVE))
+                    return i;
+                #else
+                if (MonKnowsMove(mon, move))
+                    return i;
+                #endif
+            }
+        }
+    }
+
+    #ifdef DEBUG_HMS
+    return 0;
+    #endif
+
+    return PARTY_SIZE;
 }
 
 bool8 IsPlayerSurfingNorthOrSouth(void)

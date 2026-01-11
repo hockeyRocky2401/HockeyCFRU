@@ -7,20 +7,23 @@ The PokéVial is out of charge! \nRecharge it at a Pokémon Center.
 #org @gText_ReceivedBonusItem
 You received [BUFFER1] [BUFFER2]!
 
+#org @gText_VialTest
+TEST
+
 #org @gText_PokeVial
-Poké Vial
+Poké Vial ([BUFFER1] left)
 
 #org @gText_PokeVial_Use1
-All Pokémon have been restored!\n5 charges left in the Poké Vial.
-
-#org @gText_PokeVial_Use2
-All Pokémon have been restored!\n4 charges left in the Poké Vial.
-
-#org @gText_PokeVial_Use3
 All Pokémon have been restored!\n3 charges left in the Poké Vial.
 
-#org @gText_PokeVial_Use4
+#org @gText_PokeVial_Use2
 All Pokémon have been restored!\n2 charges left in the Poké Vial.
+
+#org @gText_PokeVial_Use3
+All Pokémon have been restored!\n1 charge left in the Poké Vial.
+
+#org @gText_PokeVial_Use4
+All Pokémon have been restored!\nThe Poké Vial is now empty and\pmust be recharged.
 
 #org @gText_PokeVial_Use5
 All Pokémon have been restored!\n1 charge left in the Poké Vial!
@@ -30,3 +33,18 @@ All Pokémon have been restored!\nThe Poké Vial is now empty and\pmust be recha
 
 #org @gText_PokeVial_Used
 Poké Vial Used.
+
+#org @gText_PokeVial_4
+Poké Vial (4 left)
+
+#org @gText_PokeVial_3
+Poké Vial (3 left)
+
+#org @gText_PokeVial_2
+Poké Vial (2 left)
+
+#org @gText_PokeVial_1
+Poké Vial (1 left)
+
+#org @gText_PokeVial_0
+Poké Vial (0 left)

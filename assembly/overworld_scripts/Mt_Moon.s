@@ -11,8 +11,8 @@
 EventScript_Fossil_Excavator:
 checkflag 0x305
 if SET _goto Excavator_Idle
-lockall
 faceplayer
+lock
 textcolor 0
 preparemsg gText_Excavator
 waitmsg
@@ -32,10 +32,7 @@ setvar 0x8000 ITEM_JAW_FOSSIL    @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
 textcolor 0
-preparemsg gThats_JawSailFossil
-waitmsg        
-waitbuttonpress
-closemessage
+msgbox gThats_JawSailFossil MSG_NORMAL
 setflag 0x305
 releaseall
 end
@@ -45,31 +42,22 @@ setvar 0x8000 ITEM_SAIL_FOSSIL    @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
 textcolor 0
-preparemsg gThats_JawSailFossil
-waitmsg        
-waitbuttonpress
-closemessage
+msgbox gThats_JawSailFossil MSG_NORMAL
 setflag 0x305
 releaseall
 end
 
 Excavator_Neither:
 textcolor 0
-preparemsg gText_Excavator_Neither
-waitmsg        
-waitbuttonpress
-closemessage
+msgbox gText_Excavator_Neither MSG_NORMAL
 releaseall
 end
 
 Excavator_Idle:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gThats_JawSailFossil
-waitmsg        
-waitbuttonpress
-closemessage
+msgbox gThats_JawSailFossil MSG_NORMAL
 releaseall
 end
 
@@ -77,19 +65,13 @@ end
 
 @ Nurse Mt. Moon
 EventScript_Nurse_MtMoon:
-lockall
 faceplayer
+lock
 textcolor 1
-preparemsg gText_Nurse_MtMoon
-waitmsg        
-waitbuttonpress
-closemessage
+msgbox gText_Nurse_MtMoon MSG_NORMAL
 special 0x0
 playse 0x1 
 textcolor 1
-preparemsg gText_Nurse_Done
-waitmsg        
-waitbuttonpress
-closemessage
+msgbox gText_Nurse_Done MSG_NORMAL
 releaseall
-end 
+end

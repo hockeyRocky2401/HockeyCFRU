@@ -29,11 +29,8 @@
 #include "../include/new/util.h"
 #include "../include/task.h"
  #include "../include/sound.h"
- #include "../include/string_util.h"
  #include "../include/main.h"
- #include "../include/constants/songs.h"
  #include "../include/item.h"
- #include "../include/constants/items.h"
  #include "../include/event_data.h"
 
 /*
@@ -67,6 +64,9 @@ extern const u8* sBagContextMenuItemsPtr; //0x203AD24
 extern u8 sBagContextMenuNumItems; //0x203AD28
 extern u8 sItemDescriptionPocket; //0x203E053
 
+//Custom Strings 
+extern const u8 gText_VialTest[];
+
 //This file's functions:
 static void StringAppendFullMoveName(u8* dst, const u8* src);
 
@@ -91,7 +91,6 @@ static void FinishBagSortIntro(u8 taskId);
 
 //I added this function
 static void Task_ReturnToField(u8 taskId);
-
 
 //General Utility Functions
 u16 SanitizeItemId(u16 itemId)
@@ -1121,6 +1120,8 @@ void Task_ReturnToItemListAfterItemPurchase(u8 taskId)
 	}
 }
 
+#undef tItemCount
+#undef tItemId
 
 #define tItemCount data[1]
 #define tListTaskId data[7]
@@ -1138,6 +1139,11 @@ void Task_ReturnToSellListAfterTmPurchase(u8 taskId)
 		BuyMenuReturnToItemList(taskId);
 	}
 }
+
+#undef tItemCount
+#undef tListTaskId
+
+#define tItemId data[5]
 
 void ReloadMartListForTmPurchase(u8 taskId)
 {	
@@ -2313,10 +2319,8 @@ void ItemUseOutOfBattle_PokeVial(u8 taskId)
         DisplayItemMessageOnField(taskId, 0, gText_PokeVial_Used, Task_ReturnToField);
     }
 }
-#include "../include/event_data.h"
 
 void ResetPokeVialUses(void)
 {
     VarSet(VAR_POKEVIAL_USES, 0);  // Reset PokéVial usage counter
 }
-

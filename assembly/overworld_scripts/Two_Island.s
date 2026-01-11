@@ -10,13 +10,10 @@
 @ Move Reminder Guy.
 
 EventScript_Move_Reminder:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_No_Need
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_No_Need MSG_NORMAL
 releaseall
 end
 

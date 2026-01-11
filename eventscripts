@@ -25,7 +25,8 @@ npc 15 2 0 EventScript_Aide_East
 # <!-- npc 3 2 6 SystemScript_DebugMenu -->
 npc 3 2 2 EventScript_Pallet_AideGuy
 npc 6 3 2 SystemScript_GlobalMart
-npc 6 7 2 EventScript_Pewter_Aide
+npc 6 7 2 EventScript_ChangeTeraTypeNPC
+# npc 6 7 2 EventScript_Pewter_Aide
 npc 6 0 1 EventScript_OldMan_SitrusBerry
 npc 6 1 4 EventScript_Pikachu_Father
 npc 6 0 4 EventScript_Fossil_Regen
@@ -102,7 +103,7 @@ tile 1 45 1 EventScript_Giovanni1
 
 ## Saffron City
 npc 14 5 0 SystemScript_GlobalMart
-npc 14 4 4 EventScript_ChangeTeraTypeNPC
+# npc 14 4 4 EventScript_ChangeTeraTypeNPC
 npc 14 6 2 EventScript_Cant_TeraEvolve
 
 ## Silph Co.

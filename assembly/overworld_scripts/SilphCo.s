@@ -37,13 +37,10 @@ applymovement 2, Walk_Down2
 waitmovement 0
 
 EventScript_Petrel_Disguise:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Petrel_Oak
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Petrel_Oak MSG_NORMAL
 setflag 0x310 @Petrel Oak Intro flag
 releaseall
 end
@@ -59,10 +56,7 @@ waitmovement 0
 applymovement 255, Look_Down
 waitmovement 0
 textcolor 0
-preparemsg gText_Petrel_Stop
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Petrel_Stop MSG_NORMAL
 fadescreen 1              @ ToBlack
 hidesprite 3
 setflag 0x027
@@ -74,13 +68,10 @@ trainerbattle1 0, 373, 0, gText_Petrel_Disguise, gText_Petrel_Lost2, EventScript
 end
 
 EventScript_Petrel_PostBattle2:
-lock
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Petrel_PostBattle2
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Petrel_PostBattle2 MSG_NORMAL
 setvar 0x4072, 1
 releaseall
 end

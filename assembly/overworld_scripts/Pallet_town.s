@@ -367,6 +367,7 @@ EventScript_Pallet_AideGuy:
         additem ITEM_ABILITY_PATCH 10
         additem ITEM_EVIV_DISPLAYER 1
         additem ITEM_PROTEIN 10
+        additem ITEM_GOLD_TEETH 1
         msgbox gText_TestScript2 MSG_NORMAL
         release
         end

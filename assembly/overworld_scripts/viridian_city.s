@@ -206,8 +206,8 @@ end
 EventScript_Rare_Candy:
 checkflag 0x318
 if SET _goto Rare_Candy_Idle
-lockall
 faceplayer
+lock
 textcolor 0
 preparemsg gText_Want_RareCandy
 waitmsg
@@ -248,13 +248,10 @@ releaseall
 end
 
 Rare_Candy_Idle:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Got_Candy
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Got_Candy MSG_NORMAL
 releaseall
 end
 
@@ -263,13 +260,10 @@ end
 @ Poke Vial explainer Pokemon Center 
 
 EventScript_PokeVial_Explain:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_PokeVial_Explain
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_PokeVial_Explain MSG_NORMAL
 releaseall
 end
 

@@ -12,8 +12,8 @@
 EventScript_Trainer_Robin:
 checkflag 0x304
 if SET _goto Trainer_Robin_Idle
-lockall
 faceplayer
+lock
 textcolor 1
 trainerbattle1 0, 118, 0, gText_Trainer_Robin, gText_Robin_Lost, Robin_PostBattle 
 releaseall
@@ -61,12 +61,9 @@ releaseall
 end
 
 Trainer_Robin_Idle:
-lock
 faceplayer
-preparemsg gText_Robin_Idle
-waitmsg
-waitbuttonpress
-closemessage
+lock
+msgbox gText_Robin_Idle MSG_NORMAL
 releaseall
 end 
 

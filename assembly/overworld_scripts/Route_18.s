@@ -28,8 +28,8 @@ goto EventScript_Ramiro
 EventScript_Ramiro:
 checkflag 0x313
 if SET _goto Ramiro_Idle
-lockall
 faceplayer
+lock
 textcolor 0
 trainerbattle1 0, 308, 0, gText_Ramiro_Intro, gText_Ramiro_PostBattle Ramiro_PostBattle
 end 
@@ -38,20 +38,15 @@ Ramiro_PostBattle:
 textcolor 0
 setflag 0x313
 setvar 0x4074, 1
-preparemsg gText_Here_Pidgeotite
-waitmsg
-waitbuttonpress
+msgbox gText_Here_Pidgeotite MSG_NORMAL
 setvar 0x8000 ITEM_PIDGEOTITE    @ which item
 setvar 0x8001 1                @ how many
 call SystemScript_ObtainItem
 goto Ramiro_Idle
 
 Ramiro_Idle:
-lockall
 faceplayer
-preparemsg gText_Thats_Pidgeotite
-waitmsg
-waitbuttonpress
-closemessage
+lock
+msgbox gText_Thats_Pidgeotite MSG_NORMAL
 releaseall
 end

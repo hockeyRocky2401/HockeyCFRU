@@ -37,13 +37,10 @@ trainerbattle1 0, 359, 0, gText_MeetPetrel, gText_Petrel_PostBattle, EventScript
 end
 
 EventScript_Petrel_PostBattle:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Petrel_Idle
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Petrel_Idle MSG_NORMAL
 setvar 0x403F, 1
 releaseall
 end
@@ -67,19 +64,18 @@ Walk_Up2_Look_Left:
 EventScript_Archer:
 checktrainerflag 366
 if SET _goto Archer_Idle
-lockall 
+faceplayer
+lock
 textcolor 0
 trainerbattle1 0, 366, 0, gText_MeetArcher, gText_Archer_PostBattle, Archer_PostBattle
 end
 
 Archer_PostBattle:
 setvar 0x4001 0
-lockall
+faceplayer
+lock
 textcolor 0
-preparemsg gText_Archer_Idle
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Archer_Idle MSG_NORMAL
 checktrainerflag 366
 if SET _call UnlockDoor1
 checktrainerflag 367
@@ -91,13 +87,10 @@ releaseall
 end
 
 Archer_Idle:
-lockall
 faceplayer
+lock
 textcolor 0
-preparemsg gText_Archer_Idle
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Archer_Idle MSG_NORMAL
 releaseall
 end
 
@@ -110,19 +103,18 @@ return
 EventScript_Ariana:
 checktrainerflag 367
 if SET _goto Ariana_Idle
-lockall 
+faceplayer
+lock
 textcolor 1
 trainerbattle1 0, 367, 0, gText_MeetAriana, gText_Ariana_PostBattle, Ariana_PostBattle
 end
 
 Ariana_PostBattle:
 setvar 0x4001 0
-lockall
+faceplayer
+lock
 textcolor 1
-preparemsg gText_Ariana_Idle
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Ariana_Idle MSG_NORMAL
 checktrainerflag 366
 if SET _call UnlockDoor1
 checktrainerflag 367
@@ -134,13 +126,10 @@ releaseall
 end
 
 Ariana_Idle:
-lockall
 faceplayer
+lock
 textcolor 1
-preparemsg gText_Ariana_Idle
-waitmsg
-waitbuttonpress
-closemessage
+msgbox gText_Ariana_Idle MSG_NORMAL
 releaseall
 end
 
@@ -177,7 +166,7 @@ preparemsg gText_Giovanni
 waitmsg
 waitbuttonpress
 closemessage
-applymovement 0, Giovanni_Leave
+applymovement 1, Giovanni_Leave
 waitmovement 0
 hidesprite 0
 setflag 0x038 @ Giovanni Flag 
