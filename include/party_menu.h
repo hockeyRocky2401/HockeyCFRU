@@ -194,3 +194,5 @@ void __attribute__((long_call)) Task_ClosePartyMenu(u8 taskId);
 
 //Custom with AI for cut, strength etc
 bool8 HasBadgeToUseFieldMove(u8 fieldMove);
+bool8 HasBadgeToUseCut(void);
+

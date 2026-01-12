@@ -122,6 +122,8 @@
 #define sMovementActionFuncs_RevealTrainer ((void*)0x083a6d88)
 #define sMovementActionFuncs_RockSmashBreak ((void*)0x083a6d94)
 #define sMovementActionFuncs_CutTree ((void*)0x083a6da4)
+//Custom with AI for Cut
+// #define sMovementActionFuncs_CutTree ((void*)MovementAction_CutTree_Custom)
 #define sMovementActionFuncs_SetFixedPriority ((void*)0x083a6db4)
 #define sMovementActionFuncs_ClearFixedPriority ((void*)0x083a6dbc)
 #define sMovementActionFuncs_InitAffineAnim ((void*)0x083a6dc4)

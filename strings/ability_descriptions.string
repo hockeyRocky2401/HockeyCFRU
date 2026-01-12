@@ -697,3 +697,6 @@ Hydro moves can't miss.
 
 #org @gText_AbilityDescription_BrutalRepetition
 Ups Attack, but allows one move.
+
+#org @gText_AbilityDescription_MesmericGaze
+Doubles the accuracy of sleep moves.

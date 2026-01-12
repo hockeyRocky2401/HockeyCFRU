@@ -2454,61 +2454,77 @@ u8 PartyHasMonWithFieldMovePotential(u16 move, unusedArg u16 item, u8 surfingTyp
 {
     bool8 isSurfing = TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING);
 
-    if (surfingType == 0
-    || (surfingType == SHOULDNT_BE_SURFING && !isSurfing)
-    || (surfingType == SHOULD_BE_SURFING && isSurfing))
+    // Surfing-type gate (keep original behavior)
+    if (surfingType != 0
+     && !(surfingType == SHOULDNT_BE_SURFING && !isSurfing)
+     && !(surfingType == SHOULD_BE_SURFING && isSurfing))
+        return PARTY_SIZE;
+
+#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+    // If your build requires having the HM item, keep it.
+    bool8 hasHM = (CheckBagHasItem(item, 1) > 0);
+#endif
+
+    // ------------------------------------------------------------
+    // BADGE-ONLY OVERRIDES (field usage without knowing the move)
+    // ------------------------------------------------------------
+    if (move == MOVE_CUT)
     {
-        #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-        bool8 hasHM = CheckBagHasItem(item, 1) > 0;
-
-        // ✅ Badge+HM-in-bag override (no need to know/learn the move)
-        if (hasHM)
+        if (HasBadgeToUseFieldMove(FIELD_MOVE_CUT))
         {
-            bool8 badgeOk = FALSE;
-
-            if (move == MOVE_CUT)
-                badgeOk = HasBadgeToUseCut();
-            else if (move == MOVE_ROCKSMASH)
-                badgeOk = HasBadgeToUseFieldMove(FIELD_MOVE_ROCK_SMASH);
-            else if (move == MOVE_STRENGTH)
-                badgeOk = HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH);
-
-            if (badgeOk)
-            {
-                // return the first non-egg party member
-                for (u32 i = 0; i < PARTY_SIZE; ++i)
-                {
-                    struct Pokemon* mon = &gPlayerParty[i];
-                    if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
-                    && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
-                        return i;
-                }
-            }
+#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+            if (!hasHM) // prevent softlocks if HM item is required
+                return PARTY_SIZE;
+#endif
+            return 0; // pretend slot 0 is eligible
         }
-        #endif
-
-        for (u32 i = 0; i < PARTY_SIZE; ++i)
+    }
+    else if (move == MOVE_ROCKSMASH)
+    {
+        if (HasBadgeToUseFieldMove(FIELD_MOVE_ROCK_SMASH))
         {
-            struct Pokemon* mon = &gPlayerParty[i];
-
-            if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
-            && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
-            {
-                #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
-                if (hasHM
-                && (MonKnowsMove(mon, move) || CanMonLearnTMTutor(mon, item, 0) == CAN_LEARN_MOVE))
-                    return i;
-                #else
-                if (MonKnowsMove(mon, move))
-                    return i;
-                #endif
-            }
+#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+            if (!hasHM)
+                return PARTY_SIZE;
+#endif
+            return 0;
+        }
+    }
+    else if (move == MOVE_STRENGTH)
+    {
+        if (HasBadgeToUseFieldMove(FIELD_MOVE_STRENGTH))
+        {
+#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+            if (!hasHM)
+                return PARTY_SIZE;
+#endif
+            return 0;
         }
     }
 
-    #ifdef DEBUG_HMS
+    // ------------------------------------------------------------
+    // ORIGINAL LOGIC (find an actual mon)
+    // ------------------------------------------------------------
+    for (u32 i = 0; i < PARTY_SIZE; ++i)
+    {
+        struct Pokemon* mon = &gPlayerParty[i];
+
+        if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
+         && !GetMonData(mon, MON_DATA_IS_EGG, NULL))
+        {
+#ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+            if (hasHM && (MonKnowsMove(mon, move) || CanMonLearnTMTutor(mon, item, 0) == CAN_LEARN_MOVE))
+                return i;
+#else
+            if (MonKnowsMove(mon, move))
+                return i;
+#endif
+        }
+    }
+
+#ifdef DEBUG_HMS
     return 0;
-    #endif
+#endif
 
     return PARTY_SIZE;
 }

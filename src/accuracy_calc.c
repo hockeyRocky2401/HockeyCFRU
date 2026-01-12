@@ -505,9 +505,26 @@ static u32 AccuracyCalcPassDefAbilityItemEffect(u16 move, u8 bankAtk, u8 bankDef
 	calc = udivsi(calc, gAccuracyStageRatios[buff].divisor);
 
 	switch (atkAbility) {
+		// case ABILITY_COMPOUNDEYES:
+		// 	calc = udivsi((calc * 130), 100); // 1.3 Compound Eyes boost
+		// 	break;
+
+		//Custom Ability for Hypno and potentially Darkrai
 		case ABILITY_COMPOUNDEYES:
-			calc = udivsi((calc * 130), 100); // 1.3 Compound Eyes boost
-			break;
+    if (SpeciesHasMesmericGaze(gBattleMons[bankAtk].species)
+     && IsSleepInducingMove(move))
+    {
+        calc *= 2;
+        if (calc > 100)
+            calc = 100;
+    }
+    else
+    {
+        calc = udivsi((calc * 130), 100); // original Compound Eyes
+    }
+    break;
+
+
 
 		case ABILITY_HUSTLE:
 			if (moveSplit == SPLIT_PHYSICAL)

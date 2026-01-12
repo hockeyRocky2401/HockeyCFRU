@@ -291,7 +291,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_DRAGONITE 75 ITEM_HEAVY_DUTY_BOOTS 0 1 10
+        givepokemon SPECIES_DRAGONITE 100 ITEM_HEAVY_DUTY_BOOTS 0 1 10
 
         setvar 0x8000 MOVE_FLAMINGEXIT
         setvar 0x8001 MOVE_FLAMECHARGE
@@ -305,7 +305,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_RAPIDASH 75 ITEM_LIFE_ORB 0 1 10
+        givepokemon SPECIES_RAPIDASH 100 ITEM_LIFE_ORB 0 1 10
 
         setvar 0x8000 MOVE_DYNAMICPUNCH
         setvar 0x8001 MOVE_KNOCKOFF
@@ -319,7 +319,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_MACHAMP 75 ITEM_LEFTOVERS 0 1 10
+        givepokemon SPECIES_MACHAMP 100 ITEM_LEFTOVERS 0 1 10
 
         setvar 0x8000 MOVE_DRILLPECK
         setvar 0x8001 MOVE_DOUBLEEDGE
@@ -333,7 +333,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_DODRIO 75 ITEM_SITRUS_BERRY 0 1 10
+        givepokemon SPECIES_DODRIO 100 ITEM_SITRUS_BERRY 0 1 10
 
         setvar 0x8000 MOVE_FLIPTURN
         setvar 0x8001 MOVE_SHELLSMASH
@@ -348,7 +348,22 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_BLASTOISE 75 ITEM_WHITE_HERB 0 1 0
+        givepokemon SPECIES_BLASTOISE 100 ITEM_WHITE_HERB 0 1 0
+
+        setvar 0x8000 MOVE_HYPNOSIS
+        setvar 0x8001 MOVE_DREAMEATER
+        setvar 0x8002 MOVE_PSYCHIC
+        setvar 0x8003 MOVE_FUTURESIGHT
+        random NUM_NATURES
+        copyvar 0x8004, LASTRESULT       @ random naturesetvar 0x8005 0
+        setvar 0x8005, 0 @ ability
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_HYPNO 100 ITEM_NONE 0 1 0
 
         setflag 0xA08 @ Tera Battle Flag
         setflag 0x828 @ Give flag 

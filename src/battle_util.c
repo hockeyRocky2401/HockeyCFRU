@@ -2720,3 +2720,9 @@ u16 TryFixDynamaxTransformSpecies(u8 bank, u16 species)
 bool8 IsSunWeatherActive(u8 bank) {
     return gBattleWeather & WEATHER_SUN_ANY && WEATHER_HAS_EFFECT && AffectedBySun(bank);
 }
+
+//Custom Helper with AI to get Sleep effect moves.
+bool8 IsSleepInducingMove(u16 move)
+{
+    return gBattleMoves[move].effect == EFFECT_SLEEP;
+}

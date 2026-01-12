@@ -67,6 +67,7 @@ bool8 GuardDogPreventsLoweringStat(u8 ability, u8 statId, u8 bank);
 bool8 SpeciesHasHadronEngine(u16 species);
 bool8 SpeciesHasHighFlyer(u16 species);
 bool8 SpeciesHasHydroDisplacer(u16 species);
+bool8 SpeciesHasMesmericGaze(u16 species);
 bool8 SpeciesHasMindsEye(u16 species);
 bool8 MindsEyePreventsLoweringStat(u8 ability, u8 statId);
 bool8 SpeciesHasMyceliumMight(u16 species);

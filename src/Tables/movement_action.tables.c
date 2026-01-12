@@ -9,6 +9,8 @@
 #include "../../include/event_object_movement.h"
 #include "../../include/constants/event_object_movement_constants.h"
 #include "../../include/constants/event_objects.h"
+#include "../../include/constants/items.h"
+#include "../../include/constants/tmshms.h"
 #include "../../include/new/follow_me.h"
 #include "../../include/new/movement_action_table.h"
 
@@ -2120,6 +2122,26 @@ const u8 *GetInteractedEventObjectScript(struct MapPosition *position, u8 metati
     return script;
 }
 
+//Custom with AI for Cut
+
+// typedef bool8 (*MovementActionFunc)(struct EventObject* obj, struct Sprite* sprite);
+
+// static bool8 MovementAction_CutTree_Custom(struct EventObject* obj, struct Sprite* sprite)
+// {
+//     // Gate by badge (your existing function)
+//     if (!HasBadgeToUseCut())
+//         return TRUE; // do nothing, finish cleanly
+
+//     // Optional: also require the HM item in bag to avoid softlocks
+//     #ifdef ONLY_CHECK_ITEM_FOR_HM_USAGE
+//     if (CheckBagHasItem(ITEM_HM01_CUT, 1) == 0)
+//         return TRUE;
+//     #endif
+
+//      // Call the original routine at 0x083A6DA4
+//     return ((MovementActionFunc)sMovementActionFuncs_CutTree)(obj, sprite);
+// }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct MovementTable
@@ -2235,6 +2257,8 @@ const struct MovementTable sMovementActionFuncs[] =
     {sMovementActionFuncs_RevealTrainer},
     {sMovementActionFuncs_RockSmashBreak},
     {sMovementActionFuncs_CutTree},
+    //Custom with Ai for Cut
+    // { MovementAction_CutTree_Custom },
     {sMovementActionFuncs_SetFixedPriority},
     {sMovementActionFuncs_ClearFixedPriority},
     {sMovementActionFuncs_InitAffineAnim},

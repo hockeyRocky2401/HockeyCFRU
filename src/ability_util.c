@@ -90,6 +90,8 @@ extern const u8 gText_AbilityName_HighFlyer[];
 extern const u8 gText_AbilityDescription_HighFlyer[];
 extern const u8 gText_AbilityName_HydroDisplacer[];
 extern const u8 gText_AbilityDescription_HydroDisplacer[];
+extern const u8 gText_AbilityName_MesmericGaze[];
+extern const u8 gText_AbilityDescription_MesmericGaze[];
 extern const u8 gText_AbilityName_MindsEye[];
 extern const u8 gText_AbilityDescription_MindsEye[];
 extern const u8 gText_AbilityName_MyceliumMight[];
@@ -564,6 +566,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 			if (SpeciesHasFeralInstinct(species))
 			  return gText_AbilityName_FeralInstinct;
 			break;	
+		case ABILITY_COMPOUNDEYES:
+		    if (SpeciesHasMesmericGaze(species))
+			  return gText_AbilityName_MesmericGaze;
+			break;
 	}
 
 	return NULL;
@@ -737,6 +743,9 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if (SpeciesHasHydroDisplacer(species))
 				return gText_AbilityDescription_HydroDisplacer;
 			break;
+		case ABILITY_COMPOUNDEYES:
+			if(SpeciesHasMesmericGaze(species))
+				return gText_AbilityDescription_MesmericGaze;
 	}
 
 	return NULL;
@@ -1605,6 +1614,15 @@ bool8 SpeciesHasHydroDisplacer(unusedArg u16 species)
 
 	#if (defined SPECIES_BLASTOISE)
 	return species == SPECIES_BLASTOISE;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasMesmericGaze(unusedArg u16 species)
+{
+	#if (defined SPECIES_HYPNO)
+	return species == SPECIES_HYPNO;
 	#else
 	return FALSE;
 	#endif

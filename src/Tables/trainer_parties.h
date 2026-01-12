@@ -577,19 +577,16 @@ struct TrainerMonItemCustomMoves sParty_LassRobin[] = {
 
 struct TrainerMonItemCustomMoves sParty_LassCrissy[] = {
     {
-        .iv = 0,
-        .lvl = 37,
+        .iv = 225,
+        .lvl = 60,
         .species = SPECIES_PARAS,
+        .moves = {MOVE_XSCISSOR, MOVE_SEEDBOMB, MOVE_NONE, MOVE_NONE},
     },
     {
-        .iv = 0,
-        .lvl = 37,
-        .species = SPECIES_PARAS,
-    },
-    {
-        .iv = 0,
-        .lvl = 37,
+        .iv = 225,
+        .lvl = 61,
         .species = SPECIES_PARASECT,
+        .moves = {MOVE_XSCISSOR, MOVE_SEEDBOMB, MOVE_SLASH, MOVE_NONE},
     },
 };
 
@@ -3493,7 +3490,7 @@ struct TrainerMonItemCustomMoves sParty_JugglerNelson[] = {
         .moves = {MOVE_PETALDANCE, MOVE_SLUDGEBOMB, MOVE_STRENGTHSAP, MOVE_UTURN},
     },
     {
-        .iv = 12,
+        .iv = 13,
         .lvl = 76,
         .species = SPECIES_HYPNO,
         .moves = {MOVE_HYPNOSIS, MOVE_DREAMEATER, MOVE_PSYCHIC, MOVE_SHADOWBALL},
@@ -5123,7 +5120,7 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt17[] = {
         .moves = {MOVE_GIGADRAIN, MOVE_LEECHSEED, MOVE_SLUDGEBOMB, MOVE_NONE},
     },
     {
-        .iv = 21,
+        .iv = 20,
         .lvl = 42,
         .species = SPECIES_HYPNO,
         .moves = {MOVE_HYPNOSIS, MOVE_DREAMEATER, MOVE_PSYCHIC, MOVE_FIREPUNCH},
@@ -5386,7 +5383,7 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt31[] = {
         .moves = {MOVE_BOOMBURST, MOVE_SIGNALBEAM, MOVE_VOLTSWITCH, MOVE_NONE },
     },
     {
-        .iv = 26,
+        .iv = 25,
         .lvl = 52,
         .species = SPECIES_HYPNO,
         .moves = {MOVE_HYPNOSIS, MOVE_DREAMEATER, MOVE_PSYCHIC, MOVE_FIREPUNCH},
