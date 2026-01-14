@@ -4931,7 +4931,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_E, _v, _e, _r, _s, _t, _o, _n, _e, _END},
 		.itemId = ITEM_EVERSTONE,
-		.price = 3000,
+		.price = 6000,
 		.holdEffect = ITEM_EFFECT_PREVENT_EVOLVE,
         .holdEffectParam = 0,
 		.description = DESC_EVERSTONE,

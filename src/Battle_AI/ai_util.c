@@ -2743,8 +2743,8 @@ static u32 CalcSecondaryEffectDamage(u8 bank)
 			+ GetGMaxVineLashDamage(bank)
 			+ GetGMaxWildfireDamage(bank)
 			+ GetGMaxCannonadeDamage(bank)
-			+ GetGMaxVolcalithDamage(bank)
-			+ GetSaltCureDamage(bank);
+			+ GetGMaxVolcalithDamage(bank);
+			// + GetSaltCureDamage(bank);
 	}
 
 	return damage;

@@ -2295,7 +2295,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spDefEv = 69,
 		.spdEv = 69,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Hidden,
+		.ability = Ability_1,
 		.teraType = DONT_TERA,
 	},
 	[165] =
@@ -2309,7 +2309,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spDefEv = 69,
 		.spdEv = 69,
 		.ball = TRAINER_EV_CLASS_BALL,
-		.ability = Ability_Hidden,
+		.ability = Ability_1,
 		.teraType = DONT_TERA,
 	},
 	[166] =

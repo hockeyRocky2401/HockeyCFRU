@@ -33,11 +33,13 @@ const u16 sTMMart[] = {
     ITEM_TM11, //Sunny Day New
     ITEM_TM14, //Blizzard New
     ITEM_TM15, //Hyper Beam
+    ITEM_TM16, //Light Screen new
     ITEM_TM18, //Rain Dance New
     ITEM_TM22, //Solar Beam New
     ITEM_TM25, //Thunder New
     // ITEM_TM28, //Dig
     // ITEM_TM31, //Brick Break
+    ITEM_TM33, //Reflect new
     ITEM_TM37, //Sandstorm New
     ITEM_TM38, //Fire Blast New
     // ITEM_TM43, //Secret Power not used anymore.

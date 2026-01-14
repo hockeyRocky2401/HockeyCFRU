@@ -28,7 +28,7 @@ Give_Egg:
 giveegg SPECIES_TOGEPI
 setflag 0x31A
 textcolor 0xFF
-msgbox gText_Got_Egg MSG_OBTAIN
+msgbox gText_Got_Egg MSG_NORMAL
 goto Daycare_Lady_Idle
 
 Daycare_Lady_Idle:

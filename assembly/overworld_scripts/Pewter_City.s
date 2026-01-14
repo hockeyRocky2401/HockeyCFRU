@@ -252,7 +252,7 @@ copyvar 0x800B, LASTRESULT  @ SpDef IV
 givepokemon SPECIES_TYRUNT 30 ITEM_NONE 0 1 0
 
 removeitem ITEM_JAW_FOSSIL, 1
-msgbox gText_Got_Tyrunt MSG_OBTAIN
+msgbox gText_Got_Tyrunt MSG_NORMAL
 releaseall
 end
 
@@ -280,7 +280,7 @@ copyvar 0x800B, LASTRESULT  @ SpDef IV
 givepokemon SPECIES_AMAURA 30 ITEM_NONE 0 1 0
 
 removeitem ITEM_SAIL_FOSSIL, 1
-msgbox gText_Got_Amaura MSG_OBTAIN
+msgbox gText_Got_Amaura MSG_NORMAL
 releaseall
 end
 

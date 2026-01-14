@@ -86,9 +86,9 @@ random 32
 copyvar 0x800A, LASTRESULT  @ SpAtk IV
 random 32
 copyvar 0x800B, LASTRESULT  @ SpDef IV
-givepokemon SPECIES_AERODACTYL 50 ITEM_NONE 0 1 0
+givepokemon SPECIES_AERODACTYL 60 ITEM_NONE 0 1 0
 
 removeitem ITEM_OLD_AMBER, 1
-msgbox gText_Got_Aerodactyl MSG_OBTAIN
+msgbox gText_Got_Aerodactyl MSG_NORMAL
 releaseall
 end

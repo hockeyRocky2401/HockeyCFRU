@@ -4074,7 +4074,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_WHIRLPOOL] =
 	{
 		.effect = EFFECT_TRAP,
-		.power = 50,
+		.power = 55,
 		.type = TYPE_WATER,
 		.accuracy = 95,
 		.pp = 15,
@@ -5566,10 +5566,10 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_POISONTAIL] =
 	{
 		.effect = EFFECT_POISON_HIT,
-		.power = 85,
+		.power = 95,
 		.type = TYPE_POISON,
-		.accuracy = 100,
-		.pp = 25,
+		.accuracy = 95,
+		.pp = 15,
 		.secondaryEffectChance = 30,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -15629,7 +15629,7 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_SALTCURE] =
     {	
-		.effect = EFFECT_SALTCURE,
+		.effect = EFFECT_TRAP,
 		.power = 40,
 		.type = TYPE_ROCK,
 		.accuracy = 100,

@@ -216,8 +216,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 				return gText_AbilityName_Turboblaze;
 			else if (SpeciesHasTeravolt(species))
 				return gText_AbilityName_Teravolt;
-			else if(SpeciesHasMyceliumMight(species))
-				return gText_AbilityName_MyceliumMight;
+			// else if(SpeciesHasMyceliumMight(species))
+			// 	return gText_AbilityName_MyceliumMight;
 			break;
 		case ABILITY_STORMDRAIN:
 			if (SpeciesHasEvaporate(species))
@@ -558,6 +558,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 			if (SpeciesHasZerotoHero(species))
 				return gText_AbilityName_ZerotoHero;
 			break;
+		case ABILITY_MINUS:
+			if(SpeciesHasMyceliumMight(species))
+				return gText_AbilityName_MyceliumMight;
+			break;
 		case ABILITY_NOGUARD:
             if (SpeciesHasHydroDisplacer(species))
                return gText_AbilityName_HydroDisplacer;
@@ -654,10 +658,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if(SpeciesHasMindsEye(species))
 				return gText_AbilityDescription_MindsEye;
 			break;
-		case ABILITY_MOLDBREAKER:
-			if(SpeciesHasMyceliumMight(species))
-				return gText_AbilityDescription_MyceliumMight;
-			break;
+		// case ABILITY_MOLDBREAKER:
+		// 	if(SpeciesHasMyceliumMight(species))
+		// 		return gText_AbilityDescription_MyceliumMight;
+		// 	break;
 		case ABILITY_DANCER:
 			if(SpeciesHasOportunist(species))
 				return gText_AbilityDescription_Opportunist;
@@ -738,6 +742,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_TORRENT:
 			if (SpeciesHasZerotoHero(species))
 				return gText_AbilityDescription_ZerotoHero;
+			break;
+		case ABILITY_MINUS:
+			if(SpeciesHasMyceliumMight(species))
+				return gText_AbilityDescription_MyceliumMight;
 			break;
 		case ABILITY_NOGUARD:
 			if (SpeciesHasHydroDisplacer(species))
@@ -957,8 +965,9 @@ bool8 IsElectricAbsorptionAblity(u8 ability)
 
 bool8 IsPlusMinusAbility(u8 ability)
 {
-	if (SpeciesHasPoisonPuppeteer(SPECIES(gActiveBattler)))
-		return FALSE;
+if (SpeciesHasPoisonPuppeteer(LEECH_SPECIES(gActiveBattler)) 
+|| SpeciesHasMyceliumMight(LEECH_SPECIES(gActiveBattler)))		
+return FALSE;
 
 	switch (ability)
 	{
@@ -1462,7 +1471,7 @@ bool8 SpeciesHasSeedSower(unusedArg u16 species)
 bool8 SpeciesHasSharpness(unusedArg u16 species)
 {
 	#if (defined SPECIES_GALLADE && SPECIES_SAMUROTT_H && SPECIES_KLEAVOR && SPECIES_VELUZA)
-	return species == SPECIES_ARBOLIVA || species == SPECIES_SAMUROTT_H || species == SPECIES_KLEAVOR || species == SPECIES_VELUZA || species == SPECIES_GALLADE;
+	return species == SPECIES_GALLADE || species == SPECIES_SAMUROTT_H || species == SPECIES_KLEAVOR || species == SPECIES_VELUZA || species == SPECIES_GALLADE;
 	#else
 	return FALSE;
 	#endif

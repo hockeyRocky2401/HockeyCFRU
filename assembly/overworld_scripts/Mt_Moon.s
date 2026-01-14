@@ -66,7 +66,7 @@ end
 @ Nurse Mt. Moon
 EventScript_Nurse_MtMoon:
 faceplayer
-lock
+lockall
 textcolor 1
 msgbox gText_Nurse_MtMoon MSG_NORMAL
 special 0x0

@@ -2636,10 +2636,10 @@ bool8 BankSideHasGMaxVolcalith(u8 bank)
 	return gNewBS->maxVolcalithTimers[SIDE(bank)] > 0;
 }
 
-bool8 BankSideHasSaltcure(u8 bank)
-{
-	return gNewBS->SaltcureTimers[SIDE(bank)] > 0;
-}
+// bool8 BankSideHasSaltcure(u8 bank)
+// {
+// 	return gNewBS->SaltcureTimers[SIDE(bank)] > 0;
+// }
 
 bool8 IsConfused(u8 bank)
 {
@@ -2719,6 +2719,26 @@ u16 TryFixDynamaxTransformSpecies(u8 bank, u16 species)
 
 bool8 IsSunWeatherActive(u8 bank) {
     return gBattleWeather & WEATHER_SUN_ANY && WEATHER_HAS_EFFECT && AffectedBySun(bank);
+}
+
+bool32 IsMyceliumMightOnField(void)
+{
+    u32 i;
+
+    for (i = 0; i < gBattlersCount; i++)
+    {
+        if (IsBattlerAlive(i) && SpeciesHasMyceliumMight(gBattleMons[i].species) && SPLIT(gCurrentMove) == SPLIT_STATUS)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+void BS_ApplySaltCure(void)
+{
+    u8 battler = GetBattlerForBattleScript(gBattlerAttacker);
+    gStatuses4[battler] |= STATUS4_SALTCURE;
+    gBattlescriptCurrInstr++;
 }
 
 //Custom Helper with AI to get Sleep effect moves.

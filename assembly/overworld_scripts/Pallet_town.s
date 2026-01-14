@@ -293,10 +293,10 @@ EventScript_Pallet_AideGuy:
         setvar 0x800B 28
         givepokemon SPECIES_DRAGONITE 100 ITEM_HEAVY_DUTY_BOOTS 0 1 10
 
-        setvar 0x8000 MOVE_FLAMINGEXIT
-        setvar 0x8001 MOVE_FLAMECHARGE
-        setvar 0x8002 MOVE_FLAREBLITZ
-        setvar 0x8003 MOVE_VOLTSWITCH
+        setvar 0x8000 MOVE_CROSSCHOP
+        setvar 0x8001 MOVE_BULKUP
+        setvar 0x8002 MOVE_RAGEFIST
+        setvar 0x8003 MOVE_SILVERWIND
         setvar 0x8004 NATURE_MODEST
         setvar 0x8005 0 
         setvar 0x8006 28
@@ -305,12 +305,12 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_RAPIDASH 100 ITEM_LIFE_ORB 0 1 10
+        givepokemon SPECIES_PRIMEAPE 50 ITEM_LIFE_ORB 0 1 10
 
-        setvar 0x8000 MOVE_DYNAMICPUNCH
-        setvar 0x8001 MOVE_KNOCKOFF
-        setvar 0x8002 MOVE_ROCKSLIDE
-        setvar 0x8003 MOVE_BOUNCE
+        setvar 0x8000 MOVE_STONEAXE
+        setvar 0x8001 MOVE_XSCISSOR
+        setvar 0x8002 MOVE_SWORDSDANCE
+        setvar 0x8003 MOVE_CROSSPOISON
         setvar 0x8004 NATURE_ADAMANT
         setvar 0x8005 0 @ Shiny
         setvar 0x8006 28
@@ -319,12 +319,12 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_MACHAMP 100 ITEM_LEFTOVERS 0 1 10
+        givepokemon SPECIES_KLEAVOR 100 ITEM_NONE 0 1 10
 
-        setvar 0x8000 MOVE_DRILLPECK
-        setvar 0x8001 MOVE_DOUBLEEDGE
-        setvar 0x8002 MOVE_QUICKATTACK
-        setvar 0x8003 MOVE_VOLTSWITCH
+        setvar 0x8000 MOVE_CEASELESSEDGE
+        setvar 0x8001 MOVE_FLAMETHROWER
+        setvar 0x8002 MOVE_SUCKERPUNCH
+        setvar 0x8003 MOVE_TRIPLEAXEL
         setvar 0x8004 NATURE_SERIOUS
         setvar 0x8005 0
         setvar 0x8006 28
@@ -333,11 +333,11 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_DODRIO 100 ITEM_SITRUS_BERRY 0 1 10
+        givepokemon SPECIES_CHARIZARD 50 ITEM_CHARIZARDITE_Y 0 1 10
 
-        setvar 0x8000 MOVE_FLIPTURN
-        setvar 0x8001 MOVE_SHELLSMASH
-        setvar 0x8002 MOVE_HYDROPUMP
+        setvar 0x8000 MOVE_SALTCURE
+        setvar 0x8001 MOVE_STONEEDGE
+        setvar 0x8002 MOVE_RECOVER
         setvar 0x8003 MOVE_VOLTSWITCH
         random NUM_NATURES
         copyvar 0x8004, LASTRESULT       @ random naturesetvar 0x8005 0
@@ -348,7 +348,7 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_BLASTOISE 100 ITEM_WHITE_HERB 0 1 0
+        givepokemon SPECIES_GARGANACL 50 ITEM_NONE 0 1 0
 
         setvar 0x8000 MOVE_HYPNOSIS
         setvar 0x8001 MOVE_DREAMEATER

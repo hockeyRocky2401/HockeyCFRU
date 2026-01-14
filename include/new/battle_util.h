@@ -190,7 +190,7 @@ bool8 BankSideHasGMaxVineLash(u8 bank);
 bool8 BankSideHasGMaxWildfire(u8 bank);
 bool8 BankSideHasGMaxCannonade(u8 bank);
 bool8 BankSideHasGMaxVolcalith(u8 bank);
-bool8 BankSideHasSaltcure(u8 bank);
+// bool8 BankSideHasSaltcure(u8 bank);
 bool8 IsConfused(u8 bank);
 bool8 IsTaunted(u8 bank);
 bool8 IsTormented(u8 bank);
@@ -234,3 +234,5 @@ enum ItemBattleEffectCases
 #define MOVE_LIMITATION_IMPRISION   (1 << 5)
 #define MOVE_LIMITATION_CHOICE		(1 << 6)
 #define MOVE_LIMITATION_ENCORE		(1 << 7)
+
+u8 __attribute__((long_call)) GetBattlerForBattleScript(u8 caseId);
