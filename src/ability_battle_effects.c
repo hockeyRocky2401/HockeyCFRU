@@ -2309,30 +2309,32 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				break;
 
 			case ABILITY_ANGERPOINT:
-				if (SpeciesHasWindRider(SPECIES(bank))
-				&& gSpecialMoveFlags[move].gWindMoves
-				&& BATTLER_ALIVE(bank)
-				&& STAT_STAGE(bank, STAT_ATK) < 12)
-				{
-					gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
-					effect++;
-				}
-				else if (!SpeciesHasWindRider(SPECIES(bank))  // 🛡️ block Wind Rider mons
-				&& MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
-				&& gCritMultiplier > BASE_CRIT_MULTIPLIER
-				&& BATTLER_ALIVE(bank)
-				&& gBattleMons[bank].statStages[STAT_ATK - 1] < 12)
-				{
-					gBattleMons[bank].statStages[STAT_ATK - 1] = 12;
-					PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_ATK);
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_AngerPointActivates;
-					effect++;
-				}
-				break;
+    if (SpeciesHasWindRider(SPECIES(bank))
+    && gSpecialMoveFlags[move].gWindMoves
+	&& move != MOVE_TAILWIND
+    && MOVE_HAD_EFFECT                   // ✅ added
+    && BATTLER_ALIVE(bank)
+    && STAT_STAGE(bank, STAT_ATK) < 12)
+    {
+        gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
+        effect++;
+    }
+    else if (!SpeciesHasWindRider(SPECIES(bank))  // 🛡️ block Wind Rider mons
+    && MOVE_HAD_EFFECT
+    && TOOK_DAMAGE(bank)
+    && gCritMultiplier > BASE_CRIT_MULTIPLIER
+    && BATTLER_ALIVE(bank)
+    && gBattleMons[bank].statStages[STAT_ATK - 1] < 12)
+    {
+        gBattleMons[bank].statStages[STAT_ATK - 1] = 12;
+        PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_ATK);
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_AngerPointActivates;
+        effect++;
+    }
+    break;
 
 			case ABILITY_AFTERMATH:
 				if (MOVE_HAD_EFFECT

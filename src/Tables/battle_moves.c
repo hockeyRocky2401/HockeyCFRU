@@ -1190,7 +1190,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_MEGADRAIN] =
 	{
 		.effect = EFFECT_ABSORB,
-		.power = 60,
+		.power = 55,
 		.type = TYPE_GRASS,
 		.accuracy = 100,
 		.pp = 15,
@@ -2740,7 +2740,7 @@ const struct BattleMove gBattleMoves[] =
 		.effect = EFFECT_TRIPLE_KICK,
 		.power = 25,
 		.type = TYPE_FIGHTING,
-		.accuracy = 90,
+		.accuracy = 95,
 		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
@@ -5583,7 +5583,7 @@ const struct BattleMove gBattleMoves[] =
 	{
 		.effect = EFFECT_THIEF,
 		.power = 60,
-		.type = TYPE_NORMAL,
+		.type = TYPE_FAIRY,
 		.accuracy = 100,
 		.pp = 25,
 		.secondaryEffectChance = 100,
@@ -6429,7 +6429,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 0,
 		.type = TYPE_FLYING,
 		.accuracy = 0,
-		.pp = 10,
+		.pp = 5,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_USER,
 		.priority = 0,
@@ -8153,7 +8153,7 @@ const struct BattleMove gBattleMoves[] =
 		#ifndef FROSTBITE
 		.secondaryEffectChance = 10,
 		#else
-		.secondaryEffectChance = 30,
+		.secondaryEffectChance = 10,
 		#endif
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -16149,12 +16149,29 @@ const struct BattleMove gBattleMoves[] =
 		.type = TYPE_FIRE,
 		.accuracy = 100,
 		.pp = 15,
-		.secondaryEffectChance = 0,
+		.secondaryEffectChance = 10,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
 		.z_move_power = 120,
 		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
+	},
+
+	//New for Umbreon
+	[MOVE_NIGHTBRAND] =
+	{
+		.effect = EFFECT_TRAP,
+		.power = 60,
+		.type = TYPE_DARK,
+		.accuracy = 100,
+		.pp = 15,
+		.secondaryEffectChance = 100,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.split = SPLIT_PHYSICAL,
+		.z_move_power = 120,
 		.z_move_effect = 0
 	}
 // #endif

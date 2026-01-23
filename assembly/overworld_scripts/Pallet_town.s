@@ -279,52 +279,10 @@ EventScript_Pallet_AideGuy:
     lock
     faceplayer
 
-        setvar 0x8000 MOVE_EXTREMESPEED
-        setvar 0x8001 MOVE_CUT
-        setvar 0x8002 MOVE_FLY
-        setvar 0x8003 MOVE_DARKVOID
-        setvar 0x8004 NATURE_ADAMANT
-        setvar 0x8005 0
-        setvar 0x8006 28
-        setvar 0x8007 28
-        setvar 0x8008 28
-        setvar 0x8009 28
-        setvar 0x800A 28
-        setvar 0x800B 28
-        givepokemon SPECIES_DRAGONITE 100 ITEM_HEAVY_DUTY_BOOTS 0 1 10
-
-        setvar 0x8000 MOVE_CROSSCHOP
-        setvar 0x8001 MOVE_BULKUP
-        setvar 0x8002 MOVE_RAGEFIST
-        setvar 0x8003 MOVE_SILVERWIND
-        setvar 0x8004 NATURE_MODEST
-        setvar 0x8005 0 
-        setvar 0x8006 28
-        setvar 0x8007 28
-        setvar 0x8008 28
-        setvar 0x8009 28
-        setvar 0x800A 28
-        setvar 0x800B 28
-        givepokemon SPECIES_PRIMEAPE 50 ITEM_LIFE_ORB 0 1 10
-
-        setvar 0x8000 MOVE_STONEAXE
-        setvar 0x8001 MOVE_XSCISSOR
-        setvar 0x8002 MOVE_SWORDSDANCE
-        setvar 0x8003 MOVE_CROSSPOISON
-        setvar 0x8004 NATURE_ADAMANT
-        setvar 0x8005 0 @ Shiny
-        setvar 0x8006 28
-        setvar 0x8007 28
-        setvar 0x8008 28
-        setvar 0x8009 28
-        setvar 0x800A 28
-        setvar 0x800B 28
-        givepokemon SPECIES_KLEAVOR 100 ITEM_NONE 0 1 10
-
-        setvar 0x8000 MOVE_CEASELESSEDGE
-        setvar 0x8001 MOVE_FLAMETHROWER
-        setvar 0x8002 MOVE_SUCKERPUNCH
-        setvar 0x8003 MOVE_TRIPLEAXEL
+        setvar 0x8000 MOVE_DEFOG
+        setvar 0x8001 MOVE_UTURN
+        setvar 0x8002 MOVE_BRAVEBIRD
+        setvar 0x8003 MOVE_BOOMBURST
         setvar 0x8004 NATURE_SERIOUS
         setvar 0x8005 0
         setvar 0x8006 28
@@ -333,29 +291,55 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_CHARIZARD 50 ITEM_CHARIZARDITE_Y 0 1 10
+        givepokemon SPECIES_PIDGEOT 80 ITEM_HEAVY_DUTY_BOOTS 0 1 10
 
-        setvar 0x8000 MOVE_SALTCURE
-        setvar 0x8001 MOVE_STONEEDGE
-        setvar 0x8002 MOVE_RECOVER
-        setvar 0x8003 MOVE_VOLTSWITCH
-        random NUM_NATURES
-        copyvar 0x8004, LASTRESULT       @ random naturesetvar 0x8005 0
-        setvar 0x8005, 0 @ ability
-        setvar 0x8006 28
-        setvar 0x8007 28
-        setvar 0x8008 28
-        setvar 0x8009 28
-        setvar 0x800A 28
-        setvar 0x800B 28
-        givepokemon SPECIES_GARGANACL 50 ITEM_NONE 0 1 0
-
-        setvar 0x8000 MOVE_HYPNOSIS
-        setvar 0x8001 MOVE_DREAMEATER
-        setvar 0x8002 MOVE_PSYCHIC
+        setvar 0x8000 MOVE_PSYCHIC
+        setvar 0x8001 MOVE_DAZZLINGGLEAM
+        setvar 0x8002 MOVE_AURASPHERE
         setvar 0x8003 MOVE_FUTURESIGHT
-        random NUM_NATURES
-        copyvar 0x8004, LASTRESULT       @ random naturesetvar 0x8005 0
+        setvar 0x8004 NATURE_MODEST
+        setvar 0x8005 0 
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_ALAKAZAM 80 ITEM_FOCUS_SASH 0 1 10
+
+        setvar 0x8000 MOVE_STEALTHROCK
+        setvar 0x8001 MOVE_EARTHQUAKE
+        setvar 0x8002 MOVE_STONEEDGE
+        setvar 0x8003 MOVE_HEADSMASH
+        setvar 0x8004 NATURE_ADAMANT
+        setvar 0x8005 0 @ Shiny
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_RHYDON 80 ITEM_CUSTAP_BERRY 0 1 10
+
+        setvar 0x8000 MOVE_SOLARBEAM
+        setvar 0x8001 MOVE_PSYCHIC
+        setvar 0x8002 MOVE_SHADOWBALL
+        setvar 0x8003 MOVE_MUDSLAP
+        setvar 0x8004 NATURE_MODEST
+        setvar 0x8005 0
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_EXEGGUTOR 80 ITEM_CHOICE_SPECS 0 1 10
+
+        setvar 0x8000 MOVE_DRAGONCLAW
+        setvar 0x8001 MOVE_DRAGONDANCE
+        setvar 0x8002 MOVE_ROOST
+        setvar 0x8003 MOVE_INFERNO
+        setvar 0x8004 NATURE_ADAMANT
         setvar 0x8005, 0 @ ability
         setvar 0x8006 28
         setvar 0x8007 28
@@ -363,7 +347,21 @@ EventScript_Pallet_AideGuy:
         setvar 0x8009 28
         setvar 0x800A 28
         setvar 0x800B 28
-        givepokemon SPECIES_HYPNO 100 ITEM_NONE 0 1 0
+        givepokemon SPECIES_CHARIZARD 80 ITEM_CHARIZARDITE_X 0 1 0
+
+        setvar 0x8000 MOVE_EXTREMESPEED
+        setvar 0x8001 MOVE_SACREDFIRE
+        setvar 0x8002 MOVE_CRUNCH
+        setvar 0x8003 MOVE_CRUNCH
+        setvar 0x8004 NATURE_ADAMANT
+        setvar 0x8005, 0 @ ability
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_ENTEI 81 ITEM_HEAT_ROCK 0 1 0
 
         setflag 0xA08 @ Tera Battle Flag
         setflag 0x828 @ Give flag 
@@ -385,6 +383,120 @@ EventScript_Pallet_AideGuy:
         additem ITEM_GOLD_TEETH 1
         msgbox gText_TestScript2 MSG_NORMAL
         release
-        end
+        end 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Bruno team
+/* EventScript_Pallet_AideGuy:  
+    lock
+    faceplayer
+
+        setvar 0x8000 MOVE_TRIPLEKICK
+        setvar 0x8001 MOVE_PARTINGSHOT
+        setvar 0x8002 MOVE_TRIPLEAXEL
+        setvar 0x8003 MOVE_HELPINGHAND
+        setvar 0x8004 NATURE_JOLLY
+        setvar 0x8005 0
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_HITMONTOP 80 ITEM_LEFTOVERS 0 1 10
+
+        setvar 0x8000 MOVE_SHEDTAIL
+        setvar 0x8001 MOVE_STEALTHROCK
+        setvar 0x8002 MOVE_SPIKES
+        setvar 0x8003 MOVE_METALCLAW
+        setvar 0x8004 NATURE_ADAMANT
+        setvar 0x8005 0 
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_ORTHWORM 80 ITEM_ROCKY_HELMET 0 1 10
+
+        setvar 0x8000 MOVE_DRAINPUNCH
+        setvar 0x8001 MOVE_MACHPUNCH
+        setvar 0x8002 MOVE_ICEPUNCH
+        setvar 0x8003 MOVE_SCRATCH
+        setvar 0x8004 NATURE_ADAMANT
+        setvar 0x8005 0 @ Shiny
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_HITMONCHAN 80 ITEM_LIECHI_BERRY 0 1 10
+
+        setvar 0x8000 MOVE_HIGHJUMPKICK
+        setvar 0x8001 MOVE_BLAZEKICK
+        setvar 0x8002 MOVE_KNOCKOFF
+        setvar 0x8003 MOVE_CHARM
+        setvar 0x8004 NATURE_ADAMANT
+        setvar 0x8005 0
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_HITMONLEE 80 ITEM_SALAC_BERRY 0 1 10
+
+        setvar 0x8000 MOVE_STONEEDGE
+        setvar 0x8001 MOVE_EARTHQUAKE
+        setvar 0x8002 MOVE_IRONTAIL
+        setvar 0x8003 MOVE_DECORATE
+        setvar 0x8004 NATURE_ADAMANT
+        setvar 0x8005, 0 @ ability
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_ONIX 80 ITEM_CHOICE_BAND 0 1 0
+
+        setvar 0x8000 MOVE_DYNAMICPUNCH
+        setvar 0x8001 MOVE_KNOCKOFF
+        setvar 0x8002 MOVE_BULLETPUNCH
+        setvar 0x8003 MOVE_THUNDERPUNCH
+        setvar 0x8004 NATURE_MODEST
+        setvar 0x8005, 0 @ ability
+        setvar 0x8006 28
+        setvar 0x8007 28
+        setvar 0x8008 28
+        setvar 0x8009 28
+        setvar 0x800A 28
+        setvar 0x800B 28
+        givepokemon SPECIES_MACHAMP 81 ITEM_ASSAULT_VEST 0 1 0
+
+        setflag 0xA08 @ Tera Battle Flag
+        setflag 0x828 @ Give flag 
+        setflag 0x234 @ SS Anne Ticket flag 
+        setflag 0x2A5 @ Can use hideout lift
+        setflag 0x23C @ Grunt outside Silph
+        setflag 0x23D @ Got Poke Flute 
+        setflag 0x054 @ Snorlax flag Route 12
+        additem ITEM_MEGA_RING 1
+        additem ITEM_TERA_ORB 1
+        additem ITEM_DOME_FOSSIL 0x1
+        additem ITEM_POKE_FLUTE 1
+        additem ITEM_BICYCLE 1
+        additem ITEM_OLD_AMBER 1
+        additem ITEM_ABILITY_CAPSULE 10
+        additem ITEM_ABILITY_PATCH 10
+        additem ITEM_EVIV_DISPLAYER 1
+        additem ITEM_PROTEIN 10
+        additem ITEM_GOLD_TEETH 1
+        msgbox gText_TestScript2 MSG_NORMAL
+        release
+        end  */
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

@@ -2395,20 +2395,20 @@ bool8 MetatileBehavior_IsRockClimbableWall(u8 behaviour)
 	return behaviour == MB_ROCK_CLIMB_WALL;
 }
 
-static bool8 HasHmItemForMove(u16 move)
-{
-    switch (move)
-    {
-    case MOVE_CUT:
-        return CheckBagHasItem(ITEM_HM01_CUT, 1) > 0;      // confirm item constant name
-    case MOVE_ROCKSMASH:
-        return CheckBagHasItem(ITEM_HM06_ROCK_SMASH, 1) > 0;
-    case MOVE_STRENGTH:
-        return CheckBagHasItem(ITEM_HM04_STRENGTH, 1) > 0;
-    default:
-        return FALSE;
-    }
-}
+// static bool8 HasHmItemForMove(u16 move)
+// {
+//     switch (move)
+//     {
+//     case MOVE_CUT:
+//         return CheckBagHasItem(ITEM_HM01_CUT, 1) > 0;      // confirm item constant name
+//     case MOVE_ROCKSMASH:
+//         return CheckBagHasItem(ITEM_HM06_ROCK_SMASH, 1) > 0;
+//     case MOVE_STRENGTH:
+//         return CheckBagHasItem(ITEM_HM04_STRENGTH, 1) > 0;
+//     default:
+//         return FALSE;
+//     }
+// }
 
 
 // u8 PartyHasMonWithFieldMovePotential(u16 move, unusedArg u16 item, u8 surfingType)

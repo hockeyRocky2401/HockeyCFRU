@@ -1486,54 +1486,97 @@ SKIP_CHECK_TARGET:
 					goto AI_STANDARD_DAMAGE;
 			}
 			break;
+case EFFECT_RESTORE_HP:
+case EFFECT_MORNING_SUN:
+AI_RECOVERY:
+    switch (move)
+    {
+        case MOVE_PURIFY:
+            if (!(data->defStatus1 & STATUS_ANY)
+            || MoveBlockedBySubstitute(move, bankAtk, bankDef))
+            {
+                DECREASE_VIABILITY(10);
+                break;
+            }
+            else if (bankDef == bankAtkPartner)
+            {
+                break; // Always can heal your ally (actual possibility checked in ai_partner.c)
+            }
+            else if (GetHealthPercentage(bankAtk) == 100)
+            {
+                DECREASE_VIABILITY(10);
+            }
+            else if (GetHealthPercentage(bankAtk) >= 90)
+            {
+                DECREASE_VIABILITY(8); // No point in healing, but should at least do it if nothing better
+            }
+            break;
 
-		case EFFECT_RESTORE_HP:
-		case EFFECT_MORNING_SUN:
-		AI_RECOVERY:
-			switch (move) {
-				case MOVE_PURIFY:
-					if (!(data->defStatus1 & STATUS_ANY)
-					|| MoveBlockedBySubstitute(move, bankAtk, bankDef))
-					{
-						DECREASE_VIABILITY(10);
-						break;
-					}
-					else if (bankDef == bankAtkPartner)
-						break; //Always can heal your ally (actual possibility checked in ai_partner.c)
-					else if (GetHealthPercentage(bankAtk) == 100)
-						DECREASE_VIABILITY(10);
-					else if (GetHealthPercentage(bankAtk) >= 90)
-						DECREASE_VIABILITY(8); //No point in healing, but should at least do it if nothing better
-					break;
+        case MOVE_JUNGLEHEALING:
+            if (!ShouldJungleHealingFail(bankAtk))
+                break; // If it'll work, no point in not using it
+            goto DEFAULT_RECOVERY; // Even if it'll fail due to full HP, there may be logic to use it preemptively
 
-				case MOVE_JUNGLEHEALING:
-					if (!ShouldJungleHealingFail(bankAtk))
-						break; //If it'll work, no point in not using it
-					goto DEFAULT_RECOVERY; //Even if it'll fail due to full HP, there may be logic to use it preemptively
+        case MOVE_LUNARBLESSING:
+            if (!ShouldLunarBlessingFail(bankAtk))
+                break; // If it'll work, no point in not using it
+            goto DEFAULT_RECOVERY; // Even if it'll fail due to full HP, there may be logic to use it preemptively
 
-				case MOVE_LUNARBLESSING:
-					if (!ShouldLunarBlessingFail(bankAtk))
-						break; //If it'll work, no point in not using it
-					goto DEFAULT_RECOVERY; //Even if it'll fail due to full HP, there may be logic to use it preemptively
+        default:
+        DEFAULT_RECOVERY:
+            // Existing "smart AI stall" logic stays first (your code).
+            if (AI_THINKING_STRUCT->aiFlags & AI_SCRIPT_CHECK_GOOD_MOVE) // Very smart AI
+            {
+                if (IS_SINGLE_BATTLE && IsTakingSecondaryDamage(bankDef, TRUE))
+                {
+                    if (GetHealthPercentage(bankAtk) == 100)
+                        DECREASE_VIABILITY(1); // Can heal to stall out opponent even if at full health
+                    break;
+                }
+            }
 
-				default:
-					DEFAULT_RECOVERY:
-					if (AI_THINKING_STRUCT->aiFlags & AI_SCRIPT_CHECK_GOOD_MOVE) //Very smart AI
-					{
-						if (IS_SINGLE_BATTLE && IsTakingSecondaryDamage(bankDef, TRUE))
-						{
-							if (GetHealthPercentage(bankAtk) == 100)
-								DECREASE_VIABILITY(1); //Can heal to stall out opponent even if at full health
-							break;
-						}
-					}
+            // --- New "safe heal" gate (Singles only; doubles is messier) ---
+//             if (IS_SINGLE_BATTLE)
+//             {
+//                 u8 hpPct = GetHealthPercentage(bankAtk);
 
-					if (GetHealthPercentage(bankAtk) == 100)
-						DECREASE_VIABILITY(10);
-					else if (GetHealthPercentage(bankAtk) >= 90)
-						DECREASE_VIABILITY(9); //No point in healing, but should at least do it if nothing better
-			}
-			break;
+//                 // Only consider this rule when we're actually somewhat low.
+//                 if (hpPct <= 55)
+//                 {
+//                     // Estimate opponent's best damage into the healer.
+//                    u16 foeBestMove = CalcStrongestMove(bankDef, bankAtk, FALSE);
+// if (foeBestMove != MOVE_NONE && !MoveInMovesetAndUsable(foeBestMove, bankDef))
+//     foeBestMove = MOVE_NONE;
+
+// if (foeBestMove != MOVE_NONE)
+// {
+//     struct DamageCalc dmgData = {0};
+//     u32 bestDmg = AI_CalcDmg(bankDef, bankAtk, foeBestMove, &dmgData);
+//     u32 maxHP = gBattleMons[bankAtk].maxHP;
+
+//     if (maxHP == 0)
+//         break;
+
+//     u32 bestPct = (bestDmg * 100 + (maxHP - 1)) / maxHP;
+
+//     if (bestPct < 35)
+//         break;
+
+//     if (bestPct >= 45)
+//         DECREASE_VIABILITY(4);
+// }
+
+//                 }
+//             }
+
+            // --- Existing generic high-HP penalties ---
+            if (GetHealthPercentage(bankAtk) == 100)
+                DECREASE_VIABILITY(10);
+            else if (GetHealthPercentage(bankAtk) >= 90)
+                DECREASE_VIABILITY(9); // No point in healing, but should at least do it if nothing better
+            // break;
+    }
+    break;
 
 		case EFFECT_REST:
 			if (!CanRest(bankAtk))
@@ -2174,49 +2217,142 @@ SKIP_CHECK_TARGET:
 			break;
 
 		case EFFECT_BATON_PASS:
-			if (move == MOVE_UTURN || move == MOVE_VOLTSWITCH || move == MOVE_FLIPTURN)
-			{
-				goto AI_STANDARD_DAMAGE;
-			}
-			else if (!HasMonToSwitchTo(bankAtk))
-			{
-				DECREASE_VIABILITY(10);
-				break;
-			}
-			else if (move == MOVE_PARTINGSHOT)
-			{
-				if (data->defAbility == ABILITY_CONTRARY)
-				{
-					if (!AI_STAT_CAN_RISE(bankDef, STAT_STAGE_ATK) && !AI_STAT_CAN_RISE(bankDef, STAT_STAGE_SPATK))
-					{
-						DECREASE_VIABILITY(10);
-						break;
-					}
-				}
-				else
-				{
-					if (CanStatBeLowered(STAT_STAGE_ATK, bankDef, bankAtk, data->defAbility)
-					&& CanStatBeLowered(STAT_STAGE_SPATK, bankDef, bankAtk, data->defAbility))
-					{
-						DECREASE_VIABILITY(10);
-						break;
-					}
-				}
-			}
-			else //Baton pass
-			{
-				//Check Substitute, Aqua Ring, Magnet Rise, Ingrain, and stats
-				if (data->atkStatus2 & STATUS2_SUBSTITUTE
-				|| (data->atkStatus3 & (STATUS3_ROOTED | STATUS3_AQUA_RING | STATUS3_LEVITATING | STATUS3_POWER_TRICK))
-				|| AnyStatIsRaised(bankAtk))
-					break;
+{
+    if (move == MOVE_UTURN || move == MOVE_VOLTSWITCH || move == MOVE_FLIPTURN || move == MOVE_FLAMINGEXIT)
+    {
+        // If we can't switch, pivot moves are just worse versions of damage moves.
+//         if (!HasMonToSwitchTo(bankAtk))
+//         {
+//             DECREASE_VIABILITY(12);
+//             break;
+//         }
 
-				DECREASE_VIABILITY(6);
-				break;
-			}
-			break;
+//         struct DamageCalc dmgData = {0};
 
-		case EFFECT_RAPID_SPIN:
+//         // If every switch-in dies to the foe's best move, pivoting is pointless.
+//         {
+//             struct Pokemon* party = (SIDE(bankAtk) == B_SIDE_OPPONENT) ? gEnemyParty : gPlayerParty;
+//             u16 foeBestMove = CalcStrongestMove(bankDef, bankAtk, FALSE);
+//             bool8 hasSafeSwitch = FALSE;
+
+//             // "Slow pivot is safe": if we're likely to take a hit first and still live, switching after is safer.
+//             bool8 slowPivotLikelySafe = FALSE;
+//             if (foeBestMove != MOVE_NONE)
+//             {
+//                 u32 dmgIntoCurrent = AI_CalcDmg(bankDef, bankAtk, foeBestMove, &dmgData);
+//                 if (dmgIntoCurrent < gBattleMons[bankAtk].hp)
+//                     slowPivotLikelySafe = TRUE;
+//             }
+
+//             if (foeBestMove != MOVE_NONE && !slowPivotLikelySafe)
+//             {
+//                 for (u8 i = 0; i < PARTY_SIZE; ++i)
+//                 {
+//                     u16 species = GetMonData(&party[i], MON_DATA_SPECIES2, 0);
+
+//                     if (SPECIES_CANT_BATTLE(species)
+//                     ||  GetMonData(&party[i], MON_DATA_HP, NULL) == 0
+//                     ||  i == gBattlerPartyIndexes[bankAtk])
+//                         continue;
+
+//                     u32 dmg = AI_CalcMonDefDmg(bankDef, bankAtk, foeBestMove, &party[i], &dmgData);
+//                     u16 hp  = GetMonData(&party[i], MON_DATA_HP, NULL);
+
+//                     if (dmg < hp) // survives
+//                     {
+//                         hasSafeSwitch = TRUE;
+//                         break;
+//                     }
+//                 }
+
+//                 if (!hasSafeSwitch)
+//                     DECREASE_VIABILITY(18);
+//             }
+//         }
+
+//        // NEW: "No good switches" punishment for pivoting in singles.
+// // Uses cached switch choice only; does NOT trigger switch calcs here.
+// if (IS_SINGLE_BATTLE)
+// {
+//     u8 switchMonId = GetCachedBestSwitchMonId(bankAtk); // your Option A helper
+
+//     if (switchMonId < PARTY_SIZE)
+//     {
+//         struct Pokemon* party = (SIDE(bankAtk) == B_SIDE_OPPONENT) ? gEnemyParty : gPlayerParty;
+//         u16 hpIn = GetMonData(&party[switchMonId], MON_DATA_HP, NULL);
+
+//         if (hpIn > 0)
+//         {
+//             u32 bestDmgIntoSwitch =
+//                 AI_GetFoeBestDmgIntoPartyMon(bankDef, bankAtk, &party[switchMonId], &dmgData);
+
+//             if (bestDmgIntoSwitch >= (hpIn * 75) / 100)        // ~OHKO range
+//                 DECREASE_VIABILITY(30);
+//             else if (bestDmgIntoSwitch >= (hpIn / 2))          // loses half+
+//                 DECREASE_VIABILITY(22);
+//             else if (bestDmgIntoSwitch >= (hpIn / 3))          // chunky hit
+//                 DECREASE_VIABILITY(10);
+//         }
+//     }
+// }
+
+//         // Best move the AI would pick if it wasn't using this pivot move
+//         {
+//             u16 bestMove = CalcStrongestMove(bankAtk, bankDef, FALSE);
+
+//             if (bestMove != MOVE_NONE && bestMove != move)
+//             {
+//                 u32 dmgPivot = AI_CalcDmg(bankAtk, bankDef, move, &dmgData);
+//                 u32 dmgBest  = AI_CalcDmg(bankAtk, bankDef, bestMove, &dmgData);
+
+//                 // If best does meaningfully more damage, discourage pivoting hard
+//                 if (dmgBest > (dmgPivot * 115) / 100) // 15% better
+//                     DECREASE_VIABILITY(10);
+//             }
+//         }
+
+        goto AI_STANDARD_DAMAGE;
+    }
+    else if (!HasMonToSwitchTo(bankAtk))
+    {
+        DECREASE_VIABILITY(10);
+        break;
+    }
+    else if (move == MOVE_PARTINGSHOT)
+    {
+        if (data->defAbility == ABILITY_CONTRARY)
+        {
+            if (!AI_STAT_CAN_RISE(bankDef, STAT_STAGE_ATK) && !AI_STAT_CAN_RISE(bankDef, STAT_STAGE_SPATK))
+            {
+                DECREASE_VIABILITY(10);
+                break;
+            }
+        }
+        else
+        {
+            if (CanStatBeLowered(STAT_STAGE_ATK, bankDef, bankAtk, data->defAbility)
+            &&  CanStatBeLowered(STAT_STAGE_SPATK, bankDef, bankAtk, data->defAbility))
+            {
+                DECREASE_VIABILITY(10);
+                break;
+            }
+        }
+    }
+    else // Baton pass
+    {
+        if (data->atkStatus2 & STATUS2_SUBSTITUTE
+        || (data->atkStatus3 & (STATUS3_ROOTED | STATUS3_AQUA_RING | STATUS3_LEVITATING | STATUS3_POWER_TRICK))
+        || AnyStatIsRaised(bankAtk))
+            break;
+
+        DECREASE_VIABILITY(6);
+        break;
+    }
+
+    break;
+}
+
+	case EFFECT_RAPID_SPIN:
 			if (move == MOVE_DEFOG)
 			{
 				if (gSideStatuses[SIDE(bankDef)] & (SIDE_STATUS_REFLECT | SIDE_STATUS_LIGHTSCREEN | SIDE_STATUS_SAFEGUARD | SIDE_STATUS_MIST)
@@ -2477,11 +2613,27 @@ SKIP_CHECK_TARGET:
 			return AIScript_Negatives(bankAtk, bankDef, GetNaturePowerMove(), originalViability, data);
 
 		case EFFECT_TAUNT:
-			if (IsTaunted(bankDef)
-			|| data->defAbility == ABILITY_OBLIVIOUS
-			|| PARTNER_MOVE_EFFECT_IS_SAME)
-				DECREASE_VIABILITY(10);
-			break;
+{
+    if (IsTaunted(bankDef)
+    || data->defAbility == ABILITY_OBLIVIOUS
+    || PARTNER_MOVE_EFFECT_IS_SAME)
+    {
+        DECREASE_VIABILITY(10);
+        break;
+    }
+
+    // If we won't act before them, Taunt won't stop this turn's setup (e.g. Rocks already go up).
+    if (!MoveWouldHitFirst(MOVE_TAUNT, bankAtk, bankDef))
+    {
+        // Optional: don't completely kill Taunt if the foe is predicted to use another status move anyway.
+        u16 defMovePrediction = IsValidMovePrediction(bankAtk, bankDef);
+        bool8 predictedNonDamaging = (defMovePrediction != MOVE_NONE && gBattleMoves[defMovePrediction].power == 0);
+
+        DECREASE_VIABILITY(predictedNonDamaging ? 8 : 20);
+    }
+
+    break;
+}
 
 		case EFFECT_FOLLOW_ME:
 		case EFFECT_HELPING_HAND:
@@ -2547,17 +2699,29 @@ SKIP_CHECK_TARGET:
 			break;
 
 		case EFFECT_INGRAIN:
-			switch (move) {
-				case MOVE_AQUARING:
-					if (data->atkStatus3 & STATUS3_AQUA_RING)
-						DECREASE_VIABILITY(10);
-					break;
+{
+    // Anti-throw gate: don't Aqua Ring / Ingrain if the foe can just KO us.
+    // (Optional: if we can KO first, don't apply this gate.)
+    if (FoeCanOHKOUs(bankAtk, bankDef))
+    {
+        DECREASE_VIABILITY(60); // stronger than 30; tune as needed
+        break;
+    }
 
-				default:
-					if (data->atkStatus3 & STATUS3_ROOTED)
-						DECREASE_VIABILITY(10);
-			}
-			break;
+    switch (move)
+    {
+        case MOVE_AQUARING:
+            if (data->atkStatus3 & STATUS3_AQUA_RING)
+                DECREASE_VIABILITY(10);
+            break;
+
+        default:
+            if (data->atkStatus3 & STATUS3_ROOTED)
+                DECREASE_VIABILITY(10);
+            break;
+    }
+    break;
+}
 
 		case EFFECT_SUPERPOWER:
 			if (move == MOVE_HYPERSPACEFURY && data->atkSpecies != SPECIES_HOOPA_UNBOUND)
@@ -2850,32 +3014,80 @@ SKIP_CHECK_TARGET:
 			break;
 
 		case EFFECT_SET_TERRAIN:
-			if (PARTNER_MOVE_EFFECT_IS_TERRAIN
-			|| (gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_TERRAIN))
-			{
-				DECREASE_VIABILITY(10);
-				break;
-			}
+{
+    if (PARTNER_MOVE_EFFECT_IS_TERRAIN
+    || (gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_TERRAIN))
+    {
+        DECREASE_VIABILITY(10);
+        break;
+    }
 
-			switch (move) {
-				case MOVE_ELECTRICTERRAIN:
-					if (gTerrainType == ELECTRIC_TERRAIN)
-						DECREASE_VIABILITY(10);
-					break;
-				case MOVE_GRASSYTERRAIN:
-					if (gTerrainType == GRASSY_TERRAIN)
-						DECREASE_VIABILITY(10);
-					break;
-				case MOVE_MISTYTERRAIN:
-					if (gTerrainType == MISTY_TERRAIN)
-						DECREASE_VIABILITY(10);
-					break;
-				case MOVE_PSYCHICTERRAIN:
-					if (gTerrainType == PSYCHIC_TERRAIN)
-						DECREASE_VIABILITY(10);
-					break;
-			}
-			break;
+    // Discourage setting terrain if the foe resists/immune to the terrain's main offensive type.
+    // (Except Misty Terrain, which is mainly defensive/utility.)
+    {
+        u8 probeType = TYPE_BLANK; // your repo's "no type" sentinel
+
+        switch (move)
+        {
+            case MOVE_ELECTRICTERRAIN:
+                probeType = TYPE_ELECTRIC;
+                break;
+            case MOVE_GRASSYTERRAIN:
+                probeType = TYPE_GRASS;
+                break;
+            case MOVE_PSYCHICTERRAIN:
+                probeType = TYPE_PSYCHIC;
+                break;
+
+            // Intentionally excluded:
+            case MOVE_MISTYTERRAIN:
+            default:
+                break;
+        }
+
+        if (probeType != TYPE_BLANK)
+        {
+            // Pure type-chart effectiveness:
+            // 10 == 1x, 5 == 0.5x, 0 == 0x, 20 == 2x, etc.
+            u8 modifier = 10;
+            ModulateByTypeEffectiveness(
+                probeType,
+                gBattleMons[bankDef].type1,
+                gBattleMons[bankDef].type2,
+                &modifier
+            );
+
+            if (modifier < 10) // resist or immune
+            {
+                // Apply to ALL (non-Misty) terrains
+                DECREASE_VIABILITY(12); // tune: 10 mild, 12-16 strong, 20 "never"
+            }
+        }
+    }
+
+    // Don't set terrain if it's already up
+    switch (move)
+    {
+        case MOVE_ELECTRICTERRAIN:
+            if (gTerrainType == ELECTRIC_TERRAIN)
+                DECREASE_VIABILITY(10);
+            break;
+        case MOVE_GRASSYTERRAIN:
+            if (gTerrainType == GRASSY_TERRAIN)
+                DECREASE_VIABILITY(10);
+            break;
+        case MOVE_MISTYTERRAIN:
+            if (gTerrainType == MISTY_TERRAIN)
+                DECREASE_VIABILITY(10);
+            break;
+        case MOVE_PSYCHICTERRAIN:
+            if (gTerrainType == PSYCHIC_TERRAIN)
+                DECREASE_VIABILITY(10);
+            break;
+    }
+
+    break;
+}
 
 		case EFFECT_PLEDGE:
 			if (IS_DOUBLE_BATTLE

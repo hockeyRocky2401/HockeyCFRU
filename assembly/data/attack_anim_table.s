@@ -997,6 +997,7 @@ gMoveAnimations:
 .word ANIM_MAGICALTORQUE
 .word ANIM_MAKEITRAIN
 .word ANIM_MORTALSPIN
+.word ANIM_NIGHTBRAND
 .word ANIM_NOXIOUSTORQUE
 .word ANIM_ORDERUP
 .word ANIM_POPULATIONBOMB
@@ -29736,6 +29737,53 @@ COIN_SLIDE: objtemplate ANIM_TAG_COIN ANIM_TAG_COIN OAM_OFF_16x16 0x83E69DC 0x0 
 ANIM_MORTALSPIN:
 	goto 0x81cb4e1
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to Andre Freitas
+ANIM_NIGHTBRAND:
+loadparticle ANIM_TAG_JAGGED_MUSIC_NOTE
+	loadparticle ANIM_TAG_THIN_RING
+	loadparticle ANIM_TAG_IMPACT
+	pokespritetoBG side_target
+	loadBG1 BG_DARK
+	waitbgfadein
+	launchtask AnimTask_UproarDistortion 0x2 0x1 bank_attacker
+	launchtemplate Template_UproarRing 0x3 0x6 0x0 0x0 0x0 0x0 0x1f 0x8
+	playsound2 0xEA SOUND_PAN_ATTACKER
+	launchtemplate Template_JaggedMusicNote 0x2 0x4 0x0 0x1d 0xfff4 0x0
+	launchtemplate Template_JaggedMusicNote 0x2 0x4 0x0 0xfff4 0xffe3 0x1
+	pause 0x10
+	launchtask AnimTask_UproarDistortion 0x2 0x1 bank_attacker
+	launchtemplate Template_UproarRing 0x3 0x6 0x0 0x0 0x0 0x0 0x1f 0x8
+	playsound2 0xEA SOUND_PAN_ATTACKER
+	launchtemplate Template_JaggedMusicNote 0x2 0x4 0x0 0xc 0xffe3 0x1
+	launchtemplate Template_JaggedMusicNote 0x2 0x4 0x0 0xffe3 0xfff4 0x0
+	pause 0x10
+	launchtask AnimTask_UproarDistortion 0x2 0x1 bank_attacker
+	launchtemplate Template_UproarRing 0x3 0x6 0x0 0x0 0x0 0x0 0x1f 0x8
+	playsound2 0xEA SOUND_PAN_ATTACKER
+	launchtemplate Template_JaggedMusicNote 0x2 0x4 0x0 0x18 0xffe8 0x1
+	launchtemplate Template_JaggedMusicNote 0x2 0x4 0x0 0xffe8 0xffe8 0x0
+	waitanimation
+	launchtemplate Template_Hit 0x83 0x4 0xffe0 0xfff0 0x1 0x3
+	playsound2 0x84 SOUND_PAN_TARGET
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x3 0x3 0x0 0xc 0x1
+	pause 0x4
+	launchtemplate Template_LusterPurgeHits 0x83 0x2 0x1 0x3
+	playsound2 0x84 SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_LusterPurgeHits 0x83 0x2 0x1 0x3
+	playsound2 0x84 SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_Hit 0x83 0x4 0x20 0x14 0x1 0x3
+	playsound2 0x84 SOUND_PAN_TARGET
+	waitanimation
+	call UNSET_SCROLLING_BG
+	pokespritefromBG side_target
+	resetblends
+	endanimation
+	
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 @Credits to André Freitas

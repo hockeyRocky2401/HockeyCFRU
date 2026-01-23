@@ -5,6 +5,14 @@
 #include "ai_scripts.h"
 #include "damage_calc.h"
 
+#define AI_FINISH_HP_PERCENT 40
+#define AI_FINISH_MIN_ACC    70
+
+// Treat these as tuning knobs
+#define AI_SACK_HP_PERCENT           55  // was 40; higher = less switch prediction when foe is weak
+#define AI_STRONG_HIT_PERCENT        60  // if best move does >= this %, don't overpredict
+#define AI_MIN_GOOD_ACC              80  // avoid "strong hit" logic if the move is shaky
+
 //Exported Functions
 u16 AIRandom(void);
 bool8 CanKillAFoe(u8 bank);
@@ -30,7 +38,7 @@ bool8 MoveKnocksOutXHits(u16 move, u8 bankAtk, u8 bankDef, u8 numHits);
 bool8 MoveKnocksOutFromParty(u16 move, struct Pokemon* monAtk, u8 bankDef, struct DamageCalc* damageData);
 u16 CalcFinalAIMoveDamage(u16 move, u8 bankAtk, u8 bankDef, u8 numHits, struct DamageCalc* damageData);
 u32 GetFinalAIMoveDamage(u16 move, u8 bankAtk, u8 bankDef, u8 numHits, struct DamageCalc* damageData);
-u16 GetFinalAIMoveDamageFromParty(u16 move, struct Pokemon* monAtk, u8 bankDef, struct DamageCalc* damageData);
+// u16 GetFinalAIMoveDamageFromParty(u16 move, struct Pokemon* monAtk, u8 bankDef, struct DamageCalc* damageData);
 move_t CalcStrongestMove(const u8 bankAtk, const u8 bankDef, const bool8 onlySpreadMoves);
 void RecalcStrongestMoveIgnoringMove(const u8 bankAtk, const u8 bankDef, const u16 ignoreMove);
 bool8 IsStrongestMove(const u16 currentMove, const u8 bankAtk, const u8 bankDef);
@@ -206,6 +214,34 @@ void CalcAIDynamaxMon(u8 bank);
 void CalcShouldAIDynamax(u8 bankAtk, u8 bankDef);
 bool8 ShouldAIDynamax(u8 bankAtk);
 u8 AdjustMoveLimitationFlagsForAI(u8 bankAtk);
+
+//Custom
+u8 GetSwitchFlagsAfterPartingShot(u8 bankAtk, u8 bankDef);
+bool8 AttackerHasKOMoveOnTarget(u8 bankAtk, u8 bankDef);
+u8 AI_GetHpPercentBank(u8 bank);
+bool8 BankHasMove(u8 bank, u16 move);
+bool8 MonKnowsMove(struct Pokemon* mon, u16 move);
+u8 ChooseBestFinisherMoveIndex(u8 bankAtk, u8 bankDef);
+bool8 IsPriorityBlockedByEffects(u8 bankAtk, u8 bankDef, u16 move);
+bool8 HasPriorityKOMove(u8 bankAtk, u8 bankDef);
+bool8 HasPriorityDamagingMove(u8 bankAtk, u8 bankDef);
+bool8 FoeIsInTrouble(u8 bankDef, u8 bankAtk);
+u32 AI_GetFoeBestDmgIntoPartyMon(
+    u8 foeBattler,
+    u8 ourBattler,
+    struct Pokemon *ourPartyMon,
+    struct DamageCalc *dmgData
+);
+bool8 WouldMoveKOWithTempAtkBoost(u16 move, u8 bankAtk, u8 bankDef, u8 atkBoostStages);
+bool8 FoeCanOHKOUs(u8 bankAtk, u8 bankDef);
+bool8 AttackerHasStrongBestMoveOnTarget(u8 bankAtk, u8 bankDef);
+u8 GetCachedBestSwitchMonId(u8 bank);
+// u32 AI_CalcDmgVsCurrentTypes(u8 bankAtk, u8 bankDef, u16 move);
+// u32 AI_CalcDmgAsIfAtkSingleType(u8 bankAtk, u8 bankDef, u16 move, u8 newType);
+// u32 AI_CalcDmgAsIfDefSingleType(u8 bankAtk, u8 bankDef, u16 move, u8 newType);
+
+void AI_UpdateSwitchHistoryFromPartyIndex(void);
+//
 
 void IncreaseViability(s16* viability, u8 amount);
 void DecreaseViability(s16* viability, u16 amount);

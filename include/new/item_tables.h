@@ -1407,7 +1407,7 @@ void FieldUseFunc_FormChangeItem(u8 taskId);
 void FieldUseFunc_AbilityCapsule(u8 taskId);
 void FieldUseFunc_ExpShare(u8 taskId);
 void FieldUseFunc_NatureMint(u8 taskId);
-void ItemUseOutOfBattle_PokeVial(u8 taskId);
+// void ItemUseOutOfBattle_PokeVial(u8 taskId);
 void ResetPokeVialUses(void);
 void FieldUseFunc_EVIV(u8 taskId);
 void FieldUseFunc_PortablePC(u8 taskId);

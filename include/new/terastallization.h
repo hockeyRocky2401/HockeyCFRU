@@ -7,10 +7,14 @@
 #include "../pokemon.h"
 #include "../global.h"
 
+//Custom Logic to improve AI Terastallization decisions
+#define TERA_DEF_WORSEN_PCT   125
+#define TERA_OFF_LOSS_PCT      90
+#define TERA_SMALL_GAIN_PCT   110
+
 // Battle Scripts
 extern u8 BattleScript_Terastallize[];
 
-// Custom Functions
 extern bool8 IsTerastallized(u8 bank);
 extern u8 GetTeraType(u8 bank);
 extern void ChangeTeraTypeInOW(void);
@@ -28,6 +32,10 @@ void TeraIconSummaryScreen(void);
 // Visuals
 extern void FadeBankPaletteForTera(u8 bank, u16 paletteOffset);
 extern const u16 gTeraBlendColors[];
+
+//Custom
+// u32 AI_CalcDmgVsCurrentTypes(u8 bankAtk, u8 bankDef, u16 move);
+bool8 TeraWouldClearlyWorsenMatchup(u8 bankAtk, u8 bankDef, u16 plannedMove);
 
 /* NEXT TO BE IMPLEMENTED LATER*/
 // extern void AddTeraCrownSprite(u8 bank, u8 teraType, u8 x, u8 y);

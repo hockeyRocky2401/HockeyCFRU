@@ -1467,8 +1467,22 @@ bool8 ShouldUseFakeOut(u8 bankAtk, u8 bankDef, u8 defAbility)
 
 bool8 ShouldPivot(u8 bankAtk, u8 bankDef, u16 move, u8 class)
 {
-	if (gNewBS->ai.goodToPivot & gBitTable[bankAtk]) //Set in switching checks
-		return PIVOT_IMMEDIATELY;
+    // bool8 isPivotMove =
+    //     (move == MOVE_UTURN
+    //   || move == MOVE_VOLTSWITCH
+    //   || move == MOVE_FLIPTURN
+    //   || move == MOVE_FLAMINGEXIT
+    //   || move == MOVE_PARTINGSHOT
+    //   || move == MOVE_CHILLYRECEPTION
+    //   || gBattleMoves[move].effect == EFFECT_BATON_PASS); // keep if your build treats Teleport as pivot
+
+    // // If this isn't a pivot move, this function should not be telling callers to pivot.
+    // if (!isPivotMove)
+    //     return DONT_PIVOT;
+
+    // // If switching checks already decided pivot is good, obey it (but only for actual pivot moves).
+    // if (gNewBS->ai.goodToPivot & gBitTable[bankAtk]) // Set in switching checks
+        return PIVOT_IMMEDIATELY;
 
 	bool8 hasUsefulStatBoost = (AnyUsefulOffseniveStatIsRaised(bankAtk) && IsClassDamager(class))
 							|| STAT_STAGE(bankDef, STAT_STAGE_EVASION) >= 6 + 4; //Significant boost in evasion for any class
@@ -1478,183 +1492,362 @@ bool8 ShouldPivot(u8 bankAtk, u8 bankDef, u16 move, u8 class)
 	u8 switchFlags = GetMostSuitableMonToSwitchIntoFlags();
 	gActiveBattler = backupBattler;
 
-	u8 atkAbility = ABILITY(bankAtk);
-	u8 defAbility = ABILITY(bankDef);
+    u8 atkAbility = ABILITY(bankAtk);
+    u8 defAbility = ABILITY(bankDef);
 
-	if (WillTakeSignificantDamageFromEntryHazards(bankAtk, 4)) //Don't switch out if you'll do a quarter or more damage to yourself on switch in
-		return DONT_PIVOT;
+    if (WillTakeSignificantDamageFromEntryHazards(bankAtk, 4))
+        return DONT_PIVOT;
 
-	if (IS_SINGLE_BATTLE)
-	{
-		if (!HasMonToSwitchTo(bankAtk))
-			return CAN_TRY_PIVOT; //Can't switch
+    // --------------------------------------------------------------------
+    // Compute switch info once, under a controlled gActiveBattler swap.
+    // --------------------------------------------------------------------
+    // u8 switchFlags = 0;
+    // u8 switchMonId = PARTY_SIZE; // sentinel; treat as "invalid"
+    // {
+    //     u8 backupBattler = gActiveBattler;
+    //     gActiveBattler = bankAtk;
 
-		if (IsPredictedToSwitch(bankDef, bankAtk) && !hasUsefulStatBoost)
-			return PIVOT; //Try pivoting so you can switch to a better matchup to counter your new opponent
+    //     // Make sure the cache is populated for this attacker before reading flags/ids.
+    //     // If you don't have this function available here, remove it, but it's safer with it.
+    //     // CalcMostSuitableMonSwitchIfNecessary();
 
-		if (MoveWouldHitFirst(move, bankAtk, bankDef)) //Attacker goes first
-		{
-			if (!CanKnockOutWithoutMove(move, bankAtk, bankDef, TRUE)) //Can't KO foe otherwise
-			{
-				if (CanKnockOut(bankAtk, bankDef))
-				{
-					//If this clears, it's because this move is the only KO move. As such,
-					//it'll be trated like one in the best damaging move calc later.
-					return CAN_TRY_PIVOT;
-				}
-				else if (IsClassDamager(class) && Can2HKO(bankAtk, bankDef)) //Two more hits KOs the foe
-				{
-					if (CanKnockOut(bankDef, bankAtk)) //Won't get the chance to 2HKO
-						return PIVOT;
+    //     if (move == MOVE_PARTINGSHOT)
+    //         switchFlags = GetSwitchFlagsAfterPartingShot(bankAtk, bankDef);
+    //     else
+    //         switchFlags = GetMostSuitableMonToSwitchIntoFlags();
 
-					if (IsClassDamager(class)
-					&& SPLIT(move) != SPLIT_STATUS //Damaging pivot move
-					&& ((switchFlags & SWITCHING_FLAG_RESIST_ALL_MOVES && switchFlags & (SWITCHING_FLAG_KO_FOE | SWITCHING_FLAG_CAN_REMOVE_HAZARDS)) //Resists all moves and can KO or remove hazards
-					 || IsAffectedByFocusSash(bankDef)
-					 || IsAffectedBySturdy(defAbility, bankDef)
-					 || IsDamageHalvedDueToFullHP(bankDef, defAbility, move, atkAbility))) //Pivot to break the sash/sturdy/multiscale
-						return PIVOT;
-				}
-				else if (!hasUsefulStatBoost) //3HKO+ the foe
-				{
-					if (IsClassDamager(class)
-					&& SPLIT(move) != SPLIT_STATUS //Damaging pivot move
-					&& (IsAffectedByFocusSash(bankDef)
-					 || IsAffectedBySturdy(defAbility, bankDef)
-					 || IsDamageHalvedDueToFullHP(bankDef, defAbility, move, atkAbility))) //Pivot to break the sash/sturdy/multiscale
-						return PIVOT;
+    //     switchMonId = GetMostSuitableMonToSwitchIntoId();
 
-					if (switchFlags & (SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES)) //Switched in mon won't take too much damage
-					{
-						if (gSideStatuses[bankAtk] & SIDE_STATUS_SPIKES && switchFlags & SWITCHING_FLAG_CAN_REMOVE_HAZARDS)
-							return PIVOT;
+    //     gActiveBattler = backupBattler;
+    // }
+    // --------------------------------------------------------------------
 
-						if (WillFaintFromSecondaryDamage(bankAtk))
-							return PIVOT;
+    if (IS_SINGLE_BATTLE)
+    {
+        if (!HasMonToSwitchTo(bankAtk))
+            return CAN_TRY_PIVOT;
 
-						if (IsClassDamager(class))
-						{
-							bool8 physMoveInMoveset = RealPhysicalMoveInMoveset(bankAtk);
-							bool8 specMoveInMoveset = SpecialMoveInMoveset(bankAtk);
+        // --------------------------------------------------------------------
+        // Hard veto: don't pivot if the chosen switch-in is likely to be KO'd
+        // by foe's best usable damaging move into it.
+        // Also: soft veto if it's likely to be 2HKO'd / chunked heavily AND
+        // it doesn't immediately threaten a KO (reduces over-pivoting).
+        // --------------------------------------------------------------------
+//         if (bankDef < gBattlersCount && BATTLER_ALIVE(bankDef) && switchMonId < PARTY_SIZE)
+//         {
+//             struct Pokemon* party = (SIDE(bankAtk) == B_SIDE_OPPONENT) ? gEnemyParty : gPlayerParty;
 
-							//Pivot if attacking stats are bad
-							if (physMoveInMoveset && !specMoveInMoveset)
-							{
-								if (STAT_STAGE(bankAtk, STAT_STAGE_ATK) <= OFFENSIVE_STAT_MIN_NUM)
-									return PIVOT;
-							}
-							else if (!physMoveInMoveset && specMoveInMoveset)
-							{
-								if (STAT_STAGE(bankAtk, STAT_STAGE_SPATK) <= OFFENSIVE_STAT_MIN_NUM)
-									return PIVOT;
-							}
-							else if (physMoveInMoveset && specMoveInMoveset)
-							{
-								if (STAT_STAGE_ATK <= OFFENSIVE_STAT_MIN_NUM && STAT_STAGE(bankAtk, STAT_STAGE_SPATK) <= OFFENSIVE_STAT_MIN_NUM)
-									return PIVOT;
-							}
+//             u8 foeMoveLimitations = CheckMoveLimitations(bankDef, 0, 0xFF);
+//             u32 bestDmg = 0;
+//             bool8 foundDamaging = FALSE;
 
-							return CAN_TRY_PIVOT;
-						}
-					}
-				}
-			}
-		}
-		else //Opponent Goes First
-		{
-			if (CanKnockOut(bankDef, bankAtk))
-			{
-				if (gBattleMoves[move].effect == EFFECT_TELEPORT)
-					return DONT_PIVOT; //If you're going to faint because you'll go second, use a different move
-				else
-					return CAN_TRY_PIVOT; //You're probably going to faint anyways so if for some reason you don't, better switch
-			}
-			else if (Can2HKO(bankDef, bankAtk)) //Foe can 2HKO AI
-			{
-				if (CanKnockOut(bankAtk, bankDef))
-				{
-					if (!CanKnockOutWithoutMove(move, bankAtk, bankDef, TRUE))
-						return CAN_TRY_PIVOT; //Use this move to KO if you must
-				}
-				else //Can't KO the foe
-				{
-					if (IsClassDamager(class)
-					&& switchFlags & SWITCHING_FLAG_KO_FOE //New mon can KO the foe
-					&& switchFlags & (SWITCHING_FLAG_OUTSPEEDS | SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES)) //New mon will go first or survive a hit
-						return PIVOT;
-				}
-			}
-			else //Foe can 3HKO+ AI
-			{
-				if (CanKnockOut(bankAtk, bankDef))
-				{
-					if (!CanKnockOutWithoutMove(move, bankAtk, bankDef, TRUE) //This is the only move that can KO
-					&&  !hasUsefulStatBoost) //You're not wasting a valuable stat boost
-					{
-						return CAN_TRY_PIVOT;
-					}
-				}
-				else if (Can2HKO(bankAtk, bankDef))
-				{
-					if (IsClassDamager(class) && SPLIT(move) != SPLIT_STATUS) //Damaging move
-					{
-						if ((switchFlags & SWITCHING_FLAG_KO_FOE && switchFlags & (SWITCHING_FLAG_OUTSPEEDS | SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES)) //New mon will go first and KO or survive a hit
-						 || (switchFlags & SWITCHING_FLAG_RESIST_ALL_MOVES && switchFlags & SWITCHING_FLAG_CAN_REMOVE_HAZARDS) //Resists all moves and can remove hazards
-						 || IsAffectedByFocusSash(bankDef)
-						 || IsAffectedBySturdy(defAbility, bankDef)
-						 || IsDamageHalvedDueToFullHP(bankDef, defAbility, move, atkAbility)) //Pivot to break the sash
-							return PIVOT;
-					}
+//             for (u8 k = 0; k < MAX_MON_MOVES; ++k)
+//             {
+//                 u16 m = GetBattleMonMove(bankDef, k);
+//                 if (m == MOVE_NONE)
+//                     continue;
 
-					//Otherwise try to get foe hp down to where the CanKnockOut check is reached
-				}
-				else
-				{
-					if (IsClassDamager(class)
-					&& switchFlags & SWITCHING_FLAG_KO_FOE
-					&& switchFlags & SWITCHING_FLAG_OUTSPEEDS)
-						return PIVOT; //Only switch if way better matchup
+//                 if (gBitTable[k] & foeMoveLimitations)
+//                     continue;
 
-					if (!hasUsefulStatBoost
-					&& (switchFlags & (SWITCHING_FLAG_OUTSPEEDS | SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES))) //New mon will either go first or be able to take a hit
-					{
-						if (gSideStatuses[bankAtk] & SIDE_STATUS_SPIKES && switchFlags & SWITCHING_FLAG_CAN_REMOVE_HAZARDS)
-							return PIVOT;
+//                 if (SPLIT(m) == SPLIT_STATUS)
+//                     continue;
 
-						if (WillFaintFromSecondaryDamage(bankAtk))
-							return PIVOT;
+//                 foundDamaging = TRUE;
 
-						if (IsClassDamager(class))
-						{
-							bool8 physMoveInMoveset = RealPhysicalMoveInMoveset(bankAtk);
-							bool8 specMoveInMoveset = SpecialMoveInMoveset(bankAtk);
+//                 struct DamageCalc dmgData = (struct DamageCalc){0};
+//                 u32 dmg = AI_CalcMonDefDmg(bankDef, bankAtk, m, &party[switchMonId], &dmgData);
 
-							//Pivot if attacking stats are bad
-							if (physMoveInMoveset && !specMoveInMoveset)
-							{
-								if (STAT_STAGE(bankAtk, STAT_STAGE_ATK) <= OFFENSIVE_STAT_MIN_NUM)
-									return PIVOT;
-							}
-							else if (!physMoveInMoveset && specMoveInMoveset)
-							{
-								if (STAT_STAGE(bankAtk, STAT_STAGE_SPATK) <= OFFENSIVE_STAT_MIN_NUM)
-									return PIVOT;
-							}
-							else if (physMoveInMoveset && specMoveInMoveset)
-							{
-								if (STAT_STAGE_ATK <= OFFENSIVE_STAT_MIN_NUM && STAT_STAGE(bankAtk, STAT_STAGE_SPATK) <= OFFENSIVE_STAT_MIN_NUM)
-									return PIVOT;
-							}
-						}
+//                 if (dmg > bestDmg)
+//                     bestDmg = dmg;
+//             }
 
-						return CAN_TRY_PIVOT; //You're going to hit second so it can't hurt to Pivot. But do what does the most damage
-					}
-				}
-			}
-		}
-	}
+//             if (foundDamaging)
+//             {
+//                 u16 hpIn = GetMonData(&party[switchMonId], MON_DATA_HP, NULL);
 
-	return DONT_PIVOT;
+// 				// --- VERY AGGRESSIVE ANTI-PIVOT GATE FOR SLOW PIVOTS ---
+// // Chilly Reception is a "slow pivot" most of the time: if you don't bring in something
+// // that *immediately* improves the board, don't do it.
+// if (move == MOVE_CHILLYRECEPTION
+//  || gBattleMoves[move].effect == EFFECT_TELEPORT)
+// {
+//     // Require the chosen switch-in to be meaningfully good
+//     // (KO threat OR hard defensive answer OR utility reason like hazard removal).
+//     if (!(switchFlags & (SWITCHING_FLAG_KO_FOE
+//                       |  SWITCHING_FLAG_WALLS_FOE
+//                       |  SWITCHING_FLAG_RESIST_ALL_MOVES
+//                       |  SWITCHING_FLAG_CAN_REMOVE_HAZARDS)))
+//     {
+//         return DONT_PIVOT;
+//     }
+// }
+
+//                 // If the incoming mon just dies, no pivot. Full stop.
+//                 if (bestDmg >= hpIn)
+//                     return DONT_PIVOT;
+
+//                 // Soft veto: if the incoming mon is likely to be 2HKO'd (or chunked heavily)
+//                 // and isn't flagged as a KO threat, don't pivot.
+//                 if (!(switchFlags & SWITCHING_FLAG_KO_FOE))
+//                 {
+//                     // 2HKO check (avoid overflow by using u32)
+//                     if ((u32)bestDmg * 2 >= (u32)hpIn)
+//                         return DONT_PIVOT;
+
+//                     // Optional extra: big chunk check (45%+)
+//                     if ((u32)bestDmg * 100 >= (u32)hpIn * 45)
+// 					  // Only allow if the switch-in is flagged as a hard answer or can immediately win.
+//     if (!(switchFlags & (SWITCHING_FLAG_KO_FOE
+//                       |  SWITCHING_FLAG_WALLS_FOE
+//                       |  SWITCHING_FLAG_RESIST_ALL_MOVES)))
+//     {
+//                         return DONT_PIVOT;
+// 	}
+//                 }
+//             }
+
+//             // --------------------------------------------------------------------
+//             // Trick Room awareness: under Trick Room, avoid pivoting into a mon that
+//             // will act AFTER the opponent (i.e. is faster) unless it threatens a KO.
+//             // This stops "set TR -> pivot -> bring in fast fragile mon" nonsense.
+//             //
+//             // NOTE: Replace STATUS_FIELD_TRICK_ROOM with your build's field status flag
+//             // if named differently.
+//             // --------------------------------------------------------------------
+// #ifdef STATUS_FIELD_TRICK_ROOM
+// if (gFieldStatuses & STATUS_FIELD_TRICK_ROOM)
+// {
+//     // If we're using Chilly Reception under Trick Room, we should be bringing in
+//     // something that benefits from TR (i.e., slower than the foe), unless it KOs.
+//     if (move == MOVE_CHILLYRECEPTION && !(switchFlags & SWITCHING_FLAG_KO_FOE))
+//     {
+//         u16 inSpeed = GetMonData(&party[switchMonId], MON_DATA_SPEED, NULL);
+//         u16 foeSpeed = SpeedCalc(bankDef);
+
+//         // If switch-in is faster, it will act later under TR -> bad pivot.
+//         if (inSpeed > foeSpeed)
+//             return DONT_PIVOT;
+//     }
+// }
+// #endif
+
+//         }
+//         // --------------------------------------------------------------------
+
+//         // --------------------------------------------------------------------
+//         // OPTIONAL: extra anti-pivot gate (aggressive). If you want fewer pivots overall,
+//         // veto pivots unless the chosen switch-in is meaningfully good OR foe is predicted to switch.
+//         // Uncomment if desired.
+//         // --------------------------------------------------------------------
+//         /*
+//         if (!(switchFlags & (SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES | SWITCHING_FLAG_KO_FOE))
+//         && !IsPredictedToSwitch(bankDef, bankAtk))
+//         {
+//             return DONT_PIVOT;
+//         }
+//         */
+//         // --------------------------------------------------------------------
+
+//         // --------------------------------------------------------------------
+//         // Wall/resist-all gate + tailwind discouragement
+//         // --------------------------------------------------------------------
+//         if (!(switchFlags & (SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES)))
+//         {
+//             if (!IsPredictedToSwitch(bankDef, bankAtk))
+//             {
+//                 if (MoveWouldHitFirst(move, bankAtk, bankDef))
+//                     return DONT_PIVOT;
+
+//                 if (!CanKnockOut(bankDef, bankAtk))
+//                     return DONT_PIVOT;
+//             }
+//         }
+
+//         // Tailwind discouragement: if foe has Tailwind and is slower, don't give free setup unless you can KO.
+//         {
+//             bool8 foeHasTailwind = FALSE;
+//             for (u8 t = 0; t < MAX_MON_MOVES; ++t)
+//             {
+//                 if (gBattleMons[bankDef].moves[t] == MOVE_TAILWIND)
+//                 {
+//                     foeHasTailwind = TRUE;
+//                     break;
+//                 }
+//             }
+
+//             if (foeHasTailwind
+//             && !BankHasTailwind(bankDef)
+//             && SpeedCalc(bankDef) < SpeedCalc(bankAtk))
+//             {
+//                 if (!CanKnockOut(bankAtk, bankDef))
+//                     return DONT_PIVOT;
+//             }
+//         }
+        // --------------------------------------------------------------------
+
+        if (IsPredictedToSwitch(bankDef, bankAtk) && !hasUsefulStatBoost)
+            return PIVOT;
+
+        if (MoveWouldHitFirst(move, bankAtk, bankDef)) // Attacker goes first
+        {
+            if (!CanKnockOutWithoutMove(move, bankAtk, bankDef, TRUE))
+            {
+                if (CanKnockOut(bankAtk, bankDef))
+                {
+                    return CAN_TRY_PIVOT;
+                }
+                else if (IsClassDamager(class) && Can2HKO(bankAtk, bankDef))
+                {
+                    if (CanKnockOut(bankDef, bankAtk))
+                        return PIVOT;
+
+                    if (IsClassDamager(class)
+                    && SPLIT(move) != SPLIT_STATUS
+                    && ((switchFlags & SWITCHING_FLAG_RESIST_ALL_MOVES && switchFlags & (SWITCHING_FLAG_KO_FOE | SWITCHING_FLAG_CAN_REMOVE_HAZARDS))
+                     || IsAffectedByFocusSash(bankDef)
+                     || IsAffectedBySturdy(defAbility, bankDef)
+                     || IsDamageHalvedDueToFullHP(bankDef, defAbility, move, atkAbility)))
+                        return PIVOT;
+                }
+                else if (!hasUsefulStatBoost)
+                {
+                    if (IsClassDamager(class)
+                    && SPLIT(move) != SPLIT_STATUS
+                    && (IsAffectedByFocusSash(bankDef)
+                     || IsAffectedBySturdy(defAbility, bankDef)
+                     || IsDamageHalvedDueToFullHP(bankDef, defAbility, move, atkAbility)))
+                        return PIVOT;
+
+                    if (switchFlags & (SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES))
+                    {
+                        if (gSideStatuses[bankAtk] & SIDE_STATUS_SPIKES && switchFlags & SWITCHING_FLAG_CAN_REMOVE_HAZARDS)
+                            return PIVOT;
+
+                        if (WillFaintFromSecondaryDamage(bankAtk))
+                            return PIVOT;
+
+                        if (IsClassDamager(class))
+                        {
+                            bool8 physMoveInMoveset = RealPhysicalMoveInMoveset(bankAtk);
+                            bool8 specMoveInMoveset = SpecialMoveInMoveset(bankAtk);
+
+                            if (physMoveInMoveset && !specMoveInMoveset)
+                            {
+                                if (STAT_STAGE(bankAtk, STAT_STAGE_ATK) <= OFFENSIVE_STAT_MIN_NUM)
+                                    return PIVOT;
+                            }
+                            else if (!physMoveInMoveset && specMoveInMoveset)
+                            {
+                                if (STAT_STAGE(bankAtk, STAT_STAGE_SPATK) <= OFFENSIVE_STAT_MIN_NUM)
+                                    return PIVOT;
+                            }
+                            else if (physMoveInMoveset && specMoveInMoveset)
+                            {
+                                if (STAT_STAGE(bankAtk, STAT_STAGE_ATK) <= OFFENSIVE_STAT_MIN_NUM
+                                 && STAT_STAGE(bankAtk, STAT_STAGE_SPATK) <= OFFENSIVE_STAT_MIN_NUM)
+                                    return PIVOT;
+                            }
+
+                            return CAN_TRY_PIVOT;
+                        }
+                    }
+                }
+            }
+        }
+        else // Opponent goes first
+        {
+            if (CanKnockOut(bankDef, bankAtk))
+            {
+                if (gBattleMoves[move].effect == EFFECT_TELEPORT)
+                    return DONT_PIVOT;
+                else
+                    return CAN_TRY_PIVOT;
+            }
+            else if (Can2HKO(bankDef, bankAtk))
+            {
+                if (CanKnockOut(bankAtk, bankDef))
+                {
+                    if (!CanKnockOutWithoutMove(move, bankAtk, bankDef, TRUE))
+                        return CAN_TRY_PIVOT;
+                }
+                else
+                {
+                    if (IsClassDamager(class)
+                    && switchFlags & SWITCHING_FLAG_KO_FOE
+                    && switchFlags & (SWITCHING_FLAG_OUTSPEEDS | SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES))
+                        return PIVOT;
+                }
+            }
+            else
+            {
+                if (CanKnockOut(bankAtk, bankDef))
+                {
+                    if (!CanKnockOutWithoutMove(move, bankAtk, bankDef, TRUE)
+                    &&  !hasUsefulStatBoost)
+                    {
+                        return CAN_TRY_PIVOT;
+                    }
+                }
+                else if (Can2HKO(bankAtk, bankDef))
+                {
+                    if (IsClassDamager(class) && SPLIT(move) != SPLIT_STATUS)
+                    {
+                        if ((switchFlags & SWITCHING_FLAG_KO_FOE && switchFlags & (SWITCHING_FLAG_OUTSPEEDS | SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES))
+                         || (switchFlags & SWITCHING_FLAG_RESIST_ALL_MOVES && switchFlags & SWITCHING_FLAG_CAN_REMOVE_HAZARDS)
+                         || IsAffectedByFocusSash(bankDef)
+                         || IsAffectedBySturdy(defAbility, bankDef)
+                         || IsDamageHalvedDueToFullHP(bankDef, defAbility, move, atkAbility))
+                            return PIVOT;
+                    }
+                }
+                else
+                {
+                    if (IsClassDamager(class)
+                    && switchFlags & SWITCHING_FLAG_KO_FOE
+                    && switchFlags & SWITCHING_FLAG_OUTSPEEDS)
+                        return PIVOT;
+
+                    if (!hasUsefulStatBoost
+                    && (switchFlags & (SWITCHING_FLAG_OUTSPEEDS | SWITCHING_FLAG_WALLS_FOE | SWITCHING_FLAG_RESIST_ALL_MOVES)))
+                    {
+                        if (gSideStatuses[bankAtk] & SIDE_STATUS_SPIKES && switchFlags & SWITCHING_FLAG_CAN_REMOVE_HAZARDS)
+                            return PIVOT;
+
+                        if (WillFaintFromSecondaryDamage(bankAtk))
+                            return PIVOT;
+
+                        if (IsClassDamager(class))
+                        {
+                            bool8 physMoveInMoveset = RealPhysicalMoveInMoveset(bankAtk);
+                            bool8 specMoveInMoveset = SpecialMoveInMoveset(bankAtk);
+
+                            if (physMoveInMoveset && !specMoveInMoveset)
+                            {
+                                if (STAT_STAGE(bankAtk, STAT_STAGE_ATK) <= OFFENSIVE_STAT_MIN_NUM)
+                                    return PIVOT;
+                            }
+                            else if (!physMoveInMoveset && specMoveInMoveset)
+                            {
+                                if (STAT_STAGE(bankAtk, STAT_STAGE_SPATK) <= OFFENSIVE_STAT_MIN_NUM)
+                                    return PIVOT;
+                            }
+                            else if (physMoveInMoveset && specMoveInMoveset)
+                            {
+                                if (STAT_STAGE(bankAtk, STAT_STAGE_ATK) <= OFFENSIVE_STAT_MIN_NUM
+                                 && STAT_STAGE(bankAtk, STAT_STAGE_SPATK) <= OFFENSIVE_STAT_MIN_NUM)
+                                    return PIVOT;
+                            }
+                        }
+
+                        return CAN_TRY_PIVOT;
+                    }
+                }
+            }
+        }
+    }
+
+    return DONT_PIVOT;
 }
 
 static bool8 GoodIdeaToSwapVanillaTimers(u8 timerAtk, u8 timerDef, bool8 wantToKeep)
@@ -2420,7 +2613,7 @@ static bool8 IsWorthSettingHazards(u8 bankDef)
 
 	if (monsLeft == 3 //Opponent only has three Pokemon alive on team
 	&& gBattleTypeFlags & BATTLE_TYPE_FRONTIER //And it's a Frontier battle (so likely 3v3)
-	&& Random() % 100 < 66) //Don't use hazards 66% of the time 
+	&& Random() % 100 < 90) //Don't use hazards 66% of the time 
 		return FALSE;
 
 	return TRUE;
@@ -2432,6 +2625,14 @@ void IncreaseEntryHazardsViability(s16* originalViability, u8 class, u8 bankAtk,
 
 	if (HasUsedMoveWithEffect(bankDef, EFFECT_MAGIC_COAT))
 		return; //Don't use Hazards if the player is going to try to cheese with Magic Coat spam
+
+	// Global gate: late-game hazards are usually a wasted turn.
+    // if (!IsWorthSettingHazards(bankDef))
+    // {
+    //     DECREASE_VIABILITY(12);  // tune 10–20 depending on your scoring scale
+    //     *originalViability = MathMin(viability, 255);
+    //     return;
+    // }
 
 	switch (class) {
 		case FIGHT_CLASS_SWEEPER_KILL:
@@ -2972,37 +3173,65 @@ void IncreaseTeamProtectionViability(s16* originalViability, u8 class)
 
 void IncreaseTailwindViability(s16* originalViability, u8 class, u8 bankAtk, u8 bankDef)
 {
-	s16 viability = *originalViability;
+    s16 viability = *originalViability;
 
-	switch (class) {
-		case FIGHT_CLASS_SWEEPER_SETUP_SCREENS:
-		case FIGHT_CLASS_TEAM_SUPPORT_BATON_PASS:
-		case FIGHT_CLASS_TEAM_SUPPORT_CLERIC:
-		case FIGHT_CLASS_TEAM_SUPPORT_SCREENS:
-		case FIGHT_CLASS_TEAM_SUPPORT_PHAZING:
+    if (IS_SINGLE_BATTLE
+ && !BankHasTailwind(bankAtk)
+ && !BankHasTailwind(bankDef)
+ && gNewBS->ai.canKnockOut[bankAtk][bankDef] != 0xFF
+ && gNewBS->ai.canKnockOut[bankDef][bankAtk] != 0xFF
+ && !gNewBS->ai.canKnockOut[bankAtk][bankDef]
+ && !gNewBS->ai.canKnockOut[bankDef][bankAtk])
+    {
+        bool8 foeHasTailwind = FALSE;
+        for (u8 i = 0; i < MAX_MON_MOVES; ++i)
+        {
+            if (gBattleMons[bankDef].moves[i] == MOVE_TAILWIND)
+            {
+                foeHasTailwind = TRUE;
+                break;
+            }
+        }
+
+        if (foeHasTailwind)
+        {
+            if (SpeedCalc(bankAtk) < SpeedCalc(bankDef))
+                viability += 16;  // use direct adds to avoid macro ambiguity
+            else
+                viability += 6;
+        }
+    }
+
+    switch (class)
+    {
+        case FIGHT_CLASS_SWEEPER_SETUP_SCREENS:
+        case FIGHT_CLASS_TEAM_SUPPORT_BATON_PASS:
+        case FIGHT_CLASS_TEAM_SUPPORT_CLERIC:
+        case FIGHT_CLASS_TEAM_SUPPORT_SCREENS:
+        case FIGHT_CLASS_TEAM_SUPPORT_PHAZING:
 			INCREASE_STATUS_VIABILITY(2);
-			break;
+            break;
 
-		case FIGHT_CLASS_DOUBLES_SETUP_ATTACKER:
-			if (SpeedCalc(bankAtk) < SpeedCalc(bankDef))
+        case FIGHT_CLASS_DOUBLES_SETUP_ATTACKER:
+            if (SpeedCalc(bankAtk) < SpeedCalc(bankDef))
 				INCREASE_VIABILITY(18);
-			break;
+            break;
 
-		case FIGHT_CLASS_DOUBLES_UTILITY:
+        case FIGHT_CLASS_DOUBLES_UTILITY:
 			INCREASE_VIABILITY(11);
-			break;
+            break;
 
-		case FIGHT_CLASS_DOUBLES_TEAM_SUPPORT:
-		case FIGHT_CLASS_DOUBLES_TOTAL_TEAM_SUPPORT:
+        case FIGHT_CLASS_DOUBLES_TEAM_SUPPORT:
+        case FIGHT_CLASS_DOUBLES_TOTAL_TEAM_SUPPORT:
 			INCREASE_VIABILITY(18);
-			break;
+            break;
 
-		default:
-			if (IsClassDoublesSpecific(class))
+        default:
+            if (IsClassDoublesSpecific(class))
 				INCREASE_STATUS_VIABILITY(3);
-			else
+            else
 				INCREASE_STATUS_VIABILITY(1);
-	}
+    }
 
 	*originalViability = MathMin(viability, 255);
 }

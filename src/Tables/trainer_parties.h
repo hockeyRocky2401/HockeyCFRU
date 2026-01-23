@@ -385,7 +385,7 @@ struct TrainerMonItemCustomMoves sParty_BugCatcherJames[] = {
         .iv = 225,
         .lvl = 11,
         .species = SPECIES_BUTTERFREE,
-        .moves = {MOVE_GUST, MOVE_CONFUSION, MOVE_STRINGSHOT, MOVE_TACKLE},
+        .moves = {MOVE_GUST, MOVE_CONFUSION, MOVE_TACKLE, MOVE_NONE},
     },
     {
         .iv = 225,
@@ -4322,7 +4322,7 @@ struct TrainerMonItemCustomMoves sParty_RivalRoute22EarlyBulbasaur[] = {
         .iv = 124,
         .lvl = 9,
         .species = SPECIES_BULBASAUR,
-        .moves = {MOVE_TACKLE, MOVE_VINEWHIP, MOVE_LEECHSEED, MOVE_NONE},
+        .moves = {MOVE_TACKLE, MOVE_VINEWHIP, MOVE_NONE, MOVE_NONE},
     },
 };
 
@@ -5398,7 +5398,7 @@ struct TrainerMonItemCustomMoves sParty_TeamRocketGrunt31[] = {
         .iv = 27,
         .lvl = 53,
         .species = SPECIES_ARBOK,
-        .moves = {MOVE_PURSUIT, MOVE_POISONTAIL, MOVE_ICEFANG, MOVE_COIL},
+        .moves = {MOVE_OUTRAGE, MOVE_POISONTAIL, MOVE_ICEFANG, MOVE_COIL},
     },
 };
 
@@ -6230,7 +6230,7 @@ struct TrainerMonItemCustomMoves sParty_EliteFourLorelei[] = {
         .lvl = 79,
         .species = SPECIES_JYNX,
         .heldItem = ITEM_FOCUS_SASH,
-        .moves = {MOVE_BLIZZARD, MOVE_FOCUSBLAST, MOVE_EXPANDINGFORCE, MOVE_PSYCHICTERRAIN},
+        .moves = {MOVE_BLIZZARD, MOVE_FOCUSBLAST, MOVE_EXPANDINGFORCE, MOVE_SHADOWBALL},
     },
     {
         .iv = 147,
@@ -6246,14 +6246,14 @@ struct TrainerMonItemCustomMoves sParty_EliteFourBruno[] = {
         .iv = 142,
         .lvl = 79,
         .species = SPECIES_HITMONTOP,
-        .heldItem = ITEM_HEAVY_DUTY_BOOTS,
-        .moves = {MOVE_TRIPLEKICK, MOVE_PARTINGSHOT, MOVE_RAPIDSPIN, MOVE_TRIPLEAXEL},
+        .heldItem = ITEM_LEFTOVERS,
+        .moves = {MOVE_TRIPLEKICK, MOVE_PARTINGSHOT, MOVE_TAUNT, MOVE_TRIPLEAXEL},
     },
     {
         .iv = 146,
         .lvl = 79,
         .species = SPECIES_ORTHWORM,
-        .heldItem = ITEM_SITRUS_BERRY,
+        .heldItem = ITEM_ROCKY_HELMET,
         .moves = {MOVE_SHEDTAIL, MOVE_STEALTHROCK, MOVE_IRONTAIL, MOVE_SPIKES},
     },
     {
@@ -6271,10 +6271,10 @@ struct TrainerMonItemCustomMoves sParty_EliteFourBruno[] = {
         .moves = {MOVE_HIGHJUMPKICK, MOVE_BLAZEKICK, MOVE_KNOCKOFF, MOVE_ENDURE},
     },
     {
-        .iv = 144,
+        .iv = 130,
         .lvl = 79,
         .species = SPECIES_ONIX,
-        .heldItem = ITEM_PASSHO_BERRY,
+        .heldItem = ITEM_CHOICE_BAND,
         .moves = {MOVE_STONEEDGE, MOVE_EARTHQUAKE, MOVE_IRONTAIL, MOVE_BODYPRESS},
     },
     {
@@ -6292,7 +6292,7 @@ struct TrainerMonItemCustomMoves sParty_EliteFourAgatha[] = {
         .lvl = 79,
         .species = SPECIES_CROBAT,
         .heldItem = ITEM_HEAVY_DUTY_BOOTS,
-        .moves = {MOVE_CROSSPOISON, MOVE_UTURN, MOVE_ROOST, MOVE_BRAVEBIRD},
+        .moves = {MOVE_CROSSPOISON, MOVE_UTURN, MOVE_TAILWIND, MOVE_BRAVEBIRD},
     },
     {
         .iv = 141,
@@ -6312,22 +6312,29 @@ struct TrainerMonItemCustomMoves sParty_EliteFourAgatha[] = {
         .iv = 139,
         .lvl = 79,
         .species = SPECIES_WEEZING,
-        .heldItem = ITEM_LEFTOVERS,
-        .moves = {MOVE_SMOG, MOVE_CLEARSMOG, MOVE_VENOSHOCK, MOVE_NONE},
+        .heldItem = ITEM_BLACK_SLUDGE,
+        .moves = {MOVE_SMOG, MOVE_CLEARSMOG, MOVE_VENOSHOCK, MOVE_PROTECT},
     },
+    // {
+    //     .iv = 138,
+    //     .lvl = 79,
+    //     .species = SPECIES_ARBOK,
+    //     .heldItem = ITEM_BLACK_SLUDGE,
+    //     .moves = {MOVE_POISONTAIL, MOVE_COIL, MOVE_PURSUIT, MOVE_ICEFANG},
+    // },
     {
         .iv = 138,
         .lvl = 79,
-        .species = SPECIES_ARBOK,
-        .heldItem = ITEM_BLACK_SLUDGE,
-        .moves = {MOVE_POISONTAIL, MOVE_COIL, MOVE_PURSUIT, MOVE_ICEFANG},
+        .species = SPECIES_UMBREON,
+        .heldItem = ITEM_LEFTOVERS,
+        .moves = {MOVE_FOULPLAY, MOVE_WISH, MOVE_PROTECT, MOVE_NIGHTBRAND},
     },
     {
         .iv = 134,
         .lvl = 80,
         .species = SPECIES_GENGAR,
         .heldItem = ITEM_GENGARITE,
-        .moves = {MOVE_SHADOWBALL, MOVE_FOCUSBLAST, MOVE_THUNDERBOLT, MOVE_SUBSTITUTE},
+        .moves = {MOVE_SHADOWBALL, MOVE_FOCUSBLAST, MOVE_THUNDERBOLT, MOVE_VENOSHOCK},
     },
 };
 
@@ -6336,22 +6343,22 @@ struct TrainerMonItemCustomMoves sParty_EliteFourLance[] = { //Previously had 5
         .iv = 137,
         .lvl = 80,
         .species = SPECIES_CYCLIZAR,
-        .heldItem = ITEM_ASSAULT_VEST,
-        .moves = {MOVE_KNOCKOFF, MOVE_RAPIDSPIN, MOVE_UTURN, MOVE_DRAGONCLAW},
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_KNOCKOFF, MOVE_RAPIDSPIN, MOVE_SHEDTAIL, MOVE_DRAGONCLAW},
     },
     {
         .iv = 134,
         .lvl = 80,
         .species = SPECIES_DURALUDON,
-        .heldItem = ITEM_SITRUS_BERRY,
-        .moves = {MOVE_STEALTHROCK, MOVE_DRACOMETEOR, MOVE_VOLTSWITCH, MOVE_FLASHCANNON},
+        .heldItem = ITEM_ASSAULT_VEST,
+        .moves = {MOVE_BODYPRESS, MOVE_DRACOMETEOR, MOVE_VOLTSWITCH, MOVE_FLASHCANNON},
     },
     {
         .iv = 136,
         .lvl = 80,
         .species = SPECIES_GYARADOS,
         .heldItem = ITEM_WACAN_BERRY,
-        .moves = {MOVE_AQUATAIL, MOVE_FLIPTURN, MOVE_CRUNCH, MOVE_ICEFANG},
+        .moves = {MOVE_AQUATAIL, MOVE_DRAGONDANCE, MOVE_CRUNCH, MOVE_ICEFANG},
     },
     {
         .iv = 135,
@@ -6372,7 +6379,7 @@ struct TrainerMonItemCustomMoves sParty_EliteFourLance[] = { //Previously had 5
         .lvl = 81,
         .species = SPECIES_DRAGONITE,
         .heldItem = ITEM_HEAVY_DUTY_BOOTS,
-        .moves = {MOVE_EXTREMESPEED, MOVE_DRAGONDANCE, MOVE_ICESPINNER, MOVE_AQUATAIL},
+        .moves = {MOVE_EXTREMESPEED, MOVE_DRAGONDANCE, MOVE_ICESPINNER, MOVE_OUTRAGE},
     },
 };
 
@@ -7024,7 +7031,7 @@ struct TrainerMonItemCustomMoves sParty_RivalRoute22LateSquirtle[] = {
         .moves = {MOVE_PSYCHIC, MOVE_DAZZLINGGLEAM, MOVE_AURASPHERE, MOVE_SHADOWBALL},
     },
     {
-        .iv = 130,
+        .iv = 128,
         .lvl = 74,
         .species = SPECIES_RHYDON,
         .heldItem = ITEM_SITRUS_BERRY,
@@ -7076,7 +7083,7 @@ struct TrainerMonItemCustomMoves sParty_RivalRoute22LateBulbasaur[] = {
         .moves = {MOVE_PSYCHIC, MOVE_DAZZLINGGLEAM, MOVE_AURASPHERE, MOVE_SHADOWBALL},
     },
     {
-        .iv = 130,
+        .iv = 128,
         .lvl = 74,
         .species = SPECIES_RHYDON,
         .heldItem = ITEM_SITRUS_BERRY,
@@ -7114,7 +7121,7 @@ struct TrainerMonItemCustomMoves sParty_RivalRoute22LateCharmander[] = {
         .moves = {MOVE_PSYCHIC, MOVE_DAZZLINGGLEAM, MOVE_AURASPHERE, MOVE_SHADOWBALL},
     },
     {
-        .iv = 130,
+        .iv = 128,
         .lvl = 74,
         .species = SPECIES_RHYDON,
         .heldItem = ITEM_SITRUS_BERRY,
@@ -7159,10 +7166,10 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstSquirtle[] = {
         .moves = {MOVE_PSYCHIC, MOVE_DAZZLINGGLEAM, MOVE_AURASPHERE, MOVE_SHADOWBALL},
     },
     {
-        .iv = 130,
+        .iv = 128,
         .lvl = 82,
         .species = SPECIES_RHYDON,
-        .heldItem = ITEM_RINDO_BERRY,
+        .heldItem = ITEM_CUSTAP_BERRY,
         .moves = {MOVE_STEALTHROCK, MOVE_EARTHQUAKE, MOVE_STONEEDGE, MOVE_HAMMERARM},
     },
     {
@@ -7170,7 +7177,7 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstSquirtle[] = {
         .lvl = 82,
         .species = SPECIES_EXEGGUTOR,
         .heldItem = ITEM_CHOICE_SPECS,
-        .moves = {MOVE_ENERGYBALL, MOVE_PSYCHIC, MOVE_PSYSHOCK, MOVE_SLUDGEBOMB},
+        .moves = {MOVE_ENERGYBALL, MOVE_PSYCHIC, MOVE_SHADOWBALL, MOVE_SLUDGEBOMB},
     },
     {
         .iv = 127,
@@ -7184,7 +7191,7 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstSquirtle[] = {
         .lvl = 83,
         .species = SPECIES_SUICUNE,
         .heldItem = ITEM_DAMP_ROCK,
-        .moves = {MOVE_FLIPTURN, MOVE_RAINDANCE, MOVE_SCALD, MOVE_FREEZEDRY},
+        .moves = {MOVE_AQUARING, MOVE_RAINDANCE, MOVE_SCALD, MOVE_FREEZEDRY},
     },
 };
 
@@ -7204,10 +7211,10 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstBulbasaur[] = {
         .moves = {MOVE_PSYCHIC, MOVE_DAZZLINGGLEAM, MOVE_AURASPHERE, MOVE_SHADOWBALL},
     },
     {
-        .iv = 130,
+        .iv = 128,
         .lvl = 82,
         .species = SPECIES_RHYDON,
-        .heldItem = ITEM_SITRUS_BERRY,
+        .heldItem = ITEM_CUSTAP_BERRY,
         .moves = {MOVE_STEALTHROCK, MOVE_EARTHQUAKE, MOVE_STONEEDGE, MOVE_HAMMERARM},
     },
     {
@@ -7239,7 +7246,7 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstCharmander[] = {
         .lvl = 82,
         .species = SPECIES_PIDGEOT,
         .heldItem = ITEM_HEAVY_DUTY_BOOTS,
-        .moves = {MOVE_BRAVEBIRD, MOVE_UTURN, MOVE_BODYSLAM, MOVE_TAILWIND},
+        .moves = {MOVE_BRAVEBIRD, MOVE_UTURN, MOVE_DEFOG, MOVE_TAILWIND},
     },
     {
         .iv = 129,
@@ -7249,10 +7256,10 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstCharmander[] = {
         .moves = {MOVE_PSYCHIC, MOVE_DAZZLINGGLEAM, MOVE_AURASPHERE, MOVE_SHADOWBALL},
     },
     {
-        .iv = 130,
+        .iv = 128,
         .lvl = 82,
         .species = SPECIES_RHYDON,
-        .heldItem = ITEM_SITRUS_BERRY,
+        .heldItem = ITEM_CUSTAP_BERRY,
         .moves = {MOVE_STEALTHROCK, MOVE_EARTHQUAKE, MOVE_STONEEDGE, MOVE_HAMMERARM},
     },
     {
@@ -7260,7 +7267,7 @@ struct TrainerMonItemCustomMoves sParty_ChampionFirstCharmander[] = {
         .lvl = 82,
         .species = SPECIES_EXEGGUTOR,
         .heldItem = ITEM_CHOICE_SPECS,
-        .moves = {MOVE_SOLARBEAM, MOVE_PSYCHIC, MOVE_PSYSHOCK, MOVE_SLUDGEBOMB},
+        .moves = {MOVE_SOLARBEAM, MOVE_PSYCHIC, MOVE_SHADOWBALL, MOVE_SLUDGEBOMB},
     },
     {
         .iv = 127,

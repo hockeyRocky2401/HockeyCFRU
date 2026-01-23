@@ -406,7 +406,7 @@ The user faints,\nbut will fully\nheal the Pok\emon\ntaking its place.
 The user faints,\nbut will fully\nheal the Pok\emon\ntaking its place.
 
 #org @DESC_TAILWIND
-Whips up a tailwind\nthat ups the Speed\nof all party Pok\emon\nfor four turns.
+Whips up a tailwind\nthat ups the Speed\nof all party Pok\emon\nfor five turns.
 
 #org @DESC_BOOMBURST
 The user emits a\nterrible soundwave\nthat hits everything\naround it.
@@ -1672,4 +1672,7 @@ Foe is prevented\nfrom recovering HP\nfor two turns.
 
 #org @DESC_FLAMINGEXIT
 After attacking,\nthe user switches\nplaces with a\nparty Pok\emon.
+
+#org @DESC_NIGHTBRAND
+The user inflicts\ndamage every turn.\nMore damage against\nFairy or Normal types.
 

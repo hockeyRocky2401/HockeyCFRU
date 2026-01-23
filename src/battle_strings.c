@@ -199,8 +199,8 @@ void BufferStringBattle(u16 stringID)
 
 	case STRINGID_STATWASHEIGHTENED:
     // If battle is already decided and player lost, this message is never wanted.
-    if (IsPlayerDefeated(gBattleOutcome))
-        return;
+    // if (IsPlayerDefeated(gBattleOutcome))
+    //     return;
 
     // If buffer[00] is empty (Pokemon EOS is often 0xFF), skip it.
     if (gBattleTextBuff1[0] == 0xFF || gBattleTextBuff1[0] == 0x00)

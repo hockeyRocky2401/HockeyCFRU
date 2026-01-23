@@ -1818,6 +1818,12 @@
 	.byte \battler
 .endm
 
+.macro applynightbrand battler:req
+	callasm BS_ApplyNightBrand
+	.byte \battler
+.endm
+
+
 .macro getbattlerfainted battler:req
 	various \battler, VARIOUS_CASE_4
 .endm

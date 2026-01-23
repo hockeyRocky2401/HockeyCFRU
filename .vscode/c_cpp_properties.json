@@ -4,6 +4,16 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/CFRU/include",
+                "${workspaceFolder}/tools",
+                "${workspaceFolder}/include/constants",
+                "${workspaceFolder}/include/gba",
+                "${workspaceFolder}/include/battle",
+                "${workspaceFolder}/include/pokemon",
+                "${workspaceFolder}/CFRU/src",
+                "C:\\devkitPro\\devkitARM\\arm-none-eabi\\include",
                 "C:/poke/CFRU-expansion-Experiments/include/**"
             ],
             "defines": [

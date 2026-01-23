@@ -1160,7 +1160,6 @@ PV_0:
     multichoiceoption gText_PokeVial_0 0
 
 BuildRest:
-	@ multichoiceoption gText_PokeVial 0
 	multichoiceoption gText_DebugMenu_GiveItem 1
 	multichoiceoption gText_OpenPCBox 2   @ new
 	@ multichoiceoption gText_DebugMenu_MaxCoinage 3
@@ -1171,26 +1170,11 @@ BuildRest:
 	multichoiceoption gText_DebugMenu_Debug 6
 	@ multichoiceoption gText_DebugMenu_Level100Team 2
 	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
-	@setvar SCROLL_MULTICHOICE_NUM, 8        @ total number of items
-    @setvar SCROLL_MULTICHOICE_HEIGHT, 8     @ visible rows (use 7 for a scrollbar)
-	@multichoice 0x0 0x0 SCROLL_MULTICHOICE_NUM SCROLL_MULTICHOICE_HEIGHT
 
-	@ Reset 0x8004 and 0x800D (Required for Scrolling Multichoice)
-    @ resetvar 0x8004
-    @ resetvar 0x800D
-
-    @ Scrolling Multichoice
-    @ setvar 0x8000 0 @ Multichoice Index
-    @ setvar 0x8001 6 @ Number of options to display at once
-    @ special 0x158   @ Scrolling Multichoice
-    @ waitstate
 	switch LASTRESULT
-@	case 0, SystemScript_DebugMenu_SetFlag
 	case 0, SystemScript_DebugMenu_PokeVial
 	case 1, SystemScript_DebugMenu_GiveItem
 	case 2, OpenPCBox
-	@ case 2, SystemScript_DebugMenu_PortablePC
-	@ case 3, SystemScript_DebugMenu_MaxCoinage
 	case 3, SystemScript_DebugMenu_TrainerSee
 	@ case 4, SystemScript_DebugMenu_ShinyTeam
 	case 4, SystemScript_WarpFly
@@ -1264,11 +1248,13 @@ SystemScript_DebugMenu_Debug:
 	multichoiceoption gText_DebugMenu_Dex 0
 	multichoiceoption gText_DebugMenu_StartWildBattle 1
 	multichoiceoption gText_DebugMenu_SetFlag 2
-	multichoice 0, 0, THREE_MULTICHOICE_OPTIONS, 0
+	multichoiceoption gText_ChangeTeraType 3
+	multichoice 0, 0, FOUR_MULTICHOICE_OPTIONS, 0
 	switch LASTRESULT
 		case 0, SystemScript_DebugMenu_DebugPokedex
 		case 1, SystemScript_DebugMenu_StartWildBattleNow
 		case 2, SystemScript_DebugMenu_SetFlag
+		case 3, EventScript_ChangeTeraTypeNPC
 	releaseall
 	end
 

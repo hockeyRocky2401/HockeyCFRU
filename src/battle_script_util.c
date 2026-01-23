@@ -810,7 +810,8 @@ void DoBattleFieldEffect(void)
 			}
 			else if (!IsTrickRoomActive())
 			{
-				gNewBS->TrickRoomTimer = 5;
+				//Changed from 5 to 7 turns
+				gNewBS->TrickRoomTimer = 7;
 				gBattleStringLoader = TrickRoomSetString;
 			}
 			else
@@ -1315,26 +1316,38 @@ void TrySetMagnetRise(void)
 
 void TailwindLuckyChantFunc(void)
 {
-	switch (gCurrentMove) {
-		case MOVE_TAILWIND:
-			if (BankSideHasTailwind(gBankAttacker))
-				gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
-			else
-			{
-				gNewBS->TailwindTimers[SIDE(gBankAttacker)] = 5; //was 4 turns
-				gBattleStringLoader = TailwindSetString;
-			}
-			break;
-		case MOVE_LUCKYCHANT:
-			if (gNewBS->LuckyChantTimers[SIDE(gBankAttacker)])
-				gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
-			else
-			{
-				gNewBS->LuckyChantTimers[SIDE(gBankAttacker)] = 4;
-				gBattleStringLoader = LuckyChantSetString;
-			}
-			break;
-	}
+    switch (gCurrentMove)
+    {
+    case MOVE_TAILWIND:
+        if (BankSideHasTailwind(gBankAttacker))
+        {
+            gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
+        }
+        else
+        {
+            u8 side = SIDE(gBankAttacker);
+
+            gNewBS->TailwindTimers[side] = 5;
+            gBattleStringLoader = TailwindSetString;
+
+            // ✅ IMPORTANT: move script cursor forward so we don't re-run this native on return
+            gBattlescriptCurrInstr += 5;
+
+            TryActivateWindRiderOnTailwind(side);
+        }
+        break;
+
+    case MOVE_LUCKYCHANT:
+        if (gNewBS->LuckyChantTimers[SIDE(gBankAttacker)])
+            gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
+        else
+        {
+            gNewBS->LuckyChantTimers[SIDE(gBankAttacker)] = 4;
+            gBattleStringLoader = LuckyChantSetString;
+            gBattlescriptCurrInstr += 5; // (harmless/consistent if this native is 5 bytes)
+        }
+        break;
+    }
 }
 
 void FlameBurstFunc(void)
@@ -2791,4 +2804,28 @@ void TryUpperHand(void)
 		return;
 
 	gBattlescriptCurrInstr = BattleScript_ButItFailed - 5 - 2;
+}
+
+void TryActivateWindRiderOnTailwind(u8 side)
+{
+    const u8 *returnInstr = gBattlescriptCurrInstr; // already advanced by caller
+
+    for (u8 battler = 0; battler < gBattlersCount; ++battler)
+    {
+        if (SIDE(battler) != side)
+            continue;
+        if (!BATTLER_ALIVE(battler))
+            continue;
+        if (!SpeciesHasWindRider(SPECIES(battler)))
+            continue;
+        if (STAT_STAGE(battler, STAT_ATK) >= 12)
+            continue;
+
+        gActiveBattler = battler;
+        gLastUsedAbility = ABILITY_ANGERPOINT; // your reused slot
+        gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
+
+        BattleScriptPush(returnInstr);
+        gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
+    }
 }

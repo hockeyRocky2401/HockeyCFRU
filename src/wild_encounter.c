@@ -635,8 +635,8 @@ static bool8 TryGenerateSwarmMon(u8 level, u8 wildMonIndex, bool8 purgeParty)
 		u8 mapName = gSwarmTable[index].mapName;
 		u16 species = gSwarmTable[index].species;
 
-		if (mapName == GetCurrentRegionMapSectionId()
-		&& Random() % 100 < SWARM_CHANCE)
+		if (mapName == GetCurrentRegionMapSectionId())
+		// && Random() % 100 < SWARM_CHANCE)
 		{
 			CreateWildMon(species, level, wildMonIndex, purgeParty);
 			return TRUE;
@@ -957,8 +957,8 @@ bool8 StandardWildEncounter(const u32 currMetaTileBehavior, const u16 previousMe
 			#ifdef FLAG_DOUBLE_WILD_BATTLE
 			if (!FlagGet(FLAG_DOUBLE_WILD_BATTLE) //Flag hasn't already been set by user
 			&&  ViableMonCount(gPlayerParty) >= 2
-			&&  (lowerByte & TILE_FLAG_WILD_DOUBLE)
-			&&  Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE)
+			&&  (lowerByte & TILE_FLAG_WILD_DOUBLE))
+			// &&  Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE)
 			{
 				FlagSet(FLAG_DOUBLE_WILD_BATTLE);
 				clearDoubleFlag = TRUE;
@@ -1007,8 +1007,8 @@ bool8 StandardWildEncounter(const u32 currMetaTileBehavior, const u16 previousMe
 			#ifdef FLAG_DOUBLE_WILD_BATTLE
 			if (!FlagGet(FLAG_DOUBLE_WILD_BATTLE) //Flag hasn't already been set by user
 			&&  ViableMonCount(gPlayerParty) >= 2
-			&&  lowerByte & TILE_FLAG_WILD_DOUBLE
-			&&  Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE)
+			&&  lowerByte & TILE_FLAG_WILD_DOUBLE)
+			// &&  Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE)
 			{
 				FlagSet(FLAG_DOUBLE_WILD_BATTLE);
 				clearDoubleFlag = TRUE;
@@ -1122,7 +1122,7 @@ static void TrySetDoubleSweetScentBattle(void)
 {
 	#ifdef SWEET_SCENT_WILD_DOUBLE_BATTLES
 	if (!FlagGet(FLAG_DOUBLE_WILD_BATTLE) //Flag hasn't already been set
-	&& Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE
+	// && Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE
 	&& ViableMonCount(gPlayerParty) >= 2) //Player has two Pokeon that can battle on their own
 		FlagSet(FLAG_DOUBLE_WILD_BATTLE); //Sweet Scent can trigger a wild double battle
 	#endif

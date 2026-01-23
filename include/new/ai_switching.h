@@ -18,6 +18,9 @@ s16 GetMostSuitableMonToSwitchIntoScore(void);
 u8 GetMostSuitableMonToSwitchIntoFlags(void);
 u8 GetSecondMostSuitableMonToSwitchIntoFlags(void);
 u8 CalcMostSuitableMonToSwitchInto(void);
+//Added with AI 
+u8 GetMostSuitableMonToSwitchIntoId(void);
+//
 void ResetBestMonToSwitchInto(u8 bank);
 void RemoveBestMonToSwitchInto(u8 bank);
 void ShouldDoAIShiftSwitch(void);

@@ -70,9 +70,9 @@ extern const MapsecToHealLoc sMapsecToHealLoc[];
 u32 GetFlyLocationCount(void);
 
 
-static void Debug_OpenFly(void);
+// static void Debug_OpenFly(void);
 
-static void DebugMenu_Action_Fly(void) { Debug_OpenFly(); }
+// static void DebugMenu_Action_Fly(void) { Debug_OpenFly(); }
 
 // Forward declaration (prevents order issues)
 // static void Task_LaunchFlyMapAfterFade(u8 taskId);
@@ -409,11 +409,11 @@ void DebugMenu_ForceRedraw(void)
 // }
 
 // ----- helper that mirrors SetUpFieldMove_Fly -----
-static bool8 CanDebugFlyHere(void)
-{
-    // Minimal gate; mirror your SetUpFieldMove_Fly rules if you want followers/Unbound checks too.
-    return Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType);
-}
+// static bool8 CanDebugFlyHere(void)
+// {
+//     // Minimal gate; mirror your SetUpFieldMove_Fly rules if you want followers/Unbound checks too.
+//     return Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType);
+// }
 
 // static void Debug_OpenFly(void)
 // {

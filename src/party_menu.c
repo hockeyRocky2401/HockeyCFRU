@@ -1544,7 +1544,7 @@ void sp10B_CanUseRockSmashOnRock(void)
         // NEW: HM in bag allows it even with no eligible mon
         if (CheckBagHasItem(item, 1) > 0)
         {
-            GetFirstNonEggIn8004();
+        //     GetFirstNonEggIn8004();
             return;
         }
     #endif
@@ -1572,7 +1572,7 @@ void sp10C_CanUseStrengthOnBoulder(void)
         return;
 
     // Pick a safe mon index for scripts that expect one
-    GetFirstNonEggIn8004();
+//     GetFirstNonEggIn8004();
 }
 
 

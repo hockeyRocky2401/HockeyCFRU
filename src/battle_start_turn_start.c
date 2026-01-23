@@ -1578,403 +1578,418 @@ case Tera_Check:
 
 void HandleAction_UseMove(void)
 {
-	u8 side;
-	u8 moveType;
-	int i, j;
+    u8 side;
+    u8 moveType;
+    int i, j;
 
-	if (!gNewBS->PledgeHelper) //Don't recalculate during pledge execution
-	{
-		//Recalculate turn order before each attack
-		for (i = gCurrentTurnActionNumber; i < gBattlersCount - 1; ++i)
-		{
-			for (j = i + 1; j < gBattlersCount; ++j)
-			{
-				u8 bank1 = gBanksByTurnOrder[i];
-				u8 bank2 = gBanksByTurnOrder[j];
-				if (gActionsByTurnOrder[i] != ACTION_USE_ITEM
-					&& gActionsByTurnOrder[j] != ACTION_USE_ITEM
-					&& gActionsByTurnOrder[i] != ACTION_SWITCH
-					&& gActionsByTurnOrder[j] != ACTION_SWITCH
-					&& gActionsByTurnOrder[i] != ACTION_FINISHED
-					&& gActionsByTurnOrder[j] != ACTION_FINISHED
-					&& !(gNewBS->turnOrderLocked & gBitTable[bank1])
-					&& !(gNewBS->turnOrderLocked & gBitTable[bank2]))
-				{
-					if (GetWhoStrikesFirstUseLastBracketCalc(bank1, bank2))
-						SwapTurnOrder(i, j);
-				}
-			}
-		}
-	}
+    if (!gNewBS->PledgeHelper) //Don't recalculate during pledge execution
+    {
+        //Recalculate turn order before each attack
+        for (i = gCurrentTurnActionNumber; i < gBattlersCount - 1; ++i)
+        {
+            for (j = i + 1; j < gBattlersCount; ++j)
+            {
+                u8 bank1 = gBanksByTurnOrder[i];
+                u8 bank2 = gBanksByTurnOrder[j];
+                if (gActionsByTurnOrder[i] != ACTION_USE_ITEM
+                    && gActionsByTurnOrder[j] != ACTION_USE_ITEM
+                    && gActionsByTurnOrder[i] != ACTION_SWITCH
+                    && gActionsByTurnOrder[j] != ACTION_SWITCH
+                    && gActionsByTurnOrder[i] != ACTION_FINISHED
+                    && gActionsByTurnOrder[j] != ACTION_FINISHED
+                    && !(gNewBS->turnOrderLocked & gBitTable[bank1])
+                    && !(gNewBS->turnOrderLocked & gBitTable[bank2]))
+                {
+                    if (GetWhoStrikesFirstUseLastBracketCalc(bank1, bank2))
+                        SwapTurnOrder(i, j);
+                }
+            }
+        }
+    }
 
-	gBankAttacker = gBanksByTurnOrder[gCurrentTurnActionNumber];
+    // // ---- SAFETY: ensure the turn index is valid before indexing gBanksByTurnOrder ----
+    // if (gCurrentTurnActionNumber >= gBattlersCount)
+    // {
+    //     // Optional debug:
+    //     // AGBPrintf("BAD turnAction=%d battlers=%d\n", gCurrentTurnActionNumber, gBattlersCount);
+    //     gCurrentActionFuncId = ACTION_FINISHED;
+    //     return;
+    // }
 
-	if (gBattleStruct->field_91 & gBitTable[gBankAttacker])
-	{
-		//error message in case of wrong turn on tera
-		AGBPrintf("SKIP bank=%d action=%d teraChosen=%d used=%d\n",
-        gBankAttacker,
-        gActionsByTurnOrder[gCurrentTurnActionNumber],
-        gNewBS->teraData.chosen[gBankAttacker],
-        IsTerastallized(gBankAttacker));
-		gCurrentActionFuncId = ACTION_FINISHED;
-		return;
-	}
+    gBankAttacker = gBanksByTurnOrder[gCurrentTurnActionNumber];
 
-	gHpDealt = 0;
-	gCritMultiplier = BASE_CRIT_MULTIPLIER;
-	gBattleScripting.dmgMultiplier = 1;
-	gBattleStruct->atkCancellerTracker = 0;
-	gMoveResultFlags = 0;
-	gMultiHitCounter = 0;
-	gNewBS->OriginalAttackerTargetCount = 0;
-	gNewBS->ParentalBondOn = FALSE;
-	gNewBS->DancerInProgress = FALSE;
-	gNewBS->MoveBounceInProgress = FALSE;
-	gNewBS->breakDisguiseSpecialDmg = FALSE;
-	gNewBS->dontActivateMoldBreakersAnymoreThisTurn = FALSE;
-	gNewBS->printedStrongWindsWeakenedAttack = FALSE;
-	gNewBS->cramorantTransformed = FALSE;
-	gNewBS->zMoveData.active = FALSE;
-	gNewBS->batonPassing = FALSE;
-	gNewBS->dynamaxData.nullifiedStats = FALSE;
-	gNewBS->dynamaxData.attackAgain = FALSE;
-	gBattleCommunication[MOVE_EFFECT_BYTE] = 0; //Remove secondary effects
-	gBattleCommunication[6] = 0;
-	gCurrMovePos = gChosenMovePos = gBattleStruct->chosenMovePositions[gBankAttacker];
+    // // ---- SAFETY: ensure bank index is valid before ANY gBitTable/array access ----
+    // if (gBankAttacker >= gBattlersCount)
+    // {
+    //     // Optional debug:
+    //     // AGBPrintf("BAD bankAttacker=%d turnAction=%d battlers=%d\n", gBankAttacker, gCurrentTurnActionNumber, gBattlersCount);
+    //     gCurrentActionFuncId = ACTION_FINISHED;
+    //     return;
+    // }
+if (gBattleStruct->field_91 & gBitTable[gBankAttacker])
+{
+    // u8 bank = gBankAttacker;
 
-	gNewBS->totalDamageGiven = 0;
-	gNewBS->selfInflictedDamage = 0;
-	gNewBS->enduredDamage = 0;
-	gNewBS->lessThanHalfHPBeforeShellBell = FALSE;
-	ResetDoublesSpreadMoveCalcs(); //Clear spread move things
+    // If bank is invalid for any reason, don't read per-battler arrays with it.
+    // Still finish the action to avoid softlocks.
+    // if (bank >= gBattlersCount)
+    // {
+        // Optional debug (safe: doesn't index any per-battler arrays)
+        /*
+        AGBPrintf("SKIP: BAD bank=%d battlers=%d action=%d turn=%d\n",
+                  bank,
+                  gBattlersCount,
+                  gActionsByTurnOrder[gCurrentTurnActionNumber],
+                  gCurrentTurnActionNumber);
+        */
+        gCurrentActionFuncId = ACTION_FINISHED;
+        return;
+    }
 
-	for (int i = 0; i < MAX_BATTLERS_COUNT; ++i)
-	{
-		gNewBS->DamageTaken[i] = 0;
-		gNewBS->turnDamageTaken[i] = 0;
-		gNewBS->criticalMultiplier[i] = 0;
-		gNewBS->ResultFlags[i] = 0;
-		gNewBS->missStringId[i] = 0;
-		gNewBS->noResultString[i] = 0;
-		gNewBS->statFellThisTurn[i] = FALSE;
-	}
-
-	if (IsRaidBattle())
-		gNewBS->dynamaxData.turnStartHP = gBattleMons[BANK_RAID_BOSS].hp;
-
-//Get Move to be Used
-	if (gProtectStructs[gBankAttacker].onlyStruggle)
-	{
-		gProtectStructs[gBankAttacker].onlyStruggle = 0;
-		gCurrentMove = gChosenMove = MOVE_STRUGGLE;
-		gHitMarker |= HITMARKER_NO_PPDEDUCT;
-		gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(MOVE_STRUGGLE, 0);
-	}
-	else if (gBattleMons[gBankAttacker].status2 & STATUS2_RECHARGE)
-	{
-		gChosenMovesByBanks[gBankAttacker] = gCurrentMove = gChosenMove = gLockedMoves[gBankAttacker];
-	}
-	else if (gBattleMons[gBankAttacker].status2 & STATUS2_MULTIPLETURNS)
-	{
-		gChosenMovesByBanks[gBankAttacker] = gCurrentMove = gChosenMove = gLockedMoves[gBankAttacker];
-	}
-	// Encore forces you to use the same move
-	else if (gDisableStructs[gBankAttacker].encoredMove != MOVE_NONE
-		  && gDisableStructs[gBankAttacker].encoredMove == gBattleMons[gBankAttacker].moves[gDisableStructs[gBankAttacker].encoredMovePos]
-		  && !gNewBS->zMoveData.toBeUsed[gBankAttacker] //If a Z-Move was chosen, it can still be used
-		  && !gNewBS->dynamaxData.active)
-	{
-		gChosenMove = gBattleMons[gBankAttacker].moves[gCurrMovePos];
-		if (gChosenMove != gDisableStructs[gBankAttacker].encoredMove) //The encored move wasn't chosen
-			gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(gDisableStructs[gBankAttacker].encoredMove, 0); //Get correct target
-
-		gCurrentMove = gChosenMove = gDisableStructs[gBankAttacker].encoredMove;
-		gCurrMovePos = gChosenMovePos = gDisableStructs[gBankAttacker].encoredMovePos;
-	}
-	// Check if the encored move wasn't overwritten
-	else if (gDisableStructs[gBankAttacker].encoredMove != MOVE_NONE
-		  && gDisableStructs[gBankAttacker].encoredMove != gBattleMons[gBankAttacker].moves[gDisableStructs[gBankAttacker].encoredMovePos]
-		  && !gNewBS->zMoveData.toBeUsed[gBankAttacker] //If a Z-Move was chosen, it can still be used
-		  && !gNewBS->dynamaxData.active)
-	{
-		gCurrMovePos = gChosenMovePos = gDisableStructs[gBankAttacker].encoredMovePos;
-		gCurrentMove = gChosenMove = gBattleMons[gBankAttacker].moves[gCurrMovePos];
-		gDisableStructs[gBankAttacker].encoredMove = MOVE_NONE;
-		gDisableStructs[gBankAttacker].encoredMovePos = 0;
-		gDisableStructs[gBankAttacker].encoreTimer = 0;
-		gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(gCurrentMove, 0);
-	}
-	else if (gBattleMons[gBankAttacker].moves[gCurrMovePos] != gChosenMovesByBanks[gBankAttacker])
-	{
-		gCurrentMove = gChosenMove = gBattleMons[gBankAttacker].moves[gCurrMovePos];
-		gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(gCurrentMove, 0);
-	}
-	else
-	{
-		gCurrentMove = gChosenMove = gBattleMons[gBankAttacker].moves[gCurrMovePos];
-	}
-
-	if (gBattleMons[gBankAttacker].hp)
-	{
-		if (SIDE(gBankAttacker) == B_SIDE_PLAYER)
-			gBattleResults.lastUsedMovePlayer = gCurrentMove;
-		else
-			gBattleResults.lastUsedMoveOpponent = gCurrentMove;
-	}
-
-	if (gNewBS->zMoveData.toBeUsed[gBankAttacker]/* && !gNewBS->zMoveData.used[gBankAttacker]*/)
-	{
-		gNewBS->zMoveData.active = TRUE;
-
-		if (SPLIT(gCurrentMove) != SPLIT_STATUS)
-		{
-			u16 zmove = GetSpecialZMove(gCurrentMove, SPECIES(gBankAttacker), ITEM(gBankAttacker));
-			if (zmove != MOVE_NONE && zmove != 0xFFFF) //There's a special Z-Move
-				gCurrentMove = zmove;
-			else if (zmove != 0xFFFF) //This check is needed b/c in Benjamin Butterfree you can select a special Z-Move but then lose it before it activates
-				gCurrentMove = GetTypeBasedZMove(gBattleMons[gBankAttacker].moves[gCurrMovePos], gBankAttacker);
-			else
-			{
-				gNewBS->zMoveData.active = FALSE;
-				gNewBS->zMoveData.toBeUsed[gBankAttacker] = FALSE;
-			}
-		}
-		else
-		{
-			//This check is needed b/c in Benjamin Butterfree you can select a special Z-Move but then lose it before it activates
-			if (GetSpecialZMove(gCurrentMove, SPECIES(gBankAttacker), ITEM(gBankAttacker)) == 0xFFFF)
-			{
-				gNewBS->zMoveData.active = FALSE;
-				gNewBS->zMoveData.toBeUsed[gBankAttacker] = FALSE;
-			}
-		}
-	}
-	else if (IsDynamaxed(gBankAttacker))
-	{
-		if (IsRaidBattle() && gBankAttacker == BANK_RAID_BOSS)
-		{
-			u8 split = SPLIT(gCurrentMove);
-			bool8 isBannedMove = gSpecialMoveFlags[gCurrentMove].gRaidBattleBannedRaidMonMoves
-							  || gSpecialMoveFlags[gCurrentMove].gRaidBattleBannedMoves
-							  || gBattleMoves[gCurrentMove].effect == EFFECT_BIDE //Bide should always be executed as Max Strike
-							  || IsUnusableMove(gCurrentMove, gBankAttacker, 0xFF, 1, ABILITY(gBankAttacker), ITEM_EFFECT(gBankAttacker), CHOICED_MOVE(gBankAttacker));
-
-			if (isBannedMove && split != SPLIT_STATUS) //Use banned status move - don't use Max Guard
-			{
-				if (gBattleMoves[gCurrentMove].effect == EFFECT_BIDE)
-					gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(GetMaxMove(gBankAttacker, gCurrMovePos), FALSE); //Fix self-targeting
-
-				goto TURN_MOVE_INTO_MAX_MOVE;
-			}
-			else if (IsRaidBossUsingRegularMove(gBankAttacker, gCurrentMove))
-			{
-				//Samll chance to use regular damaging move
-				//Raid wild Pokemon shouldn't be using Max Guard
-			}
-			else
-				goto TURN_MOVE_INTO_MAX_MOVE;
-		}
-		else if (gCurrentMove != MOVE_STRUGGLE)
-		{
-			TURN_MOVE_INTO_MAX_MOVE:
-			gNewBS->dynamaxData.active = TRUE;
-			gCurrentMove = GetMaxMove(gBankAttacker, gCurrMovePos);
-			if (gCurrentMove == MOVE_MAX_GUARD)
-				gBattleStruct->moveTarget[gBankAttacker] = gBankAttacker; //Fix target to self
-		}
-	}
-
-	gBattleStruct->dynamicMoveType = GetMoveTypeSpecial(gBankAttacker, gCurrentMove);
-	moveType = gBattleStruct->dynamicMoveType;
-
-	TryChangeMoveTargetToCounterPlayerProtectCheese();
-
-//Get Move Target
-	u8 atkAbility = ABILITY(gBankAttacker);
-	u8 moveTarget = GetBaseMoveTarget(gCurrentMove, gBankAttacker);
-	side = SIDE(gBankAttacker) ^ BIT_SIDE;
-	bank_t selectedTarget = gBattleStruct->moveTarget[gBankAttacker];
-
-	if ((moveTarget == MOVE_TARGET_SELECTED || moveTarget == MOVE_TARGET_RANDOM)
-	&& IsMoveRedirectedByFollowMe(gCurrentMove, gBankAttacker, side))
-	{
-		gBankTarget = gSideTimers[side].followmeTarget;
-	}
-	else if (IS_DOUBLE_BATTLE
-		  && gSideTimers[side].followmeTimer == 0
-		  && !IsMoveRedirectionPrevented(gCurrentMove, atkAbility)
-		  && (SPLIT(gCurrentMove) != SPLIT_STATUS || moveTarget != MOVE_TARGET_USER)
-		  && !(moveTarget & (MOVE_TARGET_ALL | MOVE_TARGET_BOTH))
-		  && NO_MOLD_BREAKERS(ABILITY(gBankAttacker), gCurrentMove))
-	{ //Try Ability Redirection
-		switch (moveType) {
-			case TYPE_WATER:
-				if (ABILITY(selectedTarget) != ABILITY_STORMDRAIN)
-				{
-					if (ABILITY(SIDE(gBankAttacker) ^ BIT_SIDE) == ABILITY_STORMDRAIN)
-					{
-						gBankTarget = SIDE(gBankAttacker) ^ BIT_SIDE;
-						gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
-					}
-					else if (ABILITY(PARTNER(SIDE(gBankAttacker) ^ BIT_SIDE)) == ABILITY_STORMDRAIN)
-					{
-						gBankTarget = PARTNER(SIDE(gBankAttacker) ^ BIT_SIDE);
-						gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
-					}
-					else if (ABILITY(PARTNER(gBankAttacker)) == ABILITY_STORMDRAIN)
-					{
-						gBankTarget = PARTNER(gBankAttacker);
-						gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
-					}
-				}
-
-				break;
-
-			case TYPE_ELECTRIC:
-				if (ABILITY(selectedTarget) != ABILITY_LIGHTNINGROD)
-				{
-					if (ABILITY(SIDE(gBankAttacker) ^ BIT_SIDE) == ABILITY_LIGHTNINGROD)
-					{
-						gBankTarget = SIDE(gBankAttacker) ^ BIT_SIDE;
-						gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
-					}
-					else if (ABILITY(PARTNER(SIDE(gBankAttacker) ^ BIT_SIDE)) == ABILITY_LIGHTNINGROD)
-					{
-						gBankTarget = PARTNER(SIDE(gBankAttacker) ^ BIT_SIDE);
-						gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
-					}
-					else if (ABILITY(PARTNER(gBankAttacker)) == ABILITY_LIGHTNINGROD)
-					{
-						gBankTarget = PARTNER(gBankAttacker);
-						gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
-					}
-				}
-				break;
-		}
-
-		if (!gSpecialStatuses[gBankTarget].lightningRodRedirected)
-		{
-			if (moveTarget & MOVE_TARGET_RANDOM
-			&& !IsAnyMaxMove(gCurrentMove))
-				goto CHOOSE_RANDOM_TARGET_DOUBLES;
-			else
-				goto CHOOSE_REGULAR_TARGET_DOUBLES;
-		}
-	}
-	else if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE
-		  && moveTarget & MOVE_TARGET_RANDOM
-		  && !IsAnyMaxMove(gCurrentMove))
-	{
-	CHOOSE_RANDOM_TARGET_DOUBLES:
-		if (SIDE(gBankAttacker) == B_SIDE_PLAYER)
-		{
-			if (IsRaidBattle() || Random() & 1)
-				gBankTarget = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
-			else
-				gBankTarget = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
-		}
-		else
-		{
-			if (Random() & 1)
-				gBankTarget = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
-			else
-				gBankTarget = GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT);
-		}
-
-		if (gAbsentBattlerFlags & gBitTable[gBankTarget]
-		&& SIDE(gBankAttacker) != SIDE(gBankTarget))
-		{
-			gBankTarget = GetBattlerAtPosition(PARTNER(gBankTarget));
-		}
-	}
-	else if (IS_DOUBLE_BATTLE && moveTarget & MOVE_TARGET_ALL)
-	{
-		DetermineFirstMultiTarget();
-	}
-	else if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-	{
-	CHOOSE_REGULAR_TARGET_DOUBLES:
-		gBankTarget = selectedTarget;
-		if (gAbsentBattlerFlags & gBitTable[gBankTarget])
-		{
-			if (gBattleMoves[gCurrentMove].target & MOVE_TARGET_USER_OR_PARTNER) //Acupressure
-			{
-				gBankTarget = gBankAttacker; //Redirect to user instead
-			}
-			else if (SIDE(gBankAttacker) != SIDE(gBankTarget))
-			{
-				gBankTarget = PARTNER(gBankTarget);
-			}
-			else //Targeted Partner
-			{
-				if (gCurrentMove == MOVE_HEALPULSE || gCurrentMove == MOVE_INSTRUCT)
-				{
-					//Never redirect Heal Pulse or Instruct to the enemy
-					goto FAIL_NO_TARGET;
-				}
-				else
-				{
-					gBankTarget = GetBattlerAtPosition(GetBattlerPosition(gBankAttacker) ^ BIT_SIDE);
-					if (gAbsentBattlerFlags & gBitTable[gBankTarget])
-						gBankTarget = PARTNER(gBankTarget);
-				}
-			}
-		}
-	}
-	else
-		gBankTarget = selectedTarget;
-
-// 		// --- TERA: pre-move injection (does NOT consume the action) ---
-// if (gNewBS->teraData.chosen[gBankAttacker] && !IsTerastallized(gBankAttacker))
-// {
-//     u8* scr = DoTerastallize(gBankAttacker);  // returns BattleScript_Terastallize or NULL
-//     if (scr != NULL)
-//     {
-//         // one-shot the request for this battler
-//         gNewBS->teraData.chosen[gBankAttacker] = FALSE;
-
-//         // target sanity (in case the opponent just switched)
-//         if (!BATTLER_ALIVE(gBankTarget)
-//          || (gAbsentBattlerFlags & gBitTable[gBankTarget]))
-//         {
-//             gBankTarget = GetMoveTarget(gCurrentMove, 0);
-//         }
-
-//         // run Tera anim, then continue into the move (push/pop like Mega)
-//         // BattleScriptPush(gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect]);
-//         BattleScriptPushCursor();          // (or the equivalent in your CFRU)
-// 		gBattlescriptCurrInstr = scr;                 // BattleScript_Terastallize
-//         gCurrentActionFuncId = ACTION_RUN_BATTLESCRIPT;
-//         return;                                       // after Tera, it pops to the move script
-//     }
+    // Optional debug (now safe)
+//     AGBPrintf("SKIP bank=%d action=%d teraChosen=%d used=%d\n",
+//         gBankAttacker,
+//         gActionsByTurnOrder[gCurrentTurnActionNumber],
+//         gNewBS->teraData.chosen[gBankAttacker],
+//         IsTerastallized(gBankAttacker));
+//     gCurrentActionFuncId = ACTION_FINISHED;
+//     return;
 // }
-// // --- end TERA injection ---
 
+    gHpDealt = 0;
+    gCritMultiplier = BASE_CRIT_MULTIPLIER;
+    gBattleScripting.dmgMultiplier = 1;
+    gBattleStruct->atkCancellerTracker = 0;
+    gMoveResultFlags = 0;
+    gMultiHitCounter = 0;
+    gNewBS->OriginalAttackerTargetCount = 0;
+    gNewBS->ParentalBondOn = FALSE;
+    gNewBS->DancerInProgress = FALSE;
+    gNewBS->MoveBounceInProgress = FALSE;
+    gNewBS->breakDisguiseSpecialDmg = FALSE;
+    gNewBS->dontActivateMoldBreakersAnymoreThisTurn = FALSE;
+    gNewBS->printedStrongWindsWeakenedAttack = FALSE;
+    gNewBS->cramorantTransformed = FALSE;
+    gNewBS->zMoveData.active = FALSE;
+    gNewBS->batonPassing = FALSE;
+    gNewBS->dynamaxData.nullifiedStats = FALSE;
+    gNewBS->dynamaxData.attackAgain = FALSE;
+    gBattleCommunication[MOVE_EFFECT_BYTE] = 0; //Remove secondary effects
+    gBattleCommunication[6] = 0;
+    gCurrMovePos = gChosenMovePos = gBattleStruct->chosenMovePositions[gBankAttacker];
 
-	// choose battlescript
-	if (gStatuses3[gBankAttacker] & STATUS3_SKY_DROP_ATTACKER
-	&& !BATTLER_ALIVE(gNewBS->skyDropAttackersTarget[gBankAttacker]))
-	{
-		gStatuses3[gBankAttacker] &= ~(STATUS3_SKY_DROP_ATTACKER | STATUS3_SKY_DROP_TARGET | STATUS3_IN_AIR);
-		gNewBS->skyDropTargetsAttacker[gBankTarget] = 0;
-		gNewBS->skyDropAttackersTarget[gBankAttacker] = 0;
-		gBattlescriptCurrInstr = BattleScript_NoTargetMoveFailed;
-	}
-	else if (!BATTLER_ALIVE(gBankTarget)
-	&& AttacksThisTurn(gBankAttacker, gCurrentMove) == 2 //Not charging move
-	&& gBattleMoves[gCurrentMove].effect != EFFECT_EXPLOSION //Exploding moves still KO the attacker
+    gNewBS->totalDamageGiven = 0;
+    gNewBS->selfInflictedDamage = 0;
+    gNewBS->enduredDamage = 0;
+    gNewBS->lessThanHalfHPBeforeShellBell = FALSE;
+    ResetDoublesSpreadMoveCalcs(); //Clear spread move things
+
+    // Avoid "for (int i ...)" in case your toolchain isn't happy with C99 scoping
+    for (i = 0; i < MAX_BATTLERS_COUNT; ++i)
+    {
+        gNewBS->DamageTaken[i] = 0;
+        gNewBS->turnDamageTaken[i] = 0;
+        gNewBS->criticalMultiplier[i] = 0;
+        gNewBS->ResultFlags[i] = 0;
+        gNewBS->missStringId[i] = 0;
+        gNewBS->noResultString[i] = 0;
+        gNewBS->statFellThisTurn[i] = FALSE;
+    }
+
+    if (IsRaidBattle())
+        gNewBS->dynamaxData.turnStartHP = gBattleMons[BANK_RAID_BOSS].hp;
+
+    //Get Move to be Used
+    if (gProtectStructs[gBankAttacker].onlyStruggle)
+    {
+        gProtectStructs[gBankAttacker].onlyStruggle = 0;
+        gCurrentMove = gChosenMove = MOVE_STRUGGLE;
+        gHitMarker |= HITMARKER_NO_PPDEDUCT;
+        gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(MOVE_STRUGGLE, 0);
+    }
+    else if (gBattleMons[gBankAttacker].status2 & STATUS2_RECHARGE)
+    {
+        gChosenMovesByBanks[gBankAttacker] = gCurrentMove = gChosenMove = gLockedMoves[gBankAttacker];
+    }
+    else if (gBattleMons[gBankAttacker].status2 & STATUS2_MULTIPLETURNS)
+    {
+        gChosenMovesByBanks[gBankAttacker] = gCurrentMove = gChosenMove = gLockedMoves[gBankAttacker];
+    }
+    // Encore forces you to use the same move
+    else if (gDisableStructs[gBankAttacker].encoredMove != MOVE_NONE
+          && gDisableStructs[gBankAttacker].encoredMove == gBattleMons[gBankAttacker].moves[gDisableStructs[gBankAttacker].encoredMovePos]
+          && !gNewBS->zMoveData.toBeUsed[gBankAttacker] //If a Z-Move was chosen, it can still be used
+          && !gNewBS->dynamaxData.active)
+    {
+        gChosenMove = gBattleMons[gBankAttacker].moves[gCurrMovePos];
+        if (gChosenMove != gDisableStructs[gBankAttacker].encoredMove) //The encored move wasn't chosen
+            gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(gDisableStructs[gBankAttacker].encoredMove, 0); //Get correct target
+
+        gCurrentMove = gChosenMove = gDisableStructs[gBankAttacker].encoredMove;
+        gCurrMovePos = gChosenMovePos = gDisableStructs[gBankAttacker].encoredMovePos;
+    }
+    // Check if the encored move wasn't overwritten
+    else if (gDisableStructs[gBankAttacker].encoredMove != MOVE_NONE
+          && gDisableStructs[gBankAttacker].encoredMove != gBattleMons[gBankAttacker].moves[gDisableStructs[gBankAttacker].encoredMovePos]
+          && !gNewBS->zMoveData.toBeUsed[gBankAttacker] //If a Z-Move was chosen, it can still be used
+          && !gNewBS->dynamaxData.active)
+    {
+        gCurrMovePos = gChosenMovePos = gDisableStructs[gBankAttacker].encoredMovePos;
+        gCurrentMove = gChosenMove = gBattleMons[gBankAttacker].moves[gCurrMovePos];
+        gDisableStructs[gBankAttacker].encoredMove = MOVE_NONE;
+        gDisableStructs[gBankAttacker].encoredMovePos = 0;
+        gDisableStructs[gBankAttacker].encoreTimer = 0;
+        gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(gCurrentMove, 0);
+    }
+    else if (gBattleMons[gBankAttacker].moves[gCurrMovePos] != gChosenMovesByBanks[gBankAttacker])
+    {
+        gCurrentMove = gChosenMove = gBattleMons[gBankAttacker].moves[gCurrMovePos];
+        gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(gCurrentMove, 0);
+    }
+    else
+    {
+        gCurrentMove = gChosenMove = gBattleMons[gBankAttacker].moves[gCurrMovePos];
+    }
+
+    if (gBattleMons[gBankAttacker].hp)
+    {
+        if (SIDE(gBankAttacker) == B_SIDE_PLAYER)
+            gBattleResults.lastUsedMovePlayer = gCurrentMove;
+        else
+            gBattleResults.lastUsedMoveOpponent = gCurrentMove;
+    }
+
+    if (gNewBS->zMoveData.toBeUsed[gBankAttacker]/* && !gNewBS->zMoveData.used[gBankAttacker]*/)
+    {
+        gNewBS->zMoveData.active = TRUE;
+
+        if (SPLIT(gCurrentMove) != SPLIT_STATUS)
+        {
+            u16 zmove = GetSpecialZMove(gCurrentMove, SPECIES(gBankAttacker), ITEM(gBankAttacker));
+            if (zmove != MOVE_NONE && zmove != 0xFFFF) //There's a special Z-Move
+                gCurrentMove = zmove;
+            else if (zmove != 0xFFFF) //Needed b/c Benjamin Butterfree edge-case
+                gCurrentMove = GetTypeBasedZMove(gBattleMons[gBankAttacker].moves[gCurrMovePos], gBankAttacker);
+            else
+            {
+                gNewBS->zMoveData.active = FALSE;
+                gNewBS->zMoveData.toBeUsed[gBankAttacker] = FALSE;
+            }
+        }
+        else
+        {
+            if (GetSpecialZMove(gCurrentMove, SPECIES(gBankAttacker), ITEM(gBankAttacker)) == 0xFFFF)
+            {
+                gNewBS->zMoveData.active = FALSE;
+                gNewBS->zMoveData.toBeUsed[gBankAttacker] = FALSE;
+            }
+        }
+    }
+    else if (IsDynamaxed(gBankAttacker))
+    {
+        if (IsRaidBattle() && gBankAttacker == BANK_RAID_BOSS)
+        {
+            u8 split = SPLIT(gCurrentMove);
+            bool8 isBannedMove = gSpecialMoveFlags[gCurrentMove].gRaidBattleBannedRaidMonMoves
+                              || gSpecialMoveFlags[gCurrentMove].gRaidBattleBannedMoves
+                              || gBattleMoves[gCurrentMove].effect == EFFECT_BIDE //Bide should always be executed as Max Strike
+                              || IsUnusableMove(gCurrentMove, gBankAttacker, 0xFF, 1, ABILITY(gBankAttacker), ITEM_EFFECT(gBankAttacker), CHOICED_MOVE(gBankAttacker));
+
+            if (isBannedMove && split != SPLIT_STATUS)
+            {
+                if (gBattleMoves[gCurrentMove].effect == EFFECT_BIDE)
+                    gBattleStruct->moveTarget[gBankAttacker] = GetMoveTarget(GetMaxMove(gBankAttacker, gCurrMovePos), FALSE);
+
+                goto TURN_MOVE_INTO_MAX_MOVE;
+            }
+            else if (IsRaidBossUsingRegularMove(gBankAttacker, gCurrentMove))
+            {
+                // Small chance to use regular damaging move
+            }
+            else
+                goto TURN_MOVE_INTO_MAX_MOVE;
+        }
+        else if (gCurrentMove != MOVE_STRUGGLE)
+        {
+        TURN_MOVE_INTO_MAX_MOVE:
+            gNewBS->dynamaxData.active = TRUE;
+            gCurrentMove = GetMaxMove(gBankAttacker, gCurrMovePos);
+            if (gCurrentMove == MOVE_MAX_GUARD)
+                gBattleStruct->moveTarget[gBankAttacker] = gBankAttacker; //Fix target to self
+        }
+    }
+
+    gBattleStruct->dynamicMoveType = GetMoveTypeSpecial(gBankAttacker, gCurrentMove);
+    moveType = gBattleStruct->dynamicMoveType;
+
+    TryChangeMoveTargetToCounterPlayerProtectCheese();
+
+    //Get Move Target
+        u8 atkAbility = ABILITY(gBankAttacker);
+        u8 moveTarget = GetBaseMoveTarget(gCurrentMove, gBankAttacker);
+        side = SIDE(gBankAttacker) ^ BIT_SIDE;
+        bank_t selectedTarget = gBattleStruct->moveTarget[gBankAttacker];
+
+        if ((moveTarget == MOVE_TARGET_SELECTED || moveTarget == MOVE_TARGET_RANDOM)
+        && IsMoveRedirectedByFollowMe(gCurrentMove, gBankAttacker, side))
+        {
+            gBankTarget = gSideTimers[side].followmeTarget;
+        }
+        else if (IS_DOUBLE_BATTLE
+              && gSideTimers[side].followmeTimer == 0
+              && !IsMoveRedirectionPrevented(gCurrentMove, atkAbility)
+              && (SPLIT(gCurrentMove) != SPLIT_STATUS || moveTarget != MOVE_TARGET_USER)
+              && !(moveTarget & (MOVE_TARGET_ALL | MOVE_TARGET_BOTH))
+              && NO_MOLD_BREAKERS(ABILITY(gBankAttacker), gCurrentMove))
+        {
+            switch (moveType) {
+                case TYPE_WATER:
+                    if (ABILITY(selectedTarget) != ABILITY_STORMDRAIN)
+                    {
+                        if (ABILITY(SIDE(gBankAttacker) ^ BIT_SIDE) == ABILITY_STORMDRAIN)
+                        {
+                            gBankTarget = SIDE(gBankAttacker) ^ BIT_SIDE;
+                            gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
+                        }
+                        else if (ABILITY(PARTNER(SIDE(gBankAttacker) ^ BIT_SIDE)) == ABILITY_STORMDRAIN)
+                        {
+                            gBankTarget = PARTNER(SIDE(gBankAttacker) ^ BIT_SIDE);
+                            gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
+                        }
+                        else if (ABILITY(PARTNER(gBankAttacker)) == ABILITY_STORMDRAIN)
+                        {
+                            gBankTarget = PARTNER(gBankAttacker);
+                            gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
+                        }
+                    }
+                    break;
+
+                case TYPE_ELECTRIC:
+                    if (ABILITY(selectedTarget) != ABILITY_LIGHTNINGROD)
+                    {
+                        if (ABILITY(SIDE(gBankAttacker) ^ BIT_SIDE) == ABILITY_LIGHTNINGROD)
+                        {
+                            gBankTarget = SIDE(gBankAttacker) ^ BIT_SIDE;
+                            gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
+                        }
+                        else if (ABILITY(PARTNER(SIDE(gBankAttacker) ^ BIT_SIDE)) == ABILITY_LIGHTNINGROD)
+                        {
+                            gBankTarget = PARTNER(SIDE(gBankAttacker) ^ BIT_SIDE);
+                            gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
+                        }
+                        else if (ABILITY(PARTNER(gBankAttacker)) == ABILITY_LIGHTNINGROD)
+                        {
+                            gBankTarget = PARTNER(gBankAttacker);
+                            gSpecialStatuses[gBankTarget].lightningRodRedirected = 1;
+                        }
+                    }
+                    break;
+            }
+
+            if (!gSpecialStatuses[gBankTarget].lightningRodRedirected)
+            {
+                if (moveTarget & MOVE_TARGET_RANDOM && !IsAnyMaxMove(gCurrentMove))
+                    goto CHOOSE_RANDOM_TARGET_DOUBLES;
+                else
+                    goto CHOOSE_REGULAR_TARGET_DOUBLES;
+            }
+        }
+        else if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE
+              && moveTarget & MOVE_TARGET_RANDOM
+              && !IsAnyMaxMove(gCurrentMove))
+        {
+        CHOOSE_RANDOM_TARGET_DOUBLES:
+            if (SIDE(gBankAttacker) == B_SIDE_PLAYER)
+            {
+                if (IsRaidBattle() || Random() & 1)
+                    gBankTarget = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+                else
+                    gBankTarget = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
+            }
+            else
+            {
+                if (Random() & 1)
+                    gBankTarget = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
+                else
+                    gBankTarget = GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT);
+            }
+
+            if (gAbsentBattlerFlags & gBitTable[gBankTarget]
+            && SIDE(gBankAttacker) != SIDE(gBankTarget))
+            {
+                gBankTarget = GetBattlerAtPosition(PARTNER(gBankTarget));
+            }
+        }
+        else if (IS_DOUBLE_BATTLE && moveTarget & MOVE_TARGET_ALL)
+        {
+            DetermineFirstMultiTarget();
+        }
+        else if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+        {
+        CHOOSE_REGULAR_TARGET_DOUBLES:
+            gBankTarget = selectedTarget;
+            if (gAbsentBattlerFlags & gBitTable[gBankTarget])
+            {
+                if (gBattleMoves[gCurrentMove].target & MOVE_TARGET_USER_OR_PARTNER) //Acupressure
+                {
+                    gBankTarget = gBankAttacker;
+                }
+                else if (SIDE(gBankAttacker) != SIDE(gBankTarget))
+                {
+                    gBankTarget = PARTNER(gBankTarget);
+                }
+                else
+                {
+                    if (gCurrentMove == MOVE_HEALPULSE || gCurrentMove == MOVE_INSTRUCT)
+					{
+                        goto FAIL_NO_TARGET;
+                    }
+                    else
+                    {
+                        gBankTarget = GetBattlerAtPosition(GetBattlerPosition(gBankAttacker) ^ BIT_SIDE);
+                        if (gAbsentBattlerFlags & gBitTable[gBankTarget])
+                            gBankTarget = PARTNER(gBankTarget);
+                    }
+                }
+            }
+        }
+        else
+            gBankTarget = selectedTarget;
+
+    // choose battlescript
+    if (gStatuses3[gBankAttacker] & STATUS3_SKY_DROP_ATTACKER
+    && !BATTLER_ALIVE(gNewBS->skyDropAttackersTarget[gBankAttacker]))
+    {
+        gStatuses3[gBankAttacker] &= ~(STATUS3_SKY_DROP_ATTACKER | STATUS3_SKY_DROP_TARGET | STATUS3_IN_AIR);
+        gNewBS->skyDropTargetsAttacker[gBankTarget] = 0;
+        gNewBS->skyDropAttackersTarget[gBankAttacker] = 0;
+        gBattlescriptCurrInstr = BattleScript_NoTargetMoveFailed;
+    }
+    else if (!BATTLER_ALIVE(gBankTarget)
+    && AttacksThisTurn(gBankAttacker, gCurrentMove) == 2
+    && gBattleMoves[gCurrentMove].effect != EFFECT_EXPLOSION
+    // && !(GetBaseMoveTarget(gCurrentMove, gBankAttacker) & MOVE_TARGET_OPPONENTS_FIELD)
 	&& !(moveTarget & MOVE_TARGET_OPPONENTS_FIELD) //Moves like Stealth Rock can still be used
+    // && !(SPLIT(gCurrentMove) == SPLIT_STATUS && (GetBaseMoveTarget(gCurrentMove, gBankAttacker) & MOVE_TARGET_DEPENDS)))
 	&& !(SPLIT(gCurrentMove) == SPLIT_STATUS && moveTarget & MOVE_TARGET_DEPENDS)) //Status moves like Metronome can still be used
-	{
-		FAIL_NO_TARGET:
-		CancelMultiTurnMoves(gBankAttacker);
-		gBattlescriptCurrInstr = BattleScript_NoTargetMoveFailed;
-	}
-	else
-		gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect];
+    {
+    FAIL_NO_TARGET:
+        CancelMultiTurnMoves(gBankAttacker);
+        gBattlescriptCurrInstr = BattleScript_NoTargetMoveFailed;
+    }
+    else
+    {
+        // Optional hardening: ensure effect index is valid (requires you to define NUM_BATTLE_MOVE_EFFECTS)
+        // u16 effect = gBattleMoves[gCurrentMove].effect;
+        // if (effect >= NUM_BATTLE_MOVE_EFFECTS)
+        //     gBattlescriptCurrInstr = BattleScript_MoveFailed;
+        // else
+        //     gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[effect];
 
-	gCurrentActionFuncId = ACTION_RUN_BATTLESCRIPT;
+        gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect];
+    }
+
+    gCurrentActionFuncId = ACTION_RUN_BATTLESCRIPT;
 }
 
 void DetermineFirstMultiTarget(void)
@@ -2403,6 +2418,7 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 s8 PriorityCalc(u8 bank, u8 action, u16 move)
 {
 	u8 priority = 0;
+	// s8 priority = 0;
 
 	if (!BATTLER_ALIVE(bank))
 		return 0;

@@ -219,6 +219,10 @@ bool8 ShouldAIDelayTerastallization(u8 bankAtk, u8 bankDef, u16 move, bool8 opti
         if (!MoveWouldHitFirst(move, bankAtk, bankDef) // AI wouldn't attack first
         && MoveKnocksOutXHits(IsValidMovePrediction(bankDef, bankAtk), bankDef, bankAtk, 1)) // And foe would KO AI
             return TRUE;
+
+        //      // NEW: Delay if Tera clearly worsens this matchup.
+        // if (TeraWouldClearlyWorsenMatchup(bankAtk, bankDef, move))
+        //     return TRUE;
     }
     return FALSE;
 }
@@ -862,3 +866,100 @@ void TeraIconSummaryScreen(void)
 		ballSprite->data[1] = MAX_SPRITES; //No icon
 };
 #endif
+
+// static u16 GetBestFoeMoveForDamage(u8 bankFoeAtk, u8 bankFoeDef)
+// {
+//     return GetStrongestMove(bankFoeAtk, bankFoeDef);
+// }
+
+// u32 AI_CalcDmgVsCurrentTypes(u8 bankAtk, u8 bankDef, u16 move)
+// {
+//     struct DamageCalc dmgData = {0};
+//     return AI_CalcDmg(bankAtk, bankDef, move, &dmgData);
+// }
+
+// static void SetSingleType(u8 bank, u8 type)
+// {
+//     gBattleMons[bank].type1 = type;
+//     gBattleMons[bank].type2 = type;
+// }
+
+// bool8 TeraWouldClearlyWorsenMatchup(u8 bankAtk, u8 bankDef, u16 plannedMove)
+// {
+//     u16 teraType = GetTeraType(bankAtk);
+//     if (teraType == TYPE_BLANK)
+//         return FALSE;
+
+//     // Optional safety: guard against invalid types if your repo can ever return junk here.
+//     #ifdef NUMBER_OF_MON_TYPES
+//     if (teraType >= NUMBER_OF_MON_TYPES)
+//         return FALSE;
+//     #endif
+
+//     // Pick what we think the foe will use this turn.
+//     // (Avoid cached strongest-move logic if you're worried about type simulation.)
+//     u16 foeBest = IsValidMovePrediction(bankDef, bankAtk);
+//     if (foeBest == MOVE_NONE)
+//         return FALSE;
+
+//     // 1) Defensive check: does foe damage into us increase a lot after Tera?
+//     // u32 foeDmgNoTera = AI_CalcDmgVsCurrentTypes(bankDef, bankAtk, foeBest);
+
+//     // // Simulate: we are the defender and our type becomes teraType.
+//     // u32 foeDmgTera   = AI_CalcDmgAsIfDefSingleType(bankDef, bankAtk, foeBest, (u8)teraType);
+
+//     // // 2) Offensive check: does our damage drop after Tera?
+//     // u32 ourDmgNoTera = AI_CalcDmgVsCurrentTypes(bankAtk, bankDef, plannedMove);
+
+//     // // Simulate: we are the attacker and our type becomes teraType.
+//     // u32 ourDmgTera   = AI_CalcDmgAsIfAtkSingleType(bankAtk, bankDef, plannedMove, (u8)teraType);
+
+//     // A) Defensive worsening test
+//     bool8 defWorsened = FALSE;
+//     if (foeDmgNoTera > 0)
+//     {
+//         if (foeDmgTera * 100 >= foeDmgNoTera * TERA_DEF_WORSEN_PCT)
+//             defWorsened = TRUE;
+//     }
+
+//     // B) Offensive loss test
+//     bool8 offLost = FALSE;
+//     if (ourDmgNoTera > 0)
+//     {
+//         if (ourDmgTera * 100 <= ourDmgNoTera * TERA_OFF_LOSS_PCT)
+//             offLost = TRUE;
+//     }
+
+//     // C) No compensating gain test
+//     bool8 noMeaningfulGain = TRUE;
+//     if (ourDmgNoTera > 0)
+//     {
+//         if (ourDmgTera * 100 >= ourDmgNoTera * TERA_SMALL_GAIN_PCT)
+//             noMeaningfulGain = FALSE;
+//     }
+
+//     if (defWorsened && (offLost || noMeaningfulGain))
+//         return TRUE;
+
+//     return FALSE;
+// }
+
+// static u32 AI_CalcDmgAsIfAtkSingleType(u8 bankAtk, u8 bankDef, u16 move, u8 newType)
+// {
+//     struct DamageCalc d = {0};
+//     d.overrideAtkTypes = TRUE;
+//     d.atkType1 = newType;
+//     d.atkType2 = newType;
+//     return AI_CalcDmg(bankAtk, bankDef, move, &d);
+// }
+
+// static u32 AI_CalcDmgAsIfDefSingleType(u8 bankAtk, u8 bankDef, u16 move, u8 newType)
+// {
+//     struct DamageCalc d = {0};
+//     d.overrideDefTypes = TRUE;
+//     d.defType1 = newType;
+//     d.defType2 = newType;
+//     return AI_CalcDmg(bankAtk, bankDef, move, &d);
+// }
+
+

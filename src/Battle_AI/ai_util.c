@@ -1,5 +1,6 @@
 #include "../defines.h"
 #include "../defines_battle.h"
+#include "../../include/mgba.h"
 #include "../../include/random.h"
 #include "../../include/constants/items.h"
 
@@ -41,6 +42,21 @@ static bool8 CalcShouldAIUseZMove(u8 bankAtk, u8 bankDef, u16 move);
 static bool8 IsEffectivePursuit(u16 move, bool8 defCantSwitch, bool8 playerHasSwitchedBefore);
 static u16 PickMoveHumanLikelyToChoose(u16 move1, u16 move2, u8 playerBank, u8 aiBank);
 static bool8 MoveHasUsefulSecondaryEffectToKOWith(u16 move);
+static u16 GetFinalAIMoveDamageFromParty(u16 move, struct Pokemon* monAtk, u8 bankDef, struct DamageCalc* damageData);
+// static bool8 AttackerHasStrongBestMoveOnTarget(u8 bankAtk, u8 bankDef);
+
+// Marks battlers that have switched at least once this battle
+static u8 sBattlerHasSwitchedMask = 0;
+
+// Track which party mon each battler had last time we checked
+static u8 sLastPartyIndex[MAX_BATTLERS_COUNT];
+static bool8 sSwitchTrackingInit = FALSE;
+
+//Added with AI - Track which battlers have confirmed switches this turn
+static inline bool8 BattlerHasSwitchedBefore(u8 battler)
+{
+    return (sBattlerHasSwitchedMask & gBitTable[battler]) != 0;
+}
 
 //My Custom with AI
 // Only used for AI damage estimation (not battle logic).
@@ -576,6 +592,8 @@ static u16 CalcStrongestMoveGoesFirst(u8 bankAtk, u8 bankDef)
 	bool8 badIdeaToMakeContact = BadIdeaToMakeContactWith(bankAtk, bankDef);
 	bool8 takesRecoilDamage = ABILITY(bankAtk) != ABILITY_MAGICGUARD;
 	bool8 defCantSwitch = !CAN_SWITCH_OUT(bankDef);
+	// bool8 playerHasSwitchedBefore = !IsPlayerInControl(bankDef) || gNewBS->ai.playerSwitchedCount != 0; //The AI bank is always considered to have switched before
+    // bool8 playerHasSwitchedBefore = FALSE;
 	bool8 playerHasSwitchedBefore = !IsPlayerInControl(bankDef) || gNewBS->ai.playerSwitchedCount != 0; //The AI bank is always considered to have switched before
 	bool8 playerIsAttacker = ShouldUseHumanLikelyMove(bankAtk, bankDef);
 	bool8 atkAbility = ABILITY(bankAtk);
@@ -1252,18 +1270,30 @@ bool8 RangeMoveCanHurtPartner(u16 move, u8 bankAtk, u8 bankAtkPartner)
 
 static bool8 CalculateMoveKnocksOutXHits(u16 move, u8 bankAtk, u8 bankDef, u8 numHits)
 {
-	if (GetFinalAIMoveDamage(move, bankAtk, bankDef, numHits, NULL) >= gBattleMons[bankDef].hp)
-		return TRUE;
+    if (move == MOVE_NONE || move >= MOVES_COUNT)
+        return FALSE;
 
-	return FALSE;
+    if (bankAtk >= gBattlersCount || bankDef >= gBattlersCount)
+        return FALSE;
+
+    if (numHits == 0)
+        return FALSE;
+
+    return (GetFinalAIMoveDamage(move, bankAtk, bankDef, numHits, NULL) >= gBattleMons[bankDef].hp);
 }
 
 bool8 CalculateMoveKnocksOutXHitsFresh(u16 move, u8 bankAtk, u8 bankDef, u8 numHits)
 {
-	if (CalcFinalAIMoveDamage(move, bankAtk, bankDef, numHits, NULL) >= gBattleMons[bankDef].hp)
-		return TRUE;
+    if (move == MOVE_NONE || move >= MOVES_COUNT)
+        return FALSE;
 
-	return FALSE;
+    if (bankAtk >= gBattlersCount || bankDef >= gBattlersCount)
+        return FALSE;
+
+    if (numHits == 0)
+        return FALSE;
+
+    return (CalcFinalAIMoveDamage(move, bankAtk, bankDef, numHits, NULL) >= gBattleMons[bankDef].hp);
 }
 
 bool8 MoveKnocksOutXHits(u16 move, u8 bankAtk, u8 bankDef, u8 numHits)
@@ -1395,62 +1425,147 @@ static u32 AdjustFinalAIDamageForNumHits(u32 dmg, u16 move, u8 bankDef, u8 atkAb
 
 u16 CalcFinalAIMoveDamage(u16 move, u8 bankAtk, u8 bankDef, u8 numHits, struct DamageCalc* damageData)
 {
+    // Hard safety first
+    // if (move == MOVE_NONE || move >= MOVES_COUNT || numHits == 0 || gBattleMoves[move].power == 0)
 	if (move == MOVE_NONE || numHits == 0 || gBattleMoves[move].power == 0)
-		return 0;
+        return 0;
 
-	if (SPLIT(move) != SPLIT_STATUS && IsDamagingMoveUnusable(move, bankAtk, bankDef))
-		return 0;
+    // if (bankAtk >= gBattlersCount || bankDef >= gBattlersCount)
+    //     return 0;
 
-	switch (gBattleMoves[move].effect)
-	{
-		case EFFECT_0HKO:
-			if (!IsPlayerInControl(bankAtk) || MoveWillHit(move, bankAtk, bankDef)) //AI attacker or player will hit
-				return gBattleMons[bankDef].hp; //Assume the move will be used
-			return 1; //Assume the move does damage, but the player probably won't click it
+    // Save global context (many CFRU helpers still rely on these)
+    // u8 oldAttacker = gBankAttacker;
+    // u8 oldTarget   = gBankTarget;
+    // u8 oldActive   = gActiveBattler;
 
-		case EFFECT_COUNTER: //Includes Metal Burst
-		case EFFECT_MIRROR_COAT:
+    // gBankAttacker  = bankAtk;
+    // gBankTarget    = bankDef;
+    // gActiveBattler = bankAtk; // common expectation in some helper paths
+
+    // ---- original logic ----
+    if (SPLIT(move) != SPLIT_STATUS && IsDamagingMoveUnusable(move, bankAtk, bankDef))
+    {
+        // gBankAttacker = oldAttacker; gBankTarget = oldTarget; gActiveBattler = oldActive;
+        return 0;
+    }
+
+    switch (gBattleMoves[move].effect)
+    {
+        case EFFECT_0HKO:
+            if (!IsPlayerInControl(bankAtk) || MoveWillHit(move, bankAtk, bankDef))
+            // {
+            //     u16 hp = gBattleMons[bankDef].hp;
+            //     gBankAttacker = oldAttacker; gBankTarget = oldTarget; gActiveBattler = oldActive;
+            //     return hp;
+            // }
+            // gBankAttacker = oldAttacker; gBankTarget = oldTarget; gActiveBattler = oldActive;
+			return gBattleMons[bankDef].hp; //Assume the move will be used
+            return 1;
+
+        case EFFECT_COUNTER:
+        case EFFECT_MIRROR_COAT:
+        // {
+            // u16 out = MathMin(CalcPredictedDamageForCounterMoves(move, bankAtk, bankDef), gBattleMons[bankDef].hp);
+            // gBankAttacker = oldAttacker; gBankTarget = oldTarget; gActiveBattler = oldActive;
+            // return out;
 			return MathMin(CalcPredictedDamageForCounterMoves(move, bankAtk, bankDef), gBattleMons[bankDef].hp);
-	}
 
-	u32 dmg = AI_CalcDmg(bankAtk, bankDef, move, damageData);
-	dmg = TryAdjustDamageForRaidBoss(bankDef, dmg);
-	if (dmg >= gBattleMons[bankDef].hp)
+        // }
+    }
+
+    u32 dmg = AI_CalcDmg(bankAtk, bankDef, move, damageData);
+    dmg = TryAdjustDamageForRaidBoss(bankDef, dmg);
+
+    if (dmg >= gBattleMons[bankDef].hp)
 		return gBattleMons[bankDef].hp;
 
-	if (numHits >= 2)
-	{
-		u8 atkAbility = (damageData != NULL) ? damageData->atkAbility : ABILITY(bankAtk); //Would be loaded in by the damage calc prior
-		u8 defAbility = (damageData != NULL) ? damageData->defAbility : ABILITY(bankDef); //Would be loaded in by the damage calc prior
-		dmg = AdjustFinalAIDamageForNumHits(dmg, move, bankDef, atkAbility, defAbility, numHits);
-	}
-	else //Either 0 or 1
-		dmg *= numHits;
+        // dmg = gBattleMons[bankDef].hp;
 
-	return min(dmg, gBattleMons[bankDef].hp);
+    if (numHits >= 2)
+    {
+        u8 atkAbility = (damageData != NULL) ? damageData->atkAbility : ABILITY(bankAtk);
+        u8 defAbility = (damageData != NULL) ? damageData->defAbility : ABILITY(bankDef);
+        dmg = AdjustFinalAIDamageForNumHits(dmg, move, bankDef, atkAbility, defAbility, numHits);
+    }
+    else
+        dmg *= numHits;
+
+    // u16 out = min(dmg, gBattleMons[bankDef].hp);
+		return min(dmg, gBattleMons[bankDef].hp);
+
+    // Restore globals
+    // gBankAttacker = oldAttacker;
+    // gBankTarget   = oldTarget;
+    // gActiveBattler = oldActive;
+
+    // return out;
 }
 
 u32 GetFinalAIMoveDamage(u16 move, u8 bankAtk, u8 bankDef, u8 numHits, struct DamageCalc* damageData)
 {
-	u8 movePos = FindMovePositionInMoveset(move, bankAtk);
-	if (movePos < MAX_MON_MOVES) //Move in moveset
-	{
-		u32 damage;
-	
+    // If numHits is 0, don't do any work (also avoids weird callers during UI).
+    // if (numHits == 0)
+    //     return 0;
+
+    // // Hard safety: don't ever index battler arrays out of range.
+    // if (bankAtk >= gBattlersCount || bankDef >= gBattlersCount)
+    //     return 0;
+
+    // // Hard safety: invalid move id.
+    // if (move == MOVE_NONE || move >= MOVES_COUNT)
+    //     return 0;
+
+    // // Avoid divide-by-zero / uninitialized battler structs in weird controller moments.
+    // if (gBattleMons[bankDef].maxHP == 0)
+    //     return 0;
+
+    // // Never allow NULL damageData to flow into deeper code.
+    // struct DamageCalc localDmgData;
+    // if (damageData == NULL)
+    // {
+    //     memset(&localDmgData, 0, sizeof(localDmgData));
+    //     damageData = &localDmgData;
+    // }
+
+    u8 movePos = FindMovePositionInMoveset(move, bankAtk);
+
+    // Only use cache if:
+    // - move is actually in moveset
+    // - cache backing storage is valid
+    // Otherwise just compute directly.
+    // if (movePos < MAX_MON_MOVES && gNewBS != NULL)
+		if (movePos < MAX_MON_MOVES) //Move in moveset
+    {
+        // (Optional) If your cache dimension is [MAX_BATTLERS][MAX_BATTLERS][4],
+        // bankAtk/bankDef bounds above make this safe.
+
+        u32 damage;
+        // u32* cached = &gNewBS->ai.damageByMove[bankAtk][bankDef][movePos];
+
+        // if (*cached != 0xFFFFFFFF)
+        //     damage = *cached;
+        // else
+        //     damage = (*cached = CalcFinalAIMoveDamage(move, bankAtk, bankDef, 1, damageData));
 		if (gNewBS->ai.damageByMove[bankAtk][bankDef][movePos] != 0xFFFFFFFF)
 			damage = gNewBS->ai.damageByMove[bankAtk][bankDef][movePos];
 		else
 			damage = gNewBS->ai.damageByMove[bankAtk][bankDef][movePos] = CalcFinalAIMoveDamage(move, bankAtk, bankDef, 1, damageData);
 
-		if (numHits >= 2)
-			damage = AdjustFinalAIDamageForNumHits(damage, move, bankDef, ABILITY(bankAtk), ABILITY(bankDef), numHits);
-		else //Either 0 or 1
-			damage *= numHits;
+        if (numHits >= 2)
+            damage = AdjustFinalAIDamageForNumHits(damage, move, bankDef, ABILITY(bankAtk), ABILITY(bankDef), numHits);
+        else
+            damage *= numHits;
 
+        // return MathMin(damage, gBattleMons[bankDef].hp);
 		return min(damage, gBattleMons[bankDef].hp);
-	}
+    }
 
-	return CalcFinalAIMoveDamage(move, bankAtk, bankDef, numHits, damageData);
+    // Fallback: uncached path
+    // {
+    //     u32 damage = CalcFinalAIMoveDamage(move, bankAtk, bankDef, numHits, damageData);
+    //     return MathMin(damage, gBattleMons[bankDef].hp);
+    // }
+		return CalcFinalAIMoveDamage(move, bankAtk, bankDef, numHits, damageData);
 }
 
 static u16 CalcFinalAIMoveDamageFromParty(u16 move, struct Pokemon* monAtk, u8 bankDef, struct DamageCalc* damageData)
@@ -1478,26 +1593,38 @@ static u16 CalcFinalAIMoveDamageFromParty(u16 move, struct Pokemon* monAtk, u8 b
 }
 
 
+// static u16 GetFinalAIMoveDamageFromParty(u16 move, struct Pokemon* monAtk, u8 bankDef, struct DamageCalc* damageData)
 u16 GetFinalAIMoveDamageFromParty(u16 move, struct Pokemon* monAtk, u8 bankDef, struct DamageCalc* damageData)
 {
-	u32 finalDamage, monId, side, movePos;
-	GetMonIdAndSideByMon(monAtk, &monId, &side);
-	movePos = FindMovePositionInMonMoveset(move, monAtk);
+		u32 finalDamage, monId, side, movePos;
+    // u32 finalDamage;
+    // u32 monId, side, movePos;
+
+    GetMonIdAndSideByMon(monAtk, &monId, &side);
+    movePos = FindMovePositionInMonMoveset(move, monAtk);
 
 	if (monId < PARTY_SIZE
 	&& side < NUM_BATTLE_SIDES
 	&& movePos < MAX_MON_MOVES
 	&& gNewBS->ai.monDamageByMove[side][monId][bankDef][movePos] != 0xFFFFFFFF)
 		finalDamage = gNewBS->ai.monDamageByMove[side][monId][bankDef][movePos]; //Get cached data
-	else
-	{
-		finalDamage = gNewBS->ai.monDamageByMove[side][monId][bankDef][movePos] = CalcFinalAIMoveDamageFromParty(move, monAtk, bankDef, damageData);
 
-		if (finalDamage > gNewBS->ai.monMaxDamage[side][monId][bankDef])
-			gNewBS->ai.monMaxDamage[side][monId][bankDef] = finalDamage;
-	}
+    // If we can't safely index the cache, do a fresh calc and return.
+    // if (monId >= PARTY_SIZE || side >= NUM_BATTLE_SIDES || movePos >= MAX_MON_MOVES)
+    //     return CalcFinalAIMoveDamageFromParty(move, monAtk, bankDef, damageData);
 
-	return finalDamage;
+    // if (gNewBS->ai.monDamageByMove[side][monId][bankDef][movePos] != 0xFFFFFFFF)
+    //     finalDamage = gNewBS->ai.monDamageByMove[side][monId][bankDef][movePos];
+    else
+    {
+        finalDamage = gNewBS->ai.monDamageByMove[side][monId][bankDef][movePos]
+            = CalcFinalAIMoveDamageFromParty(move, monAtk, bankDef, damageData);
+
+        if (finalDamage > gNewBS->ai.monMaxDamage[side][monId][bankDef])
+            gNewBS->ai.monMaxDamage[side][monId][bankDef] = finalDamage;
+    }
+
+    return finalDamage;
 }
 
 static u32 CalcPredictedDamageForCounterMoves(u16 move, u8 bankAtk, u8 bankDef)
@@ -1554,204 +1681,221 @@ static void ClearDamageByMove(u8 bankAtk, u8 bankDef, u8 movePos)
 	gNewBS->ai.damageByMove[bankAtk][bankDef][movePos] = 0xFFFFFFFF;
 }
 
-static move_t CalcStrongestMoveIgnoringMove(const u8 bankAtk, const u8 bankDef, const bool8 onlySpreadMoves, const u16 ignoreMove)
+static move_t CalcStrongestMoveIgnoringMove(
+    const u8 bankAtk,
+    const u8 bankDef,
+    const bool8 onlySpreadMoves,
+    const u16 ignoreMove)
 {
-	u32 predictedDamage, highestDamage;
-	u16 strongestMove, bestMoveAcc, defHP;
+    u32 predictedDamage;
+    u32 highestDamage = 0;
+    u16 strongestMove = MOVE_NONE;
+    u16 bestMoveAcc = 0;
+    u16 defHP;
 
-	if ((defHP = gBattleMons[bankDef].hp) == 0) //Foe KOd
-		return MOVE_NONE;
+    if ((defHP = gBattleMons[bankDef].hp) == 0)
+        return MOVE_NONE;
 
-	predictedDamage = 0;
-	strongestMove = gBattleMons[bankAtk].moves[0];
-	highestDamage = 0;
-	bestMoveAcc = 0;
-	bool8 badIdeaToMakeContact = BadIdeaToMakeContactWith(bankAtk, bankDef);
-	bool8 takesRecoilDamage = ABILITY(bankAtk) != ABILITY_MAGICGUARD;
-	bool8 defCantSwitch = !CAN_SWITCH_OUT(bankDef);
-	bool8 playerHasSwitchedBefore = !IsPlayerInControl(bankDef) || gNewBS->ai.playerSwitchedCount != 0; //The AI bank is always considered to have switched before
-	bool8 playerIsAttacker = ShouldUseHumanLikelyMove(bankAtk, bankDef);
-	bool8 atkAbility = ABILITY(bankAtk);
-	struct DamageCalc damageData = {0};
-	u8 moveLimitations = CheckMoveLimitations(bankAtk, 0, AdjustMoveLimitationFlagsForAI(bankAtk));
+    bool8 badIdeaToMakeContact = BadIdeaToMakeContactWith(bankAtk, bankDef);
+    bool8 takesRecoilDamage = ABILITY(bankAtk) != ABILITY_MAGICGUARD;
+    bool8 defCantSwitch = !CAN_SWITCH_OUT(bankDef);
+    bool8 playerHasSwitchedBefore =
+        !IsPlayerInControl(bankDef) || gNewBS->ai.playerSwitchedCount != 0;
+    bool8 playerIsAttacker = ShouldUseHumanLikelyMove(bankAtk, bankDef);
+    u8 atkAbility = ABILITY(bankAtk);
 
-	//Save time and do this now instead of before each move
-	damageData.bankAtk = bankAtk;
-	damageData.bankDef = bankDef;
-	PopulateDamageCalcStructWithBaseAttackerData(&damageData);
-	PopulateDamageCalcStructWithBaseDefenderData(&damageData);
+    struct DamageCalc damageData = {0};
+    u8 moveLimitations =
+        CheckMoveLimitations(bankAtk, 0, AdjustMoveLimitationFlagsForAI(bankAtk));
 
-	for (u32 i = 0; i < MAX_MON_MOVES; ++i)
-	{
-		u16 move = gBattleMons[bankAtk].moves[i];
-		if (move == MOVE_NONE)
-			break;
+    damageData.bankAtk = bankAtk;
+    damageData.bankDef = bankDef;
+    PopulateDamageCalcStructWithBaseAttackerData(&damageData);
+    PopulateDamageCalcStructWithBaseDefenderData(&damageData);
 
-		if (move == ignoreMove)
-			continue;
+    for (u32 i = 0; i < MAX_MON_MOVES; ++i)
+    {
+        u16 move = gBattleMons[bankAtk].moves[i];
 
-		move = TryReplaceMoveWithZMove(bankAtk, bankDef, move);
+        if (move == MOVE_NONE)
+            break;
 
-		if (!(gBitTable[i] & moveLimitations))
-		{
-			if (gBattleMoves[move].power == 0
-			|| (onlySpreadMoves && !(GetBaseMoveTarget(move, bankAtk) & MOVE_TARGET_SPREAD)))
-				continue;
+        /* ---- default cache state ---- */
+        gNewBS->ai.damageByMove[bankAtk][bankDef][i] = 0xFFFFFFFF;
+        gNewBS->ai.moveKnocksOut1Hit[bankAtk][bankDef][i] = FALSE;
 
-			u8 moveEffect = gBattleMoves[move].effect;
+        if (move == ignoreMove)
+            continue;
 
-			if (moveEffect == EFFECT_0HKO)
-			{
-				if (gBattleMons[bankAtk].level < gBattleMons[bankDef].level
-				|| (move == MOVE_SHEERCOLD && IsOfType(bankDef, TYPE_ICE))
-				|| (ABILITY(bankDef) == ABILITY_STURDY)
-				|| (IsDynamaxed(bankDef) && !HasRaidShields(bankDef)) //Not hitting Raid shield
-				|| !(MoveWillHit(move, bankAtk, bankDef))) //Never worth the risk unless it's a sure hit
-					continue;
-			}
-	
-			// predictedDamage = CalcFinalAIMoveDamage(move, bankAtk, bankDef, 1, &damageData);
+        move = TryReplaceMoveWithZMove(bankAtk, bankDef, move);
 
-			//My Custom for Population Bomb
-			u8 hits = 1;
-            if (move == MOVE_POPULATIONBOMB && SPECIES(bankAtk) == SPECIES_MAUSHOLD)
+        if (gBitTable[i] & moveLimitations)
+            continue;
+
+        if (gBattleMoves[move].power == 0
+         || (onlySpreadMoves
+             && !(GetBaseMoveTarget(move, bankAtk) & MOVE_TARGET_SPREAD)))
+            continue;
+
+        /* ---- OHKO sanity ---- */
+        if (gBattleMoves[move].effect == EFFECT_0HKO)
+        {
+            if (gBattleMons[bankAtk].level < gBattleMons[bankDef].level
+             || (move == MOVE_SHEERCOLD && IsOfType(bankDef, TYPE_ICE))
+             || ABILITY(bankDef) == ABILITY_STURDY
+             || (IsDynamaxed(bankDef) && !HasRaidShields(bankDef))
+             || !MoveWillHit(move, bankAtk, bankDef))
+                continue;
+        }
+
+        /* ---- hit count ---- */
+        u8 hits = 1;
+        if (move == MOVE_POPULATIONBOMB
+         && SPECIES(bankAtk) == SPECIES_MAUSHOLD)
+        {
             hits = AI_EstimatedHitsForPopulationBomb(bankAtk, bankDef, move);
+        }
 
-            predictedDamage = CalcFinalAIMoveDamage(move, bankAtk, bankDef, hits, &damageData);
+        predictedDamage =
+            CalcFinalAIMoveDamage(move, bankAtk, bankDef, hits, &damageData);
 
+        /* ---- ✅ cache PER SLOT (CRITICAL FIX) ---- */
+        gNewBS->ai.damageByMove[bankAtk][bankDef][i] = predictedDamage;
+        gNewBS->ai.moveKnocksOut1Hit[bankAtk][bankDef][i] =
+            (predictedDamage >= defHP);
 
-			if (predictedDamage > (u32) highestDamage)
-			{
-				strongestMove = move;
-				highestDamage = predictedDamage;
-				bestMoveAcc = 0; //Haven't calculated it
-			}
-			else if (predictedDamage == highestDamage //This move does the same as the strongest move so far (they probably just both KO)
-			&& moveEffect != EFFECT_COUNTER
-			&& moveEffect != EFFECT_MIRROR_COAT //Never try to make counter moves a priority unless they do the most damage
-			&& moveEffect != EFFECT_FUTURE_SIGHT //Never try to make future attacks a priority unless they do the most damage
-			&& !IsEffectivePursuit(strongestMove, defCantSwitch, playerHasSwitchedBefore)) //Pursuit isn't already the best possible move that can be used if the player can switch out to avoid a KO
-			{
-				u8 thisPriority, bestPriority;
+        /* ---- strongest move selection ---- */
+        if (predictedDamage > highestDamage)
+        {
+            strongestMove = move;
+            highestDamage = predictedDamage;
+            bestMoveAcc = 0;
+        }
+        else if (predictedDamage == highestDamage
+              && gBattleMoves[move].effect != EFFECT_COUNTER
+              && gBattleMoves[move].effect != EFFECT_MIRROR_COAT
+              && gBattleMoves[move].effect != EFFECT_FUTURE_SIGHT
+              && !IsEffectivePursuit(strongestMove,
+                                     defCantSwitch,
+                                     playerHasSwitchedBefore))
+        {
+            u8 thisPriority, bestPriority;
 
-				if (IsEffectivePursuit(move, defCantSwitch, playerHasSwitchedBefore)) //Only prioritize Pursuit if the player has shown they like switching and can switch
-				{
-					strongestMove = move;
-					bestMoveAcc = 0; //Haven't calculated it
-				}
-				else if (gBattleMoves[strongestMove].effect == EFFECT_FUTURE_SIGHT //Strongest move is the slowest possible - it takes multiple turns
-				|| ((thisPriority = PriorityCalc(bankAtk, ACTION_USE_MOVE, move)) > (bestPriority = PriorityCalc(bankAtk, ACTION_USE_MOVE, strongestMove)) //Use faster of two strongest moves
-				 && gBattleMoves[move].effect != EFFECT_FUTURE_SIGHT)) //And this move isn't as slow as possible (multiple turns)
-				{
-					strongestMove = move;
-					bestMoveAcc = 0; //Haven't calculated it
-				}
-				else if (thisPriority == bestPriority) //Helps exclude negative priority moves - Future Attacks are allowed here
-				{
-					//Find which move has better Acc
-					u16 currAcc = (MoveWillHit(move, bankAtk, bankDef)) ? 100 : CalcAIAccuracy(move, bankAtk, bankDef);
+            if (IsEffectivePursuit(move,
+                                   defCantSwitch,
+                                   playerHasSwitchedBefore))
+            {
+                strongestMove = move;
+                bestMoveAcc = 0;
+            }
+            else if (gBattleMoves[strongestMove].effect == EFFECT_FUTURE_SIGHT
+                  || ((thisPriority =
+                       PriorityCalc(bankAtk, ACTION_USE_MOVE, move))
+                      > (bestPriority =
+                         PriorityCalc(bankAtk,
+                                      ACTION_USE_MOVE,
+                                      strongestMove))
+                      && gBattleMoves[move].effect != EFFECT_FUTURE_SIGHT))
+            {
+                strongestMove = move;
+                bestMoveAcc = 0;
+            }
+            else if (thisPriority == bestPriority)
+            {
+                u16 currAcc =
+                    MoveWillHit(move, bankAtk, bankDef)
+                        ? 100
+                        : CalcAIAccuracy(move, bankAtk, bankDef);
 
-					if (bestMoveAcc == 0) //Never bothered to calculate it before
-						bestMoveAcc = (MoveWillHit(strongestMove, bankAtk, bankDef)) ? 100 : CalcAIAccuracy(strongestMove, bankAtk, bankDef);
+                if (bestMoveAcc == 0)
+                    bestMoveAcc =
+                        MoveWillHit(strongestMove, bankAtk, bankDef)
+                            ? 100
+                            : CalcAIAccuracy(strongestMove,
+                                             bankAtk,
+                                             bankDef);
 
-					if (currAcc > bestMoveAcc && bestMoveAcc < 100)
-					{
-						//This move has a better chance of hitting
-						strongestMove = move;
-						bestMoveAcc = currAcc;
-					}
-					else if (currAcc == bestMoveAcc || currAcc >= 100)
-					{
-						if (!CanBeChoiceLocked(bankAtk)) //Only care about contact and recoil if not going to be locked into a single move
-						{
-							//Pick a non-contact move if contact is a bad idea
-							if (badIdeaToMakeContact)
-							{
-								bool8 strongestMoveContact = CheckContact(strongestMove, bankAtk, bankDef);
-								bool8 currMoveContact = CheckContact(move, bankAtk, bankDef);
+                if (currAcc > bestMoveAcc && bestMoveAcc < 100)
+                {
+                    strongestMove = move;
+                    bestMoveAcc = currAcc;
+                }
+                else if (currAcc == bestMoveAcc || currAcc >= 100)
+                {
+                    if (!CanBeChoiceLocked(bankAtk))
+                    {
+                        if (badIdeaToMakeContact)
+                        {
+                            bool8 sContact =
+                                CheckContact(strongestMove,
+                                             bankAtk,
+                                             bankDef);
+                            bool8 cContact =
+                                CheckContact(move,
+                                             bankAtk,
+                                             bankDef);
 
-								if (strongestMoveContact && !currMoveContact)
-								{
-									//The new move isn't contact unlike the old best move
-									strongestMove = move;
-									continue; //Proceed to next move
-								}
-								else if (!strongestMoveContact && currMoveContact)
-									continue; //Check the next move - this move is out
-								else if (strongestMoveContact && currMoveContact)
-								{
-									//They're both contact moves, so pick the one less likely to proc the contact
-									bool8 strongestMoveMultiHit = gBattleMoves[strongestMove].effect == EFFECT_MULTI_HIT;
-									bool8 currMoveMultiHit = gBattleMoves[move].effect == EFFECT_MULTI_HIT;
+                            if (sContact && !cContact)
+                                strongestMove = move;
+                            else if (!sContact && cContact)
+                                continue;
+                        }
 
-									if (strongestMoveMultiHit && !currMoveMultiHit)
-									{
-										//The new move isn't a multi-hit unlike the old best move
-										strongestMove = move;
-										continue; //Proceed to next move
-									}
-									else if (!strongestMoveMultiHit && currMoveMultiHit)
-										continue; //Check the next move - this move is out
-								}
-							}
+                        if (takesRecoilDamage)
+                        {
+                            bool8 sRecoil =
+                                CheckRecoil(strongestMove);
+                            bool8 cRecoil =
+                                CheckRecoil(move);
 
-							//Pick a non-recoil move preferably
-							if (takesRecoilDamage)
-							{
-								bool8 strongestMoveRecoil = CheckRecoil(strongestMove);
-								bool8 currMoveRecoil = CheckRecoil(move);
+                            if (sRecoil && !cRecoil)
+                                strongestMove = move;
+                            else if (!sRecoil && cRecoil)
+                                continue;
+                        }
 
-								if (strongestMoveRecoil && !currMoveRecoil)
-								{
-									//Prefer the move that doesn't do recoil damage
-									strongestMove = move;
-									continue; //Proceed to next move
-								}
-								else if (!strongestMoveRecoil && currMoveRecoil)
-									continue; //Check the next move - this move is out
-							}
+                        if (atkAbility != ABILITY_CONTRARY)
+                        {
+                            bool8 sStat =
+                                IsStatRecoilMove(strongestMove);
+                            bool8 cStat =
+                                IsStatRecoilMove(move);
 
-							//Pick a non-stat recoil move preferably
-							if (atkAbility != ABILITY_CONTRARY)
-							{
-								bool8 strongestMoveStatRecoil = IsStatRecoilMove(strongestMove);
-								bool8 currMoveStatRecoil = IsStatRecoilMove(move);
+                            if (sStat && !cStat)
+                                strongestMove = move;
+                            else if (!sStat && cStat)
+                                continue;
+                        }
 
-								if (strongestMoveStatRecoil && !currMoveStatRecoil)
-								{
-									//Prefer the move that doesn't lower stats
-									strongestMove = move;
-									continue; //Proceed to next move
-								}
-								else if (!strongestMoveStatRecoil && currMoveStatRecoil)
-									continue; //Check the next move - this move is out
-							}
+                        if (playerIsAttacker)
+                            strongestMove =
+                                PickMoveHumanLikelyToChoose(move,
+                                                           strongestMove,
+                                                           bankAtk,
+                                                           bankDef);
+                        else if (AIRandom() & 1)
+                            strongestMove = move;
+                    }
+                    else
+                    {
+                        if (CalcVisualBasePower(bankAtk,
+                                                0,
+                                                move,
+                                                TRUE)
+                         > CalcVisualBasePower(bankAtk,
+                                               0,
+                                               strongestMove,
+                                               TRUE))
+                        {
+                            strongestMove = move;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-							//Pick the move the player as a human would be more likely to pick
-							if (playerIsAttacker)
-								strongestMove = PickMoveHumanLikelyToChoose(move, strongestMove, bankAtk, bankDef);
-							//Finally pick a move at random
-							else if (AIRandom() & 1)
-								strongestMove = move;
-						}
-						else //Will be locked into this move
-						{
-							if (CalcVisualBasePower(bankAtk, 0, move, TRUE) > CalcVisualBasePower(bankAtk, 0, strongestMove, TRUE))
-								strongestMove = move; //Same accuracy so use move with higher power (probably will do more in the long run)
-						}
-					}
-				}
-			}
-
-			gNewBS->ai.damageByMove[bankAtk][bankDef][i] = predictedDamage;
-			if (predictedDamage >= defHP)
-				gNewBS->ai.moveKnocksOut1Hit[bankAtk][bankDef][i] = TRUE;
-			else
-				gNewBS->ai.moveKnocksOut1Hit[bankAtk][bankDef][i] = FALSE;
-		}
-	}
-
-	return strongestMove;
+    return strongestMove;
 }
 
 move_t CalcStrongestMove(const u8 bankAtk, const u8 bankDef, const bool8 onlySpreadMoves)
@@ -1764,20 +1908,29 @@ void RecalcStrongestMoveIgnoringMove(const u8 bankAtk, const u8 bankDef, const u
 	gNewBS->ai.strongestMove[bankAtk][bankDef] = CalcStrongestMoveIgnoringMove(bankAtk, bankDef, FALSE, ignoreMove);
 }
 
-bool8 IsStrongestMove(const u16 currentMove, const u8 bankAtk, const u8 bankDef)
-{
-	if (gNewBS->ai.strongestMove[bankAtk][bankDef] == 0xFFFF)
-		gNewBS->ai.strongestMove[bankAtk][bankDef] = CalcStrongestMove(bankAtk, bankDef, FALSE);
-
-	return gNewBS->ai.strongestMove[bankAtk][bankDef] == currentMove;
-}
-
 u16 GetStrongestMove(const u8 bankAtk, const u8 bankDef)
 {
-	if (gNewBS->ai.strongestMove[bankAtk][bankDef] == 0xFFFF)
-		gNewBS->ai.strongestMove[bankAtk][bankDef] = CalcStrongestMove(bankAtk, bankDef, FALSE);
+    // If either battler is invalid, don't touch the cache array.
+    if (bankAtk >= gBattlersCount || bankDef >= gBattlersCount)
+        return MOVE_NONE;
 
-	return gNewBS->ai.strongestMove[bankAtk][bankDef];
+    u16 cached = gNewBS->ai.strongestMove[bankAtk][bankDef];
+
+    if (cached == 0xFFFF)
+        cached = gNewBS->ai.strongestMove[bankAtk][bankDef] = CalcStrongestMove(bankAtk, bankDef, FALSE);
+
+    // Sanitize
+#ifdef MOVES_COUNT
+    if (cached >= MOVES_COUNT)
+        return MOVE_NONE;
+#endif
+
+    return cached;
+}
+
+bool8 IsStrongestMove(const u16 currentMove, const u8 bankAtk, const u8 bankDef)
+{
+    return GetStrongestMove(bankAtk, bankDef) == currentMove;
 }
 
 static void ClearStrongestMoveAndCanKnockOut(const u8 bankAtk, const u8 bankDef)
@@ -2449,7 +2602,9 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 			case ABILITY_VOLTABSORB:
 			case ABILITY_MOTORDRIVE:
 			case ABILITY_LIGHTNINGROD:
-				if ((GetMonMoveTypeSpecial(monAtk, move) == TYPE_ELECTRIC && !EarthEater)
+				// if ((GetMonMoveTypeSpecialWithBank(monAtk, MAX_BATTLERS_COUNT, move) == TYPE_ELECTRIC && !EarthEater)
+				// || (GetMonMoveTypeSpecialWithBank(monAtk, MAX_BATTLERS_COUNT, move) == TYPE_GROUND && EarthEater))
+			if ((GetMonMoveTypeSpecial(monAtk, move) == TYPE_ELECTRIC && !EarthEater)
 				|| (GetMonMoveTypeSpecial(monAtk, move) == TYPE_GROUND && EarthEater))
 					return TRUE;
 				break;
@@ -2458,18 +2613,22 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 			case ABILITY_WATERABSORB:
 			case ABILITY_DRYSKIN:
 			case ABILITY_STORMDRAIN:
-				if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_WATER)
+				// if (GetMonMoveTypeSpecialWithBank(monAtk, MAX_BATTLERS_COUNT, move) == TYPE_WATER)
+					if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_WATER)
 					return TRUE;
 				break;
 
 			//Fire
 			case ABILITY_FLASHFIRE:
+				// if (GetMonMoveTypeSpecialWithBank(monAtk, MAX_BATTLERS_COUNT, move) == TYPE_FIRE)
 				if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_FIRE)
+
 					return TRUE;
 				break;
 
 			//Grass
 			case ABILITY_SAPSIPPER:
+				// if (GetMonMoveTypeSpecialWithBank(monAtk, MAX_BATTLERS_COUNT, move) == TYPE_GRASS)
 				if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_GRASS)
 					return TRUE;
 				break;
@@ -2525,7 +2684,9 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 		return TRUE;
 
 	//Primal Weather Check
+	// if ((gBattleWeather & WEATHER_SUN_PRIMAL && GetMonMoveTypeSpecialWithBank(monAtk, MAX_BATTLERS_COUNT, move) == TYPE_WATER)
 	if ((gBattleWeather & WEATHER_SUN_PRIMAL && GetMonMoveTypeSpecial(monAtk, move) == TYPE_WATER)
+	// || (gBattleWeather & WEATHER_RAIN_PRIMAL && GetMonMoveTypeSpecialWithBank(monAtk, MAX_BATTLERS_COUNT, move) == TYPE_FIRE))
 	|| (gBattleWeather & WEATHER_RAIN_PRIMAL && GetMonMoveTypeSpecial(monAtk, move) == TYPE_FIRE))
 	{
 		//TODO: if (WEATHER_HAS_EFFECT) but include monAtk instead of AI mons
@@ -3576,7 +3737,7 @@ bool8 GoodIdeaToSwapStatStages(u8 bankAtk, u8 bankDef)
 move_t IsValidMovePrediction(u8 bankAtk, u8 bankDef)
 {
 	if (gNewBS->ai.movePredictions[bankAtk][bankDef] == MOVE_PREDICTION_SWITCH)
-		return MOVE_NONE;
+        return MOVE_NONE;
 	else
 		return gNewBS->ai.movePredictions[bankAtk][bankDef];
 }
@@ -3593,7 +3754,7 @@ void StoreMovePrediction(u8 bankAtk, u8 bankDef, u16 move)
 
 void StoreSwitchPrediction(u8 bankAtk, u8 bankDef)
 {
-	gNewBS->ai.movePredictions[bankAtk][bankDef] = MOVE_PREDICTION_SWITCH;
+    gNewBS->ai.movePredictions[bankAtk][bankDef] = MOVE_PREDICTION_SWITCH;
 }
 
 bool8 IsMovePredictionSemiInvulnerable(u8 bankAtk, u8 bankDef)
@@ -5894,4 +6055,486 @@ void DecreaseViability(s16* viability, u16 amount)
 		*viability = 0;
 	else
 		*viability -= amount;
+}
+
+//Added with AI (This section onwards)
+u8 GetSwitchFlagsAfterPartingShot(u8 bankAtk, u8 bankDef)
+{
+    u8 atkStage = gBattleMons[bankDef].statStages[STAT_STAGE_ATK];
+    u8 spAtkStage = gBattleMons[bankDef].statStages[STAT_STAGE_SPATK];
+
+    // Apply hypothetical drop
+    if (atkStage > 0)
+        gBattleMons[bankDef].statStages[STAT_STAGE_ATK]--;
+    if (spAtkStage > 0)
+        gBattleMons[bankDef].statStages[STAT_STAGE_SPATK]--;
+
+    u8 backupBattler = gActiveBattler;
+    gActiveBattler = bankAtk;
+    u8 flags = GetMostSuitableMonToSwitchIntoFlags();
+    gActiveBattler = backupBattler;
+
+    // Restore
+    gBattleMons[bankDef].statStages[STAT_STAGE_ATK] = atkStage;
+    gBattleMons[bankDef].statStages[STAT_STAGE_SPATK] = spAtkStage;
+
+    return flags;
+}
+
+bool8 AttackerHasKOMoveOnTarget(u8 bankAtk, u8 bankDef)
+{
+    // Scan attacker's moves for a 1-hit KO on the current target.
+    for (u8 i = 0; i < MAX_MON_MOVES; i++)
+    {
+        u16 move = gBattleMons[bankAtk].moves[i];
+        if (move == MOVE_NONE)
+            continue;
+
+        // This exists in your repo (you use it in DamageMoveViabilityIncrease)
+        if (MoveKnocksOutXHits(move, bankAtk, bankDef, 1))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+u8 AI_GetHpPercentBank(u8 bank)
+{
+    u16 hp = gBattleMons[bank].hp;
+    u16 maxHp = gBattleMons[bank].maxHP;
+    if (maxHp == 0) return 0;
+    return (hp * 100) / maxHp;
+}
+
+bool8 BankHasMove(u8 bank, u16 move)
+{
+    for (u8 i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (gBattleMons[bank].moves[i] == move)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+bool8 MonKnowsMove(struct Pokemon* mon, u16 move)
+{
+    for (u8 m = 0; m < MAX_MON_MOVES; ++m)
+    {
+        if (GetMonData(mon, MON_DATA_MOVE1 + m, 0) == move)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+bool8 AttackerHasStrongBestMoveOnTarget(u8 bankAtk, u8 bankDef)
+{
+    u16 defHp = gBattleMons[bankDef].hp;
+    if (defHp == 0)
+        return TRUE;
+
+    u16 bestMove = MOVE_NONE;
+    u32 bestDmg = 0;
+
+    // Cache-only: do not force any damage recompute.
+    for (u8 i = 0; i < MAX_MON_MOVES; ++i)
+    {
+        u16 move = gBattleMons[bankAtk].moves[i];
+        if (move == MOVE_NONE)
+            continue;
+
+        if (SPLIT(move) == SPLIT_STATUS)
+            continue;
+
+        u32 dmg = gNewBS->ai.damageByMove[bankAtk][bankDef][i];
+        if (dmg == 0xFFFFFFFF)
+            continue;
+
+        if (dmg > bestDmg)
+        {
+            bestDmg = dmg;
+            bestMove = move;
+        }
+    }
+
+    if (bestMove == MOVE_NONE || bestDmg == 0)
+        return FALSE;
+
+    // If our best hit is unreliable, don't treat it as "strong"
+    {
+        u16 acc = CalcAIAccuracy(bestMove, bankAtk, bankDef);
+        if (acc < AI_MIN_GOOD_ACC)
+            return FALSE;
+    }
+
+    // % of current HP
+    u32 percent = (bestDmg * 100) / defHp;
+
+    // Strong single hit, or a clean-ish 2HKO
+    if (percent >= AI_STRONG_HIT_PERCENT)
+        return TRUE;
+
+    if (bestDmg * 2 >= defHp)
+        return TRUE;
+
+    return FALSE;
+}
+
+u8 ChooseBestFinisherMoveIndex(u8 bankAtk, u8 bankDef)
+{
+    u8 bestIdx = 0xFF;
+    u32 bestDamage = 0;
+
+    if (bankAtk >= gBattlersCount || bankDef >= gBattlersCount)
+        return 0xFF;
+
+    u16 defHp = gBattleMons[bankDef].hp;
+    if (defHp == 0)
+        return 0xFF;
+
+    // Extra safety if you ever compute percents elsewhere
+    if (gBattleMons[bankDef].maxHP == 0)
+        return 0xFF;
+
+    for (u8 i = 0; i < MAX_MON_MOVES; i++)
+    {
+        u16 move = gBattleMons[bankAtk].moves[i];
+        if (move == MOVE_NONE || move >= MOVES_COUNT)
+            continue;
+
+        // Must actually be usable (PP/Disable/Taunt/etc)
+        if (IsDamagingMoveUnusable(move, bankAtk, bankDef))
+            continue;
+
+        // If you have a simpler "will hit" helper, prefer it.
+        // Otherwise keep AccuracyCalc but be aware it's a possible risk in some forks.
+        if (AccuracyCalc(move, bankAtk, bankDef) < AI_FINISH_MIN_ACC)
+            continue;
+
+        struct DamageCalc dmgData;
+        memset(&dmgData, 0, sizeof(dmgData));
+
+        // IMPORTANT: don't pass NULL here
+        u32 dmg = GetFinalAIMoveDamage(move, bankAtk, bankDef, 1, &dmgData);
+        if (dmg == 0)
+            continue;
+
+        if (dmg > bestDamage)
+        {
+            bestDamage = dmg;
+            bestIdx = i;
+        }
+    }
+
+    if (bestIdx != 0xFF && bestDamage >= defHp)
+        return bestIdx;
+
+    return 0xFF;
+}
+
+bool8 IsPriorityBlockedByEffects(u8 bankAtk, u8 bankDef, u16 move)
+{
+    // Only care if the move is priority in the first place.
+    if (PriorityCalc(bankAtk, ACTION_USE_MOVE, move) <= 0)
+        return FALSE;
+
+    // Psychic Terrain blocks PRIORITY moves against GROUNDED targets.
+    // Your repo uses gTerrainType == PSYCHIC_TERRAIN and CheckGrounding(bank).
+    if (gTerrainType == PSYCHIC_TERRAIN && CheckGrounding(bankDef))
+        return TRUE;
+
+    // Dazzling / Queenly Majesty / Armor Tail etc.
+    // Replace this with your repo’s actual helper name if different.
+    if (IsPriorityBlockingAbility(ABILITY(bankDef)))
+        return TRUE;
+
+    return FALSE;
+}
+
+bool8 HasPriorityKOMove(u8 bankAtk, u8 bankDef)
+{
+    u8 moveLimitations = CheckMoveLimitations(bankAtk, 0, 0xFF);
+
+    for (u32 i = 0; i < MAX_MON_MOVES; ++i)
+    {
+        u16 move = GetBattleMonMove(bankAtk, i);
+        if (move == MOVE_NONE)
+            break;
+
+        if (gBitTable[i] & moveLimitations)
+            continue;
+
+        if (SPLIT(move) == SPLIT_STATUS)
+            continue;
+
+        if (PriorityCalc(bankAtk, ACTION_USE_MOVE, move) <= 0)
+            continue;
+
+        if (AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
+            continue;
+
+        if (IsDamagingMoveUnusable(move, bankAtk, bankDef))
+            continue;
+
+        if (IsPriorityBlockedByEffects(bankAtk, bankDef, move))
+            continue;
+
+        if (MoveKnocksOutXHits(move, bankAtk, bankDef, 1))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+bool8 HasPriorityDamagingMove(u8 bankAtk, u8 bankDef)
+{
+    for (u8 i = 0; i < MAX_MON_MOVES; ++i)
+    {
+        u16 m = gBattleMons[bankAtk].moves[i];
+        if (m == MOVE_NONE)
+            continue;
+
+        if (SPLIT(m) == SPLIT_STATUS)
+            continue;
+
+        if (PriorityCalc(bankAtk, ACTION_USE_MOVE, m) <= 0)
+            continue;
+
+        if (IsDamagingMoveUnusable(m, bankAtk, bankDef))
+            continue;
+
+        if (AI_SpecialTypeCalc(m, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
+            continue;
+
+        if (IsPriorityBlockedByEffects(bankAtk, bankDef, m))
+            continue;
+
+        return TRUE;
+    }
+    return FALSE;
+}
+
+bool8 FoeIsInTrouble(u8 bankDef, u8 bankAtk)
+{
+    // If caches aren't ready, don't predict a switch.
+    if (gNewBS->ai.canKnockOut[bankAtk][bankDef] == 0xFF
+     || gNewBS->ai.canKnockOut[bankDef][bankAtk] == 0xFF)
+        return FALSE;
+
+    // If we have a strong reliable line already, don't "call" a switch.
+    if (AttackerHasStrongBestMoveOnTarget(bankAtk, bankDef))
+        return FALSE;
+
+    // Immediate KO pressure: only count as "trouble" if foe doesn't have a fast KO back.
+    if (gNewBS->ai.canKnockOut[bankAtk][bankDef])
+    {
+        u16 foeBest = gNewBS->ai.strongestMove[bankDef][bankAtk];
+
+        if (foeBest != 0xFFFF && foeBest != MOVE_NONE
+#ifdef MOVES_COUNT
+            && foeBest < MOVES_COUNT
+#endif
+        )
+        {
+            if (MoveKnocksOutXHits(foeBest, bankDef, bankAtk, 1)
+             && MoveWouldHitFirst(foeBest, bankDef, bankAtk))
+                return FALSE; // they can punish immediately; less likely to switch
+        }
+
+        // Add a randomness gate to reduce frequency even when "trouble" is true
+        // (keep this mild since you're also gating elsewhere)
+        if ((AIRandom() % 100) >= 50) // 50% chance to *not* predict
+            return FALSE;
+
+        return TRUE;
+    }
+
+    // 2HKO pressure: require clearer advantage than your current version
+    if (gNewBS->ai.can2HKO[bankAtk][bankDef] == 0xFF
+     || gNewBS->ai.can2HKO[bankDef][bankAtk] == 0xFF)
+        return FALSE;
+
+    if (gNewBS->ai.can2HKO[bankAtk][bankDef]
+     && !gNewBS->ai.can2HKO[bankDef][bankAtk])
+    {
+        // Make this rarer too
+        if ((AIRandom() % 100) >= 70) // only 30% of the time
+            return FALSE;
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+u32 AI_GetFoeBestDmgIntoPartyMon(u8 foeBattler, u8 ourBattler, struct Pokemon *ourPartyMon, struct DamageCalc *dmgData)
+{
+    struct DamageCalc local;
+    if (dmgData == NULL)
+        dmgData = &local;
+
+    u32 best = 0;
+
+    for (u8 i = 0; i < MAX_MON_MOVES; ++i)
+    {
+        u16 move = gBattleMons[foeBattler].moves[i];
+        if (move == MOVE_NONE)
+            continue;
+        if (SPLIT(move) == SPLIT_STATUS)
+            continue;
+        if (!MoveInMovesetAndUsable(move, foeBattler))
+            continue;
+
+        u32 dmg = AI_CalcMonDefDmg(foeBattler, ourBattler, move, ourPartyMon, dmgData);
+        if (dmg > best)
+            best = dmg;
+    }
+
+    return best;
+}
+
+bool8 WouldMoveKOWithTempAtkBoost(u16 move, u8 bankAtk, u8 bankDef, u8 atkBoostStages)
+{
+    if (move == MOVE_NONE || atkBoostStages == 0)
+        return FALSE;
+
+    // Safety: invalid battlers
+    if (bankAtk >= gBattlersCount || bankDef >= gBattlersCount)
+        return FALSE;
+
+    u8 oldStage = STAT_STAGE(bankAtk, STAT_STAGE_ATK);
+
+    // Clamp safely (internal encoding assumed 0..12, neutral = 6)
+    u8 boostedStage = oldStage + atkBoostStages;
+    if (boostedStage > 12)
+        boostedStage = 12;
+
+    STAT_STAGE(bankAtk, STAT_STAGE_ATK) = boostedStage;
+
+    // Reuse your existing KO check
+    bool8 result = CalculateMoveKnocksOutXHitsFresh(
+        move,
+        bankAtk,
+        bankDef,
+        1
+    );
+
+    // Restore original stage
+    STAT_STAGE(bankAtk, STAT_STAGE_ATK) = oldStage;
+
+    return result;
+}
+
+// Returns TRUE if the foe has a move that can KO bankAtk from current HP (singles).
+// Uses the foe's predicted move if available, otherwise uses their strongest move.
+bool8 FoeCanOHKOUs(u8 bankAtk, u8 bankDef)
+{
+    if (!IS_SINGLE_BATTLE)
+        return FALSE;
+
+    if (bankAtk >= gBattlersCount || bankDef >= gBattlersCount)
+        return FALSE;
+
+    if (gBattleMons[bankAtk].hp == 0)
+        return TRUE;
+
+    // Prefer prediction if available
+    u16 foeMove = IsValidMovePrediction(bankDef, bankAtk);
+    if (foeMove == MOVE_NONE)
+        foeMove = CalcStrongestMove(bankDef, bankAtk, FALSE);
+
+    // If none predicted, no OHKO
+    if (foeMove == MOVE_NONE)
+        return FALSE;
+
+    // Status moves can't OHKO by damage
+    if (SPLIT(foeMove) == SPLIT_STATUS)
+        return FALSE;
+
+    // If the foe can't currently use it (disabled/PP/etc), fall back
+    if (!MoveInMovesetAndUsable(foeMove, bankDef))
+        foeMove = CalcStrongestMove(bankDef, bankAtk, FALSE);
+
+    if (foeMove == MOVE_NONE || SPLIT(foeMove) == SPLIT_STATUS)
+        return FALSE;
+
+    // Still unusable? then treat as "can't OHKO right now"
+    if (!MoveInMovesetAndUsable(foeMove, bankDef))
+        return FALSE;
+
+    struct DamageCalc dmgData = {0};
+
+    // Damage estimate into our current mon
+    u32 dmg = AI_CalcDmg(bankDef, bankAtk, foeMove, &dmgData);
+
+    return (dmg >= gBattleMons[bankAtk].hp);
+}
+
+u8 GetCachedBestSwitchMonId(u8 bank)
+{
+    if (bank >= gBattlersCount)
+        return 0xFF;
+
+    if (!gNewBS->ai.calculatedAISwitchings[bank])
+        return 0xFF; // don't force calculations here
+
+    u8 option1 = gNewBS->ai.bestMonIdToSwitchInto[bank][0];
+    u8 option2 = gNewBS->ai.bestMonIdToSwitchInto[bank][1];
+
+    if (option1 < PARTY_SIZE)
+        return option1;
+    if (option2 < PARTY_SIZE)
+        return option2;
+
+    return 0xFF;
+}
+
+
+// u32 AI_CalcDmgVsCurrentTypes(u8 bankAtk, u8 bankDef, u16 move)
+// {
+//     struct DamageCalc dmgData = {0};
+//     return AI_CalcDmg(bankAtk, bankDef, move, &dmgData);
+// }
+
+// u32 AI_CalcDmgAsIfAtkSingleType(u8 bankAtk, u8 bankDef, u16 move, u8 newType)
+// {
+//     struct DamageCalc dmgData = {0};
+//     dmgData.overrideAtkTypes = TRUE;
+//     dmgData.atkType1 = newType;
+//     dmgData.atkType2 = newType;
+//     return AI_CalcDmg(bankAtk, bankDef, move, &dmgData);
+// }
+
+// u32 AI_CalcDmgAsIfDefSingleType(u8 bankAtk, u8 bankDef, u16 move, u8 newType)
+// {
+//     struct DamageCalc dmgData = {0};
+//     dmgData.overrideDefTypes = TRUE;
+//     dmgData.defType1 = newType;
+//     dmgData.defType2 = newType;
+//     return AI_CalcDmg(bankAtk, bankDef, move, &dmgData);
+// }
+
+void AI_UpdateSwitchHistoryFromPartyIndex(void)
+{
+    // One-time init per battle
+    if (!sSwitchTrackingInit)
+    {
+        for (u8 b = 0; b < gBattlersCount; ++b)
+            sLastPartyIndex[b] = gBattlerPartyIndexes[b];
+
+        sBattlerHasSwitchedMask = 0;
+        sSwitchTrackingInit = TRUE;
+        return;
+    }
+
+    for (u8 b = 0; b < gBattlersCount; ++b)
+    {
+        u8 cur = gBattlerPartyIndexes[b];
+        u8 prev = sLastPartyIndex[b];
+
+        // Party index changed while battler is still alive => they switched (not a faint -> replace)
+        if (cur != prev && gBattleMons[b].hp > 0)
+            sBattlerHasSwitchedMask |= gBitTable[b];
+
+        sLastPartyIndex[b] = cur;
+    }
 }

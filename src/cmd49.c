@@ -81,6 +81,7 @@ enum
 	ATK49_RED_CARD,
 	ATK49_EJECT_PACK,
 	ATK49_SHELL_BELL_LIFE_ORB_RECOIL,
+	ATK49_FLAMINGEXIT_BURN,          // Added for Flaming Exit
 	ATK49_SWITCH_OUT_ABILITIES,
 	ATK49_RESTORE_ABILITIES,
 	ATK49_PICKPOCKET,
@@ -1308,6 +1309,37 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			gBattleScripting.atk49_state++;
 			gNewBS->switchOutBankLooper = 0;
 			break;
+
+			case ATK49_FLAMINGEXIT_BURN:
+{
+    if (gCurrentMove == MOVE_FLAMINGEXIT
+    && !SheerForceCheck()
+    && MOVE_HAD_EFFECT
+    && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
+    && TOOK_DAMAGE(gBankTarget)
+    && BATTLER_ALIVE(gBankTarget))
+    {
+        if ((Random() % 100) < gBattleMoves[gCurrentMove].secondaryEffectChance)
+        {
+            // Arm the effect and let SetMoveEffect apply it with all standard checks.
+            gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_BURN;
+
+            // Ensure target is the current target for the effect system.
+            // (SetMoveEffect uses gBankTarget internally, but this keeps things sane if your flow changes.)
+            gEffectBank = gBankTarget;
+
+            SetMoveEffect(FALSE, 0);
+
+            // IMPORTANT:
+            // SetMoveEffect may push a battle script and return early.
+            // Either way, don't advance state this frame—let the script resolve then return here.
+            break;
+        }
+    }
+
+    gBattleScripting.atk49_state++;
+    break;
+}
 
 		case ATK49_SWITCH_OUT_ABILITIES:
 			gBankAttacker = gNewBS->originalAttackerBackup;

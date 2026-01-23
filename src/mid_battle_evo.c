@@ -718,6 +718,9 @@ static void Task_EvolutionScene(u8 taskId)
     }
 }
 
+
+#endif
+
 void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex, bool8 resetStats)
 {
     u16 *hpSwitchout;
@@ -776,4 +779,3 @@ void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex, bool8 resetStat
     UpdateSentPokesToOpponentValue(battlerId);
     ClearTemporarySpeciesSpriteData(battlerId, FALSE);
 }
-#endif

@@ -8,7 +8,7 @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 @ Tera Type NPC 
-
+.global EventScript_ChangeTeraTypeNPC
 EventScript_ChangeTeraTypeNPC:
     lock
     faceplayer

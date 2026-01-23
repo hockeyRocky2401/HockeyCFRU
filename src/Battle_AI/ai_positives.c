@@ -18,6 +18,7 @@
 #include "../../include/new/util.h"
 #include "../../include/new/item.h"
 #include "../../include/new/move_tables.h"
+#include "../../include/new/terastallization.h"
 
 /*
 ai_positives.c
@@ -66,6 +67,51 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	if (IsAnyMaxMove(move))
 		moveEffect = GetAIMoveEffectForMaxMove(move, bankAtk, bankDef);
 
+		// --- Tera Blast logic (positives) ---
+if (move == MOVE_TERABLAST && IsTerastallized(bankAtk))
+{
+    // Baseline nudge so it doesn't get ignored.
+    INCREASE_VIABILITY(8);
+
+    // Compare damage vs best usable damaging move
+    u32 dmgTeraBlast = AI_CalcDmg(bankAtk, bankDef, MOVE_TERABLAST, NULL);
+
+    u32 bestDmg = 0;
+    for (u8 k = 0; k < MAX_MON_MOVES; k++)
+    {
+        u16 m = gBattleMons[bankAtk].moves[k];
+        if (m == MOVE_NONE)
+            continue;
+
+        // Skip status moves
+        if (SPLIT(m) == SPLIT_STATUS)
+            continue;
+
+        // Skip moves the AI considers unusable (Torment, Disable, Encore lock, etc.)
+        // If your project doesn't have this exact helper, remove this and rely on dmg=0.
+        if (IsDamagingMoveUnusable(m, bankAtk, bankDef))
+            continue;
+
+        u32 dmg = AI_CalcDmg(bankAtk, bankDef, m, NULL);
+        if (dmg > bestDmg)
+            bestDmg = dmg;
+    }
+
+    if (bestDmg > 0)
+    {
+        // If it's best or tied best, push hard.
+        if (dmgTeraBlast >= bestDmg)
+            INCREASE_VIABILITY(10);
+        // If it's close to best (>= 95%), still good.
+        else if (dmgTeraBlast * 100 >= bestDmg * 95)
+            INCREASE_VIABILITY(6);
+        // If it's clearly worse (<= 70%), slightly discourage so it doesn't spam.
+        else if (dmgTeraBlast * 100 <= bestDmg * 70)
+            DECREASE_VIABILITY(4);
+    }
+}
+// ------------------------------------
+
 	switch (moveEffect) {
 		case EFFECT_HIT:
 			// to do
@@ -91,13 +137,48 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				else
 					IncreaseDoublesDamageViabilityToScore(&viability, class, 5, bankAtk, bankDef);
 			}
+			//Added with AI
+			else
+    {
+        // Baseline value for sustain even when not "needing" recovery
+        if (IS_SINGLE_BATTLE)
+            INCREASE_VIABILITY(2);
+    }
 			break;
 
 		case EFFECT_PARALYZE_HIT:
-			if (CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 75 && !MoveBlockedBySubstitute(move, bankAtk, bankDef))
-				goto AI_PARALYZE_CHECKS;
-			break;
+{
+    if (MoveBlockedBySubstitute(move, bankAtk, bankDef))
+        break;
 
+    // Don’t overvalue para if it’s already statused (or can’t be paralyzed).
+    if (!CanBeParalyzed(bankDef, bankAtk, TRUE))
+        break;
+
+    // If the defender has Guts / Quick Feet etc, para is often a trap.
+    // (Adjust ability list to what your repo actually uses.)
+    u16 defAbility = ABILITY(bankDef);
+    if (defAbility == ABILITY_GUTS
+     || defAbility == ABILITY_QUICKFEET
+     || defAbility == ABILITY_MARVELSCALE)
+        break;
+
+    // Only “full para checks” if it’s likely to matter tactically.
+    bool8 defenderFaster = SpeedCalc(bankDef) > SpeedCalc(bankAtk); // or your existing speed helper
+    bool8 inDanger = CanKnockOut(bankDef, bankAtk) || Can2HKO(bankDef, bankAtk);
+
+    if (CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 75
+     && (defenderFaster || inDanger))
+    {
+        goto AI_PARALYZE_CHECKS;
+    }
+    else
+    {
+        // Otherwise, give only a tiny bump, not the full para “package”.
+        INCREASE_STATUS_VIABILITY(1);
+    }
+    break;
+}
 		case EFFECT_BURN_HIT:
 			if (CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 75 && !MoveBlockedBySubstitute(move, bankAtk, bankDef))
 				goto AI_BURN_CHECKS;
@@ -192,18 +273,57 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			}
 			break;
 
+			//Added with AI
 		//Increased stat effects
-		case EFFECT_ATTACK_UP:
-			if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 1))
-				goto AI_ATTACK_PLUS;
-			break;
-		case EFFECT_ATTACK_UP_2:
-			if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 2))
-			{
-				AI_ATTACK_PLUS:
-				INCREASE_STAT_VIABILITY(STAT_STAGE_ATK, 8, 2);
-			}
-			break;
+case EFFECT_ATTACK_UP:
+    if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 1))
+        goto AI_ATTACK_PLUS;
+    break;
+
+case EFFECT_ATTACK_UP_2:
+    if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 2))
+    {
+AI_ATTACK_PLUS:
+        // ============================
+        // Anti-throw gates (global)
+        // ============================
+
+        // 1) If we can KO right now, don't waste a turn boosting Attack.
+        {
+            u16 bestMove = GetStrongestMove(bankAtk, bankDef);
+            if (bestMove == MOVE_NONE || bestMove >= MOVES_COUNT)
+            // && CalculateMoveKnocksOutXHitsFresh(bestMove, bankAtk, bankDef, 1))
+                break;
+        }
+
+        // 2) If the foe is likely to KO us next turn, don't boost.
+        {
+            u16 foeMove = IsValidMovePrediction(bankDef, bankAtk);
+            if (foeMove == MOVE_NONE)
+                foeMove = CalcStrongestMove(bankDef, bankAtk, FALSE);
+
+            if (foeMove != MOVE_NONE
+            && MoveKnocksOutXHits(foeMove, bankDef, bankAtk, 1))
+                break;
+        }
+
+        // 3) If we already have a comfortable 2HKO, Attack boosting is usually unnecessary.
+        // (This is the "stop being greedy" check for Attack boosters.)
+        {
+            u16 bestMove = GetStrongestMove(bankAtk, bankDef);
+            if (bestMove != MOVE_NONE
+            && CalculateMoveKnocksOutXHitsFresh(bestMove, bankAtk, bankDef, 2))
+                break;
+        }
+
+        // Optional: only boost if it meaningfully improves the KO threshold.
+        // Example: if you already 2HKO, but +Attack doesn't make it a 1HKO, boosting isn't worth it.
+        // (This requires extra damage calcs, so leave it out unless needed.)
+
+        INCREASE_STAT_VIABILITY(STAT_STAGE_ATK, 8, 2);
+    }
+    break;
+
 
 		case EFFECT_DEFENSE_UP:
 		AI_DEFENSE_PLUS_FULL: ;
@@ -223,16 +343,48 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			break;
 
 		case EFFECT_SPECIAL_ATTACK_UP:
-			if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseSpAttackAgainst(bankAtk, bankDef, 1))
-				goto AI_SP_ATTACK_PLUS;
-			break;
-		case EFFECT_SPECIAL_ATTACK_UP_2:
-			if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseSpAttackAgainst(bankAtk, bankDef, 2))
-			{
-				AI_SP_ATTACK_PLUS:
-				INCREASE_STAT_VIABILITY(STAT_STAGE_SPATK, 8, 2);
-			}
-			break;
+    if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseSpAttackAgainst(bankAtk, bankDef, 1))
+        goto AI_SP_ATTACK_PLUS;
+    break;
+
+case EFFECT_SPECIAL_ATTACK_UP_2:
+    if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseSpAttackAgainst(bankAtk, bankDef, 2))
+    {
+AI_SP_ATTACK_PLUS:
+        // ============================
+        // Anti-throw gates (global)
+        // ============================
+
+        // 1) If we can KO right now, don't waste a turn boosting Sp. Atk.
+        {
+            u16 bestMove = GetStrongestMove(bankAtk, bankDef);
+            if (bestMove != MOVE_NONE
+            && CalculateMoveKnocksOutXHitsFresh(bestMove, bankAtk, bankDef, 1))
+                break;
+        }
+
+        // 2) If the foe is likely to KO us next turn, don't boost.
+        {
+            u16 foeMove = IsValidMovePrediction(bankDef, bankAtk);
+            if (foeMove == MOVE_NONE)
+                foeMove = CalcStrongestMove(bankDef, bankAtk, FALSE);
+
+            if (foeMove != MOVE_NONE
+            && MoveKnocksOutXHits(foeMove, bankDef, bankAtk, 1))
+                break;
+        }
+
+        // 3) If we already have a comfortable 2HKO, Sp. Atk boosting is usually unnecessary.
+        {
+            u16 bestMove = GetStrongestMove(bankAtk, bankDef);
+            if (bestMove != MOVE_NONE
+            && CalculateMoveKnocksOutXHitsFresh(bestMove, bankAtk, bankDef, 2))
+                break;
+        }
+
+        INCREASE_STAT_VIABILITY(STAT_STAGE_SPATK, 8, 2);
+    }
+    break;
 
 		case EFFECT_SPECIAL_DEFENSE_UP:
 		AI_SP_DEFENSE_PLUS_FULL:
@@ -247,18 +399,56 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			}
 			break;
 
+			//Added with AI
 		case EFFECT_SPEED_UP:
-		AI_SPEED_PLUS_FULL:
-			if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseSpeedAgainst(bankAtk, bankDef, 1, data->atkSpeed, data->defSpeed))
-				goto AI_SPEED_PLUS;
-			break;
-		case EFFECT_SPEED_UP_2:
-			if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseSpeedAgainst(bankAtk, bankDef, 2, data->atkSpeed, data->defSpeed))
-			{
-				AI_SPEED_PLUS:
-				INCREASE_STAT_VIABILITY(STAT_STAGE_SPEED, 8, 3);
-			}
-			break;
+AI_SPEED_PLUS_FULL:
+    if (atkAbility == ABILITY_CONTRARY
+     || !GoodIdeaToRaiseSpeedAgainst(bankAtk, bankDef, 1, data->atkSpeed, data->defSpeed))
+        break;
+
+    goto AI_SPEED_PLUS;
+
+case EFFECT_SPEED_UP_2:
+    if (atkAbility == ABILITY_CONTRARY
+     || !GoodIdeaToRaiseSpeedAgainst(bankAtk, bankDef, 2, data->atkSpeed, data->defSpeed))
+        break;
+
+AI_SPEED_PLUS:
+    // ============================
+    // Anti-throw gates (global)
+    // ============================
+
+    // 1) If we can KO right now, don't waste a turn boosting Speed.
+    {
+        u16 bestMove = GetStrongestMove(bankAtk, bankDef);
+        if (bestMove != MOVE_NONE
+         && CalculateMoveKnocksOutXHitsFresh(bestMove, bankAtk, bankDef, 1))
+            break; // breaks out of the switch-case (i.e. don't boost)
+    }
+
+    // 2) If the foe is likely to KO us next turn, don't boost.
+    {
+        u16 foeMove = IsValidMovePrediction(bankDef, bankAtk);
+        if (foeMove == MOVE_NONE)
+            foeMove = CalcStrongestMove(bankDef, bankAtk, FALSE);
+
+        if (foeMove != MOVE_NONE
+         && MoveKnocksOutXHits(foeMove, bankDef, bankAtk, 1))
+            break;
+    }
+
+    // 3) If we already outspeed AND already have a comfortable 2HKO, no need to boost.
+    if (data->atkSpeed > data->defSpeed)
+    {
+        u16 bestMove = GetStrongestMove(bankAtk, bankDef);
+        if (bestMove != MOVE_NONE
+         && CalculateMoveKnocksOutXHitsFresh(bestMove, bankAtk, bankDef, 2))
+            break;
+    }
+
+    // If we got here, Speed boosting is actually justified.
+    INCREASE_STAT_VIABILITY(STAT_STAGE_SPEED, 8, 3);
+    break;
 
 		case EFFECT_ACCURACY_UP:
 			if (atkAbility != ABILITY_CONTRARY && GoodIdeaToRaiseAccuracyAgainst(bankAtk, bankDef, 1))
@@ -393,34 +583,96 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			break;
 
 		case EFFECT_DRAGON_DANCE:
-			switch (move)
-			{
-				case MOVE_SHELLSMASH:
-					if (atkAbility == ABILITY_CONTRARY)
-					{
-						goto AI_COSMIC_POWER;
-					}
-					else
-					{
-						if (GoodIdeaToRaiseSpeedAgainst(bankAtk, bankDef, 2, data->atkSpeed, data->defSpeed))
-							goto AI_SPEED_PLUS;
-						else if (GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 2))
-							goto AI_ATTACK_PLUS;
-						else if (GoodIdeaToRaiseSpAttackAgainst(bankAtk, bankDef, 2))
-							goto AI_SP_ATTACK_PLUS;
-					}
-					break;
-				default:
-					if (atkAbility == ABILITY_CONTRARY)
-						break;
+    switch (move)
+    {
+        case MOVE_SHELLSMASH:
+            if (atkAbility == ABILITY_CONTRARY)
+            {
+                goto AI_COSMIC_POWER;
+            }
+            else
+            {
+                if (GoodIdeaToRaiseSpeedAgainst(bankAtk, bankDef, 2, data->atkSpeed, data->defSpeed))
+                    goto AI_SPEED_PLUS;
+                else if (GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 2))
+                    goto AI_ATTACK_PLUS;
+                else if (GoodIdeaToRaiseSpAttackAgainst(bankAtk, bankDef, 2))
+                    goto AI_SP_ATTACK_PLUS;
+            }
+            break;
 
-					if (GoodIdeaToRaiseSpeedAgainst(bankAtk, bankDef, 1, data->atkSpeed, data->defSpeed))
-						goto AI_SPEED_PLUS;
-					else if (GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 1))
-						goto AI_ATTACK_PLUS;
-					break;
-			}
-			break;
+        default:
+            if (atkAbility == ABILITY_CONTRARY)
+                break;
+
+            // --- Anti-throw gates: don't boost when we already win or are about to die ---
+
+            // 1) If we can KO right now with our best damaging move, don't Dragon Dance.
+            {
+                u16 bestAtkMove = GetStrongestMove(bankAtk, bankDef);
+                if (bestAtkMove != MOVE_NONE
+                && SPLIT(bestAtkMove) != SPLIT_STATUS
+                && MoveInMovesetAndUsable(bestAtkMove, bankAtk)
+                && CalculateMoveKnocksOutXHitsFresh(bestAtkMove, bankAtk, bankDef, 1))
+                    break;
+            }
+
+            // 2) If the opponent is likely to KO us next turn, don't waste a turn boosting.
+            // Prefer prediction first, then fallback.
+            {
+                u16 foeMove = IsValidMovePrediction(bankDef, bankAtk);
+                if (foeMove == MOVE_NONE)
+                    foeMove = CalcStrongestMove(bankDef, bankAtk, FALSE);
+
+                if (foeMove != MOVE_NONE
+                && SPLIT(foeMove) != SPLIT_STATUS
+                && MoveInMovesetAndUsable(foeMove, bankDef)
+                && MoveKnocksOutXHits(foeMove, bankDef, bankAtk, 1))
+                    break;
+            }
+
+            // 2.5) DD window:
+            // If we're slower/tied, can't KO now, won't be KO'd next turn,
+            // but +1 Atk from DD would let us KO next turn -> Dragon Dance.
+            {
+                bool8 slowerOrTied = (data->atkSpeed <= data->defSpeed);
+                u16 bestAtkMove = GetStrongestMove(bankAtk, bankDef);
+
+                if (slowerOrTied
+                && bestAtkMove != MOVE_NONE
+                && SPLIT(bestAtkMove) != SPLIT_STATUS
+                && MoveInMovesetAndUsable(bestAtkMove, bankAtk)
+                && !IsDamagingMoveUnusable(bestAtkMove, bankAtk, bankDef)
+                && !CalculateMoveKnocksOutXHitsFresh(bestAtkMove, bankAtk, bankDef, 1)
+                && WouldMoveKOWithTempAtkBoost(bestAtkMove, bankAtk, bankDef, 1))
+                {
+                    // DD also boosts Speed and we're currently slower/tied,
+                    // so treat this as a speed-boosting play.
+                    goto AI_SPEED_PLUS;
+                }
+            }
+
+            // 3) If we already outspeed AND already have a comfortable 2HKO, don't boost.
+            {
+                bool8 alreadyFaster = (data->atkSpeed > data->defSpeed);
+                u16 bestAtkMove = GetStrongestMove(bankAtk, bankDef);
+
+                if (alreadyFaster
+                && bestAtkMove != MOVE_NONE
+                && SPLIT(bestAtkMove) != SPLIT_STATUS
+                && MoveInMovesetAndUsable(bestAtkMove, bankAtk)
+                && CalculateMoveKnocksOutXHitsFresh(bestAtkMove, bankAtk, bankDef, 2))
+                    break;
+            }
+
+            // --- Original logic fallback ---
+            if (GoodIdeaToRaiseSpeedAgainst(bankAtk, bankDef, 1, data->atkSpeed, data->defSpeed))
+                goto AI_SPEED_PLUS;
+            else if (GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 1))
+                goto AI_ATTACK_PLUS;
+            break;
+    }
+    break;
 
 		case EFFECT_EXTREME_EVOBOOST: ;
 			u8 oldViability = viability;
@@ -836,24 +1088,29 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			break;
 
 		case EFFECT_SPEED_DOWN_HIT:
-			if (CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 50 && !MoveBlockedBySubstitute(move, bankAtk, bankDef))
-			{
-				AI_SPEED_MINUS:
-				if (IS_SINGLE_BATTLE)
-				{
-					if (GoodIdeaToLowerSpeed(bankDef, bankAtk, move, 1))
-						INCREASE_VIABILITY(3); //Increase past strongest move
-				}
-				else //Double Battle
-				{
-					if (!IsClearBodyAbility(defAbility)
-					&& defAbility != ABILITY_CONTRARY
-					&& AI_STAT_CAN_FALL(bankDef, STAT_STAGE_SPEED)
-					&& ITEM_EFFECT(bankDef) != ITEM_EFFECT_CLEAR_AMULET)
-						IncreaseViabilityForSpeedControl(&viability, class, bankAtk, bankDef);
-				}
-			}
-			break;
+{
+    u8 chance = CalcSecondaryEffectChance(bankAtk, move, atkAbility);
+
+    if (chance != 100 || MoveBlockedBySubstitute(move, bankAtk, bankDef))
+        break;
+
+AI_SPEED_MINUS:
+    if (IS_SINGLE_BATTLE)
+    {
+        if (GoodIdeaToLowerSpeed(bankDef, bankAtk, move, 1))
+            INCREASE_VIABILITY(3);
+    }
+    else
+    {
+        if (!IsClearBodyAbility(defAbility)
+        && defAbility != ABILITY_CONTRARY
+        && AI_STAT_CAN_FALL(bankDef, STAT_STAGE_SPEED)
+        && ITEM_EFFECT(bankDef) != ITEM_EFFECT_CLEAR_AMULET)
+            IncreaseViabilityForSpeedControl(&viability, class, bankAtk, bankDef);
+    }
+    break;
+}
+
 
 		case EFFECT_SPECIAL_ATTACK_DOWN_HIT:
 			if (STAT_DOWN_HIT_CHECK)
@@ -920,7 +1177,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			|| defAbility == ABILITY_MAGICGUARD)
 				break;
 			else
-				INCREASE_STATUS_VIABILITY(3);
+				INCREASE_STATUS_VIABILITY(1);
 			break;
 
 		case EFFECT_SPLASH:
@@ -1518,40 +1775,76 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				case MOVE_UTURN:
 				case MOVE_VOLTSWITCH:
 				case MOVE_FLIPTURN:
-				case MOVE_PARTINGSHOT:
-					PIVOT_CHECK:
-					if (IS_SINGLE_BATTLE)
-					{
-						u8 shouldPivot = ShouldPivot(bankAtk, bankDef, move, class);
-						if (shouldPivot == PIVOT || shouldPivot == PIVOT_IMMEDIATELY)
-							IncreasePivotViability(&viability, class, bankAtk, bankDef, shouldPivot);
-						else if (shouldPivot == DONT_PIVOT)
-						{
-							if (IsStrongestMove(move, bankAtk, bankDef))
-								RecalcStrongestMoveIgnoringMove(bankAtk, bankDef, move);
-							DECREASE_VIABILITY(9); //Bad idea to use this move - still gets used over any 10s
-						}
-						else if (gWishFutureKnock.wishCounter[bankAtk] > 0
-							  && ShouldUseWishAromatherapy(bankAtk, bankDef, MOVE_WISH, class))
-						{
-							INCREASE_VIABILITY(7);
-						}
-					}
-					else //Double Battle
-					{
-						if (!HasMonToSwitchTo(bankAtk))
-							break; //Can't switch
+				case MOVE_FLAMINGEXIT:
 
-						if (GetMonAbility(GetBankPartyData(bankAtk)) == ABILITY_INTIMIDATE
-						&&  MoveSplitOnTeam(bankDef, SPLIT_PHYSICAL))
-						{
-							if (IsClassDoublesUtility(class))
-								INCREASE_VIABILITY(16);
-							else if (IsClassDoublesAllOutAttacker(class))
-								INCREASE_VIABILITY(18);
-						}
-					}
-					break;
+				//Added with AI
+				case MOVE_PARTINGSHOT:
+{
+    if (!IS_SINGLE_BATTLE)
+    {
+        DECREASE_VIABILITY(6);
+        break;
+    }
+
+    if (!HasMonToSwitchTo(bankAtk))
+    {
+        DECREASE_VIABILITY(12);
+        break;
+    }
+
+    u8 shouldPivot = ShouldPivot(bankAtk, bankDef, move, class);
+
+    // If pivoting is recommended, only reward it if we have a cached reasonable switch.
+    if (shouldPivot == PIVOT || shouldPivot == PIVOT_IMMEDIATELY)
+    {
+        u8 switchMon = GetCachedBestSwitchMonId(bankAtk);
+        if (switchMon < PARTY_SIZE)
+            IncreasePivotViability(&viability, class, bankAtk, bankDef, shouldPivot);
+        else
+            DECREASE_VIABILITY(6); // pivot idea is fine, but no known follow-up
+        break;
+    }
+    else if (shouldPivot == DONT_PIVOT)
+    {
+        // Old behavior: actively discourage Parting Shot if pivoting is a bad plan.
+        if (IsStrongestMove(move, bankAtk, bankDef))
+            RecalcStrongestMoveIgnoringMove(bankAtk, bankDef, move);
+
+        DECREASE_VIABILITY(9);
+        break;
+    }
+
+    // ---- Parting Shot special value ----
+    {
+        u16 ourBestDmgMove = CalcStrongestMove(bankAtk, bankDef, FALSE);
+        u32 ourBestDmg = 0;
+
+        if (ourBestDmgMove != MOVE_NONE)
+        {
+            struct DamageCalc dmgData = {0};
+            ourBestDmg = AI_CalcDmg(bankAtk, bankDef, ourBestDmgMove, &dmgData);
+        }
+
+        bool8 doingPoorDamage = (ourBestDmg < (u32)gBattleMons[bankDef].hp / 4);
+        bool8 foeLikelyPhysical = MoveSplitOnTeam(bankDef, SPLIT_PHYSICAL);
+
+        if (doingPoorDamage || foeLikelyPhysical)
+        {
+            u8 switchMon = GetCachedBestSwitchMonId(bankAtk);
+            if (switchMon < PARTY_SIZE)
+            {
+                INCREASE_VIABILITY(18);
+                break;
+            }
+
+            DECREASE_VIABILITY(9);
+            break;
+        }
+    }
+
+    DECREASE_VIABILITY(4);
+    break;
+}
 
 				case MOVE_BATONPASS:
 					if (IsClassBatonPass(class))
@@ -1790,48 +2083,78 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			break;
 
 		case EFFECT_HAIL:
-			if (MoveInMovesetAndUsable(MOVE_AURORAVEIL, bankAtk))
-			{
-				if (IsClassScreener(class))
-				{
-					INCREASE_VIABILITY(8);
-					break;
-				}
-				else if (IsClassDoublesTeamSupport(class))
-				{
-					INCREASE_VIABILITY(17);
-					break;
-				}
-			}
-			else if (IsClassDoublesSetupAttacker(class)
-			&& IsTypeZCrystal(data->atkItem, gBattleMoves[move].type)
-			&& !gNewBS->zMoveData.used[bankAtk] //Z-Crystal provides speed up
-			&& !IsMegaZMoveBannedBattle()
-			&& atkAbility != ABILITY_CONTRARY)
-				IncreaseTailwindViability(&viability, class, bankAtk, bankDef);
+{
+    // ------------------------------------------------------------
+    // Chilly Reception uses EFFECT_HAIL in this build, but it's not
+    // "just hail" — it's also a pivot. So gate it through ShouldPivot,
+    // otherwise it gets snow/hail positives and pivots suicidally.
+    // ------------------------------------------------------------
+    if (move == MOVE_CHILLYRECEPTION)
+    {
+        // If pivot logic says "no", slam it hard so it stops being chosen.
+        // (Tune the number; 25-40 is usually enough to override generic positives.)
+        if (ShouldPivot(bankAtk, bankDef, move, class) == DONT_PIVOT)
+        {
+            DECREASE_VIABILITY(35);
+        }
+        else
+        {
+            // If it IS a good pivot, still don't over-reward it like a full hail setter.
+            // Small bump to acknowledge tempo / safe switch.
+            INCREASE_STATUS_VIABILITY(2);
+        }
 
-			else if (IsClassDoublesSetupAttacker(class)
-			&& atkAbility == ABILITY_SLUSHRUSH)
-				IncreaseTailwindViability(&viability, class, bankAtk, bankDef);
+        break;
+    }
 
-			else if (atkAbility == ABILITY_SNOWCLOAK
-			|| atkAbility == ABILITY_ICEBODY
-			|| atkAbility == ABILITY_FORECAST
-			|| atkAbility == ABILITY_SLUSHRUSH
-			|| atkAbility == ABILITY_MAGICGUARD
-			|| atkAbility == ABILITY_OVERCOAT
-			|| MoveInMoveset(MOVE_BLIZZARD, bankAtk)
-			|| MoveInMoveset(MOVE_AURORAVEIL, bankAtk)
-			|| MoveInMoveset(MOVE_WEATHERBALL, bankAtk)
-			|| MoveEffectInMoveset(EFFECT_MORNING_SUN, bankDef)
-			|| data->atkItemEffect == ITEM_EFFECT_ICY_ROCK)
-			{
-				if (IsClassDoublesTeamSupport(class))
-					INCREASE_VIABILITY(17);
-				else
-					INCREASE_STATUS_VIABILITY(2);
-			}
-			break;
+    // ------------------------------------------------------------
+    // Original hail/snow logic for actual hail-type weather moves
+    // (Snowscape/Hail etc.). Chilly Reception is handled above.
+    // ------------------------------------------------------------
+    if (MoveInMovesetAndUsable(MOVE_AURORAVEIL, bankAtk))
+    {
+        if (IsClassScreener(class))
+        {
+            INCREASE_VIABILITY(8);
+            break;
+        }
+        else if (IsClassDoublesTeamSupport(class))
+        {
+            INCREASE_VIABILITY(17);
+            break;
+        }
+    }
+    else if (IsClassDoublesSetupAttacker(class)
+    && IsTypeZCrystal(data->atkItem, gBattleMoves[move].type)
+    && !gNewBS->zMoveData.used[bankAtk] //Z-Crystal provides speed up
+    && !IsMegaZMoveBannedBattle()
+    && atkAbility != ABILITY_CONTRARY)
+        IncreaseTailwindViability(&viability, class, bankAtk, bankDef);
+
+    else if (IsClassDoublesSetupAttacker(class)
+    && atkAbility == ABILITY_SLUSHRUSH)
+        IncreaseTailwindViability(&viability, class, bankAtk, bankDef);
+
+    else if (atkAbility == ABILITY_SNOWCLOAK
+    || atkAbility == ABILITY_ICEBODY
+    || atkAbility == ABILITY_FORECAST
+    || atkAbility == ABILITY_SLUSHRUSH
+    || atkAbility == ABILITY_MAGICGUARD
+    || atkAbility == ABILITY_OVERCOAT
+    || MoveInMoveset(MOVE_BLIZZARD, bankAtk)
+    || MoveInMoveset(MOVE_AURORAVEIL, bankAtk)
+    || MoveInMoveset(MOVE_WEATHERBALL, bankAtk)
+    || MoveEffectInMoveset(EFFECT_MORNING_SUN, bankDef)
+    || data->atkItemEffect == ITEM_EFFECT_ICY_ROCK)
+    {
+        if (IsClassDoublesTeamSupport(class))
+            INCREASE_VIABILITY(17);
+        else
+            INCREASE_STATUS_VIABILITY(2);
+    }
+
+    break;
+}
 
 		case EFFECT_TORMENT:
 			if (IsChoiceItemEffectOrAbility(data->defItemEffect, defAbility))
@@ -2045,12 +2368,31 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				goto AI_RECOVER;
 			break;
 
-		case EFFECT_INGRAIN: //+ Aqua Ring
-			if (data->atkItemEffect == ITEM_EFFECT_BIG_ROOT)
-				INCREASE_STATUS_VIABILITY(2);
-			else
-				INCREASE_STATUS_VIABILITY(1);
-			break;
+			//Edited with AI
+		case EFFECT_INGRAIN: // + Aqua Ring
+{
+    u16 foeBest = GetStrongestMove(bankDef, bankAtk);
+    if (foeBest != MOVE_NONE)
+    {
+        struct DamageCalc dmgData = {0};
+        s32 dmg = AI_CalcDmg(bankDef, bankAtk, foeBest, &dmgData);
+
+        if (dmg >= gBattleMons[bankAtk].hp)
+        {
+            DECREASE_VIABILITY(10);
+            break;
+        }
+    }
+
+    // Baseline usefulness
+    INCREASE_STATUS_VIABILITY(1);
+
+    // Bonus for Big Root
+    if (data->atkItemEffect == ITEM_EFFECT_BIG_ROOT)
+        INCREASE_STATUS_VIABILITY(1);
+
+    break;
+}
 
 		case EFFECT_SUPERPOWER:
 			if (atkAbility != ABILITY_CONTRARY)
@@ -2121,7 +2463,8 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 						else //Regular Knock Off
 						{
 							if (!CanKnockOutWithoutMove(move, bankAtk, bankDef, TRUE))
-								INCREASE_VIABILITY(3); //Increase past strongest move
+							//Changed from 3 to 1. Was being used more than it should
+								INCREASE_VIABILITY(1); 
 						}
 					}
 			}
@@ -2741,6 +3084,31 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			break;
 	}
 
+	goto AFTER_SWITCH;
+
+	PIVOT_CHECK:
+    if (IS_SINGLE_BATTLE)
+    {
+        // If we can't switch, pivot-like moves are bad.
+        if (!HasMonToSwitchTo(bankAtk))
+        {
+            DECREASE_VIABILITY(12);
+        }
+        else
+        {
+            u8 shouldPivot = ShouldPivot(bankAtk, bankDef, move, class);
+
+            if (shouldPivot == PIVOT || shouldPivot == PIVOT_IMMEDIATELY)
+                IncreasePivotViability(&viability, class, bankAtk, bankDef, shouldPivot);
+            else
+                DECREASE_VIABILITY(6);
+        }
+    }
+	goto AFTER_SWITCH;
+    // IMPORTANT: don't "break;" here unless you're *inside* a switch.
+    // Use a goto to the "after-switch" flow if needed, or just fall through.
+
+	AFTER_SWITCH:
 	if (moveSplit != SPLIT_STATUS)
 		viability = DamageMoveViabilityIncrease(bankAtk, bankDef, move, viability, class, predictedMove, atkAbility, defAbility, data);
 
@@ -2762,8 +3130,102 @@ static s16 DamageMoveViabilityIncrease(u8 bankAtk, u8 bankDef, u16 move, s16 via
 {
 	if (IS_SINGLE_BATTLE) //Single Battle or only 1 target left
 	{
+		// --- PRIORITY KO RULE ---
+// If we're slower, and THIS move is a priority move that KOs, strongly prefer it.
+if (data->atkSpeed < data->defSpeed
+&& PriorityCalc(bankAtk, ACTION_USE_MOVE, move) > 0
+&& SPLIT(move) != SPLIT_STATUS
+&& !(AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
+&& !IsDamagingMoveUnusable(move, bankAtk, bankDef)
+&& !IsPriorityBlockedByEffects(bankAtk, bankDef, move)
+&& MoveKnocksOutXHits(move, bankAtk, bankDef, 1))
+{
+    // Big bump so it beats "strongest move" brain.
+    INCREASE_VIABILITY(12);
+}
+
+// --- PRIORITY FINISHER OVERRIDE ---
+// If we're slower and the target is at trivial HP, always prefer priority to avoid getting sniped.
+// This intentionally does NOT rely on MoveKnocksOutXHits being perfect.
+if (data->atkSpeed < data->defSpeed
+&& SPLIT(move) != SPLIT_STATUS
+&& !(AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
+&& !IsDamagingMoveUnusable(move, bankAtk, bankDef)
+&& !IsPriorityBlockedByEffects(bankAtk, bankDef, move))
+{
+    u16 defHp = gBattleMons[bankDef].hp;
+    u16 defMaxHp = gBattleMons[bankDef].maxHP;
+
+    // "Trivial HP" threshold:
+    // - definitely catches 1 HP cases
+    // - also catches common "in range" situations (1/16 maxHP) without being too greedy
+    bool8 foeAtTrivialHp =
+        (defHp <= 2)
+     || (defMaxHp != 0 && defHp * 16 <= defMaxHp);
+
+    if (foeAtTrivialHp)
+    {
+        if (PriorityCalc(bankAtk, ACTION_USE_MOVE, move) > 0)
+        {
+            // Priority gets a HUGE bump so it beats strongest-move logic and item utility like Knock Off.
+            INCREASE_VIABILITY(18);
+        }
+        else if (HasPriorityDamagingMove(bankAtk, bankDef)) // new helper below
+        {
+            // Strongly discourage non-priority when a priority finisher exists.
+            DECREASE_VIABILITY(14);
+        }
+    }
+}
+
+// If we're slower and we HAVE a priority KO available,
+// then non-priority damaging moves should be discouraged unless they also KO immediately.
+if (data->atkSpeed < data->defSpeed
+&& PriorityCalc(bankAtk, ACTION_USE_MOVE, move) <= 0
+&& SPLIT(move) != SPLIT_STATUS
+&& HasPriorityKOMove(bankAtk, bankDef))
+{
+    // If this move also KOs, don't punish it (it might be something like Extreme Speed vs another priority etc).
+    if (!MoveKnocksOutXHits(move, bankAtk, bankDef, 1))
+        DECREASE_VIABILITY(8);
+}
+
+// --- ANTI-OVERPREDICTION GATE ---
+// If we have a strong reliable best move on the CURRENT target,
+// don't choose random coverage "for a predicted switch".
+// Exception: allow non-best moves if they still KO the current target.
+if (SPLIT(move) != SPLIT_STATUS
+&& !(AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
+&& !IsDamagingMoveUnusable(move, bankAtk, bankDef))
+{
+    // You previously had this helper commented out; re-enable it.
+    if (AttackerHasStrongBestMoveOnTarget(bankAtk, bankDef))
+    {
+        u16 best = gNewBS->ai.strongestMove[bankAtk][bankDef];
+
+        // If cache isn't valid, don't apply.
+        if (best != MOVE_NONE && best != 0xFFFF
+    #ifdef MOVES_COUNT
+            && best < MOVES_COUNT
+    #endif
+        )
+        {
+            // If this isn't the best move, discourage it unless it also KOs.
+            if (move != best)
+            {
+                if (!MoveKnocksOutXHits(move, bankAtk, bankDef, 1))
+                {
+                    // Big enough to beat "cover switch-in" bumps.
+                    // Tune 12→16 if it still slips through.
+                    DECREASE_VIABILITY(14);
+                }
+            }
+        }
+    }
+}
+
 		//Every spread type has the same viability increases for these two
-		if (!IsPredictedToSwitch(bankDef, bankAtk) //No point in going for a speedy kill if the foe is probably going to switch
+		if (!IsPredictedToSwitch(bankAtk, bankDef) //No point in going for a speedy kill if the foe is probably going to switch
 		&& MoveKnocksOutPossiblyGoesFirstWithBestAccuracy(move, bankAtk, bankDef, TRUE) //Check Going First
 		&& (AccuracyCalc(move, bankAtk, bankDef) >= 70 //If the AI's best killing move has a low accuracy, then
 		 || !MoveThatCanHelpAttacksHitInMoveset(bankAtk) //try to make it's chance of hitting higher.
@@ -2780,7 +3242,8 @@ static s16 DamageMoveViabilityIncrease(u8 bankAtk, u8 bankDef, u16 move, s16 via
 					INCREASE_VIABILITY(9);
 			}
 		}
-		else if (!IsPredictedToSwitch(bankDef, bankAtk) //No point in going for kill if the foe is probably going to switch
+		else if (!IsPredictedToSwitch(bankAtk, bankDef) //No point in going for kill if the foe is probably going to switch
+		// else if (!IsPredictedToSwitch(bankDef, bankAtk) //No point in going for kill if the foe is probably going to switch
 		&& !MoveEffectInMoveset(EFFECT_PROTECT, bankAtk)
 		&& !MoveWouldHitFirst(move, bankAtk, bankDef) //Attacker wouldn't hit first
 		&& MoveKnocksOutPossiblyGoesFirstWithBestAccuracy(move, bankAtk, bankDef, FALSE) //Don't check going first

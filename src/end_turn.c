@@ -102,6 +102,7 @@ enum EndTurnEffects
 	ET_Reactivate_Overworld_Terrain,
 	ET_SOS,
 	ET_Saltcure,
+	ET_Nightbrand,
 	ET_End
 };
 
@@ -1770,6 +1771,19 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 				gNewBS->turnDamageTaken[gActiveBattler] = gBattleMoveDamage; //For Emergency Exit
 				break;
 
+				case ET_Nightbrand:
+				if (gStatuses4[gActiveBattler] & STATUS4_NIGHTBRAND
+				&&  BATTLER_ALIVE(gActiveBattler)
+				&&  ABILITY(gActiveBattler) != ABILITY_MAGICGUARD)
+				{
+					gBattleMoveDamage = GetNightBrandDamage(gActiveBattler);
+					PREPARE_MOVE_BUFFER(gBattleTextBuff1, MOVE_NIGHTBRAND);
+					BattleScriptExecute(BattleScript_NightBrandExtraDamage);
+					effect++;
+				}
+				gNewBS->turnDamageTaken[gActiveBattler] = gBattleMoveDamage; //For Emergency Exit
+				break;
+
 
 			case ET_End:
 			END_TURN_SKIP:
@@ -2112,6 +2126,22 @@ u32 GetSaltCureDamage(u8 bank)
 	&& ABILITY(bank) != ABILITY_MAGICGUARD)
 	{
 		if (IsOfType(bank, TYPE_WATER) || IsOfType(bank, TYPE_STEEL))
+			damage = MathMax(1, GetBaseMaxHP(bank) / 4);
+		else
+			damage = MathMax(1, GetBaseMaxHP(bank) / 8);
+	}
+
+	return damage;
+}
+
+u32 GetNightBrandDamage(u8 bank)
+{
+	u32 damage = 0;
+
+	if (gStatuses4[bank] & STATUS4_NIGHTBRAND
+	&& ABILITY(bank) != ABILITY_MAGICGUARD)
+	{
+		if (IsOfType(bank, TYPE_FAIRY) || IsOfType(bank, TYPE_NORMAL))
 			damage = MathMax(1, GetBaseMaxHP(bank) / 4);
 		else
 			damage = MathMax(1, GetBaseMaxHP(bank) / 8);

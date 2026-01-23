@@ -2741,8 +2741,34 @@ void BS_ApplySaltCure(void)
     gBattlescriptCurrInstr++;
 }
 
+//Custom for Night Brand
+void BS_ApplyNightBrand(void)
+{
+    u8 battler = GetBattlerForBattleScript(gBattlerAttacker);
+    gStatuses4[battler] |= STATUS4_NIGHTBRAND;
+    gBattlescriptCurrInstr++;
+}
+
 //Custom Helper with AI to get Sleep effect moves.
 bool8 IsSleepInducingMove(u16 move)
 {
     return gBattleMoves[move].effect == EFFECT_SLEEP;
 }
+
+//Custom for Terablast 
+u8 CalcMoveSplitFromPartyWithBank(u16 move, struct Pokemon* mon, u8 bankAtk)
+{
+    // If we have a real bank, prefer the canonical logic (handles Tera Blast + stages consistently)
+    if (bankAtk < MAX_BATTLERS_COUNT)
+        return CalcMoveSplit(move, bankAtk, bankAtk); // bankDef unused unless Shell Side Arm path; safe here
+
+    // No bank context: fall back to party-only logic
+    if (move == MOVE_TERABLAST)
+        return (mon->spAttack >= mon->attack) ? SPLIT_SPECIAL : SPLIT_PHYSICAL;
+
+    if (gSpecialMoveFlags[move].gMovesThatChangePhysicality)
+        return (mon->spAttack >= mon->attack) ? SPLIT_SPECIAL : SPLIT_PHYSICAL;
+
+    return SPLIT(move);
+}
+

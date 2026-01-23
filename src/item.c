@@ -90,7 +90,7 @@ static void Task_SortFinish(u8 taskId);
 static void FinishBagSortIntro(u8 taskId);
 
 //I added this function
-static void Task_ReturnToField(u8 taskId);
+// static void Task_ReturnToField(u8 taskId);
 
 //General Utility Functions
 u16 SanitizeItemId(u16 itemId)
@@ -2272,53 +2272,53 @@ extern const u8 gText_PokeVial_LowBattery[];
 extern const u8 gText_PokeVial_Used[];
 extern void HealPlayerParty(void);
 
-//Task for using PokéVial out of battle and returning to field.
-static void Task_ReturnToField(u8 taskId)
-{
-    DestroyTask(taskId);
-    SetMainCallback2(CB2_ReturnToField);
-}
+// //Task for using PokéVial out of battle and returning to field.
+// static void Task_ReturnToField(u8 taskId)
+// {
+//     DestroyTask(taskId);
+//     SetMainCallback2(CB2_ReturnToField);
+// }
 
 
 
-void ItemUseOutOfBattle_PokeVial(u8 taskId)
-{
-    u16 uses = VarGet(VAR_POKEVIAL_USES);
+// void ItemUseOutOfBattle_PokeVial(u8 taskId)
+// {
+//     u16 uses = VarGet(VAR_POKEVIAL_USES);
 
-    // Ensure the variable is in a valid range
-    if (uses > MAX_POKEVIAL_USES || uses == 0xFFFF)  // 0xFFFF indicates an uninitialized variable
-    {
-        VarSet(VAR_POKEVIAL_USES, 0);  // Reset if it has an invalid value
-        uses = 0;
-    }
+//     // Ensure the variable is in a valid range
+//     if (uses > MAX_POKEVIAL_USES || uses == 0xFFFF)  // 0xFFFF indicates an uninitialized variable
+//     {
+//         VarSet(VAR_POKEVIAL_USES, 0);  // Reset if it has an invalid value
+//         uses = 0;
+//     }
 
-    if (uses >= MAX_POKEVIAL_USES) 
-    {
-        // If the PokéVial is out of charge
-        // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_NoCharge, (void (*)(u8))Task_ReturnToBagFromContextMenu);
-        DisplayItemMessageOnField(taskId, 0, gText_PokeVial_NoCharge, Task_ReturnToField);
-        return;
-    }
+//     if (uses >= MAX_POKEVIAL_USES) 
+//     {
+//         // If the PokéVial is out of charge
+//         // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_NoCharge, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+//         // DisplayItemMessageOnField(taskId, 0, gText_PokeVial_NoCharge, Task_ReturnToField);
+//         return;
+//     }
 
-    // Increase the use counter
-    VarSet(VAR_POKEVIAL_USES, uses + 1);
+//     // Increase the use counter
+//     VarSet(VAR_POKEVIAL_USES, uses + 1);
 
-    // Heal all Pokémon in the party
-    HealPlayerParty();  
+//     // Heal all Pokémon in the party
+//     HealPlayerParty();  
 
-    if (uses + 1 == MAX_POKEVIAL_USES) 
-    {
-        // Display "Low Battery" warning when 1 use is left
-        // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_LowBattery, (void (*)(u8))Task_ReturnToBagFromContextMenu);
-        DisplayItemMessageOnField(taskId, 0, gText_PokeVial_LowBattery, Task_ReturnToField);
-    } 
-    else 
-    {
-        // Regular message
-        // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_Used, (void (*)(u8))Task_ReturnToBagFromContextMenu);
-        DisplayItemMessageOnField(taskId, 0, gText_PokeVial_Used, Task_ReturnToField);
-    }
-}
+//     // if (uses + 1 == MAX_POKEVIAL_USES) 
+//     // {
+//         // Display "Low Battery" warning when 1 use is left
+//         // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_LowBattery, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+//         // DisplayItemMessageOnField(taskId, 0, gText_PokeVial_LowBattery, Task_ReturnToField);
+//     // } 
+//     // else 
+//     // {
+//         // Regular message
+//         // DisplayItemMessageInBag(taskId, POCKET_KEY_ITEMS, gText_PokeVial_Used, (void (*)(u8))Task_ReturnToBagFromContextMenu);
+//         // DisplayItemMessageOnField(taskId, 0, gText_PokeVial_Used, Task_ReturnToField);
+//     // }
+// }
 
 void ResetPokeVialUses(void)
 {

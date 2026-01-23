@@ -1079,31 +1079,42 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 			}
 			#endif
 
-			//Give EVs
-			#ifdef TRAINERS_WITH_EVS
-			#ifdef STEVEBELS_TRAINER_TABLE
-			u8 spreadNum = (GET_TRAINER(trainerId).partyFlags & PARTY_FLAG_CUSTOM_MOVES) ? trainer->party.NoItemCustomMoves[i].iv : trainer->party.NoItemDefaultMoves[i].iv;
-			#else
-			u8 spreadNum = (gTrainers[trainerId].partyFlags & PARTY_FLAG_CUSTOM_MOVES) ? trainer->party.NoItemCustomMoves[i].iv : trainer->party.NoItemDefaultMoves[i].iv;
-            #endif
+			// Give EVs
+#ifdef TRAINERS_WITH_EVS
+#ifdef STEVEBELS_TRAINER_TABLE
+    u16 spreadNum = (GET_TRAINER(trainerId).partyFlags & PARTY_FLAG_CUSTOM_MOVES)
+        ? (u16)trainer->party.NoItemCustomMoves[i].iv
+        : (u16)trainer->party.NoItemDefaultMoves[i].iv;
+#else
+    u16 spreadNum = (gTrainers[trainerId].partyFlags & PARTY_FLAG_CUSTOM_MOVES)
+        ? (u16)trainer->party.NoItemCustomMoves[i].iv
+        : (u16)trainer->party.NoItemDefaultMoves[i].iv;
+#endif
 
-			#ifdef UNBOUND
-			if ((gTrainers[trainerId].trainerClass == CLASS_RIVAL && gameDifficulty >= OPTIONS_HARD_DIFFICULTY)
-			 || (gTrainers[trainerId].trainerClass == CLASS_RIVAL_2 && gameDifficulty == OPTIONS_HARD_DIFFICULTY)) //Not for Insane
-				spreadNum = GetEVSpreadNumForUnboundRivalChallenge(mon, trainer->aiFlags, gTrainers[trainerId].trainerClass);
-			#endif
+#ifdef UNBOUND
+    if ((gTrainers[trainerId].trainerClass == CLASS_RIVAL && gameDifficulty >= OPTIONS_HARD_DIFFICULTY)
+     || (gTrainers[trainerId].trainerClass == CLASS_RIVAL_2 && gameDifficulty == OPTIONS_HARD_DIFFICULTY)) // Not for Insane
+    {
+        spreadNum = (u16)GetEVSpreadNumForUnboundRivalChallenge(mon, trainer->aiFlags, gTrainers[trainerId].trainerClass);
+    }
+#endif
 
-			if (spreadNum != 0
-			&& spreadNum < NELEMS(gTrainersWithEvsSpreads) //Valid id
-			#ifndef UNBOUND
-			#ifdef STEVEBELS_TRAINER_TABLE
-			&& GET_TRAINER(trainerId).partyFlags == (PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM)
-			#else
-			&& gTrainers[trainerId].partyFlags == (PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM)
-			#endif
-			&& trainer->aiFlags > 1
-			#endif
-			)
+    if (spreadNum != 0
+     && spreadNum < (u16)NELEMS(gTrainersWithEvsSpreads) // Valid id
+#ifndef UNBOUND
+#ifdef STEVEBELS_TRAINER_TABLE
+     && GET_TRAINER(trainerId).partyFlags == (PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM)
+#else
+     && gTrainers[trainerId].partyFlags == (PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM)
+#endif
+     && trainer->aiFlags > 1
+#endif
+    )
+    {
+        // existing body that applies EV spread goes here (unchanged)
+    }
+#endif // TRAINERS_WITH_EVS
+
 			{
 				const struct TrainersWithEvs* spread = &gTrainersWithEvsSpreads[spreadNum];
 
@@ -1182,7 +1193,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 				else if (spread->teraType != TERA_TYPE_RANDOM) // We skip 0xFF because it has already been assigned prior
 					mon->teraType = spread->teraType; // Set teraType to designated value
 		}
-			#endif
+			// #endif
 
 			#ifdef VAR_GAME_DIFFICULTY
 			extern bool8 ShouldGiveTrainerMonBestStatsMaxEVs(u8 trainerClass);

@@ -641,7 +641,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 25,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_Hidden,
-		.teraType = DONT_TERA,
+		.teraType = TYPE_DRAGON,
 	},
 	[28] =
 	{ //Fast Wall: Defense Based, Less Sp. Attack
@@ -2814,7 +2814,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 39,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_ICE,
+		.teraType = TYPE_POISON,
 	},
 	[202] =
 	{ //Serious. Ability 2. Surge's Raichu.
@@ -2968,7 +2968,7 @@ const struct TrainersWithEvs gTrainersWithEvsSpreads[] =
 		.spdEv = 24,
 		.ball = TRAINER_EV_CLASS_BALL,
 		.ability = Ability_2,
-		.teraType = TYPE_ICE,
+		.teraType = TYPE_POISON,
 	},
 	[213] =
 	{ //Serious. Ability Hidden. Tera Poison. Misty's Starmie

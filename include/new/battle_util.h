@@ -215,6 +215,9 @@ void EmitDataTransfer(u8 bufferId, void* dst, u16 size, void* data);
 void ClearTemporarySpeciesSpriteData(u8 bank, bool8 dontClearSubstitute);
 u16 TryFixDynamaxTransformSpecies(u8 bank, u16 species);
 
+//Custom 
+u8 CalcMoveSplitFromPartyWithBank(u16 move, struct Pokemon* mon, u8 bankAtk);
+
 //Exported Constants
 enum {IN_AIR, GROUNDED};
 

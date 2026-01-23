@@ -416,6 +416,7 @@ static const struct LevelUpMove sArbokLevelUpLearnset[] = {
 	LEVEL_UP_MOVE(39, MOVE_GASTROACID),
 	LEVEL_UP_MOVE(42, MOVE_AQUATAIL),
 	LEVEL_UP_MOVE(48, MOVE_BELCH),
+	LEVEL_UP_MOVE(51, MOVE_OUTRAGE),
 	LEVEL_UP_END,
 };
 
@@ -4067,7 +4068,8 @@ static const struct LevelUpMove sEspeonLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sUmbreonLevelUpLearnset[] = {
-	LEVEL_UP_MOVE( 0, MOVE_SNARL),
+	LEVEL_UP_MOVE( 0, MOVE_NIGHTBRAND),
+	LEVEL_UP_MOVE( 1, MOVE_NIGHTBRAND),
 	LEVEL_UP_MOVE( 1, MOVE_SNARL),
 	LEVEL_UP_MOVE( 1, MOVE_HELPINGHAND),
 	LEVEL_UP_MOVE( 1, MOVE_GROWL),

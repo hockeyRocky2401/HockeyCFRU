@@ -65,6 +65,7 @@ struct SpecialMoveFlags
 	bool8 gSlicingMoves : 1;
 	bool8 gWindMoves : 1;
 	bool8 gTenStrikesMoves : 1;
+	bool8 gClawMoves : 1;
 };
 
 extern const struct SpecialMoveFlags gSpecialMoveFlags[];

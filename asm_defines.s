@@ -1544,6 +1544,7 @@
 .equ MOVE_SUPERCELLSLAM, 0x3DE
 .equ MOVE_PSYCHICNOISE, 0x3DF
 .equ MOVE_FLAMINGEXIT, 0x3E0
+.equ MOVE_NIGHTBRAND, 0x3E1
 
 @weather
 .equ weather_rain, 0x1

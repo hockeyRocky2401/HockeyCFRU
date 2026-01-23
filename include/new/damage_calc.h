@@ -71,6 +71,15 @@ struct DamageCalc
 	u8 specialFlags;
 	bool8 attackerLoaded;
 	bool8 defenderLoaded;
+
+// 	// --- Type override (for AI simulations like Tera) ---
+// bool8 overrideAtkTypes;
+// bool8 overrideDefTypes;
+// u8 atkType1;
+// u8 atkType2;
+// u8 defType1;
+// u8 defType2;
+
 };
 
 //Exported Functions
@@ -114,6 +123,40 @@ u32 GetActualSpeciesWeight(u16 species, u8 ability, u8 itemEffect, u8 bank, bool
 
 //Functions Hooked In
 u8 GetSummaryScreenMoveType(u16 move, struct Pokemon* mon);
+
+//Custom
+u8 GetMonMoveTypeSpecialWithBank(struct Pokemon* mon, u8 bankAtk, u16 move);
+
+// static inline u8 AI_GetAtkType1(const struct DamageCalc* d)
+// {
+//     return d->overrideAtkTypes ? d->atkType1 : gBattleMons[d->bankAtk].type1;
+// }
+
+// static inline u8 AI_GetAtkType2(const struct DamageCalc* d)
+// {
+//     return d->overrideAtkTypes ? d->atkType2 : gBattleMons[d->bankAtk].type2;
+// }
+
+// static inline u8 AI_GetDefType1(const struct DamageCalc* d)
+// {
+//     return d->overrideDefTypes ? d->defType1 : gBattleMons[d->bankDef].type1;
+// }
+
+// static inline u8 AI_GetDefType2(const struct DamageCalc* d)
+// {
+//     return d->overrideDefTypes ? d->defType2 : gBattleMons[d->bankDef].type2;
+// }
+
+
+u8 AI_TypeCalc_WithDmgData(
+    u16 move,
+    u8 bankAtk,
+    u8 bankDef,
+    struct Pokemon* monDef,
+    struct DamageCalc* dmgData
+);
+
+u8 AI_SpecialTypeCalc_WithDmgData(u16 move, u8 bankAtk, u8 bankDef, struct DamageCalc *dmgData);
 
 //Exported Constants
 /*enum

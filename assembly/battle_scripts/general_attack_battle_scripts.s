@@ -1069,6 +1069,7 @@ BS_041_DragonRage:
 .global BS_042_TrapAndDamage
 BS_042_TrapAndDamage:
     jumpifmove MOVE_SALTCURE SaltCureBS
+	jumpifmove MOVE_NIGHTBRAND NightBrandBS
 	setmoveeffect MOVE_EFFECT_WRAP
 	goto BS_STANDARD_HIT
 
@@ -1089,6 +1090,27 @@ BattleScript_SaltCureExtraDamage:
 	waitanimation
 	call BattleScript_HurtTarget_NoString
 	setword BATTLE_STRING_LOADER sText_TargetIsHurtBySaltCure
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	end2
+
+	NightBrandBS:
+    call STANDARD_DAMAGE
+	faintpokemon BANK_TARGET FALSE NULL
+	jumpiffaintedmon BANK_TARGET, TRUE, BS_EffectNightBrand_End
+	applynightbrand BANK_TARGET
+	setword BATTLE_STRING_LOADER sText_TargetIsBranded
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+BS_EffectNightBrand_End:
+	goto BS_MOVE_END
+
+	.global BattleScript_NightBrandExtraDamage
+BattleScript_NightBrandExtraDamage:
+	playanimation BANK_TARGET, B_ANIM_SALT_CURE_DAMAGE, NULL
+	waitanimation
+	call BattleScript_HurtTarget_NoString
+	setword BATTLE_STRING_LOADER sText_TargetIsHurtByBrand
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	end2
